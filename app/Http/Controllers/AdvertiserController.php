@@ -87,6 +87,8 @@ class AdvertiserController extends Controller
           $adv->notes = $request->notes;
           $adv->agreement_start_date = $request->AgreementStartDate;
 
+          
+
           $adv->save();
 
           return redirect()->back()->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
