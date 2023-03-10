@@ -13406,3 +13406,15 @@ module.exports = __webpack_require__(/*! /home/runner/work/feather/feather/src/i
 /******/ });
 });
 //# sourceMappingURL=feather.js.map
+
+
+<script>
+    function confirmEmail() {
+	var email = document.getElementById("accEmail").value
+	var confemail = document.getElementById("confemail").value
+	if(email != confemail) {
+		alert('Email Not Matching!');
+        //document.getElementById('invalidfeedback').innerHTML = "Your email not match";
+	}
+}
+</script>
