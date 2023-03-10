@@ -1,0 +1,8 @@
+.isDisabled {
+    color: "#6e768e";
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    pointer-events: none;
+
+  }

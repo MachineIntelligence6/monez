@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Mail\ContactFormMail;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\ContactMailController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,15 +14,21 @@ use App\Http\Controllers\ContactMailController;
 |
 */
 
-Route::post('email',[ContactMailController::class,'sendMail'])->name('send-mail');
+Auth::routes();
 
-Route::get('/{locale?}', function ($locale = 'ar') {
-    if (! in_array($locale, ['en', 'ar'])) {
-        abort(400);
-    }
 
-    App::setLocale($locale);
-    return view('site.index');
-    
-})->name('site');
+Route::resource('admin', AdminController::class);
+Route::resource('advertiser', AdvertiserController::class);
+Route::resource('publisher', PublisherController::class);
+
+
+
+Route::group(['middleware' => 'auth', 'prefix' => '/'], function () {
+    Route::get('{first}/{second}/{third}', 'RoutingController@thirdLevel')->name('third');
+    Route::get('{first}/{second}', 'RoutingController@secondLevel')->name('second');
+    Route::get('{any}', 'RoutingController@root')->name('any');
+});
+
+// landing
+Route::get('', 'RoutingController@index')->name('index');
 
