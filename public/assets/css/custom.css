@@ -6,3 +6,9 @@
     pointer-events: none;
 
   }
+
+  .text-danger
+  {
+    margin-left: 2px;
+    font-weight: bold;
+  }

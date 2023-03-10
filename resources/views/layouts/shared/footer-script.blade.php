@@ -26,3 +26,16 @@
 <!-- Datatables init -->
 <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
 @yield('script-bottom')
+
+
+<!-- Plugins js-->
+<script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+<script src="{{ asset('assets/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
+<script src="{{ asset('assets/libs/clockpicker/bootstrap-clockpicker.min.js') }}"></script>
+<script src="{{ asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
+<!-- Init js-->
+<script src="{{ asset('assets/js/pages/form-pickers.init.js') }}"></script>
+<script src="{{ asset('assets/libs/dropzone/min/dropzone.min.js') }}"></script>
+<script src="{{ asset('assets/libs/dropify/js/dropify.min.js') }}"></script>
+
