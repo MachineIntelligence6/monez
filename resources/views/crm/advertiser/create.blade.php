@@ -76,7 +76,7 @@
                                     <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
                                     <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()">
                                            
-                                    <div class="invalid-feedback" id="invalidfeedback">
+                                    <div class="text-danger" id="invalidfeedback">
                                         
                                     </div>
                                 </div>
@@ -88,9 +88,17 @@
 	var email = document.getElementById("accEmail").value
 	var confemail = document.getElementById("confemail").value
 	if(email != confemail) {
-		alert('Email Not Matching!');
-        //document.getElementById('invalidfeedback').innerHTML = "Your email not match";
+	    //alert('Email Not Matching!');
+        //let messageContainer = document.createElement("p")
+        
+        let message = "Your email not match";
+        document.getElementById('invalidfeedback').innerHTML = message;
 	}
+    else
+    {
+        let message = " ";
+        document.getElementById('invalidfeedback').innerHTML = message;
+    }
 }
 </script>                           
 
@@ -169,14 +177,18 @@
                             </div> <!-- end col -->
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                <label for="country" class="form-label">Country</label>
+                                <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
                                     <!-- <label for="product-category" class="form-label">Country <span class="text-danger"></span></label> -->
                                     <select id="country-code-input" class="form-control select2" id="country_id" name="country_id" required>
                                         <option disabled selected value="">Select Country</option>
                                         @foreach ($countries as $key => $country)
-                                            <option value="{{$country->title}} (+{{ $country->phone_code }})">{{$country->title}} (+{{ $country->phone_code }})</option>
+                                            <option value="{{$country->title}} (+{{ $country->phone_code }})">{{$country->title}}</option>
                                         @endforeach
                                     </select>
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row -->
@@ -396,7 +408,7 @@
 
                         </div>
 
-<!-- 
+
                         <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Documents
                         </h5>
 
@@ -404,16 +416,25 @@
 
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
+                                    <label for="billEmail" class="form-label">Agreement Document</label><label class="text-danger">*</label>
                                     
-                                    <input type="file" class="form-control" id="file" name="document"
-                                           >
+                                    <input type="file" class="form-control" id="document" name="document"
+                                           accept="application/pdf">
                                 </div>
+
+                                
+
                             </div>
                     
-                        </div> -->
-
-    
+                            <div class="col-md-4">
+                            <div class="mb-3">
+                                    <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
+                                    
+                                    <input type="file" class="form-control" id="agreementDoc" name="agreementDoc"
+                                           accept="application/pdf">
+                                </div>
+                            </div>
+                        </div>
 
 
 
