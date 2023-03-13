@@ -1,33 +1,121 @@
 @extends('layouts.vertical', ['title' => 'Advertisers Profile'])
 @section('content')
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i> Account Info</h5>
-                <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}" enctype="multipart/form-data" novalidate>
-                    @csrf
-                    @method('POST')
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                                <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" />
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i> Account Info</h5>
+                    <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}"
+                          enctype="multipart/form-data" novalidate>
+                        @csrf
+                        @method('POST')
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
+                                    <input type="text" class="form-control" id="dbaId" name="dbaId"
+                                           placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" />
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="companyName" class="form-label">Company / Legal Name</label><label class="text-danger">*</label>
+                                    <input type="text" class="form-control" id="companyName" name="companyName"
+                                           placeholder="Enter Company / Legal Name" required>
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="regId" class="form-label">Registration / National ID</label>
+                                    <input type="number" class="form-control" id="regId" name="regId"
+                                           placeholder="Enter Registration / National ID">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="vat" class="form-label">VAT ID</label>
+                                    <input type="text" class="form-control" id="vat" name="vat" placeholder="Enter VAT"
+                                        >
+                                </div>
+                            </div> <!-- end col -->
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="url" class="form-label">Website</label><label class="text-danger">*</label>
+                                    <input type="url" class="form-control" id="url" name="url"
+                                           placeholder="Enter website url" required>
+                                           <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
+                                    <input type="email" class="form-control" id="accEmail" name="accEmail"
+                                           placeholder="Enter account email" required>
+                                           <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
+                                    <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()">
+                                           
+                                    <div class="text-danger" id="invalidfeedback">
+                                        
+                                    </div>
                                 </div>
                             </div>
 
 
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="companyName" class="form-label">Company / Legal Name</label><label class="text-danger">*</label>
-                                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Enter Company / Legal Name" required>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
+<script>
+    function confirmEmail() {
+	var email = document.getElementById("accEmail").value
+	var confemail = document.getElementById("confemail").value
+	if(email != confemail) {
+	    //alert('Email Not Matching!');
+        //let messageContainer = document.createElement("p")
+        
+        let message = "Your email not match";
+        document.getElementById('invalidfeedback').innerHTML = message;
+	}
+    else
+    {
+        let message = " ";
+        document.getElementById('invalidfeedback').innerHTML = message;
+    }
+}
+</script>                           
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
+                                    <input type="password" id="password" class="form-control" name="password"
+                                           placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                    
+                                           <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        Your password must contain least 8 characters, at least one number and one uppercase and lowercase letter. 
+                                    </div>
+
+
+
+                                    
                                 </div>
                             </div>
                         </div> <!-- end col -->
@@ -152,32 +240,49 @@
                                 <div class="invalid-feedback">
                                     You must enter valid input
                                 </div>
-                            </div>
-                        </div> <!-- end col -->
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="country" class="form-label">Country</label>
-                                <!-- <label for="product-category" class="form-label">Country <span class="text-danger"></span></label> -->
-                                <select id="country-code-input" class="form-control select2" id="country_id" name="country_id" required>
-                                    <option disabled selected value="">Select Country</option>
-                                    @foreach ($countries as $key => $country)
-                                    <option value="{{$country->title}}" phone-code="+{{$country->phone_code}}">{{$country->title}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
-                    <!-- Personal Info -->
-                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Contact Info (Account Manager)
-                    </h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
-                                <input type="text" class="form-control" id="amFirstName" name="amFirstName" placeholder="Enter first name" required>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
+                            </div> <!-- end col -->
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="address1" class="form-label">Zip Code</label>
+                                    <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
+                                    <input type="number" class="form-control" id="zipCode" name="zipCode"
+                                           placeholder="Enter zip / code">
+                                           <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
+                                    <!-- <label for="product-category" class="form-label">Country <span class="text-danger"></span></label> -->
+                                    <select id="country-code-input" class="form-control select2" id="country_id" name="country_id" required>
+                                        <option disabled selected value="">Select Country</option>
+                                        @foreach ($countries as $key => $country)
+                                            <option value="{{$country->title}} (+{{ $country->phone_code }})">{{$country->title}}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+                        <!-- Personal Info -->
+                        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Contact Info (Account Manager)
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
+                                    <input type="text" class="form-control" id="amFirstName" name="amFirstName"
+                                           placeholder="Enter first name" required>
+                                           <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -354,23 +459,6 @@
                         </div>
 
 
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="payoneer" class="form-label">Payoneer</label>
-                                <input type="email" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account">
-                            </div>
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid email format
-                            </div>
-                        </div> <!-- end col -->
-
-
-
-
-                    </div>
-
-                    <!-- 
                         <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Documents
                         </h5>
 
@@ -378,15 +466,25 @@
 
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
+                                    <label for="billEmail" class="form-label">Agreement Document</label><label class="text-danger">*</label>
                                     
-                                    <input type="file" class="form-control" id="file" name="document"
-                                           >
+                                    <input type="file" class="form-control" id="document" name="document"
+                                           accept="application/pdf">
                                 </div>
+
+                                
+
                             </div>
                     
-                        </div> -->
-
+                            <div class="col-md-4">
+                            <div class="mb-3">
+                                    <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
+                                    
+                                    <input type="file" class="form-control" id="agreementDoc" name="agreementDoc"
+                                           accept="application/pdf">
+                                </div>
+                            </div>
+                        </div>
 
 
 
