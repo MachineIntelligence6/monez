@@ -161,7 +161,7 @@
                                 <select id="country-code-input" class="form-control select2" id="country_id" name="country_id" required>
                                     <option disabled selected value="">Select Country</option>
                                     @foreach ($countries as $key => $country)
-                                    <option value="{{$country->title}} (+{{ $country->phone_code }})">{{$country->title}} (+{{ $country->phone_code }})</option>
+                                    <option value="{{$country->title}}" phone-code="+{{$country->phone_code}}">{{$country->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
