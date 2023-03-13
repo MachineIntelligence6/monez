@@ -418,25 +418,62 @@
                                 <div class="mb-3">
                                     <label for="billEmail" class="form-label">Agreement Document</label><label class="text-danger">*</label>
                                     
-                                    <input type="file" class="form-control" id="document" name="document"
-                                           accept="application/pdf">
+                                    <input type="file" class="form-control" id="agreementDoc" name="agreementDoc"
+                                           accept="application/pdf" onblur="fileSizeValidation()">
+
+                                           <div class="text-danger" id="messageFileSizeAgreeDocument" onblur="fileSizeValidation()">
+
+                                           </div>
                                 </div>
 
-                                
-
+                            
                             </div>
                     
                             <div class="col-md-4">
                             <div class="mb-3">
                                     <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
                                     
-                                    <input type="file" class="form-control" id="agreementDoc" name="agreementDoc"
-                                           accept="application/pdf">
+                                    <input type="file" class="form-control" id="document" name="document"
+                                           accept="application/pdf" onblur="fileSizeValidation()">
+
+                                           <div class="text-danger" id="messageFileSizeDocument" onblur="fileSizeValidation()">
+
+                                           </div>
                                 </div>
                             </div>
                         </div>
 
 
+ <script>
+            fileSizeValidation = () => {
+            const fi0 = document.getElementById('agreementDoc');
+            
+
+            if (fi0.files.length > 0) {
+                for (const i = 0; i <= fi0.files.length - 1; i++) {
+                    const fsize = fi0.files.item(i).size;
+                    const file = Math.round((fsize / 1024));
+                    if (file >= 5) {
+                        let messageFileSize = "Your file size is too big, keep it under 2MB";
+                        document.getElementById('messageFileSizeAgreeDocument').innerHTML = messageFileSize;
+                    }
+                }
+            }
+
+            const fi = document.getElementById('document');
+            
+            if (fi.files.length > 0) {
+                for (const i = 0; i <= fi.files.length - 1; i++) {
+                    const fsize = fi.files.item(i).size;
+                    const file = Math.round((fsize / 1024));
+                    if (file >= 5) {
+                        let messageFileSize = "Your file size is too big, keep it under 2MB";
+                        document.getElementById('messageFileSizeDocument').innerHTML = messageFileSize;
+                    }
+                }
+            }
+        }
+</script>
 
 
                         

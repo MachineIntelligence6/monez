@@ -65,9 +65,10 @@ class AdvertiserController extends Controller
             'revSharePer' => 'required',
             'paymentTerms' => 'required',
             'reportEmail' => 'required',
+            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
+            'document' => 'required|max:2048|mimes:pdf,pdf',
           ]);
 
-           $adv = new Advertiser;
 
         
           if($request->file('agreementDoc'))
@@ -99,7 +100,7 @@ class AdvertiserController extends Controller
             $document = "Not Delivered";
           }
 
-
+          $adv = new Advertiser;
 
           $adv->dbaId = $request->dbaId;
           $adv->companyName = $request->companyName;
