@@ -1,121 +1,33 @@
 @extends('layouts.vertical', ['title' => 'Advertisers Profile'])
 @section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i> Account Info</h5>
-                    <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}"
-                          enctype="multipart/form-data" novalidate>
-                        @csrf
-                        @method('POST')
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                                    <input type="text" class="form-control" id="dbaId" name="dbaId"
-                                           placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" />
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        You must enter valid input
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="companyName" class="form-label">Company / Legal Name</label><label class="text-danger">*</label>
-                                    <input type="text" class="form-control" id="companyName" name="companyName"
-                                           placeholder="Enter Company / Legal Name" required>
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        You must enter valid input
-                                    </div>
-                                </div>
-                            </div> <!-- end col -->
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="regId" class="form-label">Registration / National ID</label>
-                                    <input type="number" class="form-control" id="regId" name="regId"
-                                           placeholder="Enter Registration / National ID">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="vat" class="form-label">VAT ID</label>
-                                    <input type="text" class="form-control" id="vat" name="vat" placeholder="Enter VAT"
-                                        >
-                                </div>
-                            </div> <!-- end col -->
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="url" class="form-label">Website</label><label class="text-danger">*</label>
-                                    <input type="url" class="form-control" id="url" name="url"
-                                           placeholder="Enter website url" required>
-                                           <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        You must enter valid input
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                                    <input type="email" class="form-control" id="accEmail" name="accEmail"
-                                           placeholder="Enter account email" required>
-                                           <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        You must enter valid input
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                                    <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()">
-                                           
-                                    <div class="text-danger" id="invalidfeedback">
-                                        
-                                    </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i> Account Info</h5>
+                <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    @method('POST')
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
+                                <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" />
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">
+                                    You must enter valid input
                                 </div>
                             </div>
 
 
-<script>
-    function confirmEmail() {
-	var email = document.getElementById("accEmail").value
-	var confemail = document.getElementById("confemail").value
-	if(email != confemail) {
-	    //alert('Email Not Matching!');
-        //let messageContainer = document.createElement("p")
-        
-        let message = "Your email not match";
-        document.getElementById('invalidfeedback').innerHTML = message;
-	}
-    else
-    {
-        let message = " ";
-        document.getElementById('invalidfeedback').innerHTML = message;
-    }
-}
-</script>                           
-
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
-                                    <input type="password" id="password" class="form-control" name="password"
-                                           placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                    
-                                           <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        Your password must contain least 8 characters, at least one number and one uppercase and lowercase letter. 
-                                    </div>
-
-
-
-                                    
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="companyName" class="form-label">Company / Legal Name</label><label class="text-danger">*</label>
+                                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Enter Company / Legal Name" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">
+                                    You must enter valid input
                                 </div>
                             </div>
                         </div> <!-- end col -->
@@ -178,7 +90,17 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
-                                <input type="password" id="password" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                    <div class="input-group-append" data-password="false">
+                                        <div class="input-group-text btn">
+                                            <span class="password-eye"></span>
+                                        </div>
+                                    </div>
+                                    <div class="pl-2">
+                                        <div class="btn btn-secondary" onclick="generate">Regenerate</div>
+                                    </div>
+                                </div>
 
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
@@ -240,49 +162,32 @@
                                 <div class="invalid-feedback">
                                     You must enter valid input
                                 </div>
-                            </div> <!-- end col -->
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="address1" class="form-label">Zip Code</label>
-                                    <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                                    <input type="number" class="form-control" id="zipCode" name="zipCode"
-                                           placeholder="Enter zip / code">
-                                           <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        You must enter valid input
-                                    </div>
-                                </div>
-                            </div> <!-- end col -->
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
-                                    <!-- <label for="product-category" class="form-label">Country <span class="text-danger"></span></label> -->
-                                    <select id="country-code-input" class="form-control select2" id="country_id" name="country_id" required>
-                                        <option disabled selected value="">Select Country</option>
-                                        @foreach ($countries as $key => $country)
-                                            <option value="{{$country->title}} (+{{ $country->phone_code }})">{{$country->title}}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        You must enter valid input
-                                    </div>
-                                </div>
-                            </div> <!-- end col -->
-                        </div> <!-- end row -->
-                        <!-- Personal Info -->
-                        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Contact Info (Account Manager)
-                        </h5>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
-                                    <input type="text" class="form-control" id="amFirstName" name="amFirstName"
-                                           placeholder="Enter first name" required>
-                                           <div class="valid-feedback">Valid.</div>
-                                    <div class="invalid-feedback">
-                                        You must enter valid input
-                                    </div>
+                            </div>
+                        </div> <!-- end col -->
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Country</label>
+                                <!-- <label for="product-category" class="form-label">Country <span class="text-danger"></span></label> -->
+                                <select id="country-code-input" class="form-control select2" id="country_id" name="country_id" required>
+                                    <option disabled selected value="">Select Country</option>
+                                    @foreach ($countries as $key => $country)
+                                    <option value="{{$country->title}}" phone-code="+{{ $country->phone_code }}">{{$country->title}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                    <!-- Personal Info -->
+                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Contact Info (Account Manager)
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
+                                <input type="text" class="form-control" id="amFirstName" name="amFirstName" placeholder="Enter first name" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">
+                                    You must enter valid input
                                 </div>
                             </div>
                         </div>
@@ -311,7 +216,17 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="amPhone" class="form-label">Phone:</label>
-                                <input type="text" class="form-control" id="phone-number-input" name="amPhone" placeholder="Enter phone number">
+                                <div class="input-group input-group-merge">
+                                    <div class="input-group-prepend">
+                                        <select class="form-control">
+                                            <option disabled selected value="">Select Code</option>
+                                            @foreach ($countries as $key => $country)
+                                            <option value="+{{$country->phone_code}}">+{{$country->phone_code}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <input type="text" class="form-control" id="phone-number-input" name="amPhone" placeholder="Enter phone number">
+                                </div>
                                 <!-- <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span> -->
                             </div>
                         </div>
@@ -459,71 +374,37 @@
                         </div>
 
 
-                        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Documents
-                        </h5>
-
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="billEmail" class="form-label">Agreement Document</label><label class="text-danger">*</label>
-                                    
-                                    <input type="file" class="form-control" id="agreementDoc" name="agreementDoc"
-                                           accept="application/pdf" onblur="fileSizeValidation()">
-
-                                           <div class="text-danger" id="messageFileSizeAgreeDocument" onblur="fileSizeValidation()">
-
-                                           </div>
-                                </div>
-
-                            
-                            </div>
-                    
-                            <div class="col-md-4">
+                        <div class="col-md-4">
                             <div class="mb-3">
-                                    <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
-                                    
-                                    <input type="file" class="form-control" id="document" name="document"
-                                           accept="application/pdf" onblur="fileSizeValidation()">
+                                <label for="payoneer" class="form-label">Payoneer</label>
+                                <input type="email" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account">
+                            </div>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid email format
+                            </div>
+                        </div> <!-- end col -->
 
-                                           <div class="text-danger" id="messageFileSizeDocument" onblur="fileSizeValidation()">
 
-                                           </div>
-                                </div>
+
+
+                    </div>
+
+
+                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Documents</h5>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
+
+                                <input type="file" class="form-control" id="file" name="document">
                             </div>
                         </div>
+                    </div>
 
 
- <script>
-            fileSizeValidation = () => {
-            const fi0 = document.getElementById('agreementDoc');
-            
 
-            if (fi0.files.length > 0) {
-                for (const i = 0; i <= fi0.files.length - 1; i++) {
-                    const fsize = fi0.files.item(i).size;
-                    const file = Math.round((fsize / 1024));
-                    if (file >= 5) {
-                        let messageFileSize = "Your file size is too big, keep it under 2MB";
-                        document.getElementById('messageFileSizeAgreeDocument').innerHTML = messageFileSize;
-                    }
-                }
-            }
-
-            const fi = document.getElementById('document');
-            
-            if (fi.files.length > 0) {
-                for (const i = 0; i <= fi.files.length - 1; i++) {
-                    const fsize = fi.files.item(i).size;
-                    const file = Math.round((fsize / 1024));
-                    if (file >= 5) {
-                        let messageFileSize = "Your file size is too big, keep it under 2MB";
-                        document.getElementById('messageFileSizeDocument').innerHTML = messageFileSize;
-                    }
-                }
-            }
-        }
-</script>
 
 
 
@@ -710,28 +591,6 @@
 
 @endsection
 @section('script')
-
-<script>
-    const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-    function generateNewPassword() {
-        var passwordLength = Math.floor(Math.random() * 16);
-        if (passwordLength < 8) passwordLength += 8;
-        password = "";
-        for (var i = 0, n = passwordCharset.length; i < passwordLength; ++i) {
-            password += passwordCharset.charAt(Math.floor(Math.random() * n));
-        }
-        document.getElementById("password-input-field").value = password;
-    }
-    generateNewPassword();
-
-
-    document.getElementById("country-code-input")
-        .addEventListener("change", (e) => {
-            let phoneCode = e.target.options[e.target.selectedIndex].getAttribute("phone-code");
-            document.getElementById("phone-number-input").value = phoneCode;
-        })
-</script>
 <!-- Plugins js-->
 <script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
 
