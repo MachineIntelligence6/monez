@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i> Account Info</h5>
+                <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i> Account Info</h5>
                 <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}" enctype="multipart/form-data" novalidate>
                     @csrf
                     @method('POST')
@@ -46,7 +46,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="url" class="form-label">Website</label><label class="text-danger">*</label>
-                                <input type="url" class="form-control" id="url" name="url" placeholder="Enter website url" required>
+                                <input type="text" class="form-control" id="website-url-input" name="url" placeholder="Enter website url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" required>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -91,14 +91,14 @@
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                    <input type="password" id="password-input-field" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                                     <div class="input-group-append" data-password="false">
                                         <div class="input-group-text btn">
                                             <span class="password-eye"></span>
                                         </div>
                                     </div>
                                     <div class="pl-2">
-                                        <div class="btn btn-secondary" onclick="generate">Regenerate</div>
+                                        <div class="btn btn-secondary" onclick="generateNewPassword()">Regenerate</div>
                                     </div>
                                 </div>
 
@@ -178,7 +178,7 @@
                         </div> <!-- end col -->
                     </div> <!-- end row -->
                     <!-- Personal Info -->
-                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Contact Info (Account Manager)
+                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)
                     </h5>
                     <div class="row">
                         <div class="col-md-4">
@@ -218,25 +218,18 @@
                                 <label for="amPhone" class="form-label">Phone:</label>
                                 <div class="input-group input-group-merge">
                                     <div class="input-group-prepend">
-                                        <select class="form-control">
-                                            <option disabled selected value="">Select Code</option>
+                                        <select class="form-control" id="phone-code-dropdown">
+                                            <!-- <option disabled selected value="">Select Code</option> -->
                                             @foreach ($countries as $key => $country)
                                             <option value="+{{$country->phone_code}}">+{{$country->phone_code}}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <input type="text" class="form-control" id="phone-number-input" name="amPhone" placeholder="Enter phone number">
+                                    <input type="text" class="form-control ml-2" id="phone-number-input" name="amPhone" placeholder="Enter phone number">
                                 </div>
                                 <!-- <span class="form-text text-muted"><small>If you want to change email please <a href="javascript: void(0);">click</a> here.</small></span> -->
                             </div>
                         </div>
-                        <script>
-                            document.getElementById("country-code-input")
-                                .addEventListener("change", (e) => {
-                                    let phoneCode = e.target.value.split("(")[1].replace(")", "");
-                                    document.getElementById("phone-number-input").value = phoneCode;
-                                })
-                        </script>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="amSkype" class="form-label">Skype</label>
@@ -262,17 +255,13 @@
                     </div> <!-- end row -->
 
                     <!-- Agreement & Terms -->
-                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Operations Info
+                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info
                     </h5>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="AgreementStartDate" class="form-label">Start Date</label><label class="text-danger">*</label>
                                 <input type="text" id="basic-datepicker" class="form-control" placeholder="Basic datepicker" name="AgreementStartDate" required>
-
-
-
-
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must select valid date.
@@ -329,9 +318,27 @@
                             </div>  -->
                         <!-- end col -->
 
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="reportType" name="reportType" placeholder="Add report type" required>
+                                    <div class="input-group-append">
+                                        <button type="button" data-trigger="modal" data-target="report-type-modal" class="input-group-text btn">
+                                            <span class="fe-plus"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">
+                                    You must enter valid input
+                                </div>
+                            </div>
+                        </div>
+
                     </div> <!-- end row -->
 
-                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Finance Info
+                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info
                     </h5>
                     <div class="row">
 
@@ -349,8 +356,15 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="pbank" class="form-label">Bank <span class="text-danger"></span></label>
-                                <input type="text" class="form-control" id="bank" name="bank" placeholder="Enter Bank account">
+                                <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" disabled class="form-control" id="bank" name="bank" placeholder="Enter Bank account">
+                                    <div class="input-group-append">
+                                        <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="input-group-text btn">
+                                            <span class="mdi mdi-bank-plus"></span>
+                                        </button>
+                                    </div>
+                                </div>
                                 <!-- <select class="form-control select2" id="product-category">
                                 <option>Select Bank</option>
                                 @foreach ($banks as $key => $bank)
@@ -365,7 +379,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="paypal" class="form-label">Paypal</label>
-                                <input type="email" class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account">
+                                <input type="text" class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account">
                             </div>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
@@ -377,37 +391,30 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="payoneer" class="form-label">Payoneer</label>
-                                <input type="email" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account">
+                                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account">
                             </div>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid email format
                             </div>
                         </div> <!-- end col -->
-
-
-
-
                     </div>
 
 
-                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Documents</h5>
-                    <div class="row">
 
+
+                    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Documents</h5>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
-
+                                <!-- <div class="d-flex align-items-center justify-content-center border border-2 rounded-5" style="height: 200px;">
+                                    <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                </div> -->
                                 <input type="file" class="form-control" id="file" name="document">
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
 
 
                     {{-- <!-- File Upload Code -->--}}
@@ -589,11 +596,206 @@
     </div>
 </div>
 
+<div class="modal fade" id="add-bank-details-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content shadow shadow-5">
+            <div class="modal-header">
+                <h5 class="mb-3 text-uppercase modal-title"><i class="mdi mdi-bank mr-2"></i>Add Bank Details</h5>
+                <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                    <h3 class="fe-x m-0"></h3>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="beneficiaryName" class="form-label">Beneficiary Name</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="beneficiaryName" name="beneficiaryName" placeholder="Enter Beneficiary Name" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="beneficiaryAddress" class="form-label">Beneficiary Full Address</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="beneficiaryAddress" name="beneficiaryAddress" placeholder="Enter Beneficiary Address" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="bankName" class="form-label">Bank Name</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Enter Bank name" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="bankAddress" class="form-label">Bank Full Address</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="bankAddress" name="bankAddress" placeholder="Enter Bank Address" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="accountNumber" class="form-label">Account Number</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Enter Bank account number" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="routingNumber" class="form-label">Routing Number</label><label class="text-danger">*</label>
+                            <input type="number" class="form-control" id="routingNumber" name="routingNumber" placeholder="Enter Routing number" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="iban" class="form-label">IBAN</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="iban" name="iban" placeholder="Enter IBAN" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="swift" class="form-label">SWIFT</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="swift" name="swift" placeholder="" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="currency" class="form-label">Currency</label><label class="text-danger">*</label>
+                            <select class="form-control" id="currency" name="currency" required>
+                                <option selected>Select Currency</option>
+                                <option value="usd">USD</option>
+                                <option value="eur">EUR</option>
+                            </select>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save Details</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="report-type-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content shadow shadow-5">
+            <div class="modal-header">
+                <h5 class="mb-3 text-uppercase modal-title"><i class="mdi mdi-bank mr-2"></i>Add Bank Details</h5>
+                <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                    <h3 class="fe-x m-0"></h3>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="reportType" class="form-label">Type</label><label class="text-danger">*</label>
+                            <select class="form-control" id="reportType" name="reportType" required>
+                                <option selected>Report Type</option>
+                                <option selected>Google Drive</option>
+                                <option selected>Report Type</option>
+                            </select>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save Details</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('script')
+<script>
+    const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const specialChars = "!$%#^&|?"
+
+    function generateNewPassword() {
+        var passwordLength = Math.floor(Math.random() * 16);
+        if (passwordLength < 8) passwordLength += 8;
+        var password = "";
+        for (var i = 0, n = passwordCharset.length; i < passwordLength; ++i) {
+            password += passwordCharset.charAt(Math.floor(Math.random() * n));
+        }
+        password += specialChars[Math.floor(Math.random() * specialChars.length)]
+        document.getElementById("password-input-field").value = password;
+    }
+    generateNewPassword();
+
+
+    document.getElementById("country-code-input")
+        .addEventListener("change", (e) => {
+            let phoneCode = e.target.options[e.target.selectedIndex].getAttribute("phone-code");
+            document.getElementById("phone-code-dropdown").value = phoneCode;
+        })
+
+    const allModals = document.querySelectorAll(".modal");
+    for (let i = 0; i < allModals.length; i++) {
+        const modal = allModals[i];
+        let dismissBtns = modal.querySelectorAll('[data-dismiss="modal"]');
+        for (let j = 0; j < dismissBtns.length; j++) {
+            dismissBtns[j].addEventListener("click", () => {
+                modal.classList.remove("show");
+                modal.style.display = "none"
+            })
+        }
+    }
+
+    const modalTriggerBtns = document.querySelectorAll('[data-trigger="modal"]');
+    for (let i = 0; i < modalTriggerBtns.length; i++) {
+        modalTriggerBtns[i].addEventListener("click", () => {
+            let modal = document.getElementById(modalTriggerBtns[i].getAttribute("data-target"))
+            modal.classList.add("show");
+            modal.style.display = "block"
+        })
+    }
+
+    const webUrlMatchRegexp = new RegExp("(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})");
+</script>
 <!-- Plugins js-->
 <script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
-
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
 @endsection
