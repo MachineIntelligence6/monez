@@ -18,8 +18,6 @@
                                     You must enter valid input
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
@@ -830,6 +828,7 @@
         </form>
     </div>
 </div>
+
 <div class="modal fade" id="define-report-columns-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
         <form action="#" method="post" class="modal-content shadow shadow-5">

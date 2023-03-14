@@ -28,23 +28,15 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <!-- <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="modal" data-target="#custom-modal"><i class="mdi mdi-plus-circle mr-1"></i> Add New</button> -->
-                            <button type="button" class="btn btn-danger waves-effect waves-light"><i class="mdi mdi-plus-circle mr-1"></i></i><a href="{{route('second', ['advertiser', 'create'])}}">Add New </a></button>
+                            <button type="button" class="btn btn-danger waves-effect waves-light" data-trigger="modal" data-target="add-member-modal"><i class="mdi mdi-plus-circle mr-1"></i></i>Add Member </button>
                         </div>
-                        <!-- <div class="col-sm-8">
-                                <div class="text-sm-right">
-                                    <button type="button" class="btn btn-success mb-2 mr-1"><i class="mdi mdi-cog"></i></button>
-                                    <button type="button" class="btn btn-light mb-2 mr-1">Import</button>
-                                    <button type="button" class="btn btn-light mb-2">Export</button>
-                                </div>
-                            </div> -->
-                        <!-- end col-->
                     </div>
 
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Advertiser ID</th>
                                     <th>Company / Legal Name</th>
                                     <th>Website</th>
@@ -54,7 +46,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($advertisers as $advertiser)
                                 <tr>
                                     <td>
                                         <div class="custom-control custom-checkbox">
@@ -62,41 +53,15 @@
                                             <label class="custom-control-label" for="customCheck2">&nbsp;</label>
                                         </div>
                                     </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td>
-                                        {{ $advertiser->dbaId ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->companyName ?? '-'}}
-                                    </td>
-                                    <!-- <td>
-                                        {{ $advertiser->regId ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->vat ?? '-' }}
-                                    </td> -->
-                                    <td>
-                                        {{ $advertiser->url ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->accEmail ?? '-' }}
-                                    </td>
-
-                                    <td>
-                                        {{ $advertiser->amFirstName ?? '' }} {{ $advertiser->amLastName ?? '' }}
-                                    </td>
-
-                                    <td>
-                                        <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                        {{-- <a href="javascript:void(0);" class="action-icon"> <i--}}
-                                        {{-- class="mdi mdi-delete"></i></a>--}}
-                                        <form class="d-inline" action="{{route('advertiser.destroy',['advertiser'=>$advertiser->id])}}" method="POST">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <button type="submit" class="mdi mdi-delete action-ico" data-toggle="tooltip" onclick="return confirm('Delete ! Are you sure?')"></button>
-                                        </form>
+                                        <a href="" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
                                     </td>
                                 </tr>
-                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -128,45 +93,89 @@
     <!-- end row -->
 
 </div> <!-- container -->
-<!-- Modal -->
-<div class="modal fade" id="custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light">
-                <h4 class="modal-title" id="myCenterModalLabel">Add New Advertise</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body p-4">
-                <p>In Progress</p>
-                <!-- <form>
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="position">Phone</label>
-                            <input type="text" class="form-control" id="position" placeholder="Enter phone number">
-                        </div>
-                        <div class="form-group">
-                            <label for="category">Location</label>
-                            <input type="text" class="form-control" id="category" placeholder="Enter Location">
-                        </div>
 
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-success waves-effect waves-light">Save</button>
-                            <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">Continue</button>
-                        </div>
-                    </form> -->
+
+<div class="modal fade" id="add-member-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <form action="#" method="post" class="modal-content shadow shadow-5">
+            <div class="modal-header">
+                <h5 class="mb-3 text-uppercase modal-title">Add Team Member</h5>
+                <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                    <h3 class="fe-x m-0"></h3>
+                </button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="skype" class="form-label">Skype</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fab fa-skype"></i></span>
+                            <input type="text" class="form-control" id="skype" name="skype" placeholder="@username">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="linkedin" class="form-label">Linkedin</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
+                            <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="Url">
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 @endsection
 @section('script-bottom')
+<script>
+    const allModals = document.querySelectorAll(".modal");
+    for (let i = 0; i < allModals.length; i++) {
+        const modal = allModals[i];
+        let dismissBtns = modal.querySelectorAll('[data-dismiss="modal"]');
+        for (let j = 0; j < dismissBtns.length; j++) {
+            dismissBtns[j].addEventListener("click", () => {
+                modal.classList.remove("show");
+                modal.style.display = "none"
+            })
+        }
+    }
+
+    const modalTriggerBtns = document.querySelectorAll('[data-trigger="modal"]');
+    for (let i = 0; i < modalTriggerBtns.length; i++) {
+        modalTriggerBtns[i].addEventListener("click", () => {
+            let modal = document.getElementById(modalTriggerBtns[i].getAttribute("data-target"))
+            modal.classList.add("show");
+            modal.style.display = "block"
+        })
+    }
+</script>
 <script type="text/javascript">
     $('#products-datatable').DataTable();
 </script>
