@@ -322,10 +322,10 @@
                             <div class="mb-3">
                                 <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="reportType" name="reportType" placeholder="Add report type" required>
+                                    <input type="text" class="form-control" disabled id="reportType" name="reportType" placeholder="Add report type" required>
                                     <div class="input-group-append">
                                         <button type="button" data-trigger="modal" data-target="report-type-modal" class="input-group-text btn">
-                                            <span class="fe-plus"></span>
+                                            <span class="dripicons-document-edit"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -713,41 +713,104 @@
 </div>
 <div class="modal fade" id="report-type-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content shadow shadow-5">
+        <form action="#" method="post" class="modal-content shadow shadow-5">
             <div class="modal-header">
-                <h5 class="mb-3 text-uppercase modal-title"><i class="mdi mdi-bank mr-2"></i>Add Bank Details</h5>
-                <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                <h5 class="mb-3 text-uppercase modal-title">Add Report Details</h5>
+                <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close">
                     <h3 class="fe-x m-0"></h3>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <label for="reportType" class="form-label">Type</label><label class="text-danger">*</label>
-                            <select class="form-control" id="reportType" name="reportType" required>
-                                <option selected>Report Type</option>
-                                <option selected>Google Drive</option>
-                                <option selected>Report Type</option>
-                            </select>
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
+                    <div class="col-12 mb-3">
+                        <label for="reportType" class="form-label">Type</label><label class="text-danger">*</label>
+                        <select class="form-control" id="report-type-input" name="reportType" required>
+                            <option value="" selected>Report Type</option>
+                            <option value="api">API</option>
+                            <option value="email">EMAIL</option>
+                            <option value="gdrive">Google Drive</option>
+                            <option value="dashboard">Dashboard</option>
+                        </select>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3 d-none report-creds-input api-input-group">
+                        <label for="apiKey" class="form-label">API Key</label><label class="text-danger">*</label>
+                        <input type="text" class="form-control" id="apiKey" name="apiKey">
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3 d-none report-creds-input dashboard-input-group">
+                        <label for="dashboardPath" class="form-label">Dashboard Path</label><label class="text-danger">*</label>
+                        <input type="text" class="form-control" id="dashboardPath" name="dashboardPath">
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3 d-none report-creds-input email-input-group">
+                        <label for="email" class="form-label">Email</label><label class="text-danger">*</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3 d-none report-creds-input email-input-group">
+                        <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password-input-field" class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                            <div class="input-group-append" data-password="false">
+                                <div class="input-group-text btn">
+                                    <span class="password-eye"></span>
+                                </div>
                             </div>
+                        </div>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
+                        <label for="gdriveEmail" class="form-label">GDrive Email</label><label class="text-danger">*</label>
+                        <input type="email" class="form-control" id="gdriveEmail" name="gdriveEmail">
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
+                        <label for="gdrivePassword" class="form-label">GDrive Password</label><label class="text-danger">*</label>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password-input-field" class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                            <div class="input-group-append" data-password="false">
+                                <div class="input-group-text btn">
+                                    <span class="password-eye"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save Details</button>
+                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Details</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
 @endsection
 @section('script')
+
 <script>
     const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const specialChars = "!$%#^&|?"
@@ -792,7 +855,25 @@
         })
     }
 
-    const webUrlMatchRegexp = new RegExp("(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})");
+
+    //Report Type Popup Script
+    const reportTypeModal = document.getElementById("report-type-modal");
+    const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
+    console.log("ALi " + reportTypeModal.querySelector("#report-type-input"))
+    reportTypeModal.querySelector("#report-type-input")
+        .addEventListener("change", (e) => {
+            for (let i = 0; i < reportCredsInputs.length; i++) {
+                reportCredsInputs[i].classList.add("d-none");
+                reportCredsInputs[i].querySelector("input").setAttribute("required", false);
+            }
+            if (e.target.value !== "") {
+                reportTypeModal.getElementsByClassName(e.target.value + "-input-group")
+                    .forEach((inpGroup) => {
+                        inpGroup.classList.remove("d-none");
+                        inpGroup.querySelector("input").setAttribute("required", true);
+                    })
+            }
+        })
 </script>
 <!-- Plugins js-->
 <script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
