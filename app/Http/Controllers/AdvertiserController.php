@@ -52,7 +52,53 @@ class AdvertiserController extends Controller
     {
         $validatedData = $request->validate([
             'dbaId' => 'required',
+            'companyName'  => 'required',
+            'url' => 'required',
+            'accEmail'=> 'required',
+            'password' => 'required',
+            'address1' => 'required',
+            'city' => 'required',
+            'country_id' => 'required',
+            'amFirstName' => 'required',
+            'amLastName' => 'required',
+            'amEmail' => 'required',
+            'revSharePer' => 'required',
+            'paymentTerms' => 'required',
+            'reportEmail' => 'required',
+            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
+            'document' => 'required|max:2048|mimes:pdf,pdf',
           ]);
+
+
+        
+          if($request->file('agreementDoc'))
+          {
+            $file= $request->file('agreementDoc');
+            
+            $agreementDoc = $file->getClientOriginalName();
+            //$agreementDoc = time().($agreementDoc);
+            $dbaId = $request->dbaId;
+            $agreementDoc = $dbaId."-".time().$file->getClientOriginalName();
+            $file-> move(public_path('assets/files/uploads/agreement_doc/'.$dbaId.''), $agreementDoc);
+          }
+          else
+          {
+            $agreementDoc = "Not Delivered";
+          }
+        
+          if($request->file('document'))
+          {
+            $file= $request->file('document');
+            $document= $file->getClientOriginalName();
+            //$document = time().($document);
+            $dbaId = $request->dbaId;
+            $document = $dbaId."-".time().$file->getClientOriginalName();
+            $file-> move(public_path('assets/files/uploads/document/'.$dbaId.''), $document);
+          }
+          else
+          {
+            $document = "Not Delivered";
+          }
 
           $adv = new Advertiser;
 
@@ -77,13 +123,13 @@ class AdvertiserController extends Controller
           $adv->amPhone = $request->amPhone;
           $adv->amSkype = $request->amSkype;
           $adv->amLinkedIn = $request->amLinkedIn;
-          $adv->agreementDoc = $request->agreementDoc;
+          $adv->agreementDoc = $agreementDoc;
           $adv->revSharePer = $request->revSharePer;
           $adv->paymentTerms = $request->paymentTerms;
           $adv->bank_id = $request->bank;
           $adv->payoneer = $request->payoneer;
           $adv->paypal = $request->paypal;
-          $adv->document = $request->document;
+          $adv->document = $document;
           $adv->notes = $request->notes;
           $adv->agreement_start_date = $request->AgreementStartDate;
 

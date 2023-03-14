@@ -47,33 +47,33 @@
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
                                 <tr>
-                                    <th style="width: 20px;">
+                                    <!-- <th style="width: 20px;">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                                             <label class="custom-control-label" for="customCheck1">&nbsp;</label>
                                         </div>
-                                    </th>
+                                    </th> -->
                                     <th>Advertiser ID</th>
                                     <th>Company / Legal Name</th>
-                                    <th>Registration / National ID</th>
-                                    <th>VAT</th>
+                                    <!-- <th>Registration / National ID</th> -->
+                                    <!-- <th>VAT</th> -->
                                     <th>Website</th>
-                                    <th>Reporting Email</th>
+                                    <!-- <th>Reporting Email</th> -->
                                     <th>Account Email</th>
-                                    <th>Billing / Finance Email</th>
-                                    <th>Address</th>
+                                    <!-- <th>Billing / Finance Email</th> -->
+                                    <!-- <th>Address</th> -->
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Skype</th>
-                                    <th>Linkedin</th>
-                                    <th>Revenue Share (%)</th>
-                                    <th>Payment Terms</th>
-                                    <th>Bank</th>
-                                    <th>Payoneer</th>
-                                    <th>Paypal</th>
-                                    <th>Notes / Comments</th>
-                                    <th>Start Date</th>
+                                    <!-- <th>Email</th> -->
+                                    <!-- <th>Phone</th> -->
+                                    <!-- <th>Skype</th> -->
+                                    <!-- <th>Linkedin</th> -->
+                                    <!-- <th>Revenue Share (%)</th> -->
+                                    <!-- <th>Payment Terms</th> -->
+                                    <!-- <th>Bank</th> -->
+                                    <!-- <th>Payoneer</th> -->
+                                    <!-- <th>Paypal</th> -->
+                                    <!-- <th>Notes / Comments</th> -->
+                                    <!-- <th>Start Date</th> -->
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                                 </thead>

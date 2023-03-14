@@ -80,6 +80,14 @@
                 </li>
 
                 <li>
+                    <a href="{{route('teammembers.index')}}">
+                        <i data-feather="users"></i>
+                        <span> TEAM MEMBERS </span>
+                    </a>
+                </li>
+                
+
+                <li>
                     <a href="{{route('advertiser.index')}}">
                         <i data-feather="briefcase"></i>
                         <span> ADVERTISERS </span>
