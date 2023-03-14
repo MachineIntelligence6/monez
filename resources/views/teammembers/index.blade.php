@@ -45,33 +45,11 @@
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
-                                    <!-- <th style="width: 20px;">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                            <label class="custom-control-label" for="customCheck1">&nbsp;</label>
-                                        </div>
-                                    </th> -->
                                     <th>Advertiser ID</th>
                                     <th>Company / Legal Name</th>
-                                    <!-- <th>Registration / National ID</th> -->
-                                    <!-- <th>VAT</th> -->
                                     <th>Website</th>
-                                    <!-- <th>Reporting Email</th> -->
                                     <th>Account Email</th>
-                                    <!-- <th>Billing / Finance Email</th> -->
-                                    <!-- <th>Address</th> -->
                                     <th>Name</th>
-                                    <!-- <th>Email</th> -->
-                                    <!-- <th>Phone</th> -->
-                                    <!-- <th>Skype</th> -->
-                                    <!-- <th>Linkedin</th> -->
-                                    <!-- <th>Revenue Share (%)</th> -->
-                                    <!-- <th>Payment Terms</th> -->
-                                    <!-- <th>Bank</th> -->
-                                    <!-- <th>Payoneer</th> -->
-                                    <!-- <th>Paypal</th> -->
-                                    <!-- <th>Notes / Comments</th> -->
-                                    <!-- <th>Start Date</th> -->
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                             </thead>
@@ -90,62 +68,21 @@
                                     <td>
                                         {{ $advertiser->companyName ?? '-'}}
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         {{ $advertiser->regId ?? '-' }}
                                     </td>
                                     <td>
                                         {{ $advertiser->vat ?? '-' }}
-                                    </td>
+                                    </td> -->
                                     <td>
                                         {{ $advertiser->url ?? '-' }}
                                     </td>
                                     <td>
-                                        {{ $advertiser->reportEmail ?? '-' }}
-                                    </td>
-                                    <td>
                                         {{ $advertiser->accEmail ?? '-' }}
                                     </td>
-                                    <td>
-                                        {{ $advertiser->billEmail ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->address1 ?? '-' }}
-                                    </td>
+
                                     <td>
                                         {{ $advertiser->amFirstName ?? '' }} {{ $advertiser->amLastName ?? '' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->amEmail ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->amPhone ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->amSkype ?? '-'}}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->amLinkedIn  ?? '-'}}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->revSharePer ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->paymentTerms  ?? '-'}}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->bank_id ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->payoneer ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->paypal ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->notes ?? '-'}}
-                                    </td>
-                                    <td>
-                                        {{ $advertiser->agreement_start_date ?? '-'}}
                                     </td>
 
                                     <td>
