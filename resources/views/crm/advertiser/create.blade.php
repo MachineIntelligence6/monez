@@ -318,21 +318,44 @@
                             </div>  -->
                         <!-- end col -->
 
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" disabled id="reportType" name="reportType" placeholder="Add report type" required>
-                                    <div class="input-group-append">
-                                        <button type="button" data-trigger="modal" data-target="report-type-modal" class="input-group-text btn">
-                                            <span class="dripicons-document-edit"></span>
-                                        </button>
-                                    </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" disabled id="reportType" name="reportType" placeholder="Add report type" required>
+                                <div class="input-group-append">
+                                    <button type="button" data-trigger="modal" data-target="report-type-modal" class="btn btn-secondary">
+                                        <span class="dripicons-document-edit"></span>
+                                    </button>
                                 </div>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
+                            </div>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" disabled id="reportColumns" name="reportColumns" placeholder="Define report columns" required>
+                                <div class="input-group-append">
+                                    <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
+                                        <span class="dripicons-document-edit"></span>
+                                    </button>
                                 </div>
+                            </div>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
+                            <select class="form-control" id="successManager" name="successManager" required>
+                                <option selected>Select Success Manager</option>
+                            </select>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
                             </div>
                         </div>
 
@@ -360,7 +383,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="text" disabled class="form-control" id="bank" name="bank" placeholder="Enter Bank account">
                                     <div class="input-group-append">
-                                        <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="input-group-text btn">
+                                        <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
                                             <span class="mdi mdi-bank-plus"></span>
                                         </button>
                                     </div>
@@ -798,6 +821,155 @@
                             You must enter valid input
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Details</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="define-report-columns-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <form action="#" method="post" class="modal-content shadow shadow-5">
+            <div class="modal-header">
+                <h5 class="mb-3 text-uppercase modal-title">Add Report Columns</h5>
+                <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                    <h3 class="fe-x m-0"></h3>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="dateKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="date" id="dateKey" name="dateKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="dateColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="dateColValue" name="dateColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="feedKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="feed" id="feedKey" name="feedKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="feedColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="feedColValue" name="feedColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="subidKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="subid" id="subidKey" name="subidKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="subidColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="subidColValue" name="subidColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="countryKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="country" id="countryKey" name="countryKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="countryColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="countryColValue" name="countryColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="totalSearchesKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="total searches" id="totalSearchesKey" name="totalSearchesKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="totalSearchesColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="totalSearchesColValue" name="totalSearchesColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="monitizedSearchesKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="monitized searches" id="monitizedSearchesKey" name="monitizedSearchesKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="monitizedSearchesColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="monitizedSearchesColValue" name="monitizedSearchesColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="paidClicksKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="paid clicks" id="paidClicksKey" name="paidClicksKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="paidClicksColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="paidClicksColValue" name="paidClicksColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="revenueKey" class="form-label">Key</label>
+                        <input type="text" class="form-control" disabled value="revenue" id="revenueKey" name="revenueKey" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="revenueColValue" class="form-label">Value</label>
+                        <input type="text" class="form-control" id="revenueColValue" name="revenueColValue" required>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
