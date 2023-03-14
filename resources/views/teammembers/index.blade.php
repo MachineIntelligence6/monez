@@ -122,6 +122,21 @@
                             You must enter valid input
                         </div>
                     </div>
+                    <div class="col-12 mb-3">
+                        <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password-input-field" class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                            <div class="input-group-append" data-password="false">
+                                <div class="input-group-text btn">
+                                    <span class="password-eye"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
                     <div class="col-md-12 mb-3">
                         <label for="skype" class="form-label">Skype</label>
                         <div class="input-group">
