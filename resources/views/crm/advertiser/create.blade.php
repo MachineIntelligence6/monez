@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
@@ -75,9 +75,9 @@
                                 <div class="mb-3">
                                     <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
                                     <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()">
-                                           
+
                                     <div class="invalid-feedback" id="invalidfeedback">
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -92,25 +92,25 @@
         //document.getElementById('invalidfeedback').innerHTML = "Your email not match";
 	}
 }
-</script>                           
+</script>
 
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                                     <input type="password" id="password" class="form-control" name="password"
                                            placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                                    
+
                                            <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">
-                                        Your password must contain least 8 characters, at least one number and one uppercase and lowercase letter. 
+                                        Your password must contain least 8 characters, at least one number and one uppercase and lowercase letter.
                                     </div>
 
 
 
-                                    
+
                                 </div>
                             </div> <!-- end col -->
-                            
+
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="address1" class="form-label">Address</label><label class="text-danger">*</label>
@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                             </div> <!-- end col -->
-                            
+
                             <div class="col-md-4">
                                 <div class="mb-3">
                                 <label for="address1" class="form-label">Address 2</label>
@@ -231,7 +231,7 @@
                                 document.getElementById("country-code-input")
                                 .addEventListener("change", (e)=> {
                                     let phoneCode = e.target.value.split("(")[1].replace(")", "");
-                                    document.getElementById("phone-number-input").value = phoneCode; 
+                                    document.getElementById("phone-number-input").value = phoneCode;
                                 })
                             </script>
                             <div class="col-md-4">
@@ -269,8 +269,8 @@
                                     <label for="AgreementStartDate" class="form-label">Start Date</label><label class="text-danger">*</label>
                                     <input type="text" id="basic-datepicker" class="form-control" placeholder="Basic datepicker"
                                            name="AgreementStartDate" required>
-                                           
-                                          
+
+
 
 
                                            <div class="valid-feedback">Valid.</div>
@@ -279,7 +279,7 @@
                                     </div>
                                 </div>
 
-                                
+
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
@@ -330,14 +330,14 @@
                                 </div>
                             </div>  -->
                             <!-- end col -->
-                            
+
                         </div> <!-- end row -->
 
                         <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Finance Info
                         </h5>
                         <div class="row">
 
-                        
+
 
                             <div class="col-md-4">
                                 <div class="mb-3">
@@ -378,7 +378,7 @@
                                     </div>
                             </div>
 
-                            
+
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="payoneer" class="form-label">Payoneer</label>
@@ -392,11 +392,11 @@
                             </div> <!-- end col -->
 
 
-                           
+
 
                         </div>
 
-<!-- 
+<!--
                         <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building me-1"></i>Documents
                         </h5>
 
@@ -405,20 +405,20 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
-                                    
+
                                     <input type="file" class="form-control" id="file" name="document"
                                            >
                                 </div>
                             </div>
-                    
+
                         </div> -->
 
-    
 
 
 
 
-                        
+
+
 
                         {{--                        <!-- File Upload Code -->--}}
                         {{--                        <div class="row">--}}
@@ -607,3 +607,4 @@
     <!-- Page js-->
     <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
 @endsection
+
