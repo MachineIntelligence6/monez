@@ -36,7 +36,7 @@ class AdvertiserController extends Controller
         $cities = City::all();
         $banks = Bank::all();
 
-        return view('crm.advertiser.create', compact('countries', 'states', 'cities', 'banks'));
+        return view('advertiser.create', compact('countries', 'states', 'cities', 'banks'));
     }
 
     /**
@@ -156,7 +156,8 @@ class AdvertiserController extends Controller
     public function edit(Advertiser $advertiser)
     {
         $countries = Country::all();
-        return view('crm.advertiser.edit', compact('advertiser','countries'));
+        $banks = Bank::all();
+        return view('advertiser.edit', compact('advertiser','countries', 'banks'));
     }
 
     /**
