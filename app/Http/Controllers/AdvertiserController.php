@@ -22,8 +22,6 @@ class AdvertiserController extends Controller
     {
         $advertisers = Advertiser::paginate(10);
         return view('advertiser.index', compact('advertisers'));
-
-//        return view('forms.validation');
     }
 
     /**
@@ -39,7 +37,6 @@ class AdvertiserController extends Controller
         $banks = Bank::all();
 
         return view('crm.advertiser.create', compact('countries', 'states', 'cities', 'banks'));
-
     }
 
     /**
@@ -52,49 +49,92 @@ class AdvertiserController extends Controller
     {
         $validatedData = $request->validate([
             'dbaId' => 'required',
-          ]);
+            'companyName'  => 'required',
+            'url' => 'required',
+            'accEmail'=> 'required',
+            'password' => 'required',
+            'address1' => 'required',
+            'city' => 'required',
+            'country_id' => 'required',
+            'amFirstName' => 'required',
+            'amLastName' => 'required',
+            'amEmail' => 'required',
+            'revSharePer' => 'required',
+            'paymentTerms' => 'required',
+            'reportEmail' => 'required',
+            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
+            'document' => 'required|max:2048|mimes:pdf,pdf',
+        ]);
 
-          $adv = new Advertiser;
+        if($request->file('agreementDoc'))
+        {
+            $file= $request->file('agreementDoc');
 
-          $adv->dbaId = $request->dbaId;
-          $adv->companyName = $request->companyName;
-          $adv->regId = $request->regId;
-          $adv->vat = $request->vat;
-          $adv->url = $request->url;
-          $adv->accEmail = $request->accEmail;
-          $adv->password = $request->password;
-          $adv->billEmail = $request->billEmail;
-          $adv->reportEmail = $request->reportEmail;
-          $adv->address1 = $request->address1;
-          $adv->address2 = $request->address2;
-          $adv->city_id = $request->city_id;
-          $adv->state_id = $request->state_id;
-          $adv->country_id = $request->country_id;
-          $adv->zipCode = $request->zipCode;
-          $adv->amFirstName = $request->amFirstName;
-          $adv->amLastName = $request->amLastName;
-          $adv->amEmail = $request->amEmail;
-          $adv->amPhone = $request->amPhone;
-          $adv->amSkype = $request->amSkype;
-          $adv->amLinkedIn = $request->amLinkedIn;
-          $adv->agreementDoc = $request->agreementDoc;
-          $adv->revSharePer = $request->revSharePer;
-          $adv->paymentTerms = $request->paymentTerms;
-          $adv->bank_id = $request->bank;
-          $adv->payoneer = $request->payoneer;
-          $adv->paypal = $request->paypal;
-          $adv->document = $request->document;
-          $adv->notes = $request->notes;
-          $adv->agreement_start_date = $request->AgreementStartDate;
+            $agreementDoc = $file->getClientOriginalName();
+            //$agreementDoc = time().($agreementDoc);
+            $dbaId = $request->dbaId;
+            $agreementDoc = $dbaId."-".time().$file->getClientOriginalName();
+            $file-> move(public_path('assets/files/uploads/agreement_doc/'.$dbaId.''), $agreementDoc);
+        }
+        else
+        {
+            $agreementDoc = "Not Delivered";
+        }
 
-          
+        if($request->file('document'))
+        {
+            $file= $request->file('document');
+            $document= $file->getClientOriginalName();
+            //$document = time().($document);
+            $dbaId = $request->dbaId;
+            $document = $dbaId."-".time().$file->getClientOriginalName();
+            $file-> move(public_path('assets/files/uploads/document/'.$dbaId.''), $document);
+        }
+        else
+        {
+            $document = "Not Delivered";
+        }
 
-          $adv->save();
+        $adv = new Advertiser;
 
-          return redirect()->back()->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
+        $adv->dbaId = $request->dbaId;
+        $adv->companyName = $request->companyName;
+        $adv->regId = $request->regId;
+        $adv->vat = $request->vat;
+        $adv->url = $request->url;
+        $adv->accEmail = $request->accEmail;
+        $adv->password = $request->password;
+        $adv->billEmail = $request->billEmail;
+        $adv->reportEmail = $request->reportEmail;
+        $adv->address1 = $request->address1;
+        $adv->address2 = $request->address2;
+        $adv->city_id = $request->city_id;
+        $adv->state_id = $request->state_id;
+        $adv->country_id = $request->country_id;
+        $adv->zipCode = $request->zipCode;
+        $adv->amFirstName = $request->amFirstName;
+        $adv->amLastName = $request->amLastName;
+        $adv->amEmail = $request->amEmail;
+        $adv->amPhone = $request->amPhone;
+        $adv->amSkype = $request->amSkype;
+        $adv->amLinkedIn = $request->amLinkedIn;
+        $adv->agreementDoc = $agreementDoc;
+        $adv->revSharePer = $request->revSharePer;
+        $adv->paymentTerms = $request->paymentTerms;
+        $adv->bank_id = $request->bank;
+        $adv->payoneer = $request->payoneer;
+        $adv->paypal = $request->paypal;
+        $adv->document = $document;
+        $adv->notes = $request->notes;
+        $adv->agreement_start_date = $request->AgreementStartDate;
+
+
+
+        $adv->save();
+
+        return redirect()->back()->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
 
     }
-
 
     /**
      * Display the specified resource.
@@ -182,7 +222,4 @@ class AdvertiserController extends Controller
 
         return redirect()->route('advertiser.index');
     }
-
-
 }
-

@@ -47,33 +47,33 @@
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
                                 <tr>
-                                    <th style="width: 20px;">
+                                    <!-- <th style="width: 20px;">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                                             <label class="custom-control-label" for="customCheck1">&nbsp;</label>
                                         </div>
-                                    </th>
+                                    </th> -->
                                     <th>Advertiser ID</th>
                                     <th>Company / Legal Name</th>
-                                    <th>Registration / National ID</th>
-                                    <th>VAT</th>
+                                    <!-- <th>Registration / National ID</th> -->
+                                    <!-- <th>VAT</th> -->
                                     <th>Website</th>
-                                    <th>Reporting Email</th>
+                                    <!-- <th>Reporting Email</th> -->
                                     <th>Account Email</th>
-                                    <th>Billing / Finance Email</th>
-                                    <th>Address</th>
+                                    <!-- <th>Billing / Finance Email</th> -->
+                                    <!-- <th>Address</th> -->
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Skype</th>
-                                    <th>Linkedin</th>
-                                    <th>Revenue Share (%)</th>
-                                    <th>Payment Terms</th>
-                                    <th>Bank</th>
-                                    <th>Payoneer</th>
-                                    <th>Paypal</th>
-                                    <th>Notes / Comments</th>
-                                    <th>Start Date</th>
+                                    <!-- <th>Email</th> -->
+                                    <!-- <th>Phone</th> -->
+                                    <!-- <th>Skype</th> -->
+                                    <!-- <th>Linkedin</th> -->
+                                    <!-- <th>Revenue Share (%)</th> -->
+                                    <!-- <th>Payment Terms</th> -->
+                                    <!-- <th>Bank</th> -->
+                                    <!-- <th>Payoneer</th> -->
+                                    <!-- <th>Paypal</th> -->
+                                    <!-- <th>Notes / Comments</th> -->
+                                    <!-- <th>Start Date</th> -->
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                                 </thead>
@@ -153,8 +153,8 @@
                                         <td>
                                             <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i
                                                     class="mdi mdi-square-edit-outline"></i></a>
-{{--                                            <a href="javascript:void(0);" class="action-icon"> <i--}}
-{{--                                                    class="mdi mdi-delete"></i></a>--}}
+                                            {{--                                            <a href="javascript:void(0);" class="action-icon"> <i--}}
+                                            {{--                                                    class="mdi mdi-delete"></i></a>--}}
                                             <form class="d-inline"
                                                   action="{{route('advertiser.destroy',['advertiser'=>$advertiser->id])}}"
                                                   method="POST">
@@ -171,25 +171,25 @@
                             </table>
                         </div>
 
-{{--                        <ul class="pagination pagination-rounded justify-content-end mb-0">--}}
-{{--                            <li class="page-item">--}}
-{{--                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">--}}
-{{--                                    <span aria-hidden="true">«</span>--}}
-{{--                                    <span class="sr-only">Previous</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                            <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>--}}
-{{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>--}}
-{{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>--}}
-{{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>--}}
-{{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>--}}
-{{--                            <li class="page-item">--}}
-{{--                                <a class="page-link" href="javascript: void(0);" aria-label="Next">--}}
-{{--                                    <span aria-hidden="true">»</span>--}}
-{{--                                    <span class="sr-only">Next</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
+                        {{--                        <ul class="pagination pagination-rounded justify-content-end mb-0">--}}
+                        {{--                            <li class="page-item">--}}
+                        {{--                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">--}}
+                        {{--                                    <span aria-hidden="true">«</span>--}}
+                        {{--                                    <span class="sr-only">Previous</span>--}}
+                        {{--                                </a>--}}
+                        {{--                            </li>--}}
+                        {{--                            <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>--}}
+                        {{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>--}}
+                        {{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>--}}
+                        {{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>--}}
+                        {{--                            <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>--}}
+                        {{--                            <li class="page-item">--}}
+                        {{--                                <a class="page-link" href="javascript: void(0);" aria-label="Next">--}}
+                        {{--                                    <span aria-hidden="true">»</span>--}}
+                        {{--                                    <span class="sr-only">Next</span>--}}
+                        {{--                                </a>--}}
+                        {{--                            </li>--}}
+                        {{--                        </ul>--}}
 
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
@@ -225,7 +225,6 @@
                             <label for="category">Location</label>
                             <input type="text" class="form-control" id="category" placeholder="Enter Location">
                         </div>
-
                         <div class="text-right">
                             <button type="submit" class="btn btn-success waves-effect waves-light">Save</button>
                             <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">Continue</button>

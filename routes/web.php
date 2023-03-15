@@ -20,6 +20,7 @@ Auth::routes();
 Route::resource('admin', AdminController::class);
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
+Route::resource('teammembers', TeamMembersController::class);
 
 
 
