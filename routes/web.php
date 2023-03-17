@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchLinkController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::resource('admin', AdminController::class);
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
 Route::resource('teammembers', TeamMembersController::class);
+Route::resource('settings/search-link', SearchLinkController::class);
 
 
 
@@ -32,4 +34,3 @@ Route::group(['middleware' => 'auth', 'prefix' => '/'], function () {
 
 // landing
 Route::get('', 'RoutingController@index')->name('index');
-

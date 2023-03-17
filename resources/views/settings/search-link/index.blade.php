@@ -12,10 +12,10 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                        <li class="breadcrumb-item active">Team Members</li>
+                        <li class="breadcrumb-item active">Search Link</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Team Members</h4>
+                <h4 class="page-title">Search Link</h4>
             </div>
         </div>
     </div>
@@ -28,7 +28,9 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <button type="button" class="btn btn-danger waves-effect waves-light text-light" data-trigger="modal" data-target="add-member-modal"><i class="mdi mdi-plus-circle mr-1"></i></i>Add Member </button>
+                            <button type="button" class="btn btn-danger waves-effect waves-light text-light" data-trigger="modal" data-target="add-member-modal">
+                                <i class="mdi mdi-plus-circle mr-1"></i></i>Add Link
+                            </button>
                         </div>
                     </div>
 
@@ -37,7 +39,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Advertiser ID</th>
+                                    <th>Path</th>
                                     <th>Company / Legal Name</th>
                                     <th>Website</th>
                                     <th>Account Email</th>

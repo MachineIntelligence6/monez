@@ -5,11 +5,9 @@
 
         <!-- User box -->
         <div class="user-box text-center">
-            <img src="{{asset('assets/images/users/user-1.jpg')}}" alt="user-img" title="Mat Helme"
-                class="rounded-circle avatar-md">
+            <img src="{{asset('assets/images/users/user-1.jpg')}}" alt="user-img" title="Mat Helme" class="rounded-circle avatar-md">
             <div class="dropdown">
-                <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
-                    data-toggle="dropdown">Geneva Kennedy</a>
+                <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block" data-toggle="dropdown">Geneva Kennedy</a>
                 <div class="dropdown-menu user-pro-dropdown">
 
                     <!-- item-->
@@ -85,7 +83,7 @@
                         <span> TEAM MEMBERS </span>
                     </a>
                 </li>
-                
+
 
                 <li>
                     <a href="{{route('advertiser.index')}}">
@@ -102,38 +100,47 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'feeds'])}}"  class="isDisabled">
+                    <a href="{{route('second', ['crm', 'feeds'])}}" class="isDisabled">
                         <i data-feather="users"></i>
                         <span> FEEDS </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'channels'])}}"  class="isDisabled">
+                    <a href="{{route('second', ['crm', 'channels'])}}" class="isDisabled">
                         <i data-feather="file-text"></i>
                         <span> CHANNELS </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'reports'])}}"  class="isDisabled">
+                    <a href="{{route('second', ['crm', 'reports'])}}" class="isDisabled">
                         <i data-feather="book"></i>
                         <span> REPORTS </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'finances'])}}"  class="isDisabled">
+                    <a href="{{route('second', ['crm', 'finances'])}}" class="isDisabled">
                         <i data-feather="shopping-cart"></i>
                         <span> FINANCE </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'settings'])}}">
+                    <a href="#settingsDropdown" data-toggle="collapse">
                         <i class="fe-settings"></i>
                         <span> SETTINGS </span>
+                        <span class="float-right"><i class="dripicons-chevron-down"></i></span>
                     </a>
+                    <div class="collapse" id="settingsDropdown">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('any', 'dashboard')}}">Search Link</a>
+                            </li>
+
+                        </ul>
+                    </div>
                 </li>
 
                 <?php /*li>
@@ -362,7 +369,7 @@
                             </li>
                         </ul>
                     </div>
-                </li */?>
+                </li */ ?>
             </ul>
 
         </div>
