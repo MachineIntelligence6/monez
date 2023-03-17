@@ -12,14 +12,12 @@
                         @include('advertiser.form')
                         @include('advertiser.modals.report-columns')
                         @include('advertiser.modals.bank-details-modal')
-
+                        @include('advertiser.modals.reports-modal')
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    @include('advertiser.modals.reports-modal')
 
 @endsection
 @section('script')

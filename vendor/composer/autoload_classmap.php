@@ -8,6 +8,9 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Admin' => $baseDir . '/app/Admin.php',
     'App\\Advertiser' => $baseDir . '/app/Advertiser.php',
+    'App\\AdvertiserBankDetail' => $baseDir . '/app/AdvertiserBankDetail.php',
+    'App\\AdvertiserReportColumn' => $baseDir . '/app/AdvertiserReportColumn.php',
+    'App\\AdvertiserReportType' => $baseDir . '/app/AdvertiserReportType.php',
     'App\\Bank' => $baseDir . '/app/Bank.php',
     'App\\City' => $baseDir . '/app/City.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',

@@ -4,14 +4,9 @@
     <list default="true" id="45c209d0-63c1-43f0-98c5-981ac074e109" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TeamMembersController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/custom.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/shared/left-sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/shared/left-sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/add-members-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/add-members-modal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -181,7 +176,7 @@
       <workItem from="1678852530405" duration="12096000" />
       <workItem from="1678889962446" duration="5775000" />
       <workItem from="1678942160906" duration="8470000" />
-      <workItem from="1679029077090" duration="6658000" />
+      <workItem from="1679029077090" duration="8514000" />
     </task>
     <servers />
   </component>

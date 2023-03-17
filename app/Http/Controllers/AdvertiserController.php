@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AdvertiserBankDetail;
 use App\AdvertiserReportColumn;
+use App\AdvertiserReportType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -157,6 +158,17 @@ class AdvertiserController extends Controller
         $advertiserReportColumn->paid_clicks = $request->paidClicksColValue;
         $advertiserReportColumn->revenue = $request->revenueColValue;
         $advertiserReportColumn->save();
+
+        $advertiserReportType = new AdvertiserReportType();
+        $advertiserReportType->advertiser_id = $adv->id;
+        $advertiserReportType->report_type = $request->reportType;
+        $advertiserReportType->api_key = $request->apiKey;
+        $advertiserReportType->dashboard_path = $request->dashboardPath;
+        $advertiserReportType->email = $request->email;
+        $advertiserReportType->password = $request->password;
+        $advertiserReportType->gdriveEmail = $request->gdriveEmail;
+        $advertiserReportType->gdrivePassword = $request->gdrivePassword;
+        $advertiserReportType->save();
 
         return redirect()->back()->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
 

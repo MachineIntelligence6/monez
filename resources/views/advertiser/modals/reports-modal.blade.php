@@ -1,8 +1,8 @@
     {{-- Start of Reports Modal  --}}
     <div class="modal fade" id="report-type-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
          aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-lg ">
-            <form action="#" method="post" class="modal-content shadow shadow-5">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content shadow shadow-5">
                 <div class="modal-header">
                     <h5 class="mb-3 text-uppercase modal-title">Add Report Details</h5>
                     <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
                             <label for="email" class="form-label">Email</label><label class="text-danger">*</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <input type="email" class="form-control" id="reportEmail" name="reportEmail">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -54,8 +54,8 @@
                             <label for="password" class="form-label">Password</label><label
                                 class="text-danger">*</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password-input-field" class="form-control" name="password"
-                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                <input type="password" id="reportPassword" class="form-control" name="reportPassword"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" >
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text btn">
                                         <span class="password-eye"></span>
@@ -80,8 +80,8 @@
                             <label for="gdrivePassword" class="form-label">GDrive Password</label><label
                                 class="text-danger">*</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password-input-field" class="form-control" name="password"
-                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                <input type="password" id="gdrivePassword" class="form-control" name="gdrivePassword"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" >
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text btn">
                                         <span class="password-eye"></span>
@@ -99,6 +99,6 @@
                     <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>{{-- End of Reports Modal  --}}
