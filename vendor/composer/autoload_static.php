@@ -333,8 +333,8 @@ class ComposerStaticInit4930dbdc288f123df81a4079ee328d93
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -428,8 +428,8 @@ class ComposerStaticInit4930dbdc288f123df81a4079ee328d93
         ),
         'Fruitcake\\Cors\\' => 
         array (
-            0 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
-            1 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
+            0 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
+            1 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
         ),
         'Fideloper\\Proxy\\' => 
         array (
@@ -517,7 +517,9 @@ class ComposerStaticInit4930dbdc288f123df81a4079ee328d93
         'App\\Http\\Controllers\\CountryController' => __DIR__ . '/../..' . '/app/Http/Controllers/CountryController.php',
         'App\\Http\\Controllers\\PublisherController' => __DIR__ . '/../..' . '/app/Http/Controllers/PublisherController.php',
         'App\\Http\\Controllers\\RoutingController' => __DIR__ . '/../..' . '/app/Http/Controllers/RoutingController.php',
+        'App\\Http\\Controllers\\SettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/SettingController.php',
         'App\\Http\\Controllers\\StateController' => __DIR__ . '/../..' . '/app/Http/Controllers/StateController.php',
+        'App\\Http\\Controllers\\TeamMemberController' => __DIR__ . '/../..' . '/app/Http/Controllers/TeamMemberController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -533,6 +535,7 @@ class ComposerStaticInit4930dbdc288f123df81a4079ee328d93
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Publisher' => __DIR__ . '/../..' . '/app/Publisher.php',
         'App\\Role' => __DIR__ . '/../..' . '/app/Role.php',
+        'App\\SearchPath' => __DIR__ . '/../..' . '/app/SearchPath.php',
         'App\\State' => __DIR__ . '/../..' . '/app/State.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\UserProfile' => __DIR__ . '/../..' . '/app/UserProfile.php',

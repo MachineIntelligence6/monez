@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12 mb-3">
-                        <label for="name" class="form-label">Name</label>
+                        <label for="name" class="form-label">Name</label><label class="text-danger">*</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 mb-3">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">Email</label><label class="text-danger">*</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">

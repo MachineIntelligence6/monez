@@ -5,10 +5,15 @@
     text-decoration: none;
     pointer-events: none;
 
-  }
+}
 
-  .text-danger
-  {
+.text-danger {
     margin-left: 2px;
     font-weight: bold;
-  }
+}
+
+.modal-scroll {
+    height: 70vh !important;
+    overflow-y: auto;
+}
+
