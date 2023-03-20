@@ -28,6 +28,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-4">
                             <!-- <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="modal" data-target="#custom-modal"><i class="mdi mdi-plus-circle mr-1"></i> Add New</button> -->
+
                             <a href="{{route('second', ['advertiser', 'create'])}}" class="btn btn-danger waves-effect waves-light">
                                 <i class="mdi mdi-plus-circle mr-1"></i>
                                 Add New

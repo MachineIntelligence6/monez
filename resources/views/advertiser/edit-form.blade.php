@@ -3,9 +3,17 @@
 <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <div class="form-category">
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i> Account Info</h5>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase">
+            <i class="mdi mdi-office-building mr-2"></i> Account Info
+        </h5>
+        <button type="button" id="edit-category-btn" class="btn btn-success">
+            <span class="dripicons-document-edit mr-2"></span>
+            Edit Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
+        <div class="col-md-4" disabled="true">
             <div class="mb-3">
                 <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
                 <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
@@ -79,7 +87,7 @@
             }
         </script>
 
-        <div class="col-md-4">
+        <div class="col-md-4" disabled="true">
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
@@ -165,7 +173,7 @@
             </select>
         </div>
     </div> <!-- end row -->
-    <div class="row mb-3">
+    <div class="row mb-3" disabled="true" data-editable="true">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
             <input type="file" name="io" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" />
@@ -178,9 +186,14 @@
 </div>
 <!-- Personal Info -->
 <div class="form-category">
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)
-    </h5>
-    <div class="row">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)</h5>
+        <button type="button" id="edit-category-btn" class="btn btn-success">
+            <span class="dripicons-document-edit mr-2"></span>
+            Edit Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
@@ -212,7 +225,7 @@
             </div>
         </div>
     </div> <!-- end row -->
-    <div class="row">
+    <div class="row" disabled="true" data-editable="true">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amPhone" class="form-label">Phone</label>
@@ -255,9 +268,14 @@
 
 <div class="form-category">
     <!-- Agreement & Terms -->
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info
-    </h5>
-    <div class="row">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info</h5>
+        <button type="button" id="edit-category-btn" class="btn btn-success">
+            <span class="dripicons-document-edit mr-2"></span>
+            Edit Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
         <!-- <div class="col-md-4">
             <div class="mb-3">
                 <label for="AgreementStartDate" class="form-label">Start Date</label><label class="text-danger">*</label>
@@ -382,9 +400,14 @@
 </div>
 
 <div class="form-category">
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info
-    </h5>
-    <div class="row">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info</h5>
+        <button type="button" id="edit-category-btn" class="btn btn-success">
+            <span class="dripicons-document-edit mr-2"></span>
+            Edit Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="billEmail" class="form-label">Billing / Finance Email</label><label class="text-danger">*</label>
@@ -645,6 +668,18 @@
 <script>
     $('.dropify').dropify();
 
+
+    document.querySelectorAll(".form-category").forEach((catgry) => {
+        let editBtn = catgry.querySelector("#edit-category-btn");
+        editBtn.addEventListener("click", () => {
+            editBtn.disabled = true
+            catgry.querySelectorAll("[disabled=true]").forEach((el) => {
+                if (el.getAttribute("data-editable") === 'true') {
+                    el.setAttribute("disabled", "false")
+                }
+            })
+        })
+    })
 
     const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const specialChars = "!$%#^&|?"
