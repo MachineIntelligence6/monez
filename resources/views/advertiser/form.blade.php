@@ -328,20 +328,27 @@
         </div>  -->
     <!-- end col -->
 
-    <div class="col-md-4 mb-3">
-        <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
-        <div class="input-group input-group-merge">
-            <input type="text" class="form-control" disabled id="reportType" name="reportType"
-                   placeholder="Add report type" required value="{{ $advertiser->reportType ??  old('reportType') }}">
-            <div class="input-group-append">
-                <button type="button" data-trigger="modal" data-target="report-type-modal" class="btn btn-secondary">
-                    <span class="dripicons-document-edit"></span>
-                </button>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
+            <div class="input-group input-group-merge">
+                <select class="form-control" id="reportType" onchange="showReportCredsPopup(this.value)" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
+                    <option value="" selected>Report Type</option>
+                    <option value="api">API</option>
+                    <option value="email">EMAIL</option>
+                    <option value="gdrive">Google Drive</option>
+                    <option value="dashboard">Dashboard</option>
+                </select>
+                <div class="input-group-append">
+                    <button type="button" data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
+                        <span class="dripicons-document-edit"></span>
+                    </button>
+                </div>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">
+                    You must enter valid input
+                </div>
             </div>
-        </div>
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">
-            You must enter valid input
         </div>
     </div>
     <div class="col-md-4 mb-3">

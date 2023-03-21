@@ -65,7 +65,7 @@ class AdvertiserController extends Controller
             'amEmail' => 'required',
             'revSharePer' => 'required',
             'paymentTerms' => 'required',
-            'reportEmail' => 'required',
+//            'reportEmail' => 'required',
 //            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
 //            'document' => 'required|max:2048|mimes:pdf,pdf',
         ]);

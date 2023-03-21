@@ -5,9 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,17 +143,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "F:/sandbox/webapps/monez-main",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/sandbox/webapps/monez-main&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
@@ -176,7 +175,12 @@
       <workItem from="1678852530405" duration="12096000" />
       <workItem from="1678889962446" duration="5775000" />
       <workItem from="1678942160906" duration="8470000" />
-      <workItem from="1679029077090" duration="8514000" />
+      <workItem from="1679029077090" duration="10119000" />
+      <workItem from="1679058092852" duration="4405000" />
+      <workItem from="1679128537683" duration="62000" />
+      <workItem from="1679129309920" duration="905000" />
+      <workItem from="1679287791944" duration="599000" />
+      <workItem from="1679372140408" duration="594000" />
     </task>
     <servers />
   </component>

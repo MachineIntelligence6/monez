@@ -5,8 +5,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i> Account Info</h5>
-                    <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}"
-                          enctype="multipart/form-data" novalidate>
+                    <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}" enctype="multipart/form-data" novalidate>
                         @csrf
                         @method('POST')
                         @include('advertiser.form')
@@ -66,23 +65,71 @@
             })
         }
 
+        document.querySelectorAll(".enable-on-valid").forEach((el) => {
+            let input = document.getElementById(el.getAttribute("data-enable-target"));
+            input.addEventListener("change", (e) => {
+                el.disabled = e.target.value === "";
+            })
+        })
+        document.querySelectorAll(".display-on-valid").forEach((el) => {
+            let input = document.getElementById(el.getAttribute("data-enable-target"));
+            input.addEventListener("change", (e) => {
+                if (e.target.value !== "") el.classList.remove("d-none");
+                else el.classList.add("d-none")
+            })
+        })
+
+
+        // document.querySelectorAll(".remote-form-control").forEach((el) => {
+        //     console.log(el.dataset.targetInput);
+        //     document.getElementById(el.getAttribute("data-target-input")).addEventListener("change", (e) => {
+        //         el.value = e.target.value;
+        //         console.log(e.target.value)
+        //     })
+        // })
+
+        // document.querySelectorAll(".form-control").forEach((el) => {
+        //     el.addEventListener("change", (e) => {
+        //         document.querySelectorAll("#" + el.id).forEach((otherEl) => {
+        //             otherEl.value = e.target.value
+        //         })
+        //     })
+        // })
+
         //Report Type Popup Script
         const reportTypeModal = document.getElementById("report-type-modal");
         const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
-        reportTypeModal.querySelector("#report-type-input")
-            .addEventListener("change", (e) => {
-                for (let i = 0; i < reportCredsInputs.length; i++) {
-                    reportCredsInputs[i].classList.add("d-none");
-                    reportCredsInputs[i].querySelector("input").setAttribute("required", false);
-                }
-                if (e.target.value !== "") {
-                    reportTypeModal.getElementsByClassName(e.target.value + "-input-group")
-                        .forEach((inpGroup) => {
-                            inpGroup.classList.remove("d-none");
-                            inpGroup.querySelector("input").setAttribute("required", true);
-                        })
-                }
-            })
+
+        function showReportCredsPopup(value) {
+            for (let i = 0; i < reportCredsInputs.length; i++) {
+                reportCredsInputs[i].classList.add("d-none");
+                // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
+            }
+            if (value !== "") {
+                reportTypeModal.getElementsByClassName(value + "-input-group")
+                    .forEach((inpGroup) => {
+                        inpGroup.classList.remove("d-none");
+                        // inpGroup.querySelector("input").setAttribute("required", true);
+                    })
+                reportTypeModal.classList.add("show");
+                reportTypeModal.style.display = "block";
+            }
+        }
+
+        // reportTypeModal.querySelector("#report-type-input")
+        //     .addEventListener("change", (e) => {
+        //         for (let i = 0; i < reportCredsInputs.length; i++) {
+        //             reportCredsInputs[i].classList.add("d-none");
+        //             // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
+        //         }
+        //         if (e.target.value !== "") {
+        //             reportTypeModal.getElementsByClassName(e.target.value + "-input-group")
+        //                 .forEach((inpGroup) => {
+        //                     inpGroup.classList.remove("d-none");
+        //                     // inpGroup.querySelector("input").setAttribute("required", true);
+        //                 })
+        //         }
+        //     })
     </script>
     <!-- Plugins js-->
     <script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
