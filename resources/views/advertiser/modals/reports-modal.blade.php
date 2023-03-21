@@ -10,7 +10,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-
+                        <!-- <div class="col-12 mb-3">
+                            <label for="reportType" class="form-label">Type</label><label class="text-danger">*</label>
+                            <select class="form-control" id="report-type-input" name="reportType" required>
+                                <option value="" selected>Report Type</option>
+                                <option value="api">API</option>
+                                <option value="email">EMAIL</option>
+                                <option value="gdrive">Google Drive</option>
+                                <option value="dashboard">Dashboard</option>
+                            </select>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div> -->
                         <div class="col-12 mb-3 d-none report-creds-input api-input-group">
                             <label for="apiKey" class="form-label">API Key</label><label class="text-danger">*</label>
                             <input type="text" class="form-control" id="apiKey" name="apiKey">

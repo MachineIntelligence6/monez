@@ -1,6 +1,5 @@
 {{-- Start of Bank Details Modal  --}}
-<div class="modal fade" id="add-bank-details-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-modal="true" role="dialog">
+<div class="modal fade" id="add-bank-details-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content shadow shadow-5">
             <div class="modal-header">
@@ -13,10 +12,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-3">
-                            <label for="beneficiaryName" class="form-label">Beneficiary Name</label><label
-                                class="text-danger">*</label>
-                            <input type="text" class="form-control" id="beneficiaryName" name="beneficiaryName"
-                                   placeholder="Enter Beneficiary Name" required>
+                            <label for="beneficiaryName" class="form-label">Beneficiary Name</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="beneficiaryName" name="beneficiaryName" placeholder="Enter Beneficiary Name" required>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -27,8 +24,7 @@
                         <div class="mb-3">
                             <label for="beneficiaryAddress" class="form-label">Beneficiary Full
                                 Address</label><label class="text-danger">*</label>
-                            <input type="text" class="form-control" id="beneficiaryAddress"
-                                   name="beneficiaryAddress" placeholder="Enter Beneficiary Address" required>
+                            <input type="text" class="form-control" id="beneficiaryAddress" name="beneficiaryAddress" placeholder="Enter Beneficiary Address" required>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -37,10 +33,8 @@
                     </div>
                     <div class="col-12">
                         <div class="mb-3">
-                            <label for="bankName" class="form-label">Bank Name</label><label
-                                class="text-danger">*</label>
-                            <input type="text" class="form-control" id="bankName" name="bankName"
-                                   placeholder="Enter Bank name" required>
+                            <label for="bankName" class="form-label">Bank Name</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="bankNameInput" name="bankName" placeholder="Enter Bank name" required>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -49,10 +43,8 @@
                     </div>
                     <div class="col-12">
                         <div class="mb-3">
-                            <label for="bankAddress" class="form-label">Bank Full Address</label><label
-                                class="text-danger">*</label>
-                            <input type="text" class="form-control" id="bankAddress" name="bankAddress"
-                                   placeholder="Enter Bank Address" required>
+                            <label for="bankAddress" class="form-label">Bank Full Address</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="bankAddress" name="bankAddress" placeholder="Enter Bank Address" required>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -62,10 +54,8 @@
 
                     <div class="col-12">
                         <div class="mb-3">
-                            <label for="accountNumber" class="form-label">Account Number</label><label
-                                class="text-danger">*</label>
-                            <input type="text" class="form-control" id="accountNumber" name="accountNumber"
-                                   placeholder="Enter Bank account number" required>
+                            <label for="accountNumber" class="form-label">Account Number</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Enter Bank account number" required>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -74,10 +64,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="routingNumber" class="form-label">Routing Number</label><label
-                                class="text-danger">*</label>
-                            <input type="number" class="form-control" id="routingNumber" name="routingNumber"
-                                   placeholder="Enter Routing number" required>
+                            <label for="routingNumber" class="form-label">Routing Number</label><label class="text-danger">*</label>
+                            <input type="number" class="form-control" id="routingNumber" name="routingNumber" placeholder="Enter Routing number">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -87,8 +75,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="iban" class="form-label">IBAN</label><label class="text-danger">*</label>
-                            <input type="text" class="form-control" id="iban" name="iban" placeholder="Enter IBAN"
-                                   required>
+                            <input type="text" class="form-control" id="iban" name="iban" placeholder="Enter IBAN">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -107,8 +94,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="currency" class="form-label">Currency</label><label
-                                class="text-danger">*</label>
+                            <label for="currency" class="form-label">Currency</label><label class="text-danger">*</label>
                             <select class="form-control" id="currency" name="currency" required>
                                 <option selected>Select Currency</option>
                                 <option value="usd">USD</option>
@@ -123,9 +109,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </div>{{-- End of Bank Details Modal  --}}
+=======
+</div>{{-- End of Bank Details Modal  --}}
+>>>>>>> 7d4b65ed13f5a8fdf81fe2728e6f0e2f70e7bc2f

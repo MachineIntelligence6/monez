@@ -8,9 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Admin' => $baseDir . '/app/Admin.php',
     'App\\Advertiser' => $baseDir . '/app/Advertiser.php',
-    'App\\AdvertiserBankDetail' => $baseDir . '/app/AdvertiserBankDetail.php',
-    'App\\AdvertiserReportColumn' => $baseDir . '/app/AdvertiserReportColumn.php',
-    'App\\AdvertiserReportType' => $baseDir . '/app/AdvertiserReportType.php',
     'App\\Bank' => $baseDir . '/app/Bank.php',
     'App\\City' => $baseDir . '/app/City.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
@@ -32,7 +29,7 @@ return array(
     'App\\Http\\Controllers\\RoutingController' => $baseDir . '/app/Http/Controllers/RoutingController.php',
     'App\\Http\\Controllers\\SettingController' => $baseDir . '/app/Http/Controllers/SettingController.php',
     'App\\Http\\Controllers\\StateController' => $baseDir . '/app/Http/Controllers/StateController.php',
-    'App\\Http\\Controllers\\TeamMemberController' => $baseDir . '/app/Http/Controllers/TeamMemberController.php',
+    'App\\Http\\Controllers\\TeamMembersController' => $baseDir . '/app/Http/Controllers/TeamMembersController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',
