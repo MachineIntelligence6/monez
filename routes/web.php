@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdvertiserController;
+use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\TeamMemberController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +24,7 @@ Auth::routes();
 Route::resource('admin', AdminController::class);
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
-Route::resource('teammembers', TeamMembersController::class);
+Route::resource('team-members', TeamMemberController::class);
 
 
 

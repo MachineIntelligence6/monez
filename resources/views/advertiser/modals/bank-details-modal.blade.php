@@ -4,7 +4,7 @@
         <div class="modal-content shadow shadow-5">
             <div class="modal-header">
                 <h5 class="mb-3 text-uppercase modal-title"><i class="mdi mdi-bank mr-2"></i>Add Bank Details</h5>
-                <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close">
                     <h3 class="fe-x m-0"></h3>
                 </button>
             </div>
@@ -114,4 +114,5 @@
             </div>
         </div>
     </div>
+
 </div>{{-- End of Bank Details Modal  --}}

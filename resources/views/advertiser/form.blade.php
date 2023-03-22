@@ -414,8 +414,8 @@
                                     <option>Select Bank</option>
                                     @foreach ($banks as $key => $bank)
                     <option value="{{ $bank->id }}">{{ $bank->title }}</option>
-    
-    
+
+
                 @endforeach
                 </select> -->
             </div>

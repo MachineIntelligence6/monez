@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\AdvertiserBankDetail;
+use App\AdvertiserReportColumn;
+use App\AdvertiserReportType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -47,6 +50,7 @@ class AdvertiserController extends Controller
      */
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'dbaId' => 'required',
             'companyName'  => 'required',
@@ -54,16 +58,16 @@ class AdvertiserController extends Controller
             'accEmail'=> 'required',
             'password' => 'required',
             'address1' => 'required',
-            'city' => 'required',
+            'city_id' => 'required',
             'country_id' => 'required',
             'amFirstName' => 'required',
             'amLastName' => 'required',
             'amEmail' => 'required',
             'revSharePer' => 'required',
             'paymentTerms' => 'required',
-            'reportEmail' => 'required',
-            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
-            'document' => 'required|max:2048|mimes:pdf,pdf',
+//            'reportEmail' => 'required',
+//            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
+//            'document' => 'required|max:2048|mimes:pdf,pdf',
         ]);
 
         if($request->file('agreementDoc'))
@@ -128,9 +132,43 @@ class AdvertiserController extends Controller
         $adv->notes = $request->notes;
         $adv->agreement_start_date = $request->AgreementStartDate;
 
-
-
         $adv->save();
+
+        $bankDetails = new AdvertiserBankDetail;
+        $bankDetails->advertiser_id = $adv->id;
+        $bankDetails->beneficiary_name = $request->beneficiaryName;
+        $bankDetails->beneficiary_address = $request->beneficiaryAddress;
+        $bankDetails->bank_name = $request->bankName;
+        $bankDetails->bank_address = $request->bankAddress;
+        $bankDetails->account_number = $request->accountNumber;
+        $bankDetails->routing_number = $request->routingNumber;
+        $bankDetails->iban = $request->iban;
+        $bankDetails->swift = $request->swift;
+        $bankDetails->currency = $request->currency;
+        $bankDetails->save();
+
+        $advertiserReportColumn = new AdvertiserReportColumn;
+        $advertiserReportColumn->advertiser_id = $adv->id;
+        $advertiserReportColumn->date = $request->dateColValue;
+        $advertiserReportColumn->feed = $request->feedColValue;
+        $advertiserReportColumn->subid = $request->subidColValue;
+        $advertiserReportColumn->country = $request->countryColValue;
+        $advertiserReportColumn->total_searches = $request->totalSearchesColValue;
+        $advertiserReportColumn->monitized_searches = $request->monitizedSearchesColValue;
+        $advertiserReportColumn->paid_clicks = $request->paidClicksColValue;
+        $advertiserReportColumn->revenue = $request->revenueColValue;
+        $advertiserReportColumn->save();
+
+        $advertiserReportType = new AdvertiserReportType();
+        $advertiserReportType->advertiser_id = $adv->id;
+        $advertiserReportType->report_type = $request->reportType;
+        $advertiserReportType->api_key = $request->apiKey;
+        $advertiserReportType->dashboard_path = $request->dashboardPath;
+        $advertiserReportType->email = $request->email;
+        $advertiserReportType->password = $request->password;
+        $advertiserReportType->gdriveEmail = $request->gdriveEmail;
+        $advertiserReportType->gdrivePassword = $request->gdrivePassword;
+        $advertiserReportType->save();
 
         return redirect()->back()->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
 

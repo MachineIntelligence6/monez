@@ -5,7 +5,7 @@
             <div class="modal-content shadow shadow-5">
                 <div class="modal-header">
                     <h5 class="mb-3 text-uppercase modal-title">Add Report Columns</h5>
-                    <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close" >
+                    <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close" >
                         <h3 class="fe-x m-0"></h3>
                     </button>
                 </div>
@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
                 </div>
             </div>
