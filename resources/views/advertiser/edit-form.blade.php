@@ -1,6 +1,5 @@
 @section('css')
-<!-- Plugins css -->
-<link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <div class="form-category">
     <div class="d-flex align-items-center justify-content-between">
@@ -437,8 +436,8 @@
                                     <option>Select Bank</option>
                                     @foreach ($banks as $key => $bank)
                     <option value="{{ $bank->id }}">{{ $bank->title }}</option>
-    
-    
+
+
                 @endforeach
                 </select> -->
             </div>

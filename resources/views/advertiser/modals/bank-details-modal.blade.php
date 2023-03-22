@@ -114,8 +114,5 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
+
 </div>{{-- End of Bank Details Modal  --}}
-=======
-</div>{{-- End of Bank Details Modal  --}}
->>>>>>> 7d4b65ed13f5a8fdf81fe2728e6f0e2f70e7bc2f
