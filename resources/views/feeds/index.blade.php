@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Team Members'])
+@extends('layouts.vertical', ['title' => 'Feeds'])
 
 @section('content')
 <!-- Start Content-->
@@ -12,10 +12,10 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                        <li class="breadcrumb-item active">Team Members</li>
+                        <li class="breadcrumb-item active">Feeds</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Team Members</h4>
+                <h4 class="page-title">Feeds</h4>
             </div>
         </div>
     </div>
@@ -27,8 +27,10 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <button type="button" class="btn btn-danger waves-effect waves-light" data-trigger="modal" data-target="add-member-modal"><i class="mdi mdi-plus-circle mr-1"></i></i>Add Member
-                            </button>
+                            <a href="{{route('feeds.create')}}" class="btn btn-danger waves-effect waves-light">
+                                <i class="mdi mdi-plus-circle mr-1"></i>
+                                Add New
+                            </a>
                         </div>
                     </div>
 
@@ -36,23 +38,28 @@
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Password</th>
-                                    <th>Skype</th>
-                                    <th>Linkedin</th>
+                                    <th style="width: 100%;">URL</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>1</td>
+                                    <td>msearch</td>
+                                    <td><a class="text-blue" href="https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}">https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}</a></td>
                                     <td>
-                                        <a href="" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a class="btn bg-yellow text-white">Default Feed</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>mobitech</td>
+                                    <td><a class="text-blue" href="http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}">http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}</a></td>
+                                    <td>
+                                        <a class="btn bg-danger text-white">Delete</a>
+                                        <a class="btn bg-blue text-white">Make Default</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -65,7 +72,6 @@
     <!-- end row -->
 </div> <!-- container -->
 
-@include('teammembers.add-members-modal')
 
 @endsection
 @section('script-bottom')
@@ -73,25 +79,5 @@
     $('#products-datatable').DataTable();
 </script>
 <script>
-    const allModals = document.querySelectorAll(".modal");
-    for (let i = 0; i < allModals.length; i++) {
-        const modal = allModals[i];
-        let dismissBtns = modal.querySelectorAll('[data-dismiss="modal"]');
-        for (let j = 0; j < dismissBtns.length; j++) {
-            dismissBtns[j].addEventListener("click", () => {
-                modal.classList.remove("show");
-                modal.style.display = "none"
-            })
-        }
-    }
-
-    const modalTriggerBtns = document.querySelectorAll('[data-trigger="modal"]');
-    for (let i = 0; i < modalTriggerBtns.length; i++) {
-        modalTriggerBtns[i].addEventListener("click", () => {
-            let modal = document.getElementById(modalTriggerBtns[i].getAttribute("data-target"))
-            modal.classList.add("show");
-            modal.style.display = "block"
-        })
-    }
 </script>
 @endsection

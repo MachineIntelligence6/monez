@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="email" class="form-label">Email</label><label class="text-danger">*</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" name="email" required>
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -53,7 +53,7 @@
                         <label for="linkedin" class="form-label">Linkedin</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                            <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="Url">
+                            <input type="url" class="form-control" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" id="linkedin" name="linkedin" placeholder="Url">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
