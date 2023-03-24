@@ -160,7 +160,7 @@
             <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
-                <option value="{{$country->title}}" phone-code="+{{$country -> countryCode}}">{{$country->title}}</option>
+                <option value="{{$country->title}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
                 @endforeach
             </select>
         </div>
@@ -220,7 +220,7 @@
                     <div class="input-group-prepend" style="min-width: 80px;">
                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
                             @foreach ($countries as $key => $country)
-                            <option value="+{{$country->countryCode}}">+{{$country->countryCode}}</option>
+                            <option value="{{$country->countryCode}}">{{$country->countryCode}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -281,16 +281,18 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
-                <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" required>
-                    <option value="" disabled selected>Select Payment Term</option>
-                    <option value="SH1">Net 15 %</option>
-                    <option value="SH1">Net 30 %</option>
-                    <option value="SH1">Net 45 %</option>
-                    <option value="SH1">Net 60 %</option>
-                </select>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
+                <div class="input-group">
+                    <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" required>
+                        <option value="" selected>Select Payment Term</option>
+                        <option value="SH1">Net 15 %</option>
+                        <option value="SH1">Net 30 %</option>
+                        <option value="SH1">Net 45 %</option>
+                        <option value="SH1">Net 60 %</option>
+                    </select>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">
+                        You must enter valid input
+                    </div>
                 </div>
                 <!-- <input type="text" class="form-control" id="paymentTerms" name="paymentTerms" placeholder="Enter Payment Terms here ..."> -->
             </div>
