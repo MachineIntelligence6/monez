@@ -699,7 +699,7 @@
 
 
     function setCountryCodeToPhone(countryCode) {
-        $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
+        // $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
     }
 
     const allModals = document.querySelectorAll(".modal");
