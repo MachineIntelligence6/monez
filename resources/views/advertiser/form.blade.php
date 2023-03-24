@@ -10,7 +10,7 @@
                 <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
                 <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                 <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
+                <div class="invalid-feedback" id="dba-invalid">
                     You must enter valid input
                 </div>
             </div>
@@ -157,7 +157,7 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label>
-            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
+            <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->title}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
@@ -373,6 +373,7 @@
             <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
             <select class="form-control" data-toggle="select2" id="successManager" name="successManager" required>
                 <option value="" selected>Select Success Manager</option>
+                <option value="1" >Success Manager</option>
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
@@ -771,7 +772,8 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.status == 'error') {
-                            console.log(response.message);
+                            $('#dba-invalid').text('Email already exists.');
+                            alert('Advertisers Id Already Exist.');
                         }else {
                             console.log(response);
                         }

@@ -38,26 +38,13 @@
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>Advertiser ID</th>
-                                    <th>Company / Legal Name</th>
-                                    <th>Website</th>
-                                    <th>Account Email</th>
                                     <th>Name</th>
+                                    <th>Advertiser ID</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                            <label class="custom-control-label" for="customCheck2">&nbsp;</label>
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td>

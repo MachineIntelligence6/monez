@@ -42,24 +42,6 @@
                             You must enter valid input
                         </div>
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="skype" class="form-label">Skype</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fab fa-skype"></i></span>
-                            <input type="text" class="form-control" id="skype" name="skype" placeholder="@username">
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="linkedin" class="form-label">Linkedin</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                            <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="Url">
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>

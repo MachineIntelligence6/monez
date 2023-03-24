@@ -51,7 +51,6 @@ class AdvertiserController extends Controller
      */
     public function store(Request $request)
     {
-    dd($request);
         $validatedData = $request->validate([
             'dbaId' => 'required',
             'companyName'  => 'required',
