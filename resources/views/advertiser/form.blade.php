@@ -168,11 +168,11 @@
     <div class="row mb-3">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
-            <input type="file" name="io" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" />
+            <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
         </div>
         <div class="col-md-6 h-100 mb-3">
             <label for="documents" class="form-label">Documents</label>
-            <input type="file" name="documents" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" />
+            <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
         </div>
     </div>
 </div>
@@ -355,7 +355,7 @@
         <div class="col-md-4 mb-3">
             <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
             <div class="input-group input-group-merge">
-                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" required value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
+                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns"  value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
@@ -754,6 +754,34 @@
     //                 })
     //         }
     //     })
+
+    $(document).ready(function() {
+        $('#dbaId').on('change', function() {
+            var inputVal = $(this).val();
+            if (inputVal.length > 0) {
+                $.ajax({
+                    url: '{{ route('check.unique.value') }}',
+                    type: 'POST',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        input_field: inputVal
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status == 'error') {
+                            console.log(response.message);
+                        }else {
+                            console.log(response);
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    });
+
 </script>
 
 @endsection

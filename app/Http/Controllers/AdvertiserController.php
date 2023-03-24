@@ -13,6 +13,7 @@ use App\Country;
 use App\State;
 use App\City;
 use App\Bank;
+use Illuminate\Support\Facades\Validator;
 
 class AdvertiserController extends Controller
 {
@@ -50,7 +51,7 @@ class AdvertiserController extends Controller
      */
     public function store(Request $request)
     {
-
+    dd($request);
         $validatedData = $request->validate([
             'dbaId' => 'required',
             'companyName'  => 'required',
@@ -70,25 +71,30 @@ class AdvertiserController extends Controller
 //            'document' => 'required|max:2048|mimes:pdf,pdf',
         ]);
 
-        if($request->file('agreementDoc'))
+        if($request->hasFile('ios'))
         {
-            $file= $request->file('agreementDoc');
-
-            $agreementDoc = $file->getClientOriginalName();
-            //$agreementDoc = time().($agreementDoc);
-            $dbaId = $request->dbaId;
-            $agreementDoc = $dbaId."-".time().$file->getClientOriginalName();
-            $file-> move(public_path('assets/files/uploads/agreement_doc/'.$dbaId.''), $agreementDoc);
+            $Ios = [];
+            foreach ($request->file('ios') as $io) {
+                $ioName = $io->getClientOriginalName();
+                $dbaId = $request->dbaId;
+                $agreementDoc = $dbaId."-".time().$ioName;
+                $io->move(public_path('assets/files/uploads/ios/'.$dbaId.''), $agreementDoc);
+                $Ios[]= $agreementDoc;
+            }
         }
         else
         {
             $agreementDoc = "Not Delivered";
         }
 
-        if($request->file('document'))
+        if($request->hasFile('documents'))
         {
+            $Documents = [];
+            foreach ($request->file('documents') as $document) {
+
+            }
             $file= $request->file('document');
-            $document= $file->getClientOriginalName();
+            $documentName= $file->getClientOriginalName();
             //$document = time().($document);
             $dbaId = $request->dbaId;
             $document = $dbaId."-".time().$file->getClientOriginalName();
@@ -260,5 +266,18 @@ class AdvertiserController extends Controller
         $advertiser->delete();
 
         return redirect()->route('advertiser.index');
+    }
+
+    public function checkUniqueDbId(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'input_field' => 'unique:advertisers,dbaid',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The value is not unique.']);
+        }
+
+        return response()->json(['status' => 'success']);
     }
 }
