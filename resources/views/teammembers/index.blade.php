@@ -39,19 +39,29 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Advertiser ID</th>
-                                    <th style="width: 85px;">Action</th>
+                                    <th>Email</th>
+                                    <th style="width: 85px;">Edit</th>
+                                    <th style="width: 85px;">Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($teamMembers as $teamMember)
-                                <tr>
-                                    <td>{{ $teamMember->name }}</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>{{ $teamMember->name }}</td>
+                                        <td>{{ $teamMember->email }}</td>
+
+                                        <td>
+                                            <a class="action-icon" data-trigger="modal" data-target="edit-member-modal">
+                                                <i class="mdi mdi-square-edit-outline"></i></a>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 @endforeach
                                 </tbody>
                             </table>
@@ -62,7 +72,7 @@
         </div>
         <!-- end row -->
     </div> <!-- container -->
-
+    @include('teammembers.edit')
     @include('teammembers.add-members-modal')
 
 @endsection

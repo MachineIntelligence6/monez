@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\TeamMember;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeamMemberController extends Controller
 {
@@ -14,7 +15,9 @@ class TeamMemberController extends Controller
      */
     public function index()
     {
-        $teamMembers = TeamMember::all();
+
+        $teamMembers = DB::table('team_members')
+            ->leftJoin('advertisers', 'team_members.id', '=', 'advertisers.team_member_id')->get();
         return view('teammembers.index',compact('teamMembers'));
     }
 
@@ -40,6 +43,8 @@ class TeamMemberController extends Controller
             'name'  => 'required',
             'email' => 'required',
             'password'=> 'required',
+            'skype'=> 'required',
+            'linkedin'=> 'required',
         ]);
         $teamMember = new TeamMember();
         $teamMember->create($validatedData);
@@ -54,7 +59,8 @@ class TeamMemberController extends Controller
      */
     public function show($id)
     {
-        //
+        $member = TeamMember::query()->where('id',$id)->first();
+        return view('teammembers.edit',compact('member'));
     }
 
     /**
@@ -77,7 +83,14 @@ class TeamMemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $members = TeamMember::query()->where('id',$id)->first();
+        $members->name = $request->name;
+        $members->email = $request->email;
+        $members->skype = $request->skype;
+        $members->linkedin = $request->linkedin;
+        $members->save();
+        return redirect()->route('team-members.index');
+
     }
 
     /**
@@ -88,6 +101,10 @@ class TeamMemberController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $member = TeamMember::findOrFail($id);
+        $member->delete();
+        return redirect()->route('team-members.index');
+
+
     }
 }

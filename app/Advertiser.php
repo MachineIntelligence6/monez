@@ -11,6 +11,10 @@ class Advertiser extends Model
     // use HasFactory;
     protected $guarded = [];
 
+    public function advertisers()
+    {
+        return $this->hasMany(TeamMember::class );
+    }
 
 
 }
