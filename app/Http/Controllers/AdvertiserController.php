@@ -13,6 +13,7 @@ use App\Country;
 use App\State;
 use App\City;
 use App\Bank;
+use Illuminate\Support\Facades\Validator;
 
 class AdvertiserController extends Controller
 {
@@ -23,7 +24,7 @@ class AdvertiserController extends Controller
      */
     public function index()
     {
-        $advertisers = Advertiser::paginate(10);
+        $advertisers = Advertiser::all();
         return view('advertiser.index', compact('advertisers'));
     }
 
@@ -50,7 +51,6 @@ class AdvertiserController extends Controller
      */
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'dbaId' => 'required',
             'companyName'  => 'required',
@@ -69,30 +69,31 @@ class AdvertiserController extends Controller
 //            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
 //            'document' => 'required|max:2048|mimes:pdf,pdf',
         ]);
-
-        if($request->file('agreementDoc'))
+        $Ios = [];
+        if($request->hasFile('ios'))
         {
-            $file= $request->file('agreementDoc');
-
-            $agreementDoc = $file->getClientOriginalName();
-            //$agreementDoc = time().($agreementDoc);
-            $dbaId = $request->dbaId;
-            $agreementDoc = $dbaId."-".time().$file->getClientOriginalName();
-            $file-> move(public_path('assets/files/uploads/agreement_doc/'.$dbaId.''), $agreementDoc);
+            foreach ($request->file('ios') as $io) {
+                $ioName = $io->getClientOriginalName();
+                $dbaId = $request->dbaId;
+                $agreementDoc = $dbaId."-".time().$ioName;
+                $io->move(public_path('assets/files/uploads/ios/'.$dbaId.''), $agreementDoc);
+                $Ios[]= $agreementDoc;
+            }
         }
         else
         {
             $agreementDoc = "Not Delivered";
         }
-
-        if($request->file('document'))
+        $Documents = [];
+        if($request->hasFile('documents'))
         {
-            $file= $request->file('document');
-            $document= $file->getClientOriginalName();
-            //$document = time().($document);
-            $dbaId = $request->dbaId;
-            $document = $dbaId."-".time().$file->getClientOriginalName();
-            $file-> move(public_path('assets/files/uploads/document/'.$dbaId.''), $document);
+            foreach ($request->file('documents') as $document) {
+                $documentName = $document->getClientOriginalName();
+                $dbaId = $request->dbaId;
+                $documentFile = $dbaId."-".time().$documentName;
+                $document->move(public_path('assets/files/uploads/document/'.$dbaId.''), $documentFile);
+                $Documents[] = $documentFile;
+            }
         }
         else
         {
@@ -122,13 +123,13 @@ class AdvertiserController extends Controller
         $adv->amPhone = $request->amPhone;
         $adv->amSkype = $request->amSkype;
         $adv->amLinkedIn = $request->amLinkedIn;
-        $adv->agreementDoc = $agreementDoc;
+        $adv->agreementDoc = implode(",",$Ios);
         $adv->revSharePer = $request->revSharePer;
         $adv->paymentTerms = $request->paymentTerms;
         $adv->bank_id = $request->bank;
         $adv->payoneer = $request->payoneer;
         $adv->paypal = $request->paypal;
-        $adv->document = $document;
+        $adv->document =implode(',',$Documents);
         $adv->notes = $request->notes;
         $adv->agreement_start_date = $request->AgreementStartDate;
 
@@ -260,5 +261,18 @@ class AdvertiserController extends Controller
         $advertiser->delete();
 
         return redirect()->route('advertiser.index');
+    }
+
+    public function checkUniqueDbId(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'input_field' => 'unique:advertisers,dbaid',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The value is not unique.']);
+        }
+
+        return response()->json(['status' => 'success']);
     }
 }

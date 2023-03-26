@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45c209d0-63c1-43f0-98c5-981ac074e109" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/bank-details-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/bank-details-modal.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/feeds/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/feeds/form.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/feeds/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monez.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/crm/feeds.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +139,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="2MofM7Y1mB2aEIQ9Rqs2x3PfRoN" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -180,6 +184,10 @@
       <workItem from="1679129309920" duration="905000" />
       <workItem from="1679287791944" duration="599000" />
       <workItem from="1679372140408" duration="3425000" />
+      <workItem from="1679553716028" duration="47000" />
+      <workItem from="1679582065103" duration="14450000" />
+      <workItem from="1679754540964" duration="6847000" />
+      <workItem from="1679817556716" duration="649000" />
     </task>
     <servers />
   </component>

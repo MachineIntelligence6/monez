@@ -12,4 +12,5 @@ class Advertiser extends Model
     protected $guarded = [];
 
 
+
 }

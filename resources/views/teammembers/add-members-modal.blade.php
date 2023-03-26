@@ -1,7 +1,9 @@
 <div class="modal fade" id="add-member-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-modal="true" role="dialog">
     <div class="modal-dialog">
-        <form action="#" method="post" class="modal-content shadow shadow-5">
+        <form action="{{route('team-members.store')}}" method="POST" class="modal-content shadow shadow-5">
+            @csrf
+            @method('POST')
             <div class="modal-header">
                 <h5 class="mb-3 text-uppercase modal-title">Add Team Member</h5>
                 <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close">
@@ -20,7 +22,7 @@
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="email" class="form-label">Email</label><label class="text-danger">*</label>
-                        <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="email" name="email" required>
+                        <input type="email" class="form-control" id="email" name="email" required>
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -40,24 +42,6 @@
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="skype" class="form-label">Skype</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fab fa-skype"></i></span>
-                            <input type="text" class="form-control" id="skype" name="skype" placeholder="@username">
-                        </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="linkedin" class="form-label">Linkedin</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                            <input type="url" class="form-control" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" id="linkedin" name="linkedin" placeholder="Url">
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
                         </div>
                     </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TeamMember;
 use Illuminate\Http\Request;
 
 class TeamMemberController extends Controller
@@ -13,7 +14,8 @@ class TeamMemberController extends Controller
      */
     public function index()
     {
-        return view('teammembers.index');
+        $teamMembers = TeamMember::all();
+        return view('teammembers.index',compact('teamMembers'));
     }
 
     /**
@@ -35,13 +37,13 @@ class TeamMemberController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'dbaId' => 'required',
-            'companyName'  => 'required',
-            'url' => 'required',
-            'accEmail'=> 'required',
-            'password' => 'required',
-            'address1' => 'required',
+            'name'  => 'required',
+            'email' => 'required',
+            'password'=> 'required',
         ]);
+        $teamMember = new TeamMember();
+        $teamMember->create($validatedData);
+        return redirect()->route('team-members.index');
     }
 
     /**
@@ -61,9 +63,9 @@ class TeamMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TeamMember $teamMember)
     {
-        //
+
     }
 
     /**

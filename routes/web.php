@@ -23,6 +23,7 @@ Auth::routes();
 
 
 Route::resource('admin', AdminController::class);
+Route::post('/check-unique-value', [AdvertiserController::class, 'checkUniqueDbId'])->name('check.unique.value');
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
 Route::resource('team-members', TeamMemberController::class);
