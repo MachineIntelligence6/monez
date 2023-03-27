@@ -39,3 +39,13 @@
 <script src="{{ asset('assets/libs/dropzone/min/dropzone.min.js') }}"></script>
 <script src="{{ asset('assets/libs/dropify/js/dropify.min.js') }}"></script>
 
+
+<!-- Forms Validation Trigger Script  -->
+<script>
+    $(function() {
+        $('.needs-validation').find('input,select,textarea').on('focusout', function() {
+            $(this).removeClass('is-valid is-invalid')
+                .addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
+        });
+    });
+</script>

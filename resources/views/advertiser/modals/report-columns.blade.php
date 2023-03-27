@@ -5,7 +5,7 @@
             <div class="modal-content shadow shadow-5">
                 <div class="modal-header">
                     <h5 class="mb-3 text-uppercase modal-title">Add Report Columns</h5>
-                    <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close" >
+                    <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close" >
                         <h3 class="fe-x m-0"></h3>
                     </button>
                 </div>

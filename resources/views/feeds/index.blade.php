@@ -39,7 +39,8 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
+                                    <th>Feed Id</th>
+                                    <th>Advertiser Id</th>
                                     <th style="width: 100%;">URL</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>

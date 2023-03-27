@@ -28,7 +28,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="regId" class="form-label">Registration / National ID</label>
-                <input type="number" class="form-control" id="regId" name="regId" placeholder="Enter Registration / National ID" value="{{ $advertiser->regId ??  old('regId') }}">
+                <input type="text" class="form-control" id="regId" name="regId" placeholder="Enter Registration / National ID" value="{{ $advertiser->regId ??  old('regId') }}">
             </div>
         </div>
         <div class="col-md-4">
@@ -51,7 +51,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -148,7 +148,7 @@
             <div class="mb-3">
                 <label for="address1" class="form-label">Zip Code</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="number" class="form-control" id="zipCode" name="zipCode" placeholder="Enter zip / code" value="{{ $advertiser->zipCode ??  old('zipCode') }}">
+                <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Enter zip / code" value="{{ $advertiser->zipCode ??  old('zipCode') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -204,7 +204,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amEmail" class="form-label"> Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->amEmail ??  old('amEmail') }}">
+                <input type="email" class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->amEmail ??  old('amEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -300,7 +300,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
+                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -357,7 +357,7 @@
         <div class="col-md-4 mb-3">
             <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
             <div class="input-group input-group-merge">
-                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns"  value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
+                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
@@ -373,7 +373,7 @@
             <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
             <select class="form-control" data-toggle="select2" id="successManager" name="successManager" required>
                 <option value="" selected>Select Success Manager</option>
-                <option value="1" >Success Manager</option>
+                <option value="1">Success Manager</option>
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
@@ -391,7 +391,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="billEmail" class="form-label">Billing / Finance Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->billEmail ??  old('billEmail') }}">
+                <input type="email" class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->billEmail ??  old('billEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -427,7 +427,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="paypal" class="form-label">Paypal</label>
-                <input type="text" class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ $advertiser->paypal ??  old('paypal') }}">
+                <input type="text" class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->paypal ??  old('paypal') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -439,7 +439,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="payoneer" class="form-label">Payoneer</label>
-                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
+                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -645,6 +645,7 @@
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
 <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+<script src="{{asset('assets/js/modal-init.js')}}"></script>
 <script>
     $('.dropify').dropify();
 
@@ -669,27 +670,6 @@
 
     function setCountryCodeToPhone(countryCode) {
         $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
-    }
-
-    const allModals = document.querySelectorAll(".modal");
-    for (let i = 0; i < allModals.length; i++) {
-        const modal = allModals[i];
-        let dismissBtns = modal.querySelectorAll('[data-dismiss="modal"]');
-        for (let j = 0; j < dismissBtns.length; j++) {
-            dismissBtns[j].addEventListener("click", () => {
-                modal.classList.remove("show");
-                modal.style.display = "none"
-            })
-        }
-    }
-
-    const modalTriggerBtns = document.querySelectorAll('[data-trigger="modal"]');
-    for (let i = 0; i < modalTriggerBtns.length; i++) {
-        modalTriggerBtns[i].addEventListener("click", () => {
-            let modal = document.getElementById(modalTriggerBtns[i].getAttribute("data-target"))
-            modal.classList.add("show");
-            modal.style.display = "block"
-        })
     }
 
     document.querySelectorAll(".enable-on-valid").forEach((el) => {
@@ -763,7 +743,7 @@
             var inputVal = $(this).val();
             if (inputVal.length > 0) {
                 $.ajax({
-                    url: '{{ route('check.unique.value') }}',
+                    url: '{{ route("check.unique.value") }}',
                     type: 'POST',
                     data: {
                         "_token": "{{ csrf_token() }}",
@@ -774,7 +754,7 @@
                         if (response.status == 'error') {
                             $('#dba-invalid').text('Email already exists.');
                             alert('Advertisers Id Already Exist.');
-                        }else {
+                        } else {
                             console.log(response);
                         }
                     },
@@ -785,7 +765,6 @@
             }
         });
     });
-
 </script>
 
 @endsection
