@@ -164,13 +164,17 @@
             </div>
         </div> <!-- end col -->
         <div class="col-md-4">
-            <label for="country" class="form-label">Country</label>
-            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
+            <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
+            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->title}}" phone-code="+{{$country -> countryCode}}">{{$country->title}}</option>
                 @endforeach
             </select>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                You must enter valid input
+            </div>
         </div>
     </div> <!-- end row -->
     <div class="row mb-3" disabled="true" data-editable="true">

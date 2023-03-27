@@ -156,13 +156,17 @@
             </div>
         </div> <!-- end col -->
         <div class="col-md-4">
-            <label for="country" class="form-label">Country</label>
-            <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
+            <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
+            <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->title}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
                 @endforeach
             </select>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                You must enter valid input
+            </div>
         </div>
     </div> <!-- end row -->
     <div class="row mb-3">
@@ -629,7 +633,7 @@
 {{-- <!-- end of file uploading -->--}}
 
 
-<div class="row">
+<div class="row px-2">
     <button class="btn btn-primary" type="submit">Submit</button>
     <a href="{{ route('advertiser.index') }}" class="btn btn-secondary ml-1" type="button">Cancel</a>
 </div>

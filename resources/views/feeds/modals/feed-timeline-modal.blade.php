@@ -21,12 +21,19 @@
                                 <th>Total Searches</th>
                                 <th>Priority Score</th>
                                 <th>Notes</th>
-                                <th style="width: 85px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                
+                                <td>1</td>
+                                <td>March 27, 2023</td>
+                                <td>msearch</td>
+                                <td>live</td>
+                                <!-- Please use <br> for multiple channels and their total searches -->
+                                <td>Chanel 1 <br> Channel 2</td>
+                                <td>100 <br> 200</td>
+                                <td>10</td>
+                                <td>Some Notes</td>
                             </tr>
                         </tbody>
                     </table>

@@ -1,7 +1,6 @@
-<div class="modal fade" id="add-member-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-modal="true" role="dialog">
+<div class="modal fade" id="add-member-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog">
-        <form action="{{route('team-members.store')}}" method="POST" class="modal-content shadow shadow-5">
+        <form action="{{route('team-members.store')}}" method="POST" class="needs-validation modal-content shadow shadow-5" novalidate>
             @csrf
             @method('POST')
             <div class="modal-header">
@@ -31,8 +30,7 @@
                     <div class="col-12 mb-3">
                         <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                         <div class="input-group input-group-merge">
-                            <input type="password" id="password-input-field" class="form-control" name="password"
-                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                            <input type="password" id="password-input-field" class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                             <div class="input-group-append" data-password="false">
                                 <div class="input-group-text btn">
                                     <span class="password-eye"></span>
@@ -58,7 +56,7 @@
                         <label for="linkedin" class="form-label">Linkedin</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                            <input type="url" class="form-control"  id="linkedin" name="linkedin" placeholder="Url">
+                            <input type="url" class="form-control" id="linkedin" name="linkedin" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" placeholder="Url">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -79,6 +77,7 @@
 <script>
     const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const specialChars = "!$%#^&|?"
+
     function generateNewPassword() {
         var passwordLength = Math.floor(Math.random() * 12);
         if (passwordLength < 8) passwordLength += 8;
