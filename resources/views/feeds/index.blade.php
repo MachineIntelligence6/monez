@@ -40,7 +40,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Feed Id</th>
-                                    <th>Advertiser Id</th>
+                                    <th>Advertiser</th>
                                     <th style="width: 100%;">URL</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
@@ -49,7 +49,7 @@
                                 <tr>
                                     <td>1</td>
                                     <td>msearch</td>
-                                    <td>123</td>
+                                    <td>Advertiser 1</td>
                                     <td><a class="text-blue" href="https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}">https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}</a></td>
                                     <td>
                                         <a class="btn bg-yellow text-white">Default Feed</a>
@@ -58,7 +58,7 @@
                                 <tr>
                                     <td>2</td>
                                     <td>mobitech</td>
-                                    <td>123</td>
+                                    <td>Advertiser 2</td>
                                     <td><a class="text-blue" href="http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}">http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}</a></td>
                                     <td>
                                         <a class="btn bg-danger text-white">Disable</a>

@@ -5,14 +5,15 @@
 <div>
     <h5 class="mb-3 text-uppercase">Feed Info</h5>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
             <label for="advertiser" class="form-label">Advertiser</label><label class="text-danger">*</label>
             <select class="form-control" name="advertiser" id="country-dropdown" data-toggle="select2" required>
                 <option value="" selected>Select Advertiser</option>
+                <option value="advertiser1">Advertiser 1</option>
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
-                You must enter valid input
+                Select an Advertiser to continue.
             </div>
         </div>
         <div class="col-md-4">
@@ -27,18 +28,18 @@
         </div>
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="feedUrl" class="form-label">Feed Path</label><label class="text-danger">*</label>
-                <input type="url" class="form-control" id="feedUrl" name="feedUrl" placeholder="Enter Feed Path" required>
+                <label for="feedPath" class="form-label">Feed Path</label><label class="text-danger">*</label>
+                <input type="url" class="form-control" id="feedPath" onblur="generateFeedUrl()" name="feedPath" placeholder="Enter Feed Path" required pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
-                    You must enter valid input
+                    You must enter valid path
                 </div>
             </div>
         </div> <!-- end col -->
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="keywordParameter" class="form-label">Keyword Parameter</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="keywordParameter" name="keywordParameter" placeholder="Enter Keyword Parameter" required>
+                <input type="text" class="form-control" id="keywordParameter" onblur="generateFeedUrl()" name="keywordParameter" placeholder="Enter Keyword Parameter" required>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -81,7 +82,7 @@
                 <div class="input-group input-group-merge">
                     <input type="text" style="pointer-events: none;" class="form-control" id="integrationGuide" name="integrationGuide" placeholder="Integration Guide">
                     <div class="input-group-append">
-                        <button type="button" data-trigger="modal" data-target="add-integration-guide-modal" class="btn btn-secondary">
+                        <button type="button" onclick="generateFeedUrl()" data-trigger="modal" data-target="add-integration-guide-modal" class="btn btn-secondary">
                             <span class="mdi mdi-plus"></span>
                         </button>
                     </div>
@@ -104,7 +105,7 @@
     <div class="row">
         <div class="col-md-8 mb-3">
             <label for="comments" class="form-label">Comments/Notes</label>
-            <textarea class="form-control" rows="4" id="comments" name="comments" placeholder="Type..."></textarea>
+            <textarea class="form-control" rows="4" id="comments" name="comments" placeholder="Notes..."></textarea>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
@@ -141,11 +142,26 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <script>
+    function generateFeedUrl() {
+        let basePath = $("#feedPath").val();
+        if (basePath === "") return;
+        let searchKeyword = $("#keywordParameter").val()
+        let searchParam = searchKeyword !== "" ? searchKeyword + "={Query}" : "";
+        let staticParams = $(".staticParameter").toArray().map((param) => {
+            let name = $(param).find("input#paramName").val()
+            let value = $(param).find("input#paramValue").val()
+            return name !== "" && value !== "" ? name + "=" + value : ""
+        });
+        let dynamicParams = $(".dynamicParameter").toArray().map((param) => {
+            let name = $(param).find("input#paramName").val()
+            return name !== "" ? (name + "=" + `{${name}}`) : ""
+        });
+        var allParams = [...staticParams, ...dynamicParams, searchParam]
+            .filter(p => p !== "").join("&");
+        let url = `${basePath}?${allParams}`;
+        $("#guideUrl").val(url);
+    }
 
-    // const feedUrlParametersContainer = document.getElementById("feedUrlParametersContainer");
-    // const dynamicParametersContainer = document.getElementById("dynamicParametersContainer");
-    // const feedUrlParameterSample = feedUrlParametersContainer.querySelector("#feedUrlParameterSample");
-    // const dynamicParameterSample = dynamicParametersContainer.querySelector("#dynamicParameterSample");
 
     function appendElementToContainer(containerId, sampleId) {
         let container = document.getElementById(containerId);

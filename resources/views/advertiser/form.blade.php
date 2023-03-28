@@ -61,9 +61,10 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" value="{{ old('vat') }}">
-                <div class="invalid-feedback" id="invalidfeedback">
-
+                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ old('vat') }}">
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">
+                    Email and confirm email should be same.
                 </div>
             </div>
         </div>
@@ -72,10 +73,8 @@
             function confirmEmail() {
                 var email = document.getElementById("accEmail").value
                 var confemail = document.getElementById("confemail").value
-                if (email != confemail) {
-                    alert('Email Not Matching!');
-                    //document.getElementById('invalidfeedback').innerHTML = "Your email not match";
-                }
+                $(confemail).removeClass('is-valid is-invalid')
+                    .addClass(confemail.checkValidity() ? 'is-valid' : 'is-invalid');
             }
         </script>
 
@@ -83,21 +82,20 @@
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                    <input type="password" id="password-input-field" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                    <input type="password" id="password-input-field" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" required>
                     <div class="input-group-append" data-password="false">
                         <div class="input-group-text btn">
                             <span class="password-eye"></span>
                         </div>
                     </div>
                     <div class="pl-2">
-                        <div class="btn btn-secondary" onclick="generateNewPassword()">Regenerate</div>
+                        <div class="btn btn-secondary" onclick="generateRandomPassword(this)">Regenerate</div>
                     </div>
-                </div>
-
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    Your password must contain least 8 characters, at least one number and one uppercase and lowercase
-                    letter.
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">
+                        Your password must contain least 8 characters, at least one number and one uppercase and lowercase
+                        letter.
+                    </div>
                 </div>
 
 
@@ -221,10 +219,10 @@
             <div class="mb-3">
                 <label for="amPhone" class="form-label">Phone</label>
                 <div class="input-group input-group-merge">
-                    <div class="input-group-prepend" style="min-width: 80px;">
+                    <div class="input-group-prepend" style="min-width: 150px;">
                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
                             @foreach ($countries as $key => $country)
-                            <option value="{{$country->countryCode}}">{{$country->countryCode}}</option>
+                            <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option>
                             @endforeach
                         </select>
                     </div>
@@ -288,10 +286,10 @@
                 <div class="input-group">
                     <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" required>
                         <option value="" selected>Select Payment Term</option>
-                        <option value="SH1">Net 15 %</option>
-                        <option value="SH1">Net 30 %</option>
-                        <option value="SH1">Net 45 %</option>
-                        <option value="SH1">Net 60 %</option>
+                        <option value="SH1">Net 15</option>
+                        <option value="SH1">Net 30</option>
+                        <option value="SH1">Net 45</option>
+                        <option value="SH1">Net 60</option>
                     </select>
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">
@@ -652,24 +650,9 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 <script>
     $('.dropify').dropify();
-
-
-    const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const specialChars = "!$%#^&|?"
-
-    function generateNewPassword() {
-        var passwordLength = Math.floor(Math.random() * 12);
-        if (passwordLength < 8) passwordLength += 8;
-        passwordLength = Math.min(12, passwordLength);
-        var password = "";
-        for (var i = 0, n = passwordCharset.length; i < passwordLength; ++i) {
-            password += passwordCharset.charAt(Math.floor(Math.random() * n));
-        }
-        password += specialChars[Math.floor(Math.random() * specialChars.length)]
-        document.getElementById("password-input-field").value = password;
-    }
-
-    generateNewPassword();
+    window.addEventListener("DOMContentLoaded", () => {
+        generateRandomPassword(null)
+    })
 
 
     function setCountryCodeToPhone(countryCode) {
@@ -689,23 +672,6 @@
             else el.classList.add("d-none")
         })
     })
-
-
-    // document.querySelectorAll(".remote-form-control").forEach((el) => {
-    //     console.log(el.dataset.targetInput);
-    //     document.getElementById(el.getAttribute("data-target-input")).addEventListener("change", (e) => {
-    //         el.value = e.target.value;
-    //         console.log(e.target.value)
-    //     })
-    // })
-
-    // document.querySelectorAll(".form-control").forEach((el) => {
-    //     el.addEventListener("change", (e) => {
-    //         document.querySelectorAll("#" + el.id).forEach((otherEl) => {
-    //             otherEl.value = e.target.value
-    //         })
-    //     })
-    // })
 
     //Report Type Popup Script
     const reportTypeModal = document.getElementById("report-type-modal");
@@ -727,20 +693,6 @@
         }
     }
 
-    // reportTypeModal.querySelector("#report-type-input")
-    //     .addEventListener("change", (e) => {
-    //         for (let i = 0; i < reportCredsInputs.length; i++) {
-    //             reportCredsInputs[i].classList.add("d-none");
-    //             // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
-    //         }
-    //         if (e.target.value !== "") {
-    //             reportTypeModal.getElementsByClassName(e.target.value + "-input-group")
-    //                 .forEach((inpGroup) => {
-    //                     inpGroup.classList.remove("d-none");
-    //                     // inpGroup.querySelector("input").setAttribute("required", true);
-    //                 })
-    //         }
-    //     })
 
     $(document).ready(function() {
         $('#dbaId').on('change', function() {

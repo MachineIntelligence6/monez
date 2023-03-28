@@ -2,22 +2,22 @@
 <div class="modal fade" id="add-integration-guide-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content shadow shadow-5">
-            <div class="modal-header">
-                <h5 class="mb-3 text-uppercase modal-title">Add Integration Guide</h5>
+            <div class="modal-header border-bottom">
+                <h5 class="text-uppercase modal-title">Add Integration Guide</h5>
                 <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
                     <h3 class="fe-x m-0"></h3>
                 </button>
             </div>
             <div class="modal-body modal-scroll">
                 <div class="row">
-                    <!-- <div class="col-12 mb-3">
+                    <div class="col-12 mb-3">
                         <label for="guideUrl" class="form-label">Guide Url</label>
                         <input type="text" class="form-control" id="guideUrl" name="guideUrl" placeholder="Guide Url">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
                         </div>
-                    </div> -->
+                    </div>
                     <div class="col-12 mb-3">
                         <label for="guideUrl" class="form-label">Sub Ids</label>
                         <input type="text" class="form-control" id="guideUrl" name="guideUrl" placeholder="Sub Ids">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer border-top">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
             </div>

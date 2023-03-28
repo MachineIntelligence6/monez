@@ -56,10 +56,10 @@
                                     </th> -->
                                     <th>Advertiser ID</th>
                                     <th>Company / Legal Name</th>
-
                                     <th>Website</th>
                                     <th>Account Email</th>
-                                    <th>Name</th>
+                                    <th>Account Manager</th>
+                                    <th>Success Manager</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                             </thead>
@@ -80,6 +80,9 @@
                                     </td>
                                     <td>
                                         {{ $advertiser->amFirstName ?? '' }} {{ $advertiser->amLastName ?? '' }}
+                                    </td>
+                                    <td>
+                                        Succeess Manager
                                     </td>
                                     <td>
                                         <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>

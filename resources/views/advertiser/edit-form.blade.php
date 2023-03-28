@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="pl-2">
-                        <div class="btn btn-secondary" onclick="generateNewPassword()">Regenerate</div>
+                        <div class="btn btn-secondary" onclick="generateRandomPassword(this)">Regenerate</div>
                     </div>
                 </div>
 
@@ -305,10 +305,10 @@
                 <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
                 <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" required>
                     <option value="" disabled selected>Select Payment Term</option>
-                    <option value="SH1">Net 15 %</option>
-                    <option value="SH1">Net 30 %</option>
-                    <option value="SH1">Net 45 %</option>
-                    <option value="SH1">Net 60 %</option>
+                    <option value="SH1">Net 15</option>
+                    <option value="SH1">Net 30</option>
+                    <option value="SH1">Net 45</option>
+                    <option value="SH1">Net 60</option>
                 </select>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
@@ -673,6 +673,7 @@
 
 <script>
     $('.dropify').dropify();
+    generateRandomPassword(null)
 
 
     document.querySelectorAll(".form-category").forEach((catgry) => {
@@ -686,23 +687,6 @@
             })
         })
     })
-
-    const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const specialChars = "!$%#^&|?"
-
-    function generateNewPassword() {
-        var passwordLength = Math.floor(Math.random() * 12);
-        if (passwordLength < 8) passwordLength += 8;
-        passwordLength = Math.min(12, passwordLength);
-        var password = "";
-        for (var i = 0, n = passwordCharset.length; i < passwordLength; ++i) {
-            password += passwordCharset.charAt(Math.floor(Math.random() * n));
-        }
-        password += specialChars[Math.floor(Math.random() * specialChars.length)]
-        document.getElementById("password-input-field").value = password;
-    }
-
-    generateNewPassword();
 
 
     function setCountryCodeToPhone(countryCode) {
