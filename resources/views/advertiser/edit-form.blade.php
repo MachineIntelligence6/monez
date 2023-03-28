@@ -673,7 +673,6 @@
 
 <script>
     $('.dropify').dropify();
-    generateRandomPassword(null)
 
 
     document.querySelectorAll(".form-category").forEach((catgry) => {
