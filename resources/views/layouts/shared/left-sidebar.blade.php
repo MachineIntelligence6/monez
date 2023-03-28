@@ -5,11 +5,9 @@
 
         <!-- User box -->
         <div class="user-box text-center">
-            <img src="{{asset('assets/images/users/user-1.jpg')}}" alt="user-img" title="Mat Helme"
-                 class="rounded-circle avatar-md">
+            <img src="{{asset('assets/images/users/user-1.jpg')}}" alt="user-img" title="Mat Helme" class="rounded-circle avatar-md">
             <div class="dropdown">
-                <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block"
-                   data-toggle="dropdown">Geneva Kennedy</a>
+                <a href="javascript: void(0);" class="text-dark dropdown-toggle h5 mt-2 mb-1 d-block" data-toggle="dropdown">Geneva Kennedy</a>
                 <div class="dropdown-menu user-pro-dropdown">
 
                     <!-- item-->
@@ -101,28 +99,28 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'feeds'])}}"  class="isDisabled">
-                        <i data-feather="users"></i>
-                        <span> FEEDS </span>
+                    <a href="{{route('feeds.index')}}">
+                        <i data-feather="search"></i>
+                        <span> SEARCH FEEDS </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'channels'])}}"  class="isDisabled">
+                    <a href="{{route('second', ['crm', 'channels'])}}" class="isDisabled">
                         <i data-feather="file-text"></i>
                         <span> CHANNELS </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'reports'])}}"  class="isDisabled">
+                    <a href="{{route('second', ['crm', 'reports'])}}" class="isDisabled">
                         <i data-feather="book"></i>
                         <span> REPORTS </span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'finances'])}}"  class="isDisabled">
+                    <a href="{{route('second', ['crm', 'finances'])}}" class="isDisabled">
                         <i data-feather="shopping-cart"></i>
                         <span> FINANCE </span>
                     </a>
@@ -361,7 +359,7 @@
                             </li>
                         </ul>
                     </div>
-                </li */?>
+                </li */ ?>
             </ul>
 
         </div>

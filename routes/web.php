@@ -39,4 +39,3 @@ Route::group(['middleware' => 'auth', 'prefix' => '/'], function () {
 
 // landing
 Route::get('', 'RoutingController@index')->name('index');
-

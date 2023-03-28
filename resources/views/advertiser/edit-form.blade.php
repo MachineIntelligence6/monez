@@ -1,10 +1,11 @@
 @section('css')
-    <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <div class="form-category">
     <div class="d-flex align-items-center justify-content-between">
         <h5 class="mb-3 text-uppercase">
-            <i class="mdi mdi-office-building mr-2"></i> Account Info
+            <i class="mdi mdi-office-building mr-2"></i>
+            Account Info
         </h5>
         <button type="button" id="edit-category-btn" class="btn btn-success">
             <span class="dripicons-document-edit mr-2"></span>
@@ -35,7 +36,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="regId" class="form-label">Registration / National ID</label>
-                <input type="number" class="form-control" id="regId" name="regId" placeholder="Enter Registration / National ID" value="{{ $advertiser->regId ??  old('regId') }}">
+                <input type="text" class="form-control" id="regId" name="regId" placeholder="Enter Registration / National ID" value="{{ $advertiser->regId ??  old('regId') }}">
             </div>
         </div>
         <div class="col-md-4">
@@ -58,7 +59,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -155,7 +156,7 @@
             <div class="mb-3">
                 <label for="address1" class="form-label">Zip Code</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="number" class="form-control" id="zipCode" name="zipCode" placeholder="Enter zip / code" value="{{ $advertiser->zipCode ??  old('zipCode') }}">
+                <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Enter zip / code" value="{{ $advertiser->zipCode ??  old('zipCode') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -163,13 +164,17 @@
             </div>
         </div> <!-- end col -->
         <div class="col-md-4">
-            <label for="country" class="form-label">Country</label>
-            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
+            <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
+            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->title}}" phone-code="+{{$country -> countryCode}}">{{$country->title}}</option>
                 @endforeach
             </select>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                You must enter valid input
+            </div>
         </div>
     </div> <!-- end row -->
     <div class="row mb-3" disabled="true" data-editable="true">
@@ -216,7 +221,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amEmail" class="form-label"> Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->amEmail ??  old('amEmail') }}">
+                <input type="email" class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->amEmail ??  old('amEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -315,7 +320,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
+                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -410,7 +415,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="billEmail" class="form-label">Billing / Finance Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required value="{{ $advertiser->billEmail ??  old('billEmail') }}">
+                <input type="email" class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->billEmail ??  old('billEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -446,7 +451,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="paypal" class="form-label">Paypal</label>
-                <input type="text" class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ $advertiser->paypal ??  old('paypal') }}">
+                <input type="text" class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->paypal ??  old('paypal') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -458,7 +463,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="payoneer" class="form-label">Payoneer</label>
-                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
+                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -664,6 +669,8 @@
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
 <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+<script src="{{asset('assets/js/modal-init.js')}}"></script>
+
 <script>
     $('.dropify').dropify();
 
@@ -702,26 +709,6 @@
         // $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
     }
 
-    const allModals = document.querySelectorAll(".modal");
-    for (let i = 0; i < allModals.length; i++) {
-        const modal = allModals[i];
-        let dismissBtns = modal.querySelectorAll('[data-dismiss="modal"]');
-        for (let j = 0; j < dismissBtns.length; j++) {
-            dismissBtns[j].addEventListener("click", () => {
-                modal.classList.remove("show");
-                modal.style.display = "none"
-            })
-        }
-    }
-
-    const modalTriggerBtns = document.querySelectorAll('[data-trigger="modal"]');
-    for (let i = 0; i < modalTriggerBtns.length; i++) {
-        modalTriggerBtns[i].addEventListener("click", () => {
-            let modal = document.getElementById(modalTriggerBtns[i].getAttribute("data-target"))
-            modal.classList.add("show");
-            modal.style.display = "block"
-        })
-    }
 
     document.querySelectorAll(".enable-on-valid").forEach((el) => {
         let input = document.getElementById(el.getAttribute("data-enable-target"));
