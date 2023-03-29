@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvertiserController;
+use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\FeedsController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\TeamMemberController;
@@ -28,6 +29,7 @@ Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
 Route::resource('team-members', TeamMemberController::class);
 Route::resource('feeds', FeedsController::class);
+Route::resource('channels', ChannelsController::class);
 
 
 

@@ -7,9 +7,13 @@
             <i class="mdi mdi-office-building mr-2"></i>
             Account Info
         </h5>
-        <button type="button" id="edit-category-btn" class="btn btn-success">
-            <span class="dripicons-document-edit mr-2"></span>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
             Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
         </button>
     </div>
     <div class="row" disabled="true" data-editable="true">
@@ -80,10 +84,8 @@
             function confirmEmail() {
                 var email = document.getElementById("accEmail").value
                 var confemail = document.getElementById("confemail").value
-                if (email != confemail) {
-                    alert('Email Not Matching!');
-                    //document.getElementById('invalidfeedback').innerHTML = "Your email not match";
-                }
+                $(confemail).removeClass('is-valid is-invalid')
+                    .addClass(confemail.checkValidity() ? 'is-valid' : 'is-invalid');
             }
         </script>
 
@@ -192,9 +194,13 @@
 <div class="form-category">
     <div class="d-flex align-items-center justify-content-between">
         <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)</h5>
-        <button type="button" id="edit-category-btn" class="btn btn-success">
-            <span class="dripicons-document-edit mr-2"></span>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
             Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
         </button>
     </div>
     <div class="row" disabled="true" data-editable="true">
@@ -274,9 +280,13 @@
     <!-- Agreement & Terms -->
     <div class="d-flex align-items-center justify-content-between">
         <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info</h5>
-        <button type="button" id="edit-category-btn" class="btn btn-success">
-            <span class="dripicons-document-edit mr-2"></span>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
             Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
         </button>
     </div>
     <div class="row" disabled="true" data-editable="true">
@@ -406,9 +416,13 @@
 <div class="form-category">
     <div class="d-flex align-items-center justify-content-between">
         <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info</h5>
-        <button type="button" id="edit-category-btn" class="btn btn-success">
-            <span class="dripicons-document-edit mr-2"></span>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
             Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
         </button>
     </div>
     <div class="row" disabled="true" data-editable="true">
@@ -473,186 +487,6 @@
     </div>
 </div>
 
-
-<!-- <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Documents</h5>
-<div class="row">
-    <div class="col-md-4">
-        <div class="mb-3">
-            <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
-            <input type="file" class="form-control" id="file" name="document" value="{{ $advertiser->document ??  old('document') }}">
-        </div>
-    </div>
-</div> -->
-
-
-{{-- <!-- File Upload Code -->--}}
-{{-- <div class="row">--}}
-{{-- <div class="col-md-1">--}}
-{{-- <!-- <label for="agreementDoc" class="mb-0 form-label">IO / Agreement</label>--}}
-{{-- <p class="text-muted font-14">Recommended file format - pdf, max file size - 5mb.</p> -->--}}
-{{-- <div class="card my-3 mt-xl-0">--}}
-{{-- <div class="card-body">--}}
-{{-- <form action="/" method="post" class="dropzone" id="myAwesomeDropzone1"--}}
-{{-- data-plugin="dropzone" data-previews-container="#file-previews"--}}
-{{-- data-upload-preview-template="#uploadPreviewTemplate">--}}
-{{-- <div class="fallback">--}}
-{{-- <!-- <input name="agreementDoc" type="file" /> -->--}}
-{{-- </div>--}}
-
-{{-- <div class="dz-message needsclick">--}}
-{{-- <!-- <i class="h3 text-muted dripicons-cloud-upload"></i>--}}
-{{-- <h4>IO / Agreement</h4>--}}
-{{-- <h6>file name, file format - pdf or jpg, max file size-5mb</h6> -->--}}
-{{-- </div>--}}
-{{-- </form>--}}
-
-{{-- <!-- Preview -->--}}
-{{-- <div class="dropzone-previews mt-3" id="file-previews"></div>--}}
-
-{{-- <!-- file preview template -->--}}
-{{-- <div class="d-none" id="uploadPreviewTemplate">--}}
-{{-- <div class="card mt-1 mb-0 shadow-none border">--}}
-{{-- <div class="p-2">--}}
-{{-- <div class="row align-items-center">--}}
-{{-- <div class="col-auto">--}}
-{{-- <img data-dz-thumbnail src="#"--}}
-{{-- class="avatar-sm rounded bg-light" alt="">--}}
-{{-- </div>--}}
-{{-- <div class="col ps-0">--}}
-{{-- <a href="javascript:void(0);" class="text-muted fw-bold"--}}
-{{-- data-dz-name></a>--}}
-{{-- <p class="mb-0" data-dz-size></p>--}}
-{{-- </div>--}}
-{{-- <div class="col-auto">--}}
-{{-- <!-- Button -->--}}
-{{-- <a href="" class="btn btn-link btn-lg text-muted"--}}
-{{-- data-dz-remove>--}}
-{{-- <i class="mdi mdi-close"></i>--}}
-{{-- </a>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end file preview template -->--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end of IO / Agreement Upload -->--}}
-
-
-{{-- <div class="col-md-4">--}}
-{{-- <label for="agreementDoc" class="mb-0 form-label">IO / Agreement</label>--}}
-{{-- <p class="text-muted font-14">Recommended file format - pdf, max file size - 5mb.</p>--}}
-{{-- <div class="card my-3 mt-xl-0">--}}
-{{-- <div class="card-body">--}}
-{{-- <form action="/" method="post" class="dropzone" id="myAwesomeDropzone"--}}
-{{-- data-plugin="dropzone" data-previews-container="#file-previews"--}}
-{{-- data-upload-preview-template="#uploadPreviewTemplate">--}}
-{{-- <div class="fallback">--}}
-{{-- <input name="agreementDoc" type="file"/>--}}
-{{-- </div>--}}
-
-{{-- <div class="dz-message needsclick">--}}
-{{-- <i class="h3 text-muted dripicons-cloud-upload"></i>--}}
-{{-- <h4>IO / Agreement</h4>--}}
-{{-- <h6>file name, file format - pdf or jpg, max file size-5mb</h6>--}}
-{{-- </div>--}}
-{{-- </form>--}}
-
-{{-- <!-- Preview -->--}}
-{{-- <div class="dropzone-previews mt-3" id="file-previews"></div>--}}
-
-{{-- <!-- file preview template -->--}}
-{{-- <div class="d-none" id="uploadPreviewTemplate">--}}
-{{-- <div class="card mt-1 mb-0 shadow-none border">--}}
-{{-- <div class="p-2">--}}
-{{-- <div class="row align-items-center">--}}
-{{-- <div class="col-auto">--}}
-{{-- <img data-dz-thumbnail src="#"--}}
-{{-- class="avatar-sm rounded bg-light" alt="">--}}
-{{-- </div>--}}
-{{-- <div class="col ps-0">--}}
-{{-- <a href="javascript:void(0);" class="text-muted fw-bold"--}}
-{{-- data-dz-name></a>--}}
-{{-- <p class="mb-0" data-dz-size></p>--}}
-{{-- </div>--}}
-{{-- <div class="col-auto">--}}
-{{-- <!-- Button -->--}}
-{{-- <a href="" class="btn btn-link btn-lg text-muted"--}}
-{{-- data-dz-remove>--}}
-{{-- <i class="mdi mdi-close"></i>--}}
-{{-- </a>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end file preview template -->--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end of IO / Agreement Upload -->--}}
-
-
-{{-- <!-- Start of Upload Document -->--}}
-{{-- <div class="col-md-4">--}}
-{{-- <label for="document" class="mb-0 form-label">Upload Documents</label>--}}
-{{-- <p class="text-muted font-14">Recommended file format - pdf, max file size - 5mb.</p>--}}
-{{-- <div class="card my-3 mt-xl-0">--}}
-{{-- <div class="card-body">--}}
-{{-- <form action="/" method="post" class="dropzone" id="myAwesomeDropzone2"--}}
-{{-- data-plugin="dropzone" data-previews-container="#file-previews"--}}
-{{-- data-upload-preview-template="#uploadPreviewTemplate">--}}
-{{-- <div class="fallback">--}}
-{{-- <input name="document" type="file"/>--}}
-{{-- </div>--}}
-
-{{-- <div class="dz-message needsclick">--}}
-{{-- <i class="h3 text-muted dripicons-cloud-upload"></i>--}}
-{{-- <h4>Upload Documents</h4>--}}
-{{-- <h6>file name, file format - pdf or jpg, max file size-5mb</h6>--}}
-{{-- </div>--}}
-{{-- </form>--}}
-
-{{-- <!-- Preview -->--}}
-{{-- <div class="dropzone-previews mt-3" id="file-previews"></div>--}}
-
-{{-- <!-- file preview template -->--}}
-{{-- <div class="d-none" id="uploadPreviewTemplate">--}}
-{{-- <div class="card mt-1 mb-0 shadow-none border">--}}
-{{-- <div class="p-2">--}}
-{{-- <div class="row align-items-center">--}}
-{{-- <div class="col-auto">--}}
-{{-- <img data-dz-thumbnail src="#"--}}
-{{-- class="avatar-sm rounded bg-light" alt="">--}}
-{{-- </div>--}}
-{{-- <div class="col ps-0">--}}
-{{-- <a href="javascript:void(0);" class="text-muted fw-bold"--}}
-{{-- data-dz-name></a>--}}
-{{-- <p class="mb-0" data-dz-size></p>--}}
-{{-- </div>--}}
-{{-- <div class="col-auto">--}}
-{{-- <!-- Button -->--}}
-{{-- <a href="" class="btn btn-link btn-lg text-muted"--}}
-{{-- data-dz-remove>--}}
-{{-- <i class="mdi mdi-close"></i>--}}
-{{-- </a>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end file preview template -->--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- End of Upload Document -->--}}
-
-{{-- </div>--}}
-{{-- <!-- end of file uploading -->--}}
-
-
 <div class="row">
     <button class="btn btn-primary" type="submit">Submit</button>
     <a href="{{ route('advertiser.index') }}" class="btn btn-secondary ml-1" type="button">Cancel</a>
@@ -676,12 +510,23 @@
 
 
     document.querySelectorAll(".form-category").forEach((catgry) => {
-        let editBtn = catgry.querySelector("#edit-category-btn");
+        let editBtn = catgry.querySelector(".edit-category-btn");
+        let saveBtn = catgry.querySelector(".save-category-btn");
         editBtn.addEventListener("click", () => {
-            editBtn.disabled = true
+            editBtn.classList.add("d-none");
+            saveBtn.classList.remove("d-none");
             catgry.querySelectorAll("[disabled=true]").forEach((el) => {
                 if (el.getAttribute("data-editable") === 'true') {
                     el.setAttribute("disabled", "false")
+                }
+            })
+        })
+        saveBtn.addEventListener("click", () => {
+            saveBtn.classList.add("d-none");
+            editBtn.classList.remove("d-none");
+            catgry.querySelectorAll("[disabled=true]").forEach((el) => {
+                if (el.getAttribute("data-editable") === 'true') {
+                    el.setAttribute("disabled", "true")
                 }
             })
         })

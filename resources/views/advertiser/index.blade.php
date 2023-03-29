@@ -64,6 +64,27 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>
+                                        Id
+                                    </td>
+                                    <td>
+                                        Compony Name
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <a class="btn bg-secondary text-white">View Info</a>
+                                    </td>
+                                </tr>
                                 @foreach($advertisers as $advertiser)
                                 <tr>
                                     <td>
@@ -85,7 +106,8 @@
                                         Succeess Manager
                                     </td>
                                     <td>
-                                        <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a class="btn bg-secondary text-white">View Info</a>
+                                        <!-- <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
                                     </td>
                                 </tr>
                                 @endforeach

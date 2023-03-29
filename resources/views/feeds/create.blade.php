@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Advertisers Profile'])
+@extends('layouts.vertical', ['title' => 'Add Feed'])
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -8,6 +8,10 @@
                     @csrf
                     @method('POST')
                     @include('feeds.form')
+                    @include('feeds.modals.integration-guide')
+                    @include('feeds.modals.static-parameters')
+                    @include('feeds.modals.dynamic-parameters')
+                    @include('feeds.modals.timeline')
                 </form>
             </div>
         </div>
