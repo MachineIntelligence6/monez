@@ -105,7 +105,7 @@
                     </a>
                 </li>
 
-                
+
 
                 <li>
                     <a href="{{route('channels.index')}}">
@@ -115,10 +115,19 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'reports'])}}" class="isDisabled">
+                    <a href="#sidebarReports" data-toggle="collapse" style="cursor: pointer;">
                         <i data-feather="book"></i>
                         <span> REPORTS </span>
+                        <span class="menu-arrow"></span>
+                        <!-- <span class="fas fa-chevron-down float-right"></span> -->
                     </a>
+                    <div class="collapse" id="sidebarReports">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('reports.index')}}">Activity Reports</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <li>

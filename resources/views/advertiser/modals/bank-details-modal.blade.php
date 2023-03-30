@@ -4,7 +4,7 @@
         <div class="modal-content shadow shadow-5">
             <div class="modal-header border-bottom">
                 <h5 class="text-uppercase modal-title"><i class="mdi mdi-bank mr-2"></i>Add Bank Details</h5>
-                <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn p-0" onclick="onCancelModel(this)" data-dismiss="modal" aria-label="Close">
                     <h3 class="fe-x m-0"></h3>
                 </button>
             </div>
@@ -34,7 +34,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label for="bankName" class="form-label">Bank Name</label><label class="text-danger">*</label>
-                            <input type="text" class="form-control" id="bankNameInput" name="bankName" placeholder="Enter Bank name" required>
+                            <input type="text" class="form-control" id="bankName" name="bankName" placeholder="Enter Bank name" required>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -109,8 +109,8 @@
                 </div>
             </div>
             <div class="modal-footer border-top">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
+                <button type="button" class="btn btn-secondary" onclick="onCancelModel(this)" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="" data-dismiss="modal">Save Details</button>
             </div>
         </div>
     </div>

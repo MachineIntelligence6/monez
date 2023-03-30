@@ -33,6 +33,7 @@ input[type=number] {
 
 .dropify-wrapper .dropify-message p {
   line-height: 1;
+  font-size: 40px;
 }
 
 
