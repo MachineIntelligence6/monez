@@ -2,8 +2,8 @@
 <div class="modal fade" id="add-bank-details-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content shadow shadow-5">
-            <div class="modal-header">
-                <h5 class="mb-3 text-uppercase modal-title"><i class="mdi mdi-bank mr-2"></i>Add Bank Details</h5>
+            <div class="modal-header border-bottom">
+                <h5 class="text-uppercase modal-title"><i class="mdi mdi-bank mr-2"></i>Add Bank Details</h5>
                 <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
                     <h3 class="fe-x m-0"></h3>
                 </button>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="routingNumber" class="form-label">Routing Number</label><label class="text-danger">*</label>
+                            <label for="routingNumber" class="form-label">Routing Number</label>
                             <input type="number" class="form-control" id="routingNumber" name="routingNumber" placeholder="Enter Routing number">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
@@ -74,7 +74,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="iban" class="form-label">IBAN</label><label class="text-danger">*</label>
+                            <label for="iban" class="form-label">IBAN</label>
                             <input type="text" class="form-control" id="iban" name="iban" placeholder="Enter IBAN">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer border-top">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
             </div>

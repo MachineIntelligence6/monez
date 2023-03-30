@@ -4,7 +4,7 @@
         <div class="modal-content shadow shadow-5">
             <div class="modal-header border-bottom">
                 <h5 class="text-uppercase modal-title">Static Parameters</h5>
-                <button type="reset" class="btn p-0" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
                     <h3 class="fe-x m-0"></h3>
                 </button>
             </div>
@@ -13,16 +13,16 @@
                     <button type="button" onclick="appendElementToContainer('staticParametersContainer', 'staticParameterSample')" class="btn btn-secondary"><i class="mdi mdi-plus"></i></button>
                 </div>
                 <div id="staticParametersContainer">
-                    <div class="d-flex w-100 feedUrlParameter mb-3" id="staticParameterSample" style="max-width: 100%; overflow-x: hidden;">
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" id="feedParamName" name="feedParamName" placeholder="Enter Parameter Name" />
+                    <div class="d-flex w-100 staticParameter mb-3" id="staticParameterSample" style="max-width: 100%; overflow-x: hidden;">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="paramName" name="paramName" placeholder="Enter Parameter Name" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="feedParamValue" name="feedParamValue" placeholder="Enter Parameter Value" />
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" id="paramValue" name="paramValue" placeholder="Enter Parameter Value" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer border-top">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
             </div>

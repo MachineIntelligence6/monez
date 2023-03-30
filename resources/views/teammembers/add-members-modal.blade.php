@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="pl-2">
-                                <div class="btn btn-secondary" onclick="generateNewPassword()">Regenerate</div>
+                                <div class="btn btn-secondary" onclick="generateRandomPassword(this)">Regenerate</div>
                             </div>
                         </div>
                         <div class="valid-feedback">Valid.</div>
@@ -75,22 +75,9 @@
 @section('script')
 
 <script>
-    const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const specialChars = "!$%#^&|?"
-
-    function generateNewPassword() {
-        var passwordLength = Math.floor(Math.random() * 12);
-        if (passwordLength < 8) passwordLength += 8;
-        passwordLength = Math.min(12, passwordLength);
-        var password = "";
-        for (var i = 0, n = passwordCharset.length; i < passwordLength; ++i) {
-            password += passwordCharset.charAt(Math.floor(Math.random() * n));
-        }
-        password += specialChars[Math.floor(Math.random() * specialChars.length)]
-        document.getElementById("password-input-field").value = password;
-    }
-
-    generateNewPassword();
+    window.addEventListener("DOMContentLoaded", () => {
+        generateRandomPassword(null)
+    })
 </script>
 
 @endsection

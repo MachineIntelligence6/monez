@@ -92,13 +92,6 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'publishers'])}}">
-                        <i data-feather="package"></i>
-                        <span> PUBLISHERS </span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="{{route('feeds.index')}}">
                         <i data-feather="search"></i>
                         <span> SEARCH FEEDS </span>
@@ -106,7 +99,16 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'channels'])}}" class="isDisabled">
+                    <a href="{{route('second', ['crm', 'publishers'])}}">
+                        <i data-feather="package"></i>
+                        <span> PUBLISHERS </span>
+                    </a>
+                </li>
+
+                
+
+                <li>
+                    <a href="{{route('channels.index')}}">
                         <i data-feather="file-text"></i>
                         <span> CHANNELS </span>
                     </a>

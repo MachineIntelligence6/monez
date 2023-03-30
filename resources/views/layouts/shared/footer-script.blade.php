@@ -42,10 +42,42 @@
 
 <!-- Forms Validation Trigger Script  -->
 <script>
+    function validateInput(target) {
+        $(target).removeClass('is-valid is-invalid')
+            .addClass(target.checkValidity() ? 'is-valid' : 'is-invalid');
+    }
     $(function() {
-        $('.needs-validation').find('input,select,textarea').on('focusout', function() {
-            $(this).removeClass('is-valid is-invalid')
-                .addClass(this.checkValidity() ? 'is-valid' : 'is-invalid');
+        $('.needs-validation').find('input,select,textarea').on('input', function() {
+            validateInput(this)
         });
     });
+
+    function generateRandomPassword(target, inputFieldId = 'password-input-field') {
+        var inputField;
+        if (target !== undefined && target !== null) {
+            inputField = target.parentNode.parentNode.parentNode.querySelector("input#" + inputFieldId);
+        } else {
+            inputField = document.getElementById(inputFieldId);
+        }
+        var passwordLength = 12;
+        const chars = {
+            num: "1234567890",
+            specialChar: "!@#$%&<=>?~",
+            lowerCase: "abcdefghijklmnopqrstuvwxyz",
+            upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        };
+
+        const shuffleStr = str => str.split('').sort(() => 0.5 - Math.random()).join('')
+        let factor = passwordLength / 4;
+        let str = ''
+        str += shuffleStr(chars.upperCase.repeat(factor)).substr(0, factor)
+        str += shuffleStr(chars.lowerCase.repeat(factor)).substr(0, factor)
+        str += shuffleStr(chars.num.repeat(factor)).substr(0, factor)
+        str += shuffleStr(chars.specialChar.repeat(factor)).substr(0, factor)
+
+        let password = shuffleStr(str).substr(0, passwordLength)
+        console.log(password);
+        inputField.value = password;
+        validateInput(inputField);
+    }
 </script>

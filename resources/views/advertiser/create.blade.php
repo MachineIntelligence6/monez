@@ -7,7 +7,7 @@
                 <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}" enctype="multipart/form-data" novalidate>
                     @csrf
                     @method('POST')
-                    @include('advertiser.form')
+                    @include('advertiser.edit-form')
                     @include('advertiser.modals.report-columns')
                     @include('advertiser.modals.bank-details-modal')
                     @include('advertiser.modals.reports-modal')

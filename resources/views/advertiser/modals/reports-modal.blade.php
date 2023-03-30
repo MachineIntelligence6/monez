@@ -2,8 +2,8 @@
     <div class="modal fade" id="report-type-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content shadow shadow-5">
-                <div class="modal-header">
-                    <h5 class="mb-3 text-uppercase modal-title">Add Report Details</h5>
+                <div class="modal-header border-bottom">
+                    <h5 class="text-uppercase modal-title">Add Report Details</h5>
                     <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">
                         <h3 class="fe-x m-0"></h3>
                     </button>
@@ -88,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer border-top">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
                 </div>
