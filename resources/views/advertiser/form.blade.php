@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback" id="dba-invalid">
                     You must enter valid input
@@ -260,16 +260,6 @@
     <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info
     </h5>
     <div class="row">
-        <!-- <div class="col-md-4">
-            <div class="mb-3">
-                <label for="AgreementStartDate" class="form-label">Start Date</label><label class="text-danger">*</label>
-                <input type="text" id="basic-datepicker" class="form-control" placeholder="Basic datepicker" name="AgreementStartDate" required value="{{ $advertiser->agreement_start_date ??  old('AgreementStartDate') }}">
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must select valid date.
-                </div>
-            </div>
-        </div> -->
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
@@ -309,15 +299,6 @@
                 </div>
             </div>
         </div> <!-- end col -->
-        <!-- <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="notes" class="form-label">Notes / Comments</label>
-                    <textarea rows="5" type="text" class="form-control" id="notes" name="notes"
-                           placeholder="Enter notes / comments"></textarea>
-                </div>
-            </div>  -->
-        <!-- end col -->
-
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
@@ -341,12 +322,12 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-4 mb-3">
-            <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
+        <div class="col-md-4 mb-3">
+            <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
             <div class="input-group input-group-merge">
-                <input type="text" class="form-control remote-form-control" data-target-input="report-type-input" style="pointer-events: none;" id="reportType" name="reportType" placeholder="Add report type" required value="{{ $advertiser->reportType ??  old('reportType') }}">
+                <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
                 <div class="input-group-append">
-                    <button type="button" data-trigger="modal" data-target="report-type-modal" class="btn btn-secondary">
+                    <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
                     </button>
                 </div>
@@ -354,21 +335,6 @@
                 <div class="invalid-feedback">
                     You must enter valid input
                 </div>
-            </div>
-        </div> -->
-        <div class="col-md-4 mb-3">
-            <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
-            <div class="input-group input-group-merge">
-                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
-                <div class="input-group-append">
-                    <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
-                        <span class="dripicons-document-edit"></span>
-                    </button>
-                </div>
-            </div>
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">
-                You must enter valid input
             </div>
         </div>
         <div class="col-md-4 mb-3">
@@ -404,7 +370,7 @@
             <div class="mb-3">
                 <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
                 <div class="input-group input-group-merge">
-                    <input type="text" style="pointer-events: none;" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank" name="bank" placeholder="Enter Bank account" value="{{ $advertiser->bank ??  old('bank') }}">
+                    <input type="text" style="pointer-events: none;" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" value="{{ $advertiser->bank ??  old('bank') }}">
                     <div class="input-group-append">
                         <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
                             <span class="mdi mdi-bank-plus"></span>
@@ -415,16 +381,7 @@
                         You must enter valid input
                     </div>
                 </div>
-                <!-- <select class="form-control select2" id="product-category">
-                                    <option>Select Bank</option>
-                                    @foreach ($banks as $key => $bank)
-                    <option value="{{ $bank->id }}">{{ $bank->title }}</option>
-
-
-                @endforeach
-                </select> -->
             </div>
-
         </div> <!-- end col -->
         <div class="col-md-4">
             <div class="mb-3">
@@ -436,8 +393,6 @@
                 </div>
             </div>
         </div>
-
-
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="payoneer" class="form-label">Payoneer</label>
@@ -450,185 +405,6 @@
         </div> <!-- end col -->
     </div>
 </div>
-
-
-<!-- <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Documents</h5>
-<div class="row">
-    <div class="col-md-4">
-        <div class="mb-3">
-            <label for="billEmail" class="form-label">Document</label><label class="text-danger">*</label>
-            <input type="file" class="form-control" id="file" name="document" value="{{ $advertiser->document ??  old('document') }}">
-        </div>
-    </div>
-</div> -->
-
-
-{{-- <!-- File Upload Code -->--}}
-{{-- <div class="row">--}}
-{{-- <div class="col-md-1">--}}
-{{-- <!-- <label for="agreementDoc" class="mb-0 form-label">IO / Agreement</label>--}}
-{{-- <p class="text-muted font-14">Recommended file format - pdf, max file size - 5mb.</p> -->--}}
-{{-- <div class="card my-3 mt-xl-0">--}}
-{{-- <div class="card-body">--}}
-{{-- <form action="/" method="post" class="dropzone" id="myAwesomeDropzone1"--}}
-{{-- data-plugin="dropzone" data-previews-container="#file-previews"--}}
-{{-- data-upload-preview-template="#uploadPreviewTemplate">--}}
-{{-- <div class="fallback">--}}
-{{-- <!-- <input name="agreementDoc" type="file" /> -->--}}
-{{-- </div>--}}
-
-{{-- <div class="dz-message needsclick">--}}
-{{-- <!-- <i class="h3 text-muted dripicons-cloud-upload"></i>--}}
-{{-- <h4>IO / Agreement</h4>--}}
-{{-- <h6>file name, file format - pdf or jpg, max file size-5mb</h6> -->--}}
-{{-- </div>--}}
-{{-- </form>--}}
-
-{{-- <!-- Preview -->--}}
-{{-- <div class="dropzone-previews mt-3" id="file-previews"></div>--}}
-
-{{-- <!-- file preview template -->--}}
-{{-- <div class="d-none" id="uploadPreviewTemplate">--}}
-{{-- <div class="card mt-1 mb-0 shadow-none border">--}}
-{{-- <div class="p-2">--}}
-{{-- <div class="row align-items-center">--}}
-{{-- <div class="col-auto">--}}
-{{-- <img data-dz-thumbnail src="#"--}}
-{{-- class="avatar-sm rounded bg-light" alt="">--}}
-{{-- </div>--}}
-{{-- <div class="col ps-0">--}}
-{{-- <a href="javascript:void(0);" class="text-muted fw-bold"--}}
-{{-- data-dz-name></a>--}}
-{{-- <p class="mb-0" data-dz-size></p>--}}
-{{-- </div>--}}
-{{-- <div class="col-auto">--}}
-{{-- <!-- Button -->--}}
-{{-- <a href="" class="btn btn-link btn-lg text-muted"--}}
-{{-- data-dz-remove>--}}
-{{-- <i class="mdi mdi-close"></i>--}}
-{{-- </a>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end file preview template -->--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end of IO / Agreement Upload -->--}}
-
-
-{{-- <div class="col-md-4">--}}
-{{-- <label for="agreementDoc" class="mb-0 form-label">IO / Agreement</label>--}}
-{{-- <p class="text-muted font-14">Recommended file format - pdf, max file size - 5mb.</p>--}}
-{{-- <div class="card my-3 mt-xl-0">--}}
-{{-- <div class="card-body">--}}
-{{-- <form action="/" method="post" class="dropzone" id="myAwesomeDropzone"--}}
-{{-- data-plugin="dropzone" data-previews-container="#file-previews"--}}
-{{-- data-upload-preview-template="#uploadPreviewTemplate">--}}
-{{-- <div class="fallback">--}}
-{{-- <input name="agreementDoc" type="file"/>--}}
-{{-- </div>--}}
-
-{{-- <div class="dz-message needsclick">--}}
-{{-- <i class="h3 text-muted dripicons-cloud-upload"></i>--}}
-{{-- <h4>IO / Agreement</h4>--}}
-{{-- <h6>file name, file format - pdf or jpg, max file size-5mb</h6>--}}
-{{-- </div>--}}
-{{-- </form>--}}
-
-{{-- <!-- Preview -->--}}
-{{-- <div class="dropzone-previews mt-3" id="file-previews"></div>--}}
-
-{{-- <!-- file preview template -->--}}
-{{-- <div class="d-none" id="uploadPreviewTemplate">--}}
-{{-- <div class="card mt-1 mb-0 shadow-none border">--}}
-{{-- <div class="p-2">--}}
-{{-- <div class="row align-items-center">--}}
-{{-- <div class="col-auto">--}}
-{{-- <img data-dz-thumbnail src="#"--}}
-{{-- class="avatar-sm rounded bg-light" alt="">--}}
-{{-- </div>--}}
-{{-- <div class="col ps-0">--}}
-{{-- <a href="javascript:void(0);" class="text-muted fw-bold"--}}
-{{-- data-dz-name></a>--}}
-{{-- <p class="mb-0" data-dz-size></p>--}}
-{{-- </div>--}}
-{{-- <div class="col-auto">--}}
-{{-- <!-- Button -->--}}
-{{-- <a href="" class="btn btn-link btn-lg text-muted"--}}
-{{-- data-dz-remove>--}}
-{{-- <i class="mdi mdi-close"></i>--}}
-{{-- </a>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end file preview template -->--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end of IO / Agreement Upload -->--}}
-
-
-{{-- <!-- Start of Upload Document -->--}}
-{{-- <div class="col-md-4">--}}
-{{-- <label for="document" class="mb-0 form-label">Upload Documents</label>--}}
-{{-- <p class="text-muted font-14">Recommended file format - pdf, max file size - 5mb.</p>--}}
-{{-- <div class="card my-3 mt-xl-0">--}}
-{{-- <div class="card-body">--}}
-{{-- <form action="/" method="post" class="dropzone" id="myAwesomeDropzone2"--}}
-{{-- data-plugin="dropzone" data-previews-container="#file-previews"--}}
-{{-- data-upload-preview-template="#uploadPreviewTemplate">--}}
-{{-- <div class="fallback">--}}
-{{-- <input name="document" type="file"/>--}}
-{{-- </div>--}}
-
-{{-- <div class="dz-message needsclick">--}}
-{{-- <i class="h3 text-muted dripicons-cloud-upload"></i>--}}
-{{-- <h4>Upload Documents</h4>--}}
-{{-- <h6>file name, file format - pdf or jpg, max file size-5mb</h6>--}}
-{{-- </div>--}}
-{{-- </form>--}}
-
-{{-- <!-- Preview -->--}}
-{{-- <div class="dropzone-previews mt-3" id="file-previews"></div>--}}
-
-{{-- <!-- file preview template -->--}}
-{{-- <div class="d-none" id="uploadPreviewTemplate">--}}
-{{-- <div class="card mt-1 mb-0 shadow-none border">--}}
-{{-- <div class="p-2">--}}
-{{-- <div class="row align-items-center">--}}
-{{-- <div class="col-auto">--}}
-{{-- <img data-dz-thumbnail src="#"--}}
-{{-- class="avatar-sm rounded bg-light" alt="">--}}
-{{-- </div>--}}
-{{-- <div class="col ps-0">--}}
-{{-- <a href="javascript:void(0);" class="text-muted fw-bold"--}}
-{{-- data-dz-name></a>--}}
-{{-- <p class="mb-0" data-dz-size></p>--}}
-{{-- </div>--}}
-{{-- <div class="col-auto">--}}
-{{-- <!-- Button -->--}}
-{{-- <a href="" class="btn btn-link btn-lg text-muted"--}}
-{{-- data-dz-remove>--}}
-{{-- <i class="mdi mdi-close"></i>--}}
-{{-- </a>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- end file preview template -->--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <!-- End of Upload Document -->--}}
-
-{{-- </div>--}}
-{{-- <!-- end of file uploading -->--}}
 
 
 <div class="row px-2">
@@ -648,6 +424,7 @@
 <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
 <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
+
 <script>
     $('.dropify').dropify();
     window.addEventListener("DOMContentLoaded", () => {
@@ -695,7 +472,7 @@
 
 
     $(document).ready(function() {
-        $('#dbaId').on('change', function() {
+        $('#dbaId').on('input', function() {
             var inputVal = $(this).val();
             if (inputVal.length > 0) {
                 $.ajax({
@@ -707,9 +484,9 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        if (response.status == 'error') {
-                            $('#dba-invalid').text('Email already exists.');
-                            alert('Advertisers Id Already Exist.');
+                        if (response.status === 'error') {
+                            validateInput("#dbaId", false);
+                            $("#dba-invalid").text('Advertiser ID already exists.');
                         } else {
                             console.log(response);
                         }
@@ -718,9 +495,31 @@
                         console.log(response);
                     }
                 });
+            } else {
+                $("#dba-invalid").text('You must enter valid input.');
             }
         });
     });
+
+
+    function onSaveColumnsModal() {
+        let allInpValid = true;
+        $("#define-report-columns-modal").find("input,select").each((i, inp) => {
+            if (inp.value === "") {
+                allInpValid = false;
+            }
+        })
+        let reportColsInp = $("#reportColumns")
+        reportColsInp.val("Report Columns Set");
+        validateInput(reportColsInp);
+    }
+    $(document).ready(() => {
+        $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
+            $("#bank").val(e.target.value)
+            console.log(e.target.value);
+            validateInput("#bank");
+        })
+    })
 </script>
 
 @endsection

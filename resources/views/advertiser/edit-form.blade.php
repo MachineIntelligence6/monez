@@ -290,16 +290,6 @@
         </button>
     </div>
     <div class="row" disabled="true" data-editable="true">
-        <!-- <div class="col-md-4">
-            <div class="mb-3">
-                <label for="AgreementStartDate" class="form-label">Start Date</label><label class="text-danger">*</label>
-                <input type="text" id="basic-datepicker" class="form-control" placeholder="Basic datepicker" name="AgreementStartDate" required value="{{ $advertiser->agreement_start_date ??  old('AgreementStartDate') }}">
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must select valid date.
-                </div>
-            </div>
-        </div> -->
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
@@ -337,15 +327,6 @@
                 </div>
             </div>
         </div> <!-- end col -->
-        <!-- <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="notes" class="form-label">Notes / Comments</label>
-                    <textarea rows="5" type="text" class="form-control" id="notes" name="notes"
-                           placeholder="Enter notes / comments"></textarea>
-                </div>
-            </div>  -->
-        <!-- end col -->
-
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
@@ -369,21 +350,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-4 mb-3">
-            <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
-            <div class="input-group input-group-merge">
-                <input type="text" class="form-control remote-form-control" data-target-input="report-type-input" style="pointer-events: none;" id="reportType" name="reportType" placeholder="Add report type" required value="{{ $advertiser->reportType ??  old('reportType') }}">
-                <div class="input-group-append">
-                    <button type="button" data-trigger="modal" data-target="report-type-modal" class="btn btn-secondary">
-                        <span class="dripicons-document-edit"></span>
-                    </button>
-                </div>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
-                </div>
-            </div>
-        </div> -->
         <div class="col-md-4 mb-3">
             <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
             <div class="input-group input-group-merge">
@@ -451,14 +417,6 @@
                         You must enter valid input
                     </div>
                 </div>
-                <!-- <select class="form-control select2" id="product-category">
-                                    <option>Select Bank</option>
-                                    @foreach ($banks as $key => $bank)
-                    <option value="{{ $bank->id }}">{{ $bank->title }}</option>
-
-
-                @endforeach
-                </select> -->
             </div>
 
         </div> <!-- end col -->
@@ -553,22 +511,6 @@
     })
 
 
-    // document.querySelectorAll(".remote-form-control").forEach((el) => {
-    //     console.log(el.dataset.targetInput);
-    //     document.getElementById(el.getAttribute("data-target-input")).addEventListener("change", (e) => {
-    //         el.value = e.target.value;
-    //         console.log(e.target.value)
-    //     })
-    // })
-
-    // document.querySelectorAll(".form-control").forEach((el) => {
-    //     el.addEventListener("change", (e) => {
-    //         document.querySelectorAll("#" + el.id).forEach((otherEl) => {
-    //             otherEl.value = e.target.value
-    //         })
-    //     })
-    // })
-
     //Report Type Popup Script
     const reportTypeModal = document.getElementById("report-type-modal");
     const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
@@ -589,20 +531,24 @@
         }
     }
 
-    // reportTypeModal.querySelector("#report-type-input")
-    //     .addEventListener("change", (e) => {
-    //         for (let i = 0; i < reportCredsInputs.length; i++) {
-    //             reportCredsInputs[i].classList.add("d-none");
-    //             // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
-    //         }
-    //         if (e.target.value !== "") {
-    //             reportTypeModal.getElementsByClassName(e.target.value + "-input-group")
-    //                 .forEach((inpGroup) => {
-    //                     inpGroup.classList.remove("d-none");
-    //                     // inpGroup.querySelector("input").setAttribute("required", true);
-    //                 })
-    //         }
-    //     })
+    function onSaveColumnsModal() {
+        let allInpValid = true;
+        $("#define-report-columns-modal").find("input,select").each((i, inp) => {
+            if (inp.value === "") {
+                allInpValid = false;
+            }
+        })
+        let reportColsInp = $("#reportColumns")
+        reportColsInp.val("Report Columns Set");
+        validateInput(reportColsInp);
+    }
+    $(document).ready(() => {
+        $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
+            $("#bank").val(e.target.value)
+            console.log(e.target.value);
+            validateInput("#bank");
+        })
+    })
 </script>
 
 @endsection
