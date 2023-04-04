@@ -73,7 +73,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" value="{{ old('vat') }}">
+                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="invalid-feedback" id="invalidfeedback">
 
                 </div>
@@ -93,7 +93,7 @@
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                    <input type="password" id="password-input-field" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                    <input type="password" id="password-input-field" class="form-control" name="password"  placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" >
                     <div class="input-group-append" data-password="false">
                         <div class="input-group-text btn">
                             <span class="password-eye"></span>
@@ -182,11 +182,26 @@
     <div class="row mb-3" disabled="true" data-editable="true">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
-            <input type="file" name="io" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" />
+            
+            <input type="file" name="io" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
+            @php
+                $names = $advertiser->agreementDoc;
+                $nameArray = explode(",", $names);
+
+                $docnames = $advertiser->document;
+                $docnameArray = explode(",", $docnames);
+            @endphp
+            @foreach ($nameArray as $name) 
+                <a href="{{ route('downloadpdf',['id'=>$advertiser->id,'pdf'=> 'agreementDoc','name'=>$name ]) }}">{{$name}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}</a><br><br>
+                @endforeach
+           
         </div>
         <div class="col-md-6 h-100 mb-3">
             <label for="documents" class="form-label">Documents</label>
-            <input type="file" name="documents" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" />
+            <input type="file" name="documents" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
+            @foreach ($docnameArray as $docnames) 
+            <a href="{{ route('downloadpdf', ['id'=>$advertiser->id,'pdf'=> 'document','name'=>$docnames ]) }}"> <p>{{$docnames}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}</p></a>
+                @endforeach
         </div>
     </div>
 </div>
