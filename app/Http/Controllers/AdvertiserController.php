@@ -52,6 +52,7 @@ class AdvertiserController extends Controller
     public function store(Request $request)
     {
 
+        // dfd('test');
         $validatedData = $request->validate([
             'dbaId' => 'required',
             'companyName'  => 'required',
@@ -133,6 +134,7 @@ class AdvertiserController extends Controller
         $adv->document =implode(',',$Documents);
         $adv->notes = $request->notes;
         $adv->agreement_start_date = $request->AgreementStartDate;
+        $adv->team_member_id = $request->dbaId;
 
         $adv->save();
 
@@ -235,6 +237,7 @@ class AdvertiserController extends Controller
         $advertiser->amPhone = $request->amPhone;
         $advertiser->amSkype = $request->amSkype;
         $advertiser->amLinkedIn = $request->amLinkedIn;
+        
         $advertiser->agreementDoc = $request->agreementDoc;
         $advertiser->revSharePer = $request->revSharePer;
         $advertiser->paymentTerms = $request->paymentTerms;
@@ -276,4 +279,20 @@ class AdvertiserController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+
+public function DownloadPdf(Request $request, $id, $pdf,$name)
+{
+    $advertiser = Advertiser::where('id', $id)->first();
+    $document = $advertiser->document;
+    $dbaId = $advertiser->dbaId;
+    $filePath = public_path('assets/files/uploads/document/' . $dbaId . '/' . $name);
+    if (file_exists($filePath)) {
+        return response()->download($filePath);
+    } else {
+        return redirect()->back()->with('error', 'File not found.');
+    }
+}
+
+
 }

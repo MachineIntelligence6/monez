@@ -32,7 +32,7 @@ Route::resource('team-members', TeamMemberController::class);
 Route::resource('feeds', FeedsController::class);
 Route::resource('channels', ChannelsController::class);
 Route::resource('reports', ReportsController::class);
-
+Route::get('downloadpdf/{id}/{pdf}/{name}', 'AdvertiserController@DownloadPdf')->name('downloadpdf');
 
 
 Route::group(['middleware' => 'auth', 'prefix' => '/'], function () {

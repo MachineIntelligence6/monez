@@ -48,19 +48,13 @@
                                 @foreach($teamMembers as $teamMember)
                                     <tr>
                                         <td>{{ $teamMember->name }}</td>
-                                        <td>{{ $teamMember->email }}</td>
+                                        <td>{{ $teamMember->email }}-{{$teamMember->id}}</td>
 
                                         <td>
                                             <a class="action-icon" data-trigger="modal" data-target="edit-member-modal">
                                                 <i class="mdi mdi-square-edit-outline"></i></a>
                                         </td>
-                                        <td>
-                                            <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
-                                        </td>
+                                        <!--  -->
                                     </tr>
                                 @endforeach
                                 </tbody>
