@@ -138,7 +138,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'settings'])}}">
+                    <a href="{{route('settings.index')}}">
                         <i class="fe-settings"></i>
                         <span> SETTINGS </span>
                     </a>
