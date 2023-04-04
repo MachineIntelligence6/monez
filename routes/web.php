@@ -7,6 +7,7 @@ use App\Http\Controllers\FeedsController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TeamMemberController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,7 @@ Route::resource('feeds', FeedsController::class);
 Route::resource('channels', ChannelsController::class);
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
+Route::resource('settings', SettingController::class);
 Route::get('downloadpdf/{id}/{pdf}/{name}', 'AdvertiserController@DownloadPdf')->name('downloadpdf');
 
 
