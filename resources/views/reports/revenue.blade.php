@@ -62,7 +62,6 @@
                                 <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" name="" data-toggle="select2" required>
                                         <option>Select Period</option>
-                                        <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
                                         <option value="custom-range" data-hello="kdam,adm,adm">Custom Range</option>

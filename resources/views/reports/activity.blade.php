@@ -62,6 +62,7 @@
                                 <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" name="" data-toggle="select2" required>
                                         <option>Select Period</option>
+                                        <option value="">Yesterday</option>
                                         <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
@@ -84,7 +85,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="table-responsive" style="overflow-x: hidden; max-width: 100vw;">
+                    <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
