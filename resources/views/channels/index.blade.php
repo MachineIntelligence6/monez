@@ -52,7 +52,7 @@
                                     <td>1001</td>
                                     <td>Publisher 1</td>
                                     <td><a class="text-blue" href="https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}">https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}</a></td>
-                                    <td>Assigned Feeds</td>
+                                    <td> Feed 1 <br> Feed 2</td>
                                     <td>
                                         <a class="btn bg-secondary text-white">View Info</a>
                                         <a class="btn bg-danger text-white">Disable</a>
@@ -63,7 +63,7 @@
                                     <td>1002</td>
                                     <td>Advertiser 2</td>
                                     <td><a class="text-blue" href="http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}">http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}</a></td>
-                                    <td>Assigned Feeds</td>
+                                    <td> Feed 1 <br> Feed 2</td>
                                     <td>
                                         <a class="btn bg-secondary text-white">View Info</a>
                                         <a class="btn bg-danger text-white">Disable</a>

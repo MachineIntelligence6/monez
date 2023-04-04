@@ -57,7 +57,7 @@ class AdvertiserController extends Controller
             'dbaId' => 'required',
             'companyName'  => 'required',
             'url' => 'required',
-            'accEmail'=> 'required',
+            'accEmail' => 'required',
             'password' => 'required',
             'address1' => 'required',
             'city_id' => 'required',
@@ -67,38 +67,32 @@ class AdvertiserController extends Controller
             'amEmail' => 'required',
             'revSharePer' => 'required',
             'paymentTerms' => 'required',
-//            'reportEmail' => 'required',
-//            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
-//            'document' => 'required|max:2048|mimes:pdf,pdf',
+            //            'reportEmail' => 'required',
+            //            'agreementDoc' => 'required|max:2048|mimes:pdf,pdf',
+            //            'document' => 'required|max:2048|mimes:pdf,pdf',
         ]);
         $Ios = [];
-        if($request->hasFile('ios'))
-        {
+        if ($request->hasFile('ios')) {
             foreach ($request->file('ios') as $io) {
                 $ioName = $io->getClientOriginalName();
                 $dbaId = $request->dbaId;
-                $agreementDoc = $dbaId."-".time().$ioName;
-                $io->move(public_path('assets/files/uploads/ios/'.$dbaId.''), $agreementDoc);
-                $Ios[]= $agreementDoc;
+                $agreementDoc = $dbaId . "-" . time() . $ioName;
+                $io->move(public_path('assets/files/uploads/ios/' . $dbaId . ''), $agreementDoc);
+                $Ios[] = $agreementDoc;
             }
-        }
-        else
-        {
+        } else {
             $agreementDoc = "Not Delivered";
         }
         $Documents = [];
-        if($request->hasFile('documents'))
-        {
+        if ($request->hasFile('documents')) {
             foreach ($request->file('documents') as $document) {
                 $documentName = $document->getClientOriginalName();
                 $dbaId = $request->dbaId;
-                $documentFile = $dbaId."-".time().$documentName;
-                $document->move(public_path('assets/files/uploads/document/'.$dbaId.''), $documentFile);
+                $documentFile = $dbaId . "-" . time() . $documentName;
+                $document->move(public_path('assets/files/uploads/document/' . $dbaId . ''), $documentFile);
                 $Documents[] = $documentFile;
             }
-        }
-        else
-        {
+        } else {
             $document = "Not Delivered";
         }
 
@@ -125,13 +119,13 @@ class AdvertiserController extends Controller
         $adv->amPhone = $request->amPhone;
         $adv->amSkype = $request->amSkype;
         $adv->amLinkedIn = $request->amLinkedIn;
-        $adv->agreementDoc = implode(",",$Ios);
+        $adv->agreementDoc = implode(",", $Ios);
         $adv->revSharePer = $request->revSharePer;
         $adv->paymentTerms = $request->paymentTerms;
         $adv->bank_id = $request->bank;
         $adv->payoneer = $request->payoneer;
         $adv->paypal = $request->paypal;
-        $adv->document =implode(',',$Documents);
+        $adv->document = implode(',', $Documents);
         $adv->notes = $request->notes;
         $adv->agreement_start_date = $request->AgreementStartDate;
         $adv->team_member_id = $request->dbaId;
@@ -175,7 +169,6 @@ class AdvertiserController extends Controller
         $advertiserReportType->save();
 
         return redirect()->back()->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
-
     }
 
     /**
@@ -199,7 +192,7 @@ class AdvertiserController extends Controller
     {
         $countries = Country::all();
         $banks = Bank::all();
-        return view('advertiser.edit', compact('advertiser','countries', 'banks'));
+        return view('advertiser.edit', compact('advertiser', 'countries', 'banks'));
     }
 
     /**
@@ -237,7 +230,7 @@ class AdvertiserController extends Controller
         $advertiser->amPhone = $request->amPhone;
         $advertiser->amSkype = $request->amSkype;
         $advertiser->amLinkedIn = $request->amLinkedIn;
-        
+
         $advertiser->agreementDoc = $request->agreementDoc;
         $advertiser->revSharePer = $request->revSharePer;
         $advertiser->paymentTerms = $request->paymentTerms;
@@ -251,7 +244,6 @@ class AdvertiserController extends Controller
         $advertiser->update();
 
         return redirect()->back()->with('success', 'Advertiser Form Data Has Been Updated Successfuly:');
-
     }
 
     /**
@@ -281,18 +273,16 @@ class AdvertiserController extends Controller
     }
 
 
-public function DownloadPdf(Request $request, $id, $pdf,$name)
-{
-    $advertiser = Advertiser::where('id', $id)->first();
-    $document = $advertiser->document;
-    $dbaId = $advertiser->dbaId;
-    $filePath = public_path('assets/files/uploads/document/' . $dbaId . '/' . $name);
-    if (file_exists($filePath)) {
-        return response()->download($filePath);
-    } else {
-        return redirect()->back()->with('error', 'File not found.');
+    public function DownloadPdf(Request $request, $id, $pdf, $name)
+    {
+        $advertiser = Advertiser::where('id', $id)->first();
+        $document = $advertiser->document;
+        $dbaId = $advertiser->dbaId;
+        $filePath = public_path('assets/files/uploads/document/' . $dbaId . '/' . $name);
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        } else {
+            return redirect()->back()->with('error', 'File not found.');
+        }
     }
-}
-
-
 }

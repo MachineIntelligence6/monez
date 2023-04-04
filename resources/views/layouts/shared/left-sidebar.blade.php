@@ -131,7 +131,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'finances'])}}" class="isDisabled">
+                    <a href="{{route('finance.index')}}">
                         <i data-feather="shopping-cart"></i>
                         <span> FINANCE </span>
                     </a>
