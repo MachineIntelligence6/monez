@@ -39,35 +39,49 @@
                                 entries
                             </label>
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <div class="row">
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2" required>
+                                    <select class="form-control" name="parteners" id="select-partners" data-toggle="select2">
                                         <option>Select Partners</option>
                                         <option value="">All</option>
                                         <option value="">All Publishers</option>
                                         <option value="">All Advertisers</option>
+                                        <option value="select-custom">Select Custom</option>
                                     </select>
                                 </div>
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2" required>
+                                    <select class="form-control" name="" data-toggle="select2">
                                         <option>Select Type</option>
                                         <option value="">All</option>
                                         <option value="">All Feeds</option>
                                         <option value="">All Channels</option>
+                                        <option value="select-custom">Select Custom</option>
                                     </select>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" name="" data-toggle="select2" required>
                                         <option>Select Period</option>
                                         <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
-                                        <option value="custom-range">Custom Range</option>
+                                        <option value="custom-range" data-hello="kdam,adm,adm">Custom Range</option>
                                     </select>
-                                   <!-- <input type="text" id="range-datepicker" class="form-control" placeholder="2018-10-03 to 2018-10-10">  -->
+                                    <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-2">
+                            <select class="form-control" name="" data-toggle="select2" required>
+                                <option>Show Columns</option>
+                                <option value="">Latency (Seconds)</option>
+                                <option value="">Follow On Searches (%)</option>
+                                <option value="">Coverage (%)</option>
+                                <option value="">CTR (%)</option>
+                                <option value="">RPM ($)</option>
+                                <option value="">Monetized RPM (%)</option>
+                                <option value="">EPC ($)</option>
+                            </select>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -89,39 +103,39 @@
                                     <th>Advertiser Revenue ($)</th>
                                     <th>Search Monez Revenue ($)</th>
                                     <th>Publisher Revenue ($)</th>
-                                    <th>Latency (Seconds)</th>
+                                    <!-- <th>Latency (Seconds)</th>
                                     <th>Follow On Searches (%)</th>
                                     <th>Coverage (%)</th>
                                     <th>CTR (%)</th>
                                     <th>RPM ($)</th>
                                     <th>Monetized RPM (%)</th>
-                                    <th>EPC ($)</th>
+                                    <th>EPC ($)</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>dummy Advertiser</td>
-                                <td>dummy Feed </td>
-                                <td>dummy publisher</td>
-                                <td>dummy channel</td>
-                                <td>dummy subid</td>
-                                <td>dummy daily reports</td>
-                                <td>dummy GEO</td>
-                                <td>dummy searches</td>
-                                <td>dummy Monetize </td>
-                                <td>dummy paid clicks</td>
-                                <td>dummy revenue</td>
-                                <td>dummy mon revenue</td>
-                                <td>dummy pub revenue</td>
-                                <td>dummy latency</td>
-                                <td>dummy follow on</td>
-                                <td>dummy coverage</td>
-                                <td>dummy CTR</td>
-                                <td>dummy RPM</td>
-                                <td>dummy Monetized RPM</td>
-                                <td>dummy EPC</td>
-                              </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dummy Advertiser</td>
+                                    <td>dummy Feed </td>
+                                    <td>dummy publisher</td>
+                                    <td>dummy channel</td>
+                                    <td>dummy subid</td>
+                                    <td>dummy daily reports</td>
+                                    <td>dummy GEO</td>
+                                    <td>dummy searches</td>
+                                    <td>dummy Monetize </td>
+                                    <td>dummy paid clicks</td>
+                                    <td>dummy revenue</td>
+                                    <td>dummy mon revenue</td>
+                                    <td>dummy pub revenue</td>
+                                    <!-- <td>dummy latency</td>
+                                    <td>dummy follow on</td>
+                                    <td>dummy coverage</td>
+                                    <td>dummy CTR</td>
+                                    <td>dummy RPM</td>
+                                    <td>dummy Monetized RPM</td>
+                                    <td>dummy EPC</td> -->
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -134,6 +148,7 @@
 
 
 @endsection
+
 @section('script')
 <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
@@ -142,9 +157,6 @@
 
 
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
-<script src="{{asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
-<script src="{{asset('assets/libs/clockpicker/clockpicker.min.js')}}"></script>
-<script src="{{asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
@@ -162,25 +174,20 @@
     });
 
 
-//     $(".selectperiod").change(function() {
-//         debugger
-//         console.log("dropdwon value", $(this).val())
-//     if ($(this).val() == "custom-range") {
-//        $("#range-datepicker").show();
-//     } else {
-//       $("#range-datepicker").hide();
-//     }
-//   });
-$(document).ready(function(){
-    $(".selectperiod").change(function() {
-    debugger
-    if ($(this).val() == "custom-range") {
-      $("#range-datepicker").datepicker("show");
-    } else {
-      $("#range-datepicker").datepicker("hide");
-    }
-  });
-})
-
+    $(".selectperiod").on("select2:close", function() {
+        let value = $(this).val()
+        if (value === "custom-range") {
+            setTimeout(() => {
+                $(".custom-range-date-picker").flatpickr({
+                    mode: "range"
+                }).toggle()
+            }, 0);
+            $(".custom-range-date-picker").change((e) => {
+                let renderedContainer = $(this).siblings(".select2-container")
+                    .find(".select2-selection__rendered");
+                renderedContainer.text("Custom Range " + `( ${$(e.target).val()} )`);
+            });
+        }
+    })
 </script>
 @endsection

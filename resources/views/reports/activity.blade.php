@@ -39,37 +39,52 @@
                                 entries
                             </label>
                         </div>
-                        <div class="col-8">
+                        <div class="col-7">
                             <div class="row">
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2" required>
+                                    <select class="form-control" name="parteners" id="select-partners" data-toggle="select2">
                                         <option>Select Partners</option>
                                         <option value="">All</option>
                                         <option value="">All Publishers</option>
                                         <option value="">All Advertisers</option>
+                                        <option value="select-custom">Select Custom</option>
                                     </select>
                                 </div>
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2" required>
+                                    <select class="form-control" name="" data-toggle="select2">
                                         <option>Select Type</option>
                                         <option value="">All</option>
                                         <option value="">All Feeds</option>
                                         <option value="">All Channels</option>
+                                        <option value="select-custom">Select Custom</option>
                                     </select>
                                 </div>
-                                <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2" required>
+                                <div class="col-auto" style="min-width: 200px;">
+                                    <select class="form-control selectperiod" name="" data-toggle="select2" required>
                                         <option>Select Period</option>
                                         <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
-                                        <option value="">Custom Range</option>
+                                        <option value="custom-range" data-hello="kdam,adm,adm">Custom Range</option>
                                     </select>
+                                    <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
                             </div>
                         </div>
+                        <div class="col-2">
+                            <select class="form-control" name="" data-toggle="select2" required>
+                                <option>Show Columns</option>
+                                <option value="">Latency (Seconds)</option>
+                                <option value="">Follow On Searches (%)</option>
+                                <option value="">Coverage (%)</option>
+                                <option value="">CTR (%)</option>
+                                <option value="">RPM ($)</option>
+                                <option value="">Monetized RPM (%)</option>
+                                <option value="">EPC ($)</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow-x: hidden; max-width: 100vw;">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
@@ -107,11 +122,18 @@
 
 
 @endsection
+
 @section('script')
 <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 
 <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+
+
+<script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
+
+<!-- Page js-->
+<script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 
 <script type="text/javascript">
     $('#products-datatable').DataTable({
@@ -124,7 +146,22 @@
             $('div.toolbar').html();
         }
     });
-</script>
-<script>
+
+
+    $(".selectperiod").on("select2:close", function() {
+        let value = $(this).val()
+        if (value === "custom-range") {
+            setTimeout(() => {
+                $(".custom-range-date-picker").flatpickr({
+                    mode: "range"
+                }).toggle()
+            }, 0);
+            $(".custom-range-date-picker").change((e) => {
+                let renderedContainer = $(this).siblings(".select2-container")
+                    .find(".select2-selection__rendered");
+                renderedContainer.text("Custom Range " + `( ${$(e.target).val()} )`);
+            });
+        }
+    })
 </script>
 @endsection
