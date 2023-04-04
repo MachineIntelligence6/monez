@@ -106,7 +106,9 @@
                                         Succeess Manager
                                     </td>
                                     <td>
-                                        <a class="btn bg-secondary text-white">View Info</a>
+                                        <!-- <a class="btn bg-secondary text-white">View Info</a> -->
+                                        <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> View Info</a>
+
                                         <!-- <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
                                     </td>
                                 </tr>

@@ -18,6 +18,7 @@ class TeamMemberController extends Controller
 
         $teamMembers = DB::table('team_members')
             ->leftJoin('advertisers', 'team_members.id', '=', 'advertisers.team_member_id')->get();
+            // dd($teamMembers);
         return view('teammembers.index',compact('teamMembers'));
     }
 
@@ -39,6 +40,7 @@ class TeamMemberController extends Controller
      */
     public function store(Request $request)
     {
+        // dd('test');
         $validatedData = $request->validate([
             'name'  => 'required',
             'email' => 'required',
@@ -46,7 +48,9 @@ class TeamMemberController extends Controller
             'skype'=> 'required',
             'linkedin'=> 'required',
         ]);
+        // dd($validatedData);
         $teamMember = new TeamMember();
+        // dd($validatedData);
         $teamMember->create($validatedData);
         return redirect()->route('team-members.index');
     }
