@@ -31,6 +31,7 @@ return array(
     'App\\Http\\Controllers\\CountryController' => $baseDir . '/app/Http/Controllers/CountryController.php',
     'App\\Http\\Controllers\\FeedsController' => $baseDir . '/app/Http/Controllers/FeedsController.php',
     'App\\Http\\Controllers\\PublisherController' => $baseDir . '/app/Http/Controllers/PublisherController.php',
+    'App\\Http\\Controllers\\ReportsController' => $baseDir . '/app/Http/Controllers/ReportsController.php',
     'App\\Http\\Controllers\\RoutingController' => $baseDir . '/app/Http/Controllers/RoutingController.php',
     'App\\Http\\Controllers\\SettingController' => $baseDir . '/app/Http/Controllers/SettingController.php',
     'App\\Http\\Controllers\\StateController' => $baseDir . '/app/Http/Controllers/StateController.php',
