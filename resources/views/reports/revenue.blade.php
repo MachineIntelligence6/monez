@@ -58,13 +58,14 @@
                                     </select>
                                 </div>
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2" required>
+                                    <select class="form-control selectperiod" name="" data-toggle="select2" required>
                                         <option>Select Period</option>
                                         <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
-                                        <option value="">Custom Range</option>
+                                        <option value="custom-range">Custom Range</option>
                                     </select>
+                                   <!-- <input type="text" id="range-datepicker" class="form-control" placeholder="2018-10-03 to 2018-10-10">  -->
                                 </div>
                             </div>
                         </div>
@@ -74,7 +75,7 @@
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Advertise</th>
+                                    <th>Advertiser</th>
                                     <th>Feed</th>
                                     <th>Publisher</th>
                                     <th>Channel</th>
@@ -83,7 +84,7 @@
                                     <th>GEO</th>
                                     <th>Total Searches</th>
                                     <!-- Location = City + Country  -->
-                                    <th>Monetize Searches</th>
+                                    <th>Monetized Searches</th>
                                     <th>Paid Clicks</th>
                                     <th>Advertiser Revenue ($)</th>
                                     <th>Search Monez Revenue ($)</th>
@@ -94,11 +95,33 @@
                                     <th>CTR (%)</th>
                                     <th>RPM ($)</th>
                                     <th>Monetized RPM (%)</th>
-                                    <th>EPC</th>
+                                    <th>EPC ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                              <tr>
+                                <td>1</td>
+                                <td>dummy Advertiser</td>
+                                <td>dummy Feed </td>
+                                <td>dummy publisher</td>
+                                <td>dummy channel</td>
+                                <td>dummy subid</td>
+                                <td>dummy daily reports</td>
+                                <td>dummy GEO</td>
+                                <td>dummy searches</td>
+                                <td>dummy Monetize </td>
+                                <td>dummy paid clicks</td>
+                                <td>dummy revenue</td>
+                                <td>dummy mon revenue</td>
+                                <td>dummy pub revenue</td>
+                                <td>dummy latency</td>
+                                <td>dummy follow on</td>
+                                <td>dummy coverage</td>
+                                <td>dummy CTR</td>
+                                <td>dummy RPM</td>
+                                <td>dummy Monetized RPM</td>
+                                <td>dummy EPC</td>
+                              </tr>
                             </tbody>
                         </table>
                     </div>
@@ -117,6 +140,15 @@
 
 <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
 
+
+<script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
+<script src="{{asset('assets/libs/bootstrap-colorpicker/bootstrap-colorpicker.min.js')}}"></script>
+<script src="{{asset('assets/libs/clockpicker/clockpicker.min.js')}}"></script>
+<script src="{{asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+
+<!-- Page js-->
+<script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
+
 <script type="text/javascript">
     $('#products-datatable').DataTable({
         searching: false,
@@ -128,7 +160,27 @@
             $('div.toolbar').html();
         }
     });
-</script>
-<script>
+
+
+//     $(".selectperiod").change(function() {
+//         debugger
+//         console.log("dropdwon value", $(this).val())
+//     if ($(this).val() == "custom-range") {
+//        $("#range-datepicker").show();
+//     } else {
+//       $("#range-datepicker").hide();
+//     }
+//   });
+$(document).ready(function(){
+    $(".selectperiod").change(function() {
+    debugger
+    if ($(this).val() == "custom-range") {
+      $("#range-datepicker").datepicker("show");
+    } else {
+      $("#range-datepicker").datepicker("hide");
+    }
+  });
+})
+
 </script>
 @endsection
