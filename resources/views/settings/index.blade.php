@@ -50,7 +50,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4>Language </h4>
-                    <p>Egnlish - UK</p>
+                    <p>English - UK</p>
 
                 </div> <!-- end card-body-->
             </div> <!-- end card-->
@@ -154,26 +154,23 @@
     <!-- end row -->
 
     <div class="row mt-3">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3 d-flex justify-content-between">
-                        <h4>Custom Message </h4>
+                        <h4>Custom Message</h4>
                         <button class="btn btn-secondary addCustomFieldBtn"><i class="mdi mdi-plus"></i></button>
                     </div>
-                    <div class="dynamicFeilds">
-                        <div class="appendFieldWrapper">
+                    <div class="dynamicFeilds row">
+                        <div class="appendFieldWrapper mb-3 col-md-6">
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-12">
                                     <select class="form-control mySelect2" name="" data-toggle="select2" required>
                                         <option>Select Partners</option>
                                         <option value="">All</option>
                                         <option value="">All Publishers</option>
                                         <option value="">All Advertisers</option>
                                     </select>
-                                </div>
-                                <div class="col-md-2 text-right">
-                                    <button class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
                                 </div>
                             </div>
                             <div class="row">
@@ -184,7 +181,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12 text-right">
+                                <div class="col-md-6 t">
+                                    <div class="mt-3">
+                                    <button class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-right">
                                     <div class="mt-3">
                                         <button class="btn btn-info">Send</button>
                                     </div>
@@ -192,7 +194,8 @@
                             </div>
                         </div>
                     </div>
-                </div> <!-- end card-body-->
+                </div>
+                <!-- end card-body-->
             </div> <!-- end card-->
         </div>
         <!-- end col -->
@@ -219,12 +222,17 @@
         // });
 
         $('#requestType').change(function() {
-                console.log($(this))
-                if ($(this).val() == 'documents') {
-                    $('.documentType').css('display', 'block');
-                } else {
-                    $('.documentType').css('display', 'none');
-                }
-         });
+            if ($(this).val() == 'documents') {
+                $('.documentType').css('display', 'block');
+            } else {
+                $('.documentType').css('display', 'none');
+            }
+        });
+
+        $('.addCustomFieldBtn').click(function() {
+            var clone = $('.appendFieldWrapper').clone();
+            clone.removeClass('appendFieldWrapper');
+            $('.dynamicFeilds').append(clone);
+        });
     </script>
     @endsection

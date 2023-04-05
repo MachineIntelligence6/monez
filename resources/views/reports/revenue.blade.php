@@ -2,6 +2,7 @@
 
 @section('content')
 <!-- Start Content-->
+
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -42,11 +43,30 @@
                         <div class="col-8">
                             <div class="row">
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2" required>
+                                    <!-- <select class="form-control" name="" data-toggle="select2" required>
                                         <option>Select Partners</option>
                                         <option value="">All</option>
                                         <option value="">All Publishers</option>
                                         <option value="">All Advertisers</option>
+                                    </select> -->
+                                    <select multiple="multiple" placeholder="Hello im from placeholder" class="search_test SumoUnder">
+                                        <option selected value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option disabled="disabled" value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                        <option value="bmw">BMW</option>
+                                        <option value="porsche">Porche</option>
+                                        <option value="ferrari">Ferrari</option>
+                                        <option class="someclass" value="audi">Audi</option>
+                                        <option class="someclass" value="bmw">BMW</option>
+                                        <option class="someclass" value="porsche">Porche</option>
+                                        <option value="ferrari">Ferrari</option>
+                                        <option value="audi">Audi</option>
+                                        <option value="bmw">BMW</option>
+                                        <option value="porsche">Porche</option>
+                                        <option value="ferrari">Ferrari</option>
+                                        <option value="hyundai">Hyundai</option>
+                                        <option value="mitsubishi">Mitsubishi</option>
                                     </select>
                                 </div>
                                 <div class="col-3">
@@ -65,7 +85,7 @@
                                         <option value="">Previous Month</option>
                                         <option value="custom-range">Custom Range</option>
                                     </select>
-                                   <!-- <input type="text" id="range-datepicker" class="form-control" placeholder="2018-10-03 to 2018-10-10">  -->
+                                    <!-- <input type="text" id="range-datepicker" class="form-control" placeholder="2018-10-03 to 2018-10-10">  -->
                                 </div>
                             </div>
                         </div>
@@ -99,29 +119,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>dummy Advertiser</td>
-                                <td>dummy Feed </td>
-                                <td>dummy publisher</td>
-                                <td>dummy channel</td>
-                                <td>dummy subid</td>
-                                <td>dummy daily reports</td>
-                                <td>dummy GEO</td>
-                                <td>dummy searches</td>
-                                <td>dummy Monetize </td>
-                                <td>dummy paid clicks</td>
-                                <td>dummy revenue</td>
-                                <td>dummy mon revenue</td>
-                                <td>dummy pub revenue</td>
-                                <td>dummy latency</td>
-                                <td>dummy follow on</td>
-                                <td>dummy coverage</td>
-                                <td>dummy CTR</td>
-                                <td>dummy RPM</td>
-                                <td>dummy Monetized RPM</td>
-                                <td>dummy EPC</td>
-                              </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dummy Advertiser</td>
+                                    <td>dummy Feed </td>
+                                    <td>dummy publisher</td>
+                                    <td>dummy channel</td>
+                                    <td>dummy subid</td>
+                                    <td>dummy daily reports</td>
+                                    <td>dummy GEO</td>
+                                    <td>dummy searches</td>
+                                    <td>dummy Monetize </td>
+                                    <td>dummy paid clicks</td>
+                                    <td>dummy revenue</td>
+                                    <td>dummy mon revenue</td>
+                                    <td>dummy pub revenue</td>
+                                    <td>dummy latency</td>
+                                    <td>dummy follow on</td>
+                                    <td>dummy coverage</td>
+                                    <td>dummy CTR</td>
+                                    <td>dummy RPM</td>
+                                    <td>dummy Monetized RPM</td>
+                                    <td>dummy EPC</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -146,6 +166,10 @@
 <script src="{{asset('assets/libs/clockpicker/clockpicker.min.js')}}"></script>
 <script src="{{asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="{{asset('assets/libs/sumomultiselect/jquery.sumoselect.min.js')}}"></script>
+<!-- <script src="{{asset('assets/libs/sumomultiselect/sumoselect.min.css')}}"></script> -->
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 
@@ -160,27 +184,28 @@
             $('div.toolbar').html();
         }
     });
-
-
-//     $(".selectperiod").change(function() {
-//         debugger
-//         console.log("dropdwon value", $(this).val())
-//     if ($(this).val() == "custom-range") {
-//        $("#range-datepicker").show();
-//     } else {
-//       $("#range-datepicker").hide();
-//     }
-//   });
-$(document).ready(function(){
-    $(".selectperiod").change(function() {
-    debugger
-    if ($(this).val() == "custom-range") {
-      $("#range-datepicker").datepicker("show");
-    } else {
-      $("#range-datepicker").datepicker("hide");
-    }
-  });
-})
-
+    $('.search_test').SumoSelect({
+        search: true,
+        searchText: 'Enter here.'
+    });
+    //     $(".selectperiod").change(function() {
+    //         debugger
+    //         console.log("dropdwon value", $(this).val())
+    //     if ($(this).val() == "custom-range") {
+    //        $("#range-datepicker").show();
+    //     } else {
+    //       $("#range-datepicker").hide();
+    //     }
+    //   });
+    $(document).ready(function() {
+        $(".selectperiod").change(function() {
+            debugger
+            if ($(this).val() == "custom-range") {
+                $("#range-datepicker").datepicker("show");
+            } else {
+                $("#range-datepicker").datepicker("hide");
+            }
+        });
+    })
 </script>
 @endsection
