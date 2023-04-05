@@ -56,3 +56,6 @@ input[type=number] {
 .documentType{
   display: none;
 }
+.custom-file .custom-file-input{
+  display: none;
+}
