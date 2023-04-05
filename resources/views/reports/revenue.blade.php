@@ -2,6 +2,7 @@
 
 @section('content')
 <!-- Start Content-->
+
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -26,6 +27,39 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="row mb-3 justify-content-end">
+                        <div class="col-auto">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                        <label class="btn btn-secondary" for="customFile">Upload CSV</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
+                                </div>
+                                <div class="col-auto" style="min-width: 160px">
+                                    <select class="form-control" name="" data-toggle="select2" required>
+                                        <option>Show Columns</option>
+                                        <option value="">Latency (Seconds)</option>
+                                        <option value="">Follow On Searches (%)</option>
+                                        <option value="">Coverage (%)</option>
+                                        <option value="">CTR (%)</option>
+                                        <option value="">RPM ($)</option>
+                                        <option value="">Monetized RPM (%)</option>
+                                        <option value="">EPC ($)</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                        <label class="btn btn-secondary" for="customFile">Export CSV</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mb-2 align-items-center justify-content-between">
                         <div class="col-auto">
                             <label>
@@ -39,7 +73,7 @@
                                 entries
                             </label>
                         </div>
-                        <div class="col-7">
+                        <div class="col-6">
                             <div class="row">
                                 <div class="col-3">
                                     <select class="form-control" name="parteners" id="select-partners" data-toggle="select2">
@@ -59,7 +93,7 @@
                                         <option value="select-custom">Select Custom</option>
                                     </select>
                                 </div>
-                                <div class="col-auto" style="min-width: 200px;">
+                                <div class="col-auto" style="min-width:160px;">
                                     <select class="form-control selectperiod" name="" data-toggle="select2" required>
                                         <option>Select Period</option>
                                         <option value="">Month to Date</option>
@@ -68,19 +102,18 @@
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
+                                <div class="col-auto">
+                                    <div class="pl-2 d-flex align-items-center h-100 countrywise__checkbox">
+                                        <input class="form-check-input mt-0" type="checkbox" value="" id="countrywise">
+                                        <label class="form-check-label" for="countrywise">
+                                            Country Wise
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-2">
-                            <select class="form-control" name="" data-toggle="select2" required>
-                                <option>Show Columns</option>
-                                <option value="">Latency (Seconds)</option>
-                                <option value="">Follow On Searches (%)</option>
-                                <option value="">Coverage (%)</option>
-                                <option value="">CTR (%)</option>
-                                <option value="">RPM ($)</option>
-                                <option value="">Monetized RPM (%)</option>
-                                <option value="">EPC ($)</option>
-                            </select>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">Go</button>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -145,10 +178,10 @@
     <!-- end row -->
 </div> <!-- container -->
 
-
+@include('reports.modals.apidetail-modal')
 @endsection
 
-@section('script')
+@section('script-bottom')
 <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 
@@ -157,9 +190,13 @@
 
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
 
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="{{asset('assets/libs/sumomultiselect/jquery.sumoselect.min.js')}}"></script>
+<!-- <script src="{{asset('assets/libs/sumomultiselect/sumoselect.min.css')}}"></script> -->
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
-
+<script src="{{asset('assets/js/modal-init.js')}}"></script>
 <script type="text/javascript">
     $('#products-datatable').DataTable({
         searching: false,
@@ -171,7 +208,6 @@
             $('div.toolbar').html();
         }
     });
-
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
