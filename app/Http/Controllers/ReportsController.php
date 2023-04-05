@@ -13,9 +13,9 @@ class ReportsController extends Controller
     }
 
 
+    public function revenue()
+    {
+        return view("reports.revenue");
+    }
 
-    // public function revenue()
-    // {
-    //     return view('reports.revenue');
-    // }
 }
