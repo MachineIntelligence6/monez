@@ -42,22 +42,56 @@
                         <div class="col-7">
                             <div class="row">
                                 <div class="col-3">
-                                    <select class="form-control" name="parteners" id="select-partners" data-toggle="select2">
+                                    <select class="form-control" name="parteners" id="select-partners" data-target-dropdown="#partners-dropdown" data-toggle="select2">
                                         <option>Select Partners</option>
                                         <option value="">All</option>
                                         <option value="">All Publishers</option>
                                         <option value="">All Advertisers</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
+                                    <div id="partners-dropdown" class="dropdown-menu" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control" id="dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label w-100" for="customCheck1">Partner 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                <label class="custom-control-label w-100" for="customCheck2">Partner 2</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2">
+                                    <select class="form-control" name="" data-target-dropdown="#types-dropdown" data-toggle="select2">
                                         <option>Select Type</option>
                                         <option value="">All</option>
                                         <option value="">All Feeds</option>
                                         <option value="">All Channels</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
+                                    <div id="types-dropdown" class="dropdown-menu" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control" id="dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="feed1">
+                                                <label class="custom-control-label w-100" for="feed1">Feed 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="feed2">
+                                                <label class="custom-control-label w-100" for="feed2">Feed 2</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" name="" data-toggle="select2" required>
@@ -149,6 +183,12 @@
     });
 
 
+    $(".dropdown-item").on("click", (e) => {
+        // $(this).parent().toggleClass("show");
+        e.stopPropagation();
+    })
+
+
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
         if (value === "custom-range") {
@@ -163,6 +203,41 @@
                 renderedContainer.text("Custom Range " + `( ${$(e.target).val()} )`);
             });
         }
+    })
+
+    $("select[data-target-dropdown]").on("select2:close", function() {
+        let value = $(this).val()
+        if (value === "select-custom") {
+            $($(this).attr("data-target-dropdown")).show();
+        }
+    })
+
+
+
+    $(".dropdown-menu[data-searchable='true']").each((_, searchDrop) => {
+        $(document).click((e) => {
+            if (!searchDrop.contains(e.target)) {
+                $(searchDrop).hide();
+            }
+        })
+
+        $(searchDrop)
+            .find("#dropdown-search-input")
+            .first()
+            .on("input", (e) => {
+                let inputVal = $(e.target).val().toLowerCase();
+                console.log(inputVal);
+                $(searchDrop).find(".dropdown-item").each((_, dropItem) => {
+                    console.log(dropItem);
+                    let dropItemLabel = $(dropItem).find("label").text().toLowerCase();
+                    if (dropItemLabel.includes(inputVal)) {
+                        dropItem.classList.remove("d-none");
+                    } else {
+                        $(dropItem).find("input[type='checkbox']").prop("checked", false);
+                        dropItem.classList.add("d-none");
+                    }
+                })
+            })
     })
 </script>
 @endsection

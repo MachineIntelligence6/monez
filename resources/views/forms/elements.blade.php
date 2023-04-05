@@ -621,7 +621,7 @@
 
                             <p class="text-muted mt-3 mb-2">Checkboxes without label text <code>.checkbox-single</code></p>
                             <div class="checkbox checkbox-single">
-                                <input type="checkbox" id="singleCheckbox1" value="option1" aria-label="Single checkbox One">
+                                <input type="checkbox" class="form-control" id="singleCheckbox1" value="option1" aria-label="Single checkbox One">
                                 <label></label>
                             </div>
                             <div class="checkbox checkbox-primary checkbox-single">
