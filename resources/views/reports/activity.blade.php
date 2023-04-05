@@ -51,7 +51,7 @@
                                     </select>
                                     <div id="partners-dropdown" class="dropdown-menu" data-searchable="true">
                                         <div class="px-2">
-                                            <input type="text" class="form-control" id="dropdown-search-input" placeholder="search">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
@@ -77,7 +77,7 @@
                                     </select>
                                     <div id="types-dropdown" class="dropdown-menu" data-searchable="true">
                                         <div class="px-2">
-                                            <input type="text" class="form-control" id="dropdown-search-input" placeholder="search">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
@@ -104,19 +104,11 @@
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
+
                             </div>
                         </div>
-                        <div class="col-2">
-                            <select class="form-control" name="" data-toggle="select2" required>
-                                <option>Show Columns</option>
-                                <option value="">Latency (Seconds)</option>
-                                <option value="">Follow On Searches (%)</option>
-                                <option value="">Coverage (%)</option>
-                                <option value="">CTR (%)</option>
-                                <option value="">RPM ($)</option>
-                                <option value="">Monetized RPM (%)</option>
-                                <option value="">EPC ($)</option>
-                            </select>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">Go</button>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -167,6 +159,10 @@
 
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
 
+
+<script src="{{asset('assets/js/custom/custom-multiselect-dropdown.js')}}"></script>
+
+
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 
@@ -183,11 +179,6 @@
     });
 
 
-    $(".dropdown-item").on("click", (e) => {
-        // $(this).parent().toggleClass("show");
-        e.stopPropagation();
-    })
-
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
@@ -203,41 +194,6 @@
                 renderedContainer.text("Custom Range " + `( ${$(e.target).val()} )`);
             });
         }
-    })
-
-    $("select[data-target-dropdown]").on("select2:close", function() {
-        let value = $(this).val()
-        if (value === "select-custom") {
-            $($(this).attr("data-target-dropdown")).show();
-        }
-    })
-
-
-
-    $(".dropdown-menu[data-searchable='true']").each((_, searchDrop) => {
-        $(document).click((e) => {
-            if (!searchDrop.contains(e.target)) {
-                $(searchDrop).hide();
-            }
-        })
-
-        $(searchDrop)
-            .find("#dropdown-search-input")
-            .first()
-            .on("input", (e) => {
-                let inputVal = $(e.target).val().toLowerCase();
-                console.log(inputVal);
-                $(searchDrop).find(".dropdown-item").each((_, dropItem) => {
-                    console.log(dropItem);
-                    let dropItemLabel = $(dropItem).find("label").text().toLowerCase();
-                    if (dropItemLabel.includes(inputVal)) {
-                        dropItem.classList.remove("d-none");
-                    } else {
-                        $(dropItem).find("input[type='checkbox']").prop("checked", false);
-                        dropItem.classList.add("d-none");
-                    }
-                })
-            })
     })
 </script>
 @endsection

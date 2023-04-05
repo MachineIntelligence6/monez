@@ -33,30 +33,68 @@
                                 <div class="col-auto">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="customFile" accept=".csv">
-                                        <label class="btn btn-secondary" for="customFile">Upload CSV</label>
+                                        <label class="btn btn-primary" for="customFile">Upload CSV</label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <button class="btn btn-primary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
-                                </div>
-                                <div class="col-auto" style="min-width: 160px">
-                                    <select class="form-control" name="" data-toggle="select2" required>
-                                        <option>Show Columns</option>
-                                        <option value="">Latency (Seconds)</option>
-                                        <option value="">Follow On Searches (%)</option>
-                                        <option value="">Coverage (%)</option>
-                                        <option value="">CTR (%)</option>
-                                        <option value="">RPM ($)</option>
-                                        <option value="">Monetized RPM (%)</option>
-                                        <option value="">EPC ($)</option>
-                                    </select>
                                 </div>
                                 <div class="col-auto">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="customFile" accept=".csv">
-                                        <label class="btn btn-secondary" for="customFile">Export CSV</label>
+                                        <label class="btn btn-primary" for="customFile">Export CSV</label>
                                     </div>
                                 </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-light" data-trigger="modal" data-target="apiDetailModal">API Details</button>
+                                </div>
+                                <div class="col-auto dropleft" style="min-width: 160px">
+                                    <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Show Columns
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="latency">
+                                                <label class="custom-control-label w-100" for="latency">Latency (Seconds)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="followOnSearches">
+                                                <label class="custom-control-label w-100" for="followOnSearches">Follow On Searches (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="coverage">
+                                                <label class="custom-control-label w-100" for="coverage">Coverage (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="ctr">
+                                                <label class="custom-control-label w-100" for="ctr">CTR (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="rpm">
+                                                <label class="custom-control-label w-100" for="rpm">RPM ($)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="monetizedRpm">
+                                                <label class="custom-control-label w-100" for="monetizedRpm">Monetized RPM (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="epc">
+                                                <label class="custom-control-label w-100" for="epc">EPC ($)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -76,38 +114,72 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-3">
-                                    <select class="form-control" name="parteners" id="select-partners" data-toggle="select2">
+                                    <select class="form-control" name="parteners" id="select-partners" data-target-dropdown="#partners-dropdown" data-toggle="select2">
                                         <option>Select Partners</option>
                                         <option value="">All</option>
                                         <option value="">All Publishers</option>
                                         <option value="">All Advertisers</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
+                                    <div id="partners-dropdown" class="dropdown-menu" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label w-100" for="customCheck1">Partner 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                <label class="custom-control-label w-100" for="customCheck2">Partner 2</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-toggle="select2">
+                                    <select class="form-control" data-target-dropdown="#types-dropdown" data-toggle="select2">
                                         <option>Select Type</option>
                                         <option value="">All</option>
                                         <option value="">All Feeds</option>
                                         <option value="">All Channels</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
+                                    <div id="types-dropdown" class="dropdown-menu" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="feed1">
+                                                <label class="custom-control-label w-100" for="feed1">Feed 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="feed2">
+                                                <label class="custom-control-label w-100" for="feed2">Feed 2</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-auto" style="min-width:160px;">
+                                <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" name="" data-toggle="select2" required>
                                         <option>Select Period</option>
+                                        <option value="">Yesterday</option>
+                                        <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
                                         <option value="custom-range" data-hello="kdam,adm,adm">Custom Range</option>
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
-                                <div class="col-auto">
-                                    <div class="pl-2 d-flex align-items-center h-100 countrywise__checkbox">
-                                        <input class="form-check-input mt-0" type="checkbox" value="" id="countrywise">
-                                        <label class="form-check-label" for="countrywise">
-                                            Country Wise
-                                        </label>
+                                <div class="col-auto my-auto">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="countryWise">
+                                        <label class="custom-control-label w-100" for="countryWise">Country Wise</label>
                                     </div>
                                 </div>
                             </div>
@@ -190,10 +262,9 @@
 
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
 
+<script src="{{asset('assets/js/custom/custom-multiselect-dropdown.js')}}"></script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script src="{{asset('assets/libs/sumomultiselect/jquery.sumoselect.min.js')}}"></script>
-<!-- <script src="{{asset('assets/libs/sumomultiselect/sumoselect.min.css')}}"></script> -->
+
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
@@ -224,5 +295,7 @@
             });
         }
     })
+
+
 </script>
 @endsection

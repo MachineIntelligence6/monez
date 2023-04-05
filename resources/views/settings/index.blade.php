@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Finances'])
+@extends('layouts.vertical', ['title' => 'Default Settings'])
 
 @section('content')
 <!-- Start Content-->
@@ -35,7 +35,7 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h4>Date Formate (Sitewide)</h4>
+                    <h4>Date Format</h4>
                     <p>DDMMYYYY</p>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -78,30 +78,41 @@
                         <h4>Notifications </h4>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Select Partners</label>
-                                <select class="form-control mySelect2" id="selectPartners" name="" required>
-                                    <option>Select Partners</option>
-                                    <option value="">All</option>
-                                    <option value="">All Publishers</option>
-                                    <option value="">All Advertisers</option>
-                                </select>
+                        <div class="col-md-12 mb-3">
+                            <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-notifications" data-toggle="select2">
+                                <option>Select Partners</option>
+                                <option value="">All</option>
+                                <option value="">All Publishers</option>
+                                <option value="">All Advertisers</option>
+                                <option value="select-custom">Select Custom</option>
+                            </select>
+                            <div id="partners-dropdown-notifications" class="dropdown-menu" data-searchable="true">
+                                <div class="px-2">
+                                    <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                </div>
+                                <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="notificationsPartner1">
+                                        <label class="custom-control-label w-100" for="notificationsPartner1">Partner 1</label>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="notificationsPartner2">
+                                        <label class="custom-control-label w-100" for="notificationsPartner2">Partner 2</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Request Type</label>
-                                <select class="form-control mySelect2" id="requestType" name="" required>
-                                    <option>Select Request Type</option>
-                                    <option value="io">IO</option>
-                                    <option value="documents">Documents</option>
-                                </select>
-                            </div>
+                        <div class="col-md-12 mb-3">
+                            <select class="form-control" name="requestType" data-toggle="select2">
+                                <option>Select Request Type</option>
+                                <option value="io">IO</option>
+                                <option value="documents">Documents</option>
+                            </select>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group documentType">
-                                <label>Document Type</label>
                                 <input type="text" class="form-control" placeholder="Document type" />
                             </div>
                         </div>
@@ -109,7 +120,7 @@
                     <div class="row">
                         <div class="col-md-12 text-right">
                             <div class="mt-3">
-                                <button class="btn btn-info">Send</button>
+                                <button class="btn btn-primary">Send</button>
                             </div>
                         </div>
                     </div>
@@ -127,7 +138,6 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Subject</label>
                                 <input type="text" class="form-control" placeholder="Subject" />
                             </div>
                         </div>
@@ -142,7 +152,7 @@
                     <div class="row">
                         <div class="col-md-12 text-right">
                             <div class="mt-3">
-                                <button class="btn btn-info">Send</button>
+                                <button class="btn btn-primary">Send</button>
                             </div>
                         </div>
                     </div>
@@ -165,12 +175,30 @@
                         <div class="appendFieldWrapper mb-3 col-md-6">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <select class="form-control mySelect2" name="" data-toggle="select2" required>
+                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2">
                                         <option>Select Partners</option>
                                         <option value="">All</option>
                                         <option value="">All Publishers</option>
                                         <option value="">All Advertisers</option>
+                                        <option value="select-custom">Select Custom</option>
                                     </select>
+                                    <div id="partners-dropdown-message" class="dropdown-menu" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="messagePartner1">
+                                                <label class="custom-control-label w-100" for="messagePartner1">Partner 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="messagePartner2">
+                                                <label class="custom-control-label w-100" for="messagePartner2">Partner 2</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -183,12 +211,12 @@
                             <div class="row">
                                 <div class="col-md-6 t">
                                     <div class="mt-3">
-                                    <button class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                                        <button class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <div class="mt-3">
-                                        <button class="btn btn-info">Send</button>
+                                        <button class="btn btn-primary">Send</button>
                                     </div>
                                 </div>
                             </div>
@@ -207,9 +235,11 @@
 
     @section('script-bottom')
     <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
+    <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+
+    <script src="{{asset('assets/js/custom/custom-multiselect-dropdown.js')}}"></script>
 
 
-    <script src="{{asset('assets/js/pages/dashboard-1.init.js')}}"></script>
     <script>
         $(document).ready(function() {
             $('.mySelect2').select2();

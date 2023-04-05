@@ -125,7 +125,9 @@
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{route('reports.index')}}">Activity Reports</a>
-                                <a href="#">Revenue Reports</a>
+                            </li>
+                            <li>
+                                <a href="{{route('reports.create')}}">Revenue Reports</a>
                             </li>
                         </ul>
                     </div>

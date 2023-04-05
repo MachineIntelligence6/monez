@@ -5,6 +5,7 @@ use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\FeedsController;
 use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SettingController;
@@ -36,6 +37,7 @@ Route::resource('channels', ChannelsController::class);
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
 Route::resource('settings', SettingController::class);
+Route::resource('profile', ProfileController::class);
 Route::get('downloadpdf/{id}/{pdf}/{name}', 'AdvertiserController@DownloadPdf')->name('downloadpdf');
 
 

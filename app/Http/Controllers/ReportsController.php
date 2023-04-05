@@ -13,9 +13,8 @@ class ReportsController extends Controller
     }
 
 
-    public function revenue()
+    public function create()
     {
         return view("reports.revenue");
     }
-
 }

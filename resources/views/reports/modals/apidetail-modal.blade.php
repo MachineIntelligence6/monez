@@ -1,6 +1,6 @@
 <div class="modal fade" id="apiDetailModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog">
-        <form action="{{route('team-members.store')}}" method="POST" class="needs-validation modal-content shadow shadow-5" novalidate>
+        <form action="" method="POST" class="needs-validation modal-content shadow shadow-5" novalidate>
             @csrf
             @method('POST')
             <div class="modal-header">
@@ -17,12 +17,3 @@
         </form>
     </div>
 </div>
-@section('script')
-
-<script>
-    window.addEventListener("DOMContentLoaded", () => {
-        generateRandomPassword(null)
-    })
-</script>
-
-@endsection
