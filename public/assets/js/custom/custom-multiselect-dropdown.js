@@ -4,21 +4,30 @@ $(".dropdown-item").on("click", (e) => {
     e.stopPropagation();
 })
 
-$("select[data-target-dropdown]").on("select2:close", function () {
-    let value = $(this).val()
-    if (value === "select-custom") {
-        $($(this).attr("data-target-dropdown")).show();
-    }
-})
+function _handleSelect2Close() {
+    $("select").filter("[data-target-dropdown]").on("select2:close", function () {
+        let value = $(this).val()
+        if (value === "select-custom") {
+            $($(this).attr("data-target-dropdown")).show();
+        }
+    });
+    $(document).on('click', (e) => {
+        $('.dropdown-menu').each((_, searchDrop) => {
+            if (!searchDrop.contains(e.target)) {
+                $(searchDrop).hide();
+            }
+        })
+    })
+}
+
+_handleSelect2Close();
+
+function refreshCustomMultiSelect() {
+    _handleSelect2Close();
+}
 
 
 $(".dropdown-menu[data-searchable='true']").each((_, searchDrop) => {
-    console.log(searchDrop);
-    $(document).click((e) => {
-        if (!searchDrop.contains(e.target)) {
-            $(searchDrop).hide();
-        }
-    })
     $(searchDrop)
         .find(".dropdown-search-input")
         .first()

@@ -52,7 +52,7 @@
                                     <td>Advertiser 1</td>
                                     <td><a class="text-blue" href="https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}">https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}</a></td>
                                     <td>
-                                    <a class="btn bg-secondary text-white">View Info</a>
+                                        <a class="btn bg-secondary text-white">View Info</a>
                                         <a class="btn bg-yellow text-white">Default Feed</a>
                                     </td>
                                 </tr>
@@ -79,7 +79,8 @@
 
 
 @endsection
-@section('script-bottom')
+@section('script')
+<script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 <script type="text/javascript">
     $('#products-datatable').DataTable();
 </script>

@@ -114,8 +114,12 @@
 
 @endsection
 @section('script-bottom')
+<script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
+
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        
+    });
 </script>
 <script>
     const allModals = document.querySelectorAll(".modal");

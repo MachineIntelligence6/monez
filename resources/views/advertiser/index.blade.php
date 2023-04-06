@@ -64,27 +64,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Id
-                                    </td>
-                                    <td>
-                                        Compony Name
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <a class="btn bg-secondary text-white">View Info</a>
-                                    </td>
-                                </tr>
                                 @foreach($advertisers as $advertiser)
                                 <tr>
                                     <td>
@@ -107,7 +86,7 @@
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->
-                                        <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> View Info</a>
+                                        <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="btn btn-secondary"> View Info</a>
 
                                         <!-- <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
                                     </td>
@@ -122,7 +101,9 @@
     </div><!-- end row -->
 </div> <!-- container -->
 @endsection
-@section('script-bottom')
+@section('script')
+<script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
+
 <script type="text/javascript">
     $('#products-datatable').DataTable();
 </script>

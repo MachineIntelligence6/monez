@@ -18,8 +18,15 @@
         </div>
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="feedId" class="form-label">Feed Id</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="feedId" name="feedId" placeholder="Enter Feed Name" required />
+                <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
+                <div class="input-group input-group-merge">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span>fd_</span>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" id="feedId" name="feedId" placeholder="Enter Feed ID" required />
+                </div>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input

@@ -100,9 +100,9 @@
                     </div>
                     <div class="row mb-2 align-items-center justify-content-between">
                         <div class="col-auto">
-                            <label>
+                            <label class="d-inline-flex align-items-center" style="gap: 5px;">
                                 Show
-                                <select name="products-datatable_length" aria-controls="products-datatable" class="form-select form-select-sm">
+                                <select name="products-datatable_length" aria-controls="products-datatable" class="custom-select custom-select-sm form-control form-control-sm">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -121,7 +121,7 @@
                                         <option value="">All Advertisers</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
-                                    <div id="partners-dropdown" class="dropdown-menu" data-searchable="true">
+                                    <div id="partners-dropdown" class="dropdown-menu w-100" data-searchable="true">
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
@@ -147,7 +147,7 @@
                                         <option value="">All Channels</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
-                                    <div id="types-dropdown" class="dropdown-menu" data-searchable="true">
+                                    <div id="types-dropdown" class="dropdown-menu w-100" data-searchable="true">
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
@@ -295,7 +295,5 @@
             });
         }
     })
-
-
 </script>
 @endsection

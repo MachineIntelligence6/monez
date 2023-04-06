@@ -26,11 +26,19 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="row mb-3 justify-content-end">
+                        <div class="col-auto">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                <label class="btn btn-primary" for="customFile">Export CSV</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mb-2 align-items-center justify-content-between">
                         <div class="col-auto">
-                            <label>
+                            <label class="d-inline-flex align-items-center" style="gap: 5px;">
                                 Show
-                                <select name="products-datatable_length" aria-controls="products-datatable" class="form-select form-select-sm">
+                                <select name="products-datatable_length" aria-controls="products-datatable" class="custom-select custom-select-sm form-control form-control-sm">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -39,7 +47,7 @@
                                 entries
                             </label>
                         </div>
-                        <div class="col-7">
+                        <div class="col-6">
                             <div class="row">
                                 <div class="col-3">
                                     <select class="form-control" name="parteners" id="select-partners" data-target-dropdown="#partners-dropdown" data-toggle="select2">
@@ -49,7 +57,7 @@
                                         <option value="">All Advertisers</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
-                                    <div id="partners-dropdown" class="dropdown-menu" data-searchable="true">
+                                    <div id="partners-dropdown" class="dropdown-menu w-100" data-searchable="true">
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
@@ -68,14 +76,14 @@
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <select class="form-control" name="" data-target-dropdown="#types-dropdown" data-toggle="select2">
+                                    <select class="form-control" data-target-dropdown="#types-dropdown" data-toggle="select2">
                                         <option>Select Type</option>
                                         <option value="">All</option>
                                         <option value="">All Feeds</option>
                                         <option value="">All Channels</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
-                                    <div id="types-dropdown" class="dropdown-menu" data-searchable="true">
+                                    <div id="types-dropdown" class="dropdown-menu w-100" data-searchable="true">
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
@@ -104,7 +112,12 @@
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
-
+                                <div class="col-auto my-auto">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="countryWise">
+                                        <label class="custom-control-label w-100" for="countryWise">Country Wise</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-auto">

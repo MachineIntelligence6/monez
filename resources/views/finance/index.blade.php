@@ -42,21 +42,21 @@
                                     <td>JAN 2023</td>
                                     <td>
                                         <p class="m-0">status (pending/final)</p>
-                                        <a href="#">rpt jan2023.csv</a>
+                                        <a href="#">rpt_jan2023.csv</a>
                                     </td>
                                     <td>
                                         <p class="m-0">status (not generated / generated)</p>
-                                        <a href="#">sum jan2023.pdf</a>
+                                        <a href="#">sum_jan2023.pdf</a>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-secondary">Upload Invoice</button>
                                         <p class="m-0">status</p>
-                                        <a href="#">inv jan2023.pdf</a>
+                                        <a href="#">inv_jan2023.pdf</a>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-secondary">Upload Payment Proof</button>
                                         <p class="m-0">status (pending/complete)</p>
-                                        <a href="#">pmt jan2023.pdf</a>
+                                        <a href="#">pmt_jan2023.pdf</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -71,9 +71,13 @@
 
 
 @endsection
-@section('script-bottom')
+@section('script')
+<script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
+
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        searching: false,
+    });
 </script>
 <script>
 </script>

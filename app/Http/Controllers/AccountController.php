@@ -15,10 +15,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 // use Session;
 
-class ProfileController extends Controller
+class AccountController extends Controller
 {
     public function index()
     {
-        return view("profile.index");
+        return view("account.profiles.company");
     }
 }
