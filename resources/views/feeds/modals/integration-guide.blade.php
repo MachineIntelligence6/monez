@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="guideUrl" class="form-label">Sub Ids</label>
-                        <input type="text" class="form-control" id="guideUrl" name="guideUrl" placeholder="Sub Ids">
+                        <input type="text" class="form-control" id="guideUrl" name="subids" placeholder="Sub Ids">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input

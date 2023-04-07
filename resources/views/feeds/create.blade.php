@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" method="post" action="" enctype="multipart/form-data" novalidate>
+                <form class="needs-validation" method="post" action="{{ route('feeds.store') }}" enctype="multipart/form-data" novalidate>
                     @csrf
                     @method('POST')
                     @include('feeds.form')

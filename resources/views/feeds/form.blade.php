@@ -7,9 +7,11 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             <label for="advertiser" class="form-label">Advertiser</label><label class="text-danger">*</label>
-            <select class="form-control" name="advertiser" id="country-dropdown" data-toggle="select2" required>
+            <select name="advertiser" class="form-control"  id="country-dropdown" data-toggle="select2" required>
                 <option value="" selected>Select Advertiser</option>
-                <option value="advertiser1">Advertiser 1</option>
+                @foreach ($advertisers as $key => $advertiser)
+                <option  value="{{$advertiser->id}}" >{{$advertiser->companyName}}</option>
+                @endforeach
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">

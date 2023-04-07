@@ -38,7 +38,7 @@
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <!-- <th>#</th> -->
                                     <th>Feed Id</th>
                                     <th>Advertiser</th>
                                     <th style="width: 100%;">Feed Path</th>
@@ -46,7 +46,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <!-- <tr>
                                     <td>1</td>
                                     <td>msearch</td>
                                     <td>Advertiser 1</td>
@@ -66,7 +66,28 @@
                                         <a class="btn bg-danger text-white">Disable</a>
                                         <a class="btn bg-blue text-white">Make Default</a>
                                     </td>
+                                </tr> -->
+
+
+                                @foreach($feeds as $feed)
+                                <tr>
+                                    <td>
+                                        {{ $feed->feedId ?? '-' }}
+                                    </td>
+                                    <td>
+                                        {{ $feed ?? '-'}}
+                                    </td>
+                                    <td>
+                                        {{ $feed->feedintegration ?? '-' }}
+                                    </td>
+                                    <td>
+                                        {{ $feed->feeds ?? '-' }}
+                                    </td>
                                 </tr>
+                                @endforeach
+
+
+
                             </tbody>
                         </table>
                     </div>
