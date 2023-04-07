@@ -14,7 +14,8 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        //
+        $publishers = [];
+        return view("publisher.index", compact("publishers"));
     }
 
     /**
@@ -24,7 +25,7 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        //
+        return view("publisher.create");
     }
 
     /**

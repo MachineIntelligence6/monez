@@ -70,7 +70,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('second', ['crm', 'publishers'])}}">
+                    <a href="{{route('publisher.index')}}">
                         <i data-feather="package"></i>
                         <span> PUBLISHERS </span>
                     </a>

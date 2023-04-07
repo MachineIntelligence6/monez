@@ -90,12 +90,6 @@
                             </div>
                         </div>
                     </div> <!-- end row -->
-                    <div class="row mb-3">
-                        <div class="col-md-6 h-100 mb-3">
-                            <label for="documents" class="form-label">Documents</label>
-                            <input type="file" name="documents" disabled class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
