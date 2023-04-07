@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\FeedsController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TeamMemberController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +35,9 @@ Route::resource('team-members', TeamMemberController::class);
 Route::resource('feeds', FeedsController::class);
 Route::resource('channels', ChannelsController::class);
 Route::resource('reports', ReportsController::class);
+Route::resource('finance', FinanceController::class);
+Route::resource('settings', SettingController::class);
+Route::resource('account', AccountController::class);
 Route::get('downloadpdf/{id}/{pdf}/{name}', 'AdvertiserController@DownloadPdf')->name('downloadpdf');
 
 

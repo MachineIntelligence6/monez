@@ -1,7 +1,8 @@
-@extends('layouts.vertical', ['title' => 'Activity Reports'])
+@extends('layouts.vertical', ['title' => 'Revenue Reports'])
 
 @section('content')
 <!-- Start Content-->
+
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -13,10 +14,10 @@
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Reports</a></li>
-                        <li class="breadcrumb-item active">Activity Reports</li>
+                        <li class="breadcrumb-item active">Revenue Reports</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Activity Reports</h4>
+                <h4 class="page-title">Revenue Reports</h4>
             </div>
         </div>
     </div>
@@ -28,9 +29,72 @@
                 <div class="card-body">
                     <div class="row mb-3 justify-content-end">
                         <div class="col-auto">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile" accept=".csv">
-                                <label class="btn btn-primary" for="customFile">Export CSV</label>
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                        <label class="btn btn-primary" for="customFile">Upload CSV</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                        <label class="btn btn-primary" for="customFile">Export CSV</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-light" data-trigger="modal" data-target="apiDetailModal">API Details</button>
+                                </div>
+                                <div class="col-auto dropleft" style="min-width: 160px">
+                                    <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Show Columns
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="latency">
+                                                <label class="custom-control-label w-100" for="latency">Latency (Seconds)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="followOnSearches">
+                                                <label class="custom-control-label w-100" for="followOnSearches">Follow On Searches (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="coverage">
+                                                <label class="custom-control-label w-100" for="coverage">Coverage (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="ctr">
+                                                <label class="custom-control-label w-100" for="ctr">CTR (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="rpm">
+                                                <label class="custom-control-label w-100" for="rpm">RPM ($)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="monetizedRpm">
+                                                <label class="custom-control-label w-100" for="monetizedRpm">Monetized RPM (%)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="epc">
+                                                <label class="custom-control-label w-100" for="epc">EPC ($)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -134,22 +198,48 @@
                                     <th>Publisher</th>
                                     <th>Channel</th>
                                     <th>SubId</th>
-                                    <th>Channel Path</th>
-                                    <th>Referer</th>
-                                    <th>IP Address</th>
-                                    <!-- Location = City + Country  -->
-                                    <th>Location</th>
+                                    <th>Daily Reports Status</th>
                                     <th>GEO</th>
-                                    <th>Latency (Seconds)</th>
-                                    <th>UserAgent</th>
-                                    <th>Screen Resolution</th>
-                                    <th>Device</th>
-                                    <th>OS</th>
-                                    <th>Browser</th>
+                                    <th>Total Searches</th>
+                                    <!-- Location = City + Country  -->
+                                    <th>Monetized Searches</th>
+                                    <th>Paid Clicks</th>
+                                    <th>Advertiser Revenue ($)</th>
+                                    <th>Search Monez Revenue ($)</th>
+                                    <th>Publisher Revenue ($)</th>
+                                    <!-- <th>Latency (Seconds)</th>
+                                    <th>Follow On Searches (%)</th>
+                                    <th>Coverage (%)</th>
+                                    <th>CTR (%)</th>
+                                    <th>RPM ($)</th>
+                                    <th>Monetized RPM (%)</th>
+                                    <th>EPC ($)</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <tr>
+                                    <td>1</td>
+                                    <td>dummy Advertiser</td>
+                                    <td>dummy Feed </td>
+                                    <td>dummy publisher</td>
+                                    <td>dummy channel</td>
+                                    <td>dummy subid</td>
+                                    <td>dummy daily reports</td>
+                                    <td>dummy GEO</td>
+                                    <td>dummy searches</td>
+                                    <td>dummy Monetize </td>
+                                    <td>dummy paid clicks</td>
+                                    <td>dummy revenue</td>
+                                    <td>dummy mon revenue</td>
+                                    <td>dummy pub revenue</td>
+                                    <!-- <td>dummy latency</td>
+                                    <td>dummy follow on</td>
+                                    <td>dummy coverage</td>
+                                    <td>dummy CTR</td>
+                                    <td>dummy RPM</td>
+                                    <td>dummy Monetized RPM</td>
+                                    <td>dummy EPC</td> -->
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -160,10 +250,10 @@
     <!-- end row -->
 </div> <!-- container -->
 
-
+@include('reports.modals.apidetail-modal')
 @endsection
 
-@section('script')
+@section('script-bottom')
 <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 
@@ -172,13 +262,12 @@
 
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
 
-
 <script src="{{asset('assets/js/custom/custom-multiselect-dropdown.js')}}"></script>
 
 
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
-
+<script src="{{asset('assets/js/modal-init.js')}}"></script>
 <script type="text/javascript">
     $('#products-datatable').DataTable({
         searching: false,
@@ -190,8 +279,6 @@
             $('div.toolbar').html();
         }
     });
-
-
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()

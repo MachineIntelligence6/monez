@@ -1,23 +1,28 @@
 @section('css')
-<!-- Plugins css -->
 <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <div class="form-category">
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i> Account Info</h5>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase">
+            <i class="mdi mdi-office-building mr-2"></i>
+            Account Info
+        </h5>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
+            Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
+        <div class="col-md-4" disabled="true">
             <div class="mb-3">
                 <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                <div class="input-group input-group-merge">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span>adv_</span>
-                        </div>
-                    </div>
-                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
-                </div>
+                <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                 <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback" id="dba-invalid">
+                <div class="invalid-feedback">
                     You must enter valid input
                 </div>
             </div>
@@ -68,10 +73,9 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ old('vat') }}">
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    Email and confirm email should be same.
+                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <div class="invalid-feedback" id="invalidfeedback">
+
                 </div>
             </div>
         </div>
@@ -85,11 +89,11 @@
             }
         </script>
 
-        <div class="col-md-4">
+        <div class="col-md-4" disabled="true">
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                    <input type="password" id="password-input-field" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" required>
+                    <input type="password" id="password-input-field" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                     <div class="input-group-append" data-password="false">
                         <div class="input-group-text btn">
                             <span class="password-eye"></span>
@@ -98,11 +102,12 @@
                     <div class="pl-2">
                         <div class="btn btn-secondary" onclick="generateRandomPassword(this)">Regenerate</div>
                     </div>
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">
-                        Your password must contain least 8 characters, at least one number and one uppercase and lowercase
-                        letter.
-                    </div>
+                </div>
+
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">
+                    Your password must contain least 8 characters, at least one number and one uppercase and lowercase
+                    letter.
                 </div>
 
 
@@ -162,11 +167,8 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
-            <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
+            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
                 <option>Select Country</option>
-                @foreach ($countries as $key => $country)
-                <option value="{{$country->title}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
-                @endforeach
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
@@ -174,22 +176,48 @@
             </div>
         </div>
     </div> <!-- end row -->
-    <div class="row mb-3">
+    <div class="row mb-3" disabled="true" data-editable="true">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
-            <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
+
+            <input type="file" name="io" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
+            @php
+            $names = $advertiser->agreementDoc;
+            $nameArray = explode(",", $names);
+
+            $docnames = $advertiser->document;
+            $docnameArray = explode(",", $docnames);
+            @endphp
+            @foreach ($nameArray as $name)
+            <a href="{{ route('downloadpdf',['id'=>$advertiser->id,'pdf'=> 'agreementDoc','name'=>$name ]) }}">{{$name}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}</a><br><br>
+            @endforeach
+
         </div>
         <div class="col-md-6 h-100 mb-3">
             <label for="documents" class="form-label">Documents</label>
-            <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
+            <input type="file" name="documents" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
+            @foreach ($docnameArray as $docnames)
+            <a href="{{ route('downloadpdf', ['id'=>$advertiser->id,'pdf'=> 'document','name'=>$docnames ]) }}">
+                <p>{{$docnames}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}</p>
+            </a>
+            @endforeach
         </div>
     </div>
 </div>
 <!-- Personal Info -->
 <div class="form-category">
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)
-    </h5>
-    <div class="row">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)</h5>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
+            Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
@@ -221,16 +249,14 @@
             </div>
         </div>
     </div> <!-- end row -->
-    <div class="row">
+    <div class="row" disabled="true" data-editable="true">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amPhone" class="form-label">Phone</label>
                 <div class="input-group input-group-merge">
-                    <div class="input-group-prepend" style="min-width: 150px;">
+                    <div class="input-group-prepend" style="min-width: 80px;">
                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
-                            @foreach ($countries as $key => $country)
-                            <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option>
-                            @endforeach
+
                         </select>
                     </div>
                     <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number">
@@ -264,9 +290,18 @@
 
 <div class="form-category">
     <!-- Agreement & Terms -->
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info
-    </h5>
-    <div class="row">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info</h5>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
+            Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
@@ -280,18 +315,16 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
-                <div class="input-group">
-                    <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" required>
-                        <option value="" selected>Select Payment Term</option>
-                        <option value="SH1">Net 15</option>
-                        <option value="SH1">Net 30</option>
-                        <option value="SH1">Net 45</option>
-                        <option value="SH1">Net 60</option>
-                    </select>
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">
-                        You must enter valid input
-                    </div>
+                <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" required>
+                    <option value="" disabled selected>Select Payment Term</option>
+                    <option value="SH1">Net 15</option>
+                    <option value="SH1">Net 30</option>
+                    <option value="SH1">Net 45</option>
+                    <option value="SH1">Net 60</option>
+                </select>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">
+                    You must enter valid input
                 </div>
                 <!-- <input type="text" class="form-control" id="paymentTerms" name="paymentTerms" placeholder="Enter Payment Terms here ..."> -->
             </div>
@@ -332,23 +365,22 @@
         <div class="col-md-4 mb-3">
             <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
             <div class="input-group input-group-merge">
-                <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
+                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" required value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
                     </button>
                 </div>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
-                </div>
+            </div>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                You must enter valid input
             </div>
         </div>
         <div class="col-md-4 mb-3">
             <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
             <select class="form-control" data-toggle="select2" id="successManager" name="successManager" required>
                 <option value="" selected>Select Success Manager</option>
-                <option value="1">Success Manager</option>
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
@@ -360,9 +392,18 @@
 </div>
 
 <div class="form-category">
-    <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info
-    </h5>
-    <div class="row">
+    <div class="d-flex align-items-center justify-content-between">
+        <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info</h5>
+        <button type="button" class="edit-category-btn btn btn-secondary">
+            <span class="fas fa-edit mr-1"></span>
+            Edit Info
+        </button>
+        <button type="button" class="d-none save-category-btn btn btn-primary">
+            <span class="fas fa-check mr-1"></span>
+            Save Info
+        </button>
+    </div>
+    <div class="row" disabled="true" data-editable="true">
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="billEmail" class="form-label">Billing / Finance Email</label><label class="text-danger">*</label>
@@ -377,7 +418,7 @@
             <div class="mb-3">
                 <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
                 <div class="input-group input-group-merge">
-                    <input type="text" style="pointer-events: none;" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" value="{{ $advertiser->bank ??  old('bank') }}">
+                    <input type="text" style="pointer-events: none;" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank" name="bank" placeholder="Enter Bank account" value="{{ $advertiser->bank ??  old('bank') }}">
                     <div class="input-group-append">
                         <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
                             <span class="mdi mdi-bank-plus"></span>
@@ -389,6 +430,7 @@
                     </div>
                 </div>
             </div>
+
         </div> <!-- end col -->
         <div class="col-md-4">
             <div class="mb-3">
@@ -400,6 +442,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="payoneer" class="form-label">Payoneer</label>
@@ -413,8 +457,7 @@
     </div>
 </div>
 
-
-<div class="row px-2">
+<div class="row">
     <button class="btn btn-primary" type="submit">Submit</button>
     <a href="{{ route('advertiser.index') }}" class="btn btn-secondary ml-1" type="button">Cancel</a>
 </div>
@@ -434,14 +477,36 @@
 
 <script>
     $('.dropify').dropify();
-    window.addEventListener("DOMContentLoaded", () => {
-        generateRandomPassword(null)
+
+
+    document.querySelectorAll(".form-category").forEach((catgry) => {
+        let editBtn = catgry.querySelector(".edit-category-btn");
+        let saveBtn = catgry.querySelector(".save-category-btn");
+        editBtn.addEventListener("click", () => {
+            editBtn.classList.add("d-none");
+            saveBtn.classList.remove("d-none");
+            catgry.querySelectorAll("[disabled=true]").forEach((el) => {
+                if (el.getAttribute("data-editable") === 'true') {
+                    el.setAttribute("disabled", "false")
+                }
+            })
+        })
+        saveBtn.addEventListener("click", () => {
+            saveBtn.classList.add("d-none");
+            editBtn.classList.remove("d-none");
+            catgry.querySelectorAll("[disabled=true]").forEach((el) => {
+                if (el.getAttribute("data-editable") === 'true') {
+                    el.setAttribute("disabled", "true")
+                }
+            })
+        })
     })
 
 
     function setCountryCodeToPhone(countryCode) {
-        $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
+        // $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
     }
+
 
     document.querySelectorAll(".enable-on-valid").forEach((el) => {
         let input = document.getElementById(el.getAttribute("data-enable-target"));
@@ -456,6 +521,7 @@
             else el.classList.add("d-none")
         })
     })
+
 
     //Report Type Popup Script
     const reportTypeModal = document.getElementById("report-type-modal");
@@ -476,38 +542,6 @@
             reportTypeModal.style.display = "block";
         }
     }
-
-
-    $(document).ready(function() {
-        $('#dbaId').on('input', function() {
-            var inputVal = $(this).val();
-            if (inputVal.length > 0) {
-                $.ajax({
-                    url: '{{ route("check.unique.value") }}',
-                    type: 'POST',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        input_field: inputVal
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'error') {
-                            validateInput("#dbaId", false);
-                            $("#dba-invalid").text('Advertiser ID already exists.');
-                        } else {
-                            console.log(response);
-                        }
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
-            } else {
-                $("#dba-invalid").text('You must enter valid input.');
-            }
-        });
-    });
-
 
     function onSaveColumnsModal() {
         let allInpValid = true;

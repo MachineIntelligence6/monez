@@ -22,6 +22,9 @@
 <link href="{{asset('assets/libs/dropzone/min/dropzone.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/libs/dropify/css/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 
+<link href="{{asset('assets/libs/sumomultiselect/sumoselect.min.css')}}" rel="stylesheet" type="text/css" />
+
+
 @if(isset($mode) && $mode == 'rtl')
 
     <!-- App css -->

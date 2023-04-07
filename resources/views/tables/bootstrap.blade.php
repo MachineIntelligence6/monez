@@ -1,47 +1,42 @@
 @extends('layouts.vertical', ['title' => 'Bootstrap Tables'])
 
 @section('css')
-    <!-- Plugins css -->
-    <link href="{{asset('assets/libs/bootstrap-table/bootstrap-table.min.css')}}" rel="stylesheet" type="text/css" />
+<!-- Plugins css -->
+<link href="{{asset('assets/libs/bootstrap-table/bootstrap-table.min.css')}}" rel="stylesheet" type="text/css" />
 
 @endsection
 
 @section('content')
-    <!-- Start Content-->
-    <div class="container-fluid">
-        
-        <!-- start page title -->
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box">
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                            <li class="breadcrumb-item active">Bootstrap</li>
-                        </ol>
-                    </div>
-                    <h4 class="page-title">Bootstrap Tables</h4>
+<!-- Start Content-->
+<div class="container-fluid">
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">UBold</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                        <li class="breadcrumb-item active">Bootstrap</li>
+                    </ol>
                 </div>
+                <h4 class="page-title">Bootstrap Tables</h4>
             </div>
-        </div>     
-        <!-- end page title --> 
+        </div>
+    </div>
+    <!-- end page title -->
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box">
-                    <h4 class="header-title">Basic Columns</h4>
-                    <p class="sub-header">
-                        Example of basic columns.
-                    </p>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="header-title">Basic Columns</h4>
+                <p class="sub-header">
+                    Example of basic columns.
+                </p>
 
-                    <table data-toggle="table"
-                            data-show-columns="false"
-                            data-page-list="[5, 10, 20]"
-                            data-page-size="5"
-                            data-buttons-class="xs btn-light"
-                            data-pagination="true" class="table-borderless">
-                        <thead class="thead-light">
+                <table data-toggle="table" data-show-columns="false" data-page-list="[5, 10, 20]" data-page-size="5" data-buttons-class="xs btn-light" data-pagination="true" class="table-borderless">
+                    <thead class="thead-light">
                         <tr>
                             <th data-field="id" data-switchable="false">First Name</th>
                             <th data-field="name">Last Name</th>
@@ -49,9 +44,9 @@
                             <th data-field="amount">DOB</th>
                             <th data-field="user-status">Status</th>
                         </tr>
-                        </thead>
+                    </thead>
 
-                        <tbody>
+                    <tbody>
                         <tr>
                             <td>Isidra</td>
                             <td>Boudreaux</td>
@@ -262,26 +257,23 @@
                             <td>15 Nov 1985</td>
                             <td><span class="badge badge-danger">Suspended</span></td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- end card-box-->
-            </div> <!-- end col-->
-        </div>
-        <!-- end row-->
+                    </tbody>
+                </table>
+            </div> <!-- end card-box-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box">
-                    <h4 class="header-title">Checkbox Select</h4>
-                    <p class="sub-header">
-                        Example of checkbox select.
-                    </p>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="header-title">Checkbox Select</h4>
+                <p class="sub-header">
+                    Example of checkbox select.
+                </p>
 
-                    <table data-toggle="table"
-                            data-page-size="5"
-                            data-buttons-class="xs btn-light"
-                            data-pagination="true" class="table-bordered ">
-                        <thead class="thead-light">
+                <table data-toggle="table" data-page-size="5" data-buttons-class="xs btn-light" data-pagination="true" class="table-bordered ">
+                    <thead class="thead-light">
                         <tr>
                             <th data-field="state" data-checkbox="true"></th>
                             <th data-field="id" data-switchable="false">First Name</th>
@@ -290,10 +282,10 @@
                             <th data-field="amount">DOB</th>
                             <th data-field="user-status">Status</th>
                         </tr>
-                        </thead>
+                    </thead>
 
 
-                        <tbody>
+                    <tbody>
                         <tr>
                             <td></td>
                             <td>Isidra</td>
@@ -534,26 +526,23 @@
                             <td>15 Nov 1985</td>
                             <td><span class="badge badge-danger">Suspended</span></td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- end card-box-->
-            </div> <!-- end col-->
-        </div>
-        <!-- end row -->
+                    </tbody>
+                </table>
+            </div> <!-- end card-box-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row -->
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box">
-                    <h4 class="header-title">Radio Select</h4>
-                    <p class="sub-header">
-                        Example of radio select.
-                    </p>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="header-title">Radio Select</h4>
+                <p class="sub-header">
+                    Example of radio select.
+                </p>
 
-                    <table data-toggle="table"
-                            data-page-size="10"
-                            data-buttons-class="xs btn-light"
-                            data-pagination="true" class="table-bordered">
-                        <thead class="thead-light">
+                <table data-toggle="table" data-page-size="10" data-buttons-class="xs btn-light" data-pagination="true" class="table-bordered">
+                    <thead class="thead-light">
                         <tr>
                             <th data-field="state" data-radio="true"></th>
                             <th data-field="id" data-switchable="false">First Name</th>
@@ -562,9 +551,9 @@
                             <th data-field="amount">DOB</th>
                             <th data-field="user-status" class="text-center">Status</th>
                         </tr>
-                        </thead>
+                    </thead>
 
-                        <tbody>
+                    <tbody>
                         <tr>
                             <td></td>
                             <td>Isidra</td>
@@ -805,28 +794,23 @@
                             <td>15 Nov 1985</td>
                             <td><span class="badge badge-danger">Suspended</span></td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- end card-box -->
-            </div> <!-- end col-->
-        </div>
-        <!-- end row-->
+                    </tbody>
+                </table>
+            </div> <!-- end card-box -->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box">
-                    <h4 class="header-title">Sort &amp; Format Column</h4>
-                    <p class="sub-header mb-0">
-                        Example of sort & format column.
-                    </p>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="header-title">Sort &amp; Format Column</h4>
+                <p class="sub-header mb-0">
+                    Example of sort & format column.
+                </p>
 
-                    <table data-toggle="table"
-                            data-sort-name="id"
-                            data-page-list="[5, 10, 20]"
-                            data-page-size="5"
-                            data-buttons-class="xs btn-light"
-                            data-pagination="true" data-show-pagination-switch="true" class="table-borderless ">
-                        <thead class="thead-light">
+                <table data-toggle="table" data-sort-name="id" data-page-list="[5, 10, 20]" data-page-size="5" data-buttons-class="xs btn-light" data-pagination="true" data-show-pagination-switch="true" class="table-borderless ">
+                    <thead class="thead-light">
                         <tr>
                             <th data-field="id" data-sortable="true" data-formatter="invoiceFormatter">Order ID</th>
                             <th data-field="name" data-sortable="true">Name</th>
@@ -834,9 +818,9 @@
                             <th data-field="amount" data-align="center" data-sortable="true" data-sorter="priceSorter">Price</th>
                             <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
                         </tr>
-                        </thead>
+                    </thead>
 
-                        <tbody>
+                    <tbody>
                         <tr>
                             <td>UB-1609</td>
                             <td>Boudreaux</td>
@@ -960,29 +944,23 @@
                             <td>$ 35.00</td>
                             <td>Refunded</td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- end card-box-->
-            </div> <!-- end col-->
-        </div>
-        <!-- end row-->
+                    </tbody>
+                </table>
+            </div> <!-- end card-box-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box">
-                    <h4 class="header-title">Basic Toolbar</h4>
-                    <p class="sub-header mb-0">
-                        Example of basic toolbar.
-                    </p>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="header-title">Basic Toolbar</h4>
+                <p class="sub-header mb-0">
+                    Example of basic toolbar.
+                </p>
 
-                    <table data-toggle="table"
-                            data-search="true"
-                            data-show-refresh="true"
-                            data-sort-name="id"
-                            data-page-list="[5, 10, 20]"
-                            data-page-size="5"
-                            data-pagination="true" data-show-pagination-switch="true" class="table-borderless">
-                        <thead class="thead-light">
+                <table data-toggle="table" data-search="true" data-show-refresh="true" data-sort-name="id" data-page-list="[5, 10, 20]" data-page-size="5" data-pagination="true" data-show-pagination-switch="true" class="table-borderless">
+                    <thead class="thead-light">
                         <tr>
                             <th data-field="id" data-sortable="true" data-formatter="invoiceFormatter">Order ID</th>
                             <th data-field="name" data-sortable="true">Name</th>
@@ -991,10 +969,10 @@
                             <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
 
                         </tr>
-                        </thead>
+                    </thead>
 
 
-                        <tbody>
+                    <tbody>
                         <tr>
                             <td>UB-1609</td>
                             <td>Boudreaux</td>
@@ -1118,33 +1096,25 @@
                             <td>$ 35.00</td>
                             <td>Refunded</td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- end card-box-->
-            </div> <!-- end col-->
-        </div>
-        <!-- end row-->
+                    </tbody>
+                </table>
+            </div> <!-- end card-box-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
 
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box">
-                    <h4 class="header-title">Custom Toolbar</h4>
-                    <p class="sub-header">
-                        Example of custom toolbar.
-                    </p>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="header-title">Custom Toolbar</h4>
+                <p class="sub-header">
+                    Example of custom toolbar.
+                </p>
 
-                    <button id="demo-delete-row" class="btn btn-danger btn-sm" disabled><i class="mdi mdi-close mr-1"></i>Delete</button>
-                    <table id="demo-custom-toolbar"  data-toggle="table"
-                            data-toolbar="#demo-delete-row"
-                            data-search="true"
-                            data-show-refresh="true"
-                            data-show-columns="true"
-                            data-sort-name="id"
-                            data-page-list="[5, 10, 20]"
-                            data-page-size="5"
-                            data-pagination="true" data-show-pagination-switch="true" class="table-borderless">
-                        <thead class="thead-light">
+                <button id="demo-delete-row" class="btn btn-danger btn-sm" disabled><i class="mdi mdi-close mr-1"></i>Delete</button>
+                <table id="demo-custom-toolbar" data-toggle="table" data-toolbar="#demo-delete-row" data-search="true" data-show-refresh="true" data-show-columns="true" data-sort-name="id" data-page-list="[5, 10, 20]" data-page-size="5" data-pagination="true" data-show-pagination-switch="true" class="table-borderless">
+                    <thead class="thead-light">
                         <tr>
                             <th data-field="state" data-checkbox="true"></th>
                             <th data-field="id" data-sortable="true" data-formatter="invoiceFormatter">Order ID</th>
@@ -1153,9 +1123,9 @@
                             <th data-field="amount" data-align="center" data-sortable="true" data-sorter="priceSorter">Price</th>
                             <th data-field="status" data-align="center" data-sortable="true" data-formatter="statusFormatter">Status</th>
                         </tr>
-                        </thead>
+                    </thead>
 
-                        <tbody>
+                    <tbody>
                         <tr>
                             <td></td>
                             <td>UB-1609</td>
@@ -1295,20 +1265,20 @@
                             <td>$ 35.00</td>
                             <td>Refunded</td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- end card-box-->
-            </div> <!-- end col-->
-        </div>
-        <!-- end row-->
-        
-    </div> <!-- container -->
+                    </tbody>
+                </table>
+            </div> <!-- end card-box-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
+
+</div> <!-- container -->
 @endsection
 
 @section('script')
-    <!-- Plugins js-->
-    <script src="{{asset('assets/libs/bootstrap-table/bootstrap-table.min.js')}}"></script>
+<!-- Plugins js-->
+<script src="{{asset('assets/libs/bootstrap-table/bootstrap-table.min.js')}}"></script>
 
-    <!-- Page js-->
-    <script src="{{asset('assets/js/pages/bootstrap-tables.init.js')}}"></script>
+<!-- Page js-->
+<script src="{{asset('assets/js/pages/bootstrap-tables.init.js')}}"></script>
 @endsection

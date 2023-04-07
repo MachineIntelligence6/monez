@@ -164,9 +164,7 @@
             <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
             <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
                 <option>Select Country</option>
-                @foreach ($countries as $key => $country)
-                <option value="{{$country->title}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
-                @endforeach
+                
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
@@ -228,9 +226,7 @@
                 <div class="input-group input-group-merge">
                     <div class="input-group-prepend" style="min-width: 150px;">
                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
-                            @foreach ($countries as $key => $country)
-                            <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option>
-                            @endforeach
+      
                         </select>
                     </div>
                     <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number">

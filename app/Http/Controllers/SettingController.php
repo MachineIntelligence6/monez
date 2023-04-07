@@ -17,6 +17,13 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class SettingController extends Controller
 {
+
+
+    public function index()
+    {
+        return view("settings.index");
+    }
+
     public function financialYear(Request $request)
     {
         // dd('it is financialYear');

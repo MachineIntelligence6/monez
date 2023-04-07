@@ -21,6 +21,10 @@
 <script src="{{ asset('assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
 <script src="{{ asset('assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="{{asset('assets/libs/sumomultiselect/jquery.sumoselect.min.js')}}"></script>
 <!-- third party js ends -->
 
 <!-- Datatables init -->

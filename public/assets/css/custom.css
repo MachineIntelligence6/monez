@@ -53,3 +53,9 @@ input[type=number] {
 .bg-yellow {
   background-color: #f39c12 !important;
 }
+.documentType{
+  display: none;
+}
+.custom-file .custom-file-input{
+  display: none;
+}
