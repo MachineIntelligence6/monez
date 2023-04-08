@@ -15,9 +15,14 @@
                 <div id="assignedFeedsContainer">
                     <div class="d-flex w-100 assignedFeed mb-3" id="assignedFeedSample" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
+
+
+
                             <select class="form-control" name="feed" id="country-dropdown" data-toggle="select2" required>
                                 <option value="">Select Feed</option>
-                                <option value="default-feed">Default Feed</option>
+                                @foreach ($feeds as $key => $feed)
+                                <option value="{{ $feed->id }}">{{ $feed->feedId }}</option>
+                                @endforeach
                             </select>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">

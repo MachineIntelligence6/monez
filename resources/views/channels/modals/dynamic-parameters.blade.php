@@ -15,14 +15,14 @@
                 <div id="dynamicParametersContainer">
                     <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="paramName" name="paramName" placeholder="Enter Parameter Name" />
+                            <input type="text" class="form-control" id="paramName" name="dy_paramName[]" placeholder="Enter Parameter Name" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control" id="paramValue" name="paramValue" placeholder="Enter Channel Parameter" />
+                            <input type="text" class="form-control" id="paramValue" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input

@@ -9,9 +9,9 @@ class Feed extends Model
 {
     use HasFactory;
     public function advertisers(){
-        $this->hasMany(Advertiser::class,'advertiser_id','id');
+        return $this->belongsTo(Advertiser::class,'advertiser_id','id');
     }
     public function feedintegration(){
-        $this->hasOne(FeedIntegrationGuide::class,'feedId','id');
+        return $this->belongsTo(FeedIntegrationGuide::class,'id','feed_id');
     }
 }

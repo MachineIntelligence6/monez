@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string("staticParameters")->nullable();
             $table->string("dynamicParameters")->nullable();
             $table->string("comments")->nullable();
+            $table->boolean('is_active')->default(1);
+            $table->boolean('is_default')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

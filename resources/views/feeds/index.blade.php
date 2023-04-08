@@ -67,21 +67,32 @@
                                         <a class="btn bg-blue text-white">Make Default</a>
                                     </td>
                                 </tr> -->
-
-
                                 @foreach($feeds as $feed)
                                 <tr>
                                     <td>
                                         {{ $feed->feedId ?? '-' }}
                                     </td>
                                     <td>
-                                        {{ $feed ?? '-'}}
+                                        {{ $feed->advertisers->companyName ?? '-'}}
                                     </td>
                                     <td>
-                                        {{ $feed->feedintegration ?? '-' }}
+                                        {{ $feed->feedintegration->guideUrl ?? '-' }}
                                     </td>
+
+
                                     <td>
-                                        {{ $feed->feeds ?? '-' }}
+                                        <a class="btn bg-secondary text-white" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
+
+                                        @if ($feed->is_default)
+                                        <a class="btn bg-yellow text-white">Default Feed</a>
+                                        @else
+                                        @if ($feed->is_active)
+                                        <a class="btn bg-danger text-white" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                        @else
+                                        <a class="btn bg-success text-white" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                        @endif
+                                        <a class="btn bg-blue text-white" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
