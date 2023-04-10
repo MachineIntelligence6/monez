@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <button class="btn btn-light" data-trigger="modal" data-target="apiDetailModal">API Details</button>
+                                    <button class="btn btn-secondary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
                                 </div>
                                 <div class="col-auto dropleft" style="min-width: 160px">
                                     <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -179,7 +179,7 @@
                                 <div class="col-auto my-auto">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" id="countryWise">
-                                        <label class="custom-control-label w-100" for="countryWise">Country Wise</label>
+                                        <label class="custom-control-label w-100" for="countryWise">GeoWise</label>
                                     </div>
                                 </div>
                             </div>

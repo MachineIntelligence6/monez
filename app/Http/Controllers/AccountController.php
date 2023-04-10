@@ -19,6 +19,6 @@ class AccountController extends Controller
 {
     public function index()
     {
-        return view("account.profiles.company");
+        return view("account.profiles.personal");
     }
 }
