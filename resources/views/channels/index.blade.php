@@ -41,7 +41,7 @@
                                     <th>#</th>
                                     <th>Channel Id</th>
                                     <th>Publisher</th>
-                                    <th style="width: 100%;">Channel Path</th>
+                                    <th style="width: 100%;">Channel Url</th>
                                     <th>Assigned Feeds</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
