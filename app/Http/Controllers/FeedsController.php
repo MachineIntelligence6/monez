@@ -173,6 +173,7 @@ class FeedsController extends Controller
 
     public function view(Feed $feed)
     {
+        dd($feed);
         $advertisers = Advertiser::all();
         $countries = Country::all();
         $banks = Bank::all();

@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email');
             $table->string('password');
+            $table->string('amPhone')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('skype');
             $table->string('linkedin');
             $table->softDeletes();

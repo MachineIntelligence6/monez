@@ -48,12 +48,11 @@
                                     </th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <!-- <th>Advertiser ID</th> -->
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                @if(isset($teamMembers))
                                 @foreach($teamMembers as $teamMember)
                                 <tr>
                                     <td>
@@ -62,14 +61,11 @@
                                             <label class="custom-control-label" for="customCheck2">&nbsp;</label>
                                         </div>
                                     </td>
-                                    <td>{{ $teamMember->name }}</td>
+                                    <td>{{ $teamMember->name }}--{{ $teamMember->id }}</td>
                                     <td>{{ $teamMember->email }}</td>
-                                    <!-- Please add advertiser id here -->
-                                    <!-- <td>Advertiser ID</td> -->
-
                                     <td>
                                         <span class="d-inline-flex" style="gap: 5px;">
-                                        <a class="btn bg-secondary text-white" href="{{route('team-members.edit',['team_member'=>$teamMember->id])}}">View Info</a>
+                                        <a class="btn bg-secondary text-white" href="{{route('team-members.view',$teamMember->id)}}">View Info</a>
                                         <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -82,6 +78,7 @@
                                    
                                 </tr>
                                 @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

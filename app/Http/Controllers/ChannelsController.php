@@ -113,7 +113,7 @@ class ChannelsController extends Controller
             $numericPart = substr($str, 3); 
             $numericPart++;
             $newId = 'ch_' . $numericPart; 
-            echo $newId; 
+            // echo $newId; 
         } else {
             $newId ='ch_1001';
         }

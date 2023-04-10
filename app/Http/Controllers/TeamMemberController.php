@@ -19,8 +19,9 @@ class TeamMemberController extends Controller
     public function index()
     {
 
-        $teamMembers = DB::table('team_members')
-            ->leftJoin('advertisers', 'team_members.id', '=', 'advertisers.team_member_id')->get();
+        // $teamMembers = DB::table('team_members')
+        //     ->leftJoin('advertisers', 'team_members.id', '=', 'advertisers.team_member_id')->get();
+        $teamMembers= TeamMember::all();
             // dd($teamMembers);
         return view('teammembers.index',compact('teamMembers'));
     }
@@ -59,7 +60,16 @@ class TeamMemberController extends Controller
         // dd($validatedData);
         $teamMember = new TeamMember();
         // dd($validatedData);
-        $teamMember->create($validatedData);
+        $teamMember->name = $request->name;
+        $teamMember->email = $request->email;
+        $teamMember->password = $request->password;
+        $teamMember->skype = $request->skype;
+        $teamMember->linkedin = $request->linkedin;
+        $teamMember->amPhone = $request->amPhone;
+        $teamMember->country_code = $request->country_code;
+        // dd($teamMember);
+        $teamMember->save();
+        // $teamMember->create($validatedData);
         return redirect()->route('team-members.index');
     }
 
@@ -85,9 +95,23 @@ class TeamMemberController extends Controller
     {
         $countries = Country::all();
         $banks = Bank::all();
-        return view('teammembers.edit', compact('teamMember', 'countries', 'banks'));
+        return view('teammembers.create', compact('teamMember', 'countries', 'banks'));
     }
 
+    public function view(TeamMember $teamMember)
+    {
+        $currentUrl = url()->current();
+        $segments = request()->segments();
+        $lastSegment = last($segments);
+        $teamMember = TeamMember::where('id', $lastSegment)->firstOrFail();
+        // dd($teamMember);
+        // $teamMember = TeamMember::all();
+        // dd($id);
+        $countries = Country::all();
+        $banks = Bank::all();
+        $selectedcountry = $teamMember->country_code;
+        return view('teammembers.create', compact('teamMember','selectedcountry', 'countries', 'banks'));
+    }
     /**
      * Update the specified resource in storage.
      *
