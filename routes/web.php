@@ -39,6 +39,7 @@ Route::get('/feeds/make-default/{feed}', [FeedsController::class, 'makeDefault']
 Route::get('/feeds/{feed}/view', [FeedsController::class, 'view'])->name('feeds.view');
 //EndMDKHAN
 Route::resource('feeds', FeedsController::class);
+Route::post('/channelid','ChannelsController@ChannelId')->name('channelid');
 Route::resource('channels', ChannelsController::class);
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);

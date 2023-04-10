@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\TeamMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Country;
+use App\State;
+use App\City;
+use App\Bank;
 class TeamMemberController extends Controller
 {
     /**
@@ -29,7 +32,12 @@ class TeamMemberController extends Controller
      */
     public function create()
     {
-        //
+        $countries = Country::all();
+        $states = State::all();
+        $cities = City::all();
+        $banks = Bank::all();
+
+        return view('teammembers.create', compact('countries', 'states', 'cities', 'banks'));
     }
 
     /**
@@ -75,7 +83,9 @@ class TeamMemberController extends Controller
      */
     public function edit(TeamMember $teamMember)
     {
-
+        $countries = Country::all();
+        $banks = Bank::all();
+        return view('teammembers.edit', compact('teamMember', 'countries', 'banks'));
     }
 
     /**
