@@ -50,7 +50,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="{{route('account.index')}}" class="dropdown-item notify-item">
                         <i class="fe-user mr-1"></i>
                         <span>Company Profile</span>
                     </a>

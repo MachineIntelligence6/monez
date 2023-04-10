@@ -112,12 +112,6 @@
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
-                                <div class="col-auto my-auto">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="countryWise">
-                                        <label class="custom-control-label w-100" for="countryWise">Country Wise</label>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -128,7 +122,8 @@
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
+                                    <th>Date & Time Of Search</th>
+                                    <th>Query</th>
                                     <th>Advertiser</th>
                                     <th>Feed</th>
                                     <th>Publisher</th>
