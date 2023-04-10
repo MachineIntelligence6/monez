@@ -214,7 +214,7 @@
                                 </div>
                                 <div class="col-md-6 text-right">
                                     <div class="mt-3">
-                                        <button class="btn btn-primary">Send</button>
+                                        <button class="btn btn-primary">Save</button>
                                     </div>
                                 </div>
                             </div>
