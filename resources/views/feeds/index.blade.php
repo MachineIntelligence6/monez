@@ -38,7 +38,7 @@
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <!-- <th>#</th> -->
                                     <th>Feed Id</th>
                                     <th>Advertiser</th>
                                     <th style="width: 100%;">Feed Path</th>
@@ -46,7 +46,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <!-- <tr>
                                     <td>1</td>
                                     <td>msearch</td>
                                     <td>Advertiser 1</td>
@@ -66,7 +66,39 @@
                                         <a class="btn bg-danger text-white">Disable</a>
                                         <a class="btn bg-blue text-white">Make Default</a>
                                     </td>
+                                </tr> -->
+                                @foreach($feeds as $feed)
+                                <tr>
+                                    <td>
+                                        {{ $feed->feedId ?? '-' }}
+                                    </td>
+                                    <td>
+                                        {{ $feed->advertisers->companyName ?? '-'}}
+                                    </td>
+                                    <td>
+                                        {{ $feed->feedintegration->guideUrl ?? '-' }}
+                                    </td>
+
+
+                                    <td>
+                                        <a class="btn bg-secondary text-white" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
+
+                                        @if ($feed->is_default)
+                                        <a class="btn bg-yellow text-white">Default Feed</a>
+                                        @else
+                                        @if ($feed->is_active)
+                                        <a class="btn bg-danger text-white" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                        @else
+                                        <a class="btn bg-success text-white" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                        @endif
+                                        <a class="btn bg-blue text-white" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+                                        @endif
+                                    </td>
                                 </tr>
+                                @endforeach
+
+
+
                             </tbody>
                         </table>
                     </div>

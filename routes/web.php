@@ -32,12 +32,19 @@ Route::post('/check-unique-value', [AdvertiserController::class, 'checkUniqueDbI
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
 Route::resource('team-members', TeamMemberController::class);
+//startMDKHAN
+Route::get('/feeds/enable/{feed}', [FeedsController::class, 'enable'])->name('feeds.enable');
+Route::get('/feeds/disable/{feed}', [FeedsController::class, 'disable'])->name('feeds.disable');
+Route::get('/feeds/make-default/{feed}', [FeedsController::class, 'makeDefault'])->name('feeds.make-default');
+Route::get('/feeds/{feed}/view', [FeedsController::class, 'view'])->name('feeds.view');
+//EndMDKHAN
 Route::resource('feeds', FeedsController::class);
 Route::resource('channels', ChannelsController::class);
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
 Route::resource('settings', SettingController::class);
 Route::resource('account', AccountController::class);
+//MD Khan
 Route::get('downloadpdf/{id}/{pdf}/{name}', 'AdvertiserController@DownloadPdf')->name('downloadpdf');
 
 

@@ -9,7 +9,10 @@
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
             <select class="form-control" name="publisher" data-toggle="select2" required>
                 <option value="" selected>Select Publisher</option>
-                <option value="advertiser1">Publisher 1</option>
+                @foreach ($publishers as $key => $publisher)
+                <option value="{{ $publisher->id }}">{{ $publisher->companyName }}</option>
+
+                @endforeach
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
@@ -40,9 +43,9 @@
             </div>
         </div> <!-- end col -->
         <div class="col-md-4 mb-3">
-            <label for="staticParameters" class="form-label">Static Parameters<span class="text-danger"></span></label>
+            <label for="c_staticParameters" class="form-label">Static Parameters<span class="text-danger"></span></label>
             <div class="input-group input-group-merge">
-                <input type="text" style="pointer-events: none;" class="form-control" id="staticParameters" name="staticParameters" placeholder="Static Parameters">
+                <input type="text" style="pointer-events: none;" class="form-control" id="staticParameters" name="c_staticParameters" placeholder="Static Parameters">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="add-static-parameters-modal" class="btn btn-secondary">
                         <span class="mdi mdi-plus"></span>
@@ -55,9 +58,9 @@
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <label for="dynamicParameters" class="form-label">Dynamic Parameters<span class="text-danger"></span></label>
+            <label for="c_dynamicParameters" class="form-label">Dynamic Parameters<span class="text-danger"></span></label>
             <div class="input-group input-group-merge">
-                <input type="text" style="pointer-events: none;" class="form-control" id="dynamicParameters" name="dynamicParameters" placeholder="Dynamic Parameters">
+                <input type="text" style="pointer-events: none;" class="form-control" id="dynamicParameters" name="c_dynamicParameters" placeholder="Dynamic Parameters">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="add-dynamic-parameters-modal" class="btn btn-secondary">
                         <span class="mdi mdi-plus"></span>
@@ -70,9 +73,9 @@
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <label for="assignedFeeds" class="form-label">Assigned Feeds<span class="text-danger"></span></label>
+            <label for="c_assignedFeeds" class="form-label">Assigned Feeds<span class="text-danger"></span></label>
             <div class="input-group input-group-merge">
-                <input type="text" style="pointer-events: none;" class="form-control" id="assignedFeeds" name="assignedFeeds" placeholder="Assigned Feeds">
+                <input type="text" style="pointer-events: none;" class="form-control" id="assignedFeeds" name="c_assignedFeeds" placeholder="Assigned Feeds">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="assigned-feeds-modal" class="btn btn-secondary">
                         <span class="mdi mdi-plus"></span>
@@ -86,9 +89,9 @@
         </div>
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="integrationGuide" class="form-label">Integration Guide<span class="text-danger"></span></label>
+                <label for="c_integrationGuide" class="form-label">Integration Guide<span class="text-danger"></span></label>
                 <div class="input-group input-group-merge">
-                    <input type="text" style="pointer-events: none;" class="form-control" id="integrationGuide" name="integrationGuide" placeholder="Integration Guide">
+                    <input type="text" style="pointer-events: none;" class="form-control" id="integrationGuide" name="c_integrationGuide" placeholder="Integration Guide">
                     <div class="input-group-append">
                         <button type="button" onclick="generateChannelUrl()" data-trigger="modal" data-target="add-integration-guide-modal" class="btn btn-secondary">
                             <span class="mdi mdi-plus"></span>
@@ -102,8 +105,8 @@
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <label for="priorityScore" class="form-label">Channel Performance Score</label>
-            <input type="number" class="form-control" id="priorityScore" name="priorityScore" placeholder="Enter Channel Performance Score">
+            <label for="c_priorityScore" class="form-label">Channel Performance Score</label>
+            <input type="number" class="form-control" id="priorityScore" name="c_priorityScore" placeholder="Enter Channel Performance Score">
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
@@ -112,8 +115,8 @@
     </div> <!-- end row -->
     <div class="row">
         <div class="col-md-12 mb-3">
-            <label for="comments" class="form-label">Comments/Notes</label>
-            <textarea class="form-control" rows="4" id="comments" name="comments" placeholder="Notes..."></textarea>
+            <label for="c_comments" class="form-label">Comments/Notes</label>
+            <textarea class="form-control" rows="4" id="comments" name="c_comments" placeholder="Notes..."></textarea>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
