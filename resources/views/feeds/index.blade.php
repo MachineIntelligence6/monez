@@ -41,7 +41,7 @@
                                     <!-- <th>#</th> -->
                                     <th>Feed Id</th>
                                     <th>Advertiser</th>
-                                    <th style="width: 100%;">Feed Path</th>
+                                    <th style="width: 100%;">Feed Url</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                             </thead>

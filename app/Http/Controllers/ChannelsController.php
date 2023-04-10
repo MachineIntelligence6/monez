@@ -36,17 +36,18 @@ class ChannelsController extends Controller
     public function store(Request $request)
     {
 
-        // dd('test');
-        $validatedData = $request->validate([
-            'publisher' => 'required',
-            'channelId'  => 'required',
-        ]);
+        dd('test');
+        // $validatedData = $request->validate([
+        //     'publisher' => 'required',
+        //     'channelId'  => 'required',
+        // ]);
         // $channelId = "fd_" . $request->feedId;
         $channelId = "fd_12345";
         $channel = new Channel;
 
         $channel->publisher_id = $request->publisher;
-        $channel->channelId = $channelId;
+        $channel->channelId = 'ch_012345';
+        // $channel->channelId = $channelId;
         $channel->c_priorityScore = $request->c_priorityScore;
         $channel->c_comments = $request->c_comments;
         $channel->is_active= true;
@@ -74,8 +75,9 @@ class ChannelsController extends Controller
         $channel->staticParameters = json_encode($mergedArrayStat);
         $channel->dynamicParameters = json_encode($mergedArrayDy);
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
-        $channel->save();
-        $channelId = $channel->id;
+        // $channel->save();
+        $channelId = 'ch_012345';
+        // $channelId = $channel->id;
         $channelInegration = new ChannelIntegrationGuide;
         $channelInegration->channel_id = $channelId;
         $channelInegration->c_guideUrl = $request->c_guideUrl;
@@ -90,12 +92,17 @@ class ChannelsController extends Controller
         $channelInegration->c_browsers = $request->c_browsers;
         $channelInegration->c_otherRequirements = $request->c_otherRequirements;
         
-        $channelInegration->save();
+        // $channelInegration->save();
 
-        // dd($feed);
+        dd($channel,$channelInegration);
         return redirect()->route('feeds.index')->with('success', 'Feed Form Data Has Been Inserted Successfuly');
 
         // return view('feeds.index', compact('feeds'))->with('success', 'Feed Form Data Has Been Inserted Successfuly:');
         // return redirect()->back()->with('success', 'Feed Form Data Has Been Inserted Successfuly:');
+    }
+
+    public function ChannelId(Request $request)
+    {
+        
     }
 }

@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" method="post" action="" enctype="multipart/form-data" novalidate>
+                <form class="needs-validation" method="POST" action="{{ route('channels.store') }}" enctype="multipart/form-data" novalidate>
                     @csrf
                     @method('POST')
                     @include('channels.form')

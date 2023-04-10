@@ -29,6 +29,11 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4 mb-3">
+            <label for="channelId" class="form-label">Channel Id</label>
+            <input type="text" class="form-control" id="channelId" name="channelId" disabled>
+            
+        </div>
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>

@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('channels', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Publisher::class)->nullable();
-            $table->string("channelId");
+            $table->string("channelId")->unique();
+            $table->string("channelpath");
             $table->string("c_staticParameters")->nullable();
             $table->string("c_dynamicParameters")->nullable();
             $table->string("c_assignedFeeds")->nullable();

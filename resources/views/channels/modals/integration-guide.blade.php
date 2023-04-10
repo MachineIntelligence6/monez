@@ -11,8 +11,8 @@
             <div class="modal-body modal-scroll">
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <label for="c_guideUrl" class="form-label">Guide Url</label>
-                        <input type="text" class="form-control" id="guideUrl" name="c_guideUrl" placeholder="Guide Url">
+                        <label for="c_guideUrl" class="form-label">Channel Url</label>
+                        <input type="text" class="form-control" id="guideUrl" name="c_guideUrl" placeholder="Channel Url">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input

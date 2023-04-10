@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control" id="paramValue" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
+                            <input type="text" class="form-control" id="paramValue" name="dy_paramValue[]" placeholder="User entered value" disabled/>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
