@@ -11,7 +11,7 @@
             <span class="fas fa-edit mr-1"></span>
             Edit Info
         </button>
-        <button type="button" class="d-none save-category-btn btn btn-primary">
+        <button type="submit" class="d-none save-category-btn btn btn-primary">
             <span class="fas fa-check mr-1"></span>
             Save Info
         </button>
@@ -20,7 +20,7 @@
         <div class="col-md-4" disabled="true">
             <div class="mb-3">
                 <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID"  pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -30,7 +30,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="companyName" class="form-label">Company / Legal Name</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Enter Company / Legal Name" required value="{{ $advertiser->companyName ??  old('companyName') }}">
+                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Enter Company / Legal Name"  value="{{ $advertiser->companyName ??  old('companyName') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -52,7 +52,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="url" class="form-label">Website</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="website-url-input" name="url" placeholder="Enter website url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" required value="{{ $advertiser->url ??  old('website-url-input') }}">
+                <input type="text" class="form-control" id="website-url-input" name="url" placeholder="Enter website url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"  value="{{ $advertiser->url ??  old('website-url-input') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -63,7 +63,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$"  value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -73,7 +73,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="text" class="form-control" name="" placeholder="Enter confirm account email"  id="confemail" onblur="confirmEmail()" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="invalid-feedback" id="invalidfeedback">
 
                 </div>
@@ -93,7 +93,7 @@
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                    <input type="password" id="password-input-field" class="form-control" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                    <input type="password" id="password-input-field" class="form-control" value="{{ $advertiser->password ??  old('password') }}" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                     <div class="input-group-append" data-password="false">
                         <div class="input-group-text btn">
                             <span class="password-eye"></span>
@@ -118,7 +118,7 @@
             <div class="mb-3">
                 <label for="address1" class="form-label">Address</label><label class="text-danger">*</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="text" class="form-control" id="address1" name="address1" placeholder="Enter address line 1" required value="{{ $advertiser->address1 ??  old('address1') }}">
+                <input type="text" class="form-control" id="address1" name="address1" placeholder="Enter address line 1"  value="{{ $advertiser->address1 ??  old('address1') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -136,7 +136,7 @@
             <div class="mb-3">
                 <label for="address1" class="form-label">City</label><label class="text-danger">*</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="text" class="form-control" id="city" name="city_id" placeholder="Enter city" required value="{{ $advertiser->city_id ??  old('city_id') }}">
+                <input type="text" class="form-control" id="city" name="city_id" placeholder="Enter city"  value="{{ $advertiser->city_id ??  old('city_id') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -167,7 +167,7 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
-            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
+            <select class="form-control" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" >
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->title}}" phone-code="+{{$country -> countryCode}}">{{$country->title}}</option>
@@ -179,11 +179,11 @@
             </div>
         </div>
     </div> <!-- end row -->
-    <div class="row mb-3" disabled="true" data-editable="true">
+    <div class="row mb-3" disabled="false" data-editable="true">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
 
-            <input type="file" name="io" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
+            <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
             @php
             $names = $advertiser->agreementDoc;
             $nameArray = explode(",", $names);
@@ -192,17 +192,25 @@
             $docnameArray = explode(",", $docnames);
             @endphp
             @foreach ($nameArray as $name)
+            @if ($name)
             <a href="{{ route('downloadpdf',['id'=>$advertiser->id,'pdf'=> 'agreementDoc','name'=>$name ]) }}">{{$name}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}</a><br><br>
+            @else
+                <p>PDF not available</p>
+            @endif
             @endforeach
 
         </div>
         <div class="col-md-6 h-100 mb-3">
             <label for="documents" class="form-label">Documents</label>
-            <input type="file" name="documents" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
+            <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" /><br>
             @foreach ($docnameArray as $docnames)
+            @if ($docnames)
             <a href="{{ route('downloadpdf', ['id'=>$advertiser->id,'pdf'=> 'document','name'=>$docnames ]) }}">
-                <p>{{$docnames}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}</p>
-            </a>
+                {{$docnames}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}
+            </a>    <br><br>        @else
+                <p>PDF not available</p>
+            @endif
+            
             @endforeach
         </div>
     </div>
@@ -215,7 +223,7 @@
             <span class="fas fa-edit mr-1"></span>
             Edit Info
         </button>
-        <button type="button" class="d-none save-category-btn btn btn-primary">
+        <button type="submit" class="d-none save-category-btn btn btn-primary">
             <span class="fas fa-check mr-1"></span>
             Save Info
         </button>
@@ -224,7 +232,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="amFirstName" name="amFirstName" placeholder="Enter first name" required value="{{ $advertiser->amFirstName ??  old('amFirstName') }}">
+                <input type="text" class="form-control" id="amFirstName" name="amFirstName" placeholder="Enter first name"  value="{{ $advertiser->amFirstName ??  old('amFirstName') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -234,7 +242,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amLastName" class="form-label">Last Name</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="amLastName" name="amLastName" placeholder="Enter last name" required value="{{ $advertiser->amLastName ??  old('amLastName') }}">
+                <input type="text" class="form-control" id="amLastName" name="amLastName" placeholder="Enter last name"  value="{{ $advertiser->amLastName ??  old('amLastName') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -244,7 +252,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amEmail" class="form-label"> Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->amEmail ??  old('amEmail') }}">
+                <input type="email" class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$"  value="{{ $advertiser->amEmail ??  old('amEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -264,7 +272,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number">
+                    <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" value="{{ $advertiser->amPhone ??  old('amPhone') }}" placeholder="Enter phone number">
                 </div>
             </div>
         </div>
@@ -301,7 +309,7 @@
             <span class="fas fa-edit mr-1"></span>
             Edit Info
         </button>
-        <button type="button" class="d-none save-category-btn btn btn-primary">
+        <button type="submit" class="d-none save-category-btn btn btn-primary">
             <span class="fas fa-check mr-1"></span>
             Save Info
         </button>
@@ -310,7 +318,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
-                <input type="number" class="form-control" onchange="this.value = Math.min(this.value, 100)" id="revSharePer" name="revSharePer" placeholder="Enter Revenue Share (%)" required value="{{ $advertiser->revSharePer ??  old('revSharePer') }}">
+                <input type="number" class="form-control" onchange="this.value = Math.min(this.value, 100)" id="revSharePer" name="revSharePer" placeholder="Enter Revenue Share (%)"  value="{{ $advertiser->revSharePer ??  old('revSharePer') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -320,7 +328,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
-                <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" required>
+                <select class="form-control" data-toggle="select2" id="paymentTerms" name="paymentTerms" >
                     <option value="" disabled selected>Select Payment Term</option>
                     <option value="SH1">Net 15</option>
                     <option value="SH1">Net 30</option>
@@ -337,7 +345,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
+                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$"  value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -348,7 +356,7 @@
             <div class="mb-3">
                 <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                    <select class="form-control" id="reportType" data-toggle="select2" onchange="showReportCredsPopup(this.value)" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
+                    <select class="form-control" id="reportType" data-toggle="select2" onchange="showReportCredsPopup(this.value)" name="reportType"  value="{{ $advertiser->reportType ??  old('reportType') }}">
                         <option value="" selected>Report Type</option>
                         <option value="api">API</option>
                         <option value="email">EMAIL</option>
@@ -370,7 +378,7 @@
         <div class="col-md-4 mb-3">
             <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
             <div class="input-group input-group-merge">
-                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" required value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
+                <input type="text" class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" >
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
@@ -384,7 +392,7 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-            <select class="form-control" data-toggle="select2" id="successManager" name="successManager" required>
+            <select class="form-control" data-toggle="select2" id="successManager" name="successManager" >
                 <option value="" selected>Select Success Manager</option>
             </select>
             <div class="valid-feedback">Valid.</div>
@@ -403,7 +411,7 @@
             <span class="fas fa-edit mr-1"></span>
             Edit Info
         </button>
-        <button type="button" class="d-none save-category-btn btn btn-primary">
+        <button type="submit" class="d-none save-category-btn btn btn-primary">
             <span class="fas fa-check mr-1"></span>
             Save Info
         </button>
@@ -412,7 +420,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="billEmail" class="form-label">Billing / Finance Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->billEmail ??  old('billEmail') }}">
+                <input type="email" class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$"  value="{{ $advertiser->billEmail ??  old('billEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -461,11 +469,12 @@
         </div> <!-- end col -->
     </div>
 </div>
-
+@if($lastSegment=='create')
 <div class="row">
     <button class="btn btn-primary" type="submit">Submit</button>
     <a href="{{ route('advertiser.index') }}" class="btn btn-secondary ml-1" type="button">Cancel</a>
 </div>
+@endif
 
 
 

@@ -82,7 +82,7 @@
                                         {{ $advertiser->amFirstName ?? '' }} {{ $advertiser->amLastName ?? '' }}
                                     </td>
                                     <td>
-                                        Succeess Manager
+                                    {{ $advertiser->teamMember->name ?? '-' }}
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->

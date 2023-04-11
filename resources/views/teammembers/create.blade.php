@@ -8,15 +8,24 @@
             @php
             $condition='view';
             $currentUrl = url()->current();
-            $lastSegment = request()->segment(2);
+            $Segmenttwo = request()->segment(2);
+            $segments = request()->segments();
+            $lastSegment = last($segments);
+           
             @endphp
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" method="post" action="{{ route('team-members.store') }}" novalidate>
+                <!-- {{ route('team-members.store') }} -->
+            
+                <form class="needs-validation" method="post" action="{{ url()->current() == route('team-members.create') ? route('team-members.store') : route('team-members.update', $teamMember->id) }}" novalidate>
                     @csrf
-                    @method('POST')
+                    @if($lastSegment=='edit')
+                        @method('PUT')
+                        @else
+                        @method('POST')
+                    @endif
                     @include('teammembers.form')
                 </form>
             </div>

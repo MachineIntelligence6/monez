@@ -1,10 +1,11 @@
 @extends('layouts.vertical', ['title' => 'Advertisers Profile'])
 @section('content')
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" method="post" action="{{ route('advertiser.store') }}" enctype="multipart/form-data" novalidate>
+                <form class="needs-validation" method="post" action="{{ url()->current() == route('advertiser.create') ? route('advertiser.store') : route('advertiser.update', $advertiser->id) }}" enctype="multipart/form-data" novalidate>
                     @csrf
                     @method('POST')
                     @include('advertiser.form')

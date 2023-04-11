@@ -154,11 +154,11 @@
             </div>
         </div>
     </div>
-
+    @if($lastSegment=='view')
     <div class="row mb-3 px-2">
         <button type="button" class="col-auto btn btn-outline-secondary" data-trigger="modal" data-target="feed-timeline-modal">Feed Timeline</button>
     </div>
-
+    @endif
 
     @if($lastSegment=='create')
     <div class="row pl-2">

@@ -21,7 +21,7 @@ class TeamMemberController extends Controller
 
         // $teamMembers = DB::table('team_members')
         //     ->leftJoin('advertisers', 'team_members.id', '=', 'advertisers.team_member_id')->get();
-        $teamMembers= TeamMember::all();
+        $teamMembers= TeamMember::orderBy('id', 'desc')->get();
             // dd($teamMembers);
         return view('teammembers.index',compact('teamMembers'));
     }
@@ -104,9 +104,6 @@ class TeamMemberController extends Controller
         $segments = request()->segments();
         $lastSegment = last($segments);
         $teamMember = TeamMember::where('id', $lastSegment)->firstOrFail();
-        // dd($teamMember);
-        // $teamMember = TeamMember::all();
-        // dd($id);
         $countries = Country::all();
         $banks = Bank::all();
         $selectedcountry = $teamMember->country_code;
@@ -124,9 +121,13 @@ class TeamMemberController extends Controller
         $members = TeamMember::query()->where('id',$id)->first();
         $members->name = $request->name;
         $members->email = $request->email;
+        $members->password = $request->password;
         $members->skype = $request->skype;
         $members->linkedin = $request->linkedin;
-        $members->save();
+        $members->amPhone = $request->amPhone;
+        $members->country_code = $request->country_code;
+        // dd($members);
+        $members->update();
         return redirect()->route('team-members.index');
 
     }

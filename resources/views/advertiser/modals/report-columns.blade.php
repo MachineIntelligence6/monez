@@ -20,7 +20,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="dateColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="dateColValue" name="dateColValue" required>
+                           <input type="text" class="form-control" id="dateColValue"  value="{{ $advertiser->reportColumns->date ??  old('date') }}"  name="dateColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -36,7 +36,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="feedColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="feedColValue" name="feedColValue" required>
+                           <input type="text" class="form-control" id="feedColValue"  value="{{ $advertiser->reportColumns->feed ??  old('feed') }}"  name="feedColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -52,7 +52,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="subidColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="subidColValue" name="subidColValue" required>
+                           <input type="text" class="form-control" id="subidColValue"  value="{{ $advertiser->reportColumns->subid ??  old('subid') }}"  name="subidColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -68,7 +68,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="countryColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="countryColValue" name="countryColValue" required>
+                           <input type="text" class="form-control" id="countryColValue"  value="{{ $advertiser->reportColumns->country ??  old('country') }}"  name="countryColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -84,7 +84,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="totalSearchesColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="totalSearchesColValue" name="totalSearchesColValue" required>
+                           <input type="text" class="form-control" id="totalSearchesColValue"  value="{{ $advertiser->reportColumns->total_searches ??  old('total_searches') }}"  name="totalSearchesColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -100,7 +100,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="monitizedSearchesColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="monitizedSearchesColValue" name="monitizedSearchesColValue" required>
+                           <input type="text" class="form-control" id="monitizedSearchesColValue"  value="{{ $advertiser->reportColumns->monitized_searches ??  old('monitized_searches') }}"  name="monitizedSearchesColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -116,7 +116,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="paidClicksColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="paidClicksColValue" name="paidClicksColValue" required>
+                           <input type="text" class="form-control" id="paidClicksColValue"  value="{{ $advertiser->reportColumns->paid_clicks ??  old('paid_clicks') }}"  name="paidClicksColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -132,7 +132,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="revenueColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="revenueColValue" name="revenueColValue" required>
+                           <input type="text" class="form-control" id="revenueColValue"  value="{{ $advertiser->reportColumns->revenue ??  old('revenue') }}"  name="revenueColValue" required>
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input

@@ -18,7 +18,7 @@ class FeedsController extends Controller
      */
     public function index()
     {
-        $feeds = Feed::all();
+        $feeds = Feed::orderBy('id', 'desc')->get();
         $feedss = FeedIntegrationGuide::all();
         // dd($feeds);
         // $data =$feeds[2]->staticParameters;
@@ -173,7 +173,7 @@ class FeedsController extends Controller
 
     public function view(Feed $feed)
     {
-        dd($feed);
+        // dd($feed);
         $advertisers = Advertiser::all();
         $countries = Country::all();
         $banks = Bank::all();
