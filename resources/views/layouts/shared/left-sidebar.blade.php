@@ -95,10 +95,10 @@
                     <div class="collapse" id="sidebarReports">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{route('reports.index')}}">Activity Reports</a>
+                                <a href="{{route('activity')}}">Activity Reports</a>
                             </li>
                             <li>
-                                <a href="{{route('reports.create')}}">Revenue Reports</a>
+                                <a href="{{route('revenue')}}">Revenue Reports</a>
                             </li>
                         </ul>
                     </div>
