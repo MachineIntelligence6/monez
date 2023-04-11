@@ -1,7 +1,8 @@
-<div class="modal fade" id="add-member-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-     aria-modal="true" role="dialog">
-    <div class="modal-dialog">
-        <form action="{{route('team-members.update',[$member->id])}}" method="POST" class="modal-content shadow shadow-5">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+            <form action="{{route('team-members.update',[$teamMember->id])}}" method="POST" class="modal-content shadow shadow-5">
             @csrf
             @method('POST')
             <div class="modal-header">
@@ -67,13 +68,16 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Add</button>
+            <div class="row">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a href="{{ route('team-members.index') }}" class="btn btn-secondary ml-1" type="button">Cancel</a>
             </div>
         </form>
+            </div>
+        </div>
     </div>
 </div>
+
 @section('script')
 
     <script>

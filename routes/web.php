@@ -31,6 +31,7 @@ Route::resource('admin', AdminController::class);
 Route::post('/check-unique-value', [AdvertiserController::class, 'checkUniqueDbId'])->name('check.unique.value');
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
+Route::get('/teammembers/view/{member}', [TeamMemberController::class, 'view'])->name('team-members.view');
 Route::resource('team-members', TeamMemberController::class);
 //startMDKHAN
 Route::get('/feeds/enable/{feed}', [FeedsController::class, 'enable'])->name('feeds.enable');
@@ -39,6 +40,7 @@ Route::get('/feeds/make-default/{feed}', [FeedsController::class, 'makeDefault']
 Route::get('/feeds/{feed}/view', [FeedsController::class, 'view'])->name('feeds.view');
 //EndMDKHAN
 Route::resource('feeds', FeedsController::class);
+Route::post('/channelid','ChannelsController@ChannelId')->name('channelid');
 Route::resource('channels', ChannelsController::class);
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);

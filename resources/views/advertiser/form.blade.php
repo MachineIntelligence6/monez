@@ -14,7 +14,7 @@
                             <span>adv_</span>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required  value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                 </div>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback" id="dba-invalid">

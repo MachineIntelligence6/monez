@@ -27,8 +27,12 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <button type="button" class="btn btn-danger waves-effect waves-light" data-trigger="modal" data-target="add-member-modal"><i class="mdi mdi-plus-circle mr-1"></i></i>Add Member
-                            </button>
+                            <!-- <button type="button" class="btn btn-danger waves-effect waves-light" data-trigger="modal" data-target="add-member-modal"><i class="mdi mdi-plus-circle mr-1"></i></i>Add Member
+                            </button> -->
+                            <a href="{{route('second', ['team-members', 'create'])}}" class="btn btn-danger waves-effect waves-light">
+                                <i class="mdi mdi-plus-circle mr-1"></i>
+                                Add New
+                            </a>
                         </div>
                     </div>
 
@@ -44,34 +48,11 @@
                                     </th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Advertiser ID</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                            <label class="custom-control-label" for="customCheck2">&nbsp;</label>
-                                        </div>
-                                    </td>
-                                    <td>name</td>
-                                    <td>email</td>
-                                    <!-- Please add advertiser id here -->
-                                    <td>Advertiser ID</td>
-
-                                    <td>
-                                        <span class="d-inline-flex" style="gap: 5px;">
-                                            <a class="btn bg-secondary text-white" data-trigger="modal" data-target="edit-member-modal">View Info</a>
-                                            <form action="" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
-                                        </span>
-                                    </td>
-                                </tr>
+                                @if(isset($teamMembers))
                                 @foreach($teamMembers as $teamMember)
                                 <tr>
                                     <td>
@@ -80,26 +61,24 @@
                                             <label class="custom-control-label" for="customCheck2">&nbsp;</label>
                                         </div>
                                     </td>
-                                    <td>{{ $teamMember->name }}</td>
+                                    <td>{{ $teamMember->name }}--{{ $teamMember->id }}</td>
                                     <td>{{ $teamMember->email }}</td>
-                                    <!-- Please add advertiser id here -->
-                                    <td>Advertiser ID</td>
-
                                     <td>
-                                        <a class="btn bg-secondary text-white" data-trigger="modal" data-target="edit-member-modal">View Info</a>
-                                        <!-- <a class="action-icon" data-trigger="modal" data-target="edit-member-modal">
-                                            <i class="mdi mdi-square-edit-outline"></i>
-                                        </a> -->
-                                    </td>
-                                    <td>
+                                        <span class="d-inline-flex" style="gap: 5px;">
+                                        <a class="btn bg-secondary text-white" href="{{route('team-members.view',$teamMember->id)}}">View Info</a>
                                         <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
+                                        </span>
                                     </td>
+
+
+                                   
                                 </tr>
                                 @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -109,8 +88,6 @@
     </div>
     <!-- end row -->
 </div> <!-- container -->
-@include('teammembers.edit')
-@include('teammembers.add-members-modal')
 
 @endsection
 @section('script-bottom')

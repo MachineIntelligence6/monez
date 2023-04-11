@@ -122,14 +122,25 @@ class AdvertiserController extends Controller
         $adv->agreementDoc = implode(",", $Ios);
         $adv->revSharePer = $request->revSharePer;
         $adv->paymentTerms = $request->paymentTerms;
-        $adv->bank_id = $request->bank;
+
+        $lastId = Advertiser::orderBy('bank_id', 'desc')->first();
+        // dd($lastId);
+        if ($lastId !== null) {
+            $lastId = $lastId->bank_id;
+            $lastId++;
+            $newId =$lastId;
+        } else {
+            $newId ='1';
+        }
+
+        $adv->bank_id = $newId;
         $adv->payoneer = $request->payoneer;
         $adv->paypal = $request->paypal;
         $adv->document = implode(',', $Documents);
         $adv->notes = $request->notes;
         $adv->agreement_start_date = $request->AgreementStartDate;
         $adv->team_member_id = $request->dbaId;
-
+        // dd($adv);
         $adv->save();
 
         $bankDetails = new AdvertiserBankDetail;

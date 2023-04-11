@@ -30,6 +30,7 @@ class ChannelsController extends Controller
     {
         $publishers= Publisher::all();
         $feeds= Feed::all();
+        $this->ChannelId();
         return view('channels.create',compact('publishers','feeds'));
     }
 
@@ -46,7 +47,7 @@ class ChannelsController extends Controller
         $channel = new Channel;
 
         $channel->publisher_id = $request->publisher;
-        $channel->channelId = 'ch_012345';
+        // $channel->channelId = 'ch_012345';
         // $channel->channelId = $channelId;
         $channel->c_priorityScore = $request->c_priorityScore;
         $channel->c_comments = $request->c_comments;
@@ -101,8 +102,23 @@ class ChannelsController extends Controller
         // return redirect()->back()->with('success', 'Feed Form Data Has Been Inserted Successfuly:');
     }
 
-    public function ChannelId(Request $request)
+    public function ChannelId()
     {
-        
+        $channel = new Channel;
+        // $lastId = Channel::orderBy('channelId', 'desc')->first()->id; 
+        $lastId = Channel::orderBy('channelId', 'desc')->first();
+        if ($lastId !== null) {
+            $lastId = $lastId->channelId;
+            $str = $lastId;
+            $numericPart = substr($str, 3); 
+            $numericPart++;
+            $newId = 'ch_' . $numericPart; 
+            // echo $newId; 
+        } else {
+            $newId ='ch_1001';
+        }
+        $channel->channelId = $newId;
+
+        $channel->save();
     }
 }
