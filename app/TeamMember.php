@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TeamMember extends Model
 {
-    protected $guarded = [];
+    use HasFactory;
     public function advertisers(){
-        $this->belongsTo(Advertiser::class,'advertiser_id','id');
+        return $this->belongsTo(Advertiser::class,'id','team_member_id');
     }
 }

@@ -13,6 +13,7 @@ use App\Country;
 use App\State;
 use App\City;
 use App\Bank;
+use App\TeamMember;
 use Illuminate\Support\Facades\Validator;
 
 class AdvertiserController extends Controller
@@ -24,7 +25,8 @@ class AdvertiserController extends Controller
      */
     public function index()
     {
-        $advertisers = Advertiser::all();
+        $advertisers = Advertiser::orderBy('id', 'desc')->get();
+        // dd($advertisers);
         return view('advertiser.index', compact('advertisers'));
     }
 
@@ -39,8 +41,23 @@ class AdvertiserController extends Controller
         $states = State::all();
         $cities = City::all();
         $banks = Bank::all();
+        $teamMembers = TeamMember::all();
+        $advertisers = Advertiser::all();
 
-        return view('advertiser.create', compact('countries', 'states', 'cities', 'banks'));
+        // Retrieve an array of the ids of the TeamMember models
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+
+        // Get the Advertiser models where the team_member_id is in the $teamMemberIds array
+        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+
+        // Retrieve an array of the assigned team_member_ids
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+
+        // Get the TeamMember models where the id is not in the $assignedTeamMemberIds array
+        $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
+
+        // dd($availableTeamMembers);
+        return view('advertiser.create', compact('countries','availableTeamMembers', 'states', 'cities', 'banks'));
     }
 
     /**
@@ -122,24 +139,12 @@ class AdvertiserController extends Controller
         $adv->agreementDoc = implode(",", $Ios);
         $adv->revSharePer = $request->revSharePer;
         $adv->paymentTerms = $request->paymentTerms;
-
-        $lastId = Advertiser::orderBy('bank_id', 'desc')->first();
-        // dd($lastId);
-        if ($lastId !== null) {
-            $lastId = $lastId->bank_id;
-            $lastId++;
-            $newId =$lastId;
-        } else {
-            $newId ='1';
-        }
-
-        $adv->bank_id = $newId;
         $adv->payoneer = $request->payoneer;
         $adv->paypal = $request->paypal;
         $adv->document = implode(',', $Documents);
         $adv->notes = $request->notes;
         $adv->agreement_start_date = $request->AgreementStartDate;
-        $adv->team_member_id = $request->dbaId;
+        $adv->team_member_id = $request->team_member_id;
         // dd($adv);
         $adv->save();
 
@@ -155,6 +160,24 @@ class AdvertiserController extends Controller
         $bankDetails->swift = $request->swift;
         $bankDetails->currency = $request->currency;
         $bankDetails->save();
+
+
+        //updating bank id
+        $lastId = $bankDetails->id;
+        // print_r($lastId);
+        // if ($lastId !== null) {
+        //     $lastId = $lastId->bank_id;
+        //     $lastId++;
+        //     $newId =$lastId;
+        // } else {
+        //     $newId ='1';
+        // }
+        $advertiser =Advertiser::where('id', $adv->id)->first();
+        $advertiser->bank_id = $lastId;
+       
+        $advertiser->update();
+        // dd($advertiser);
+
 
         $advertiserReportColumn = new AdvertiserReportColumn;
         $advertiserReportColumn->advertiser_id = $adv->id;
@@ -242,16 +265,42 @@ class AdvertiserController extends Controller
         $advertiser->amSkype = $request->amSkype;
         $advertiser->amLinkedIn = $request->amLinkedIn;
 
-        $advertiser->agreementDoc = $request->agreementDoc;
+        $Ios = [];
+        if ($request->hasFile('ios')) {
+            foreach ($request->file('ios') as $io) {
+                $ioName = $io->getClientOriginalName();
+                $dbaId = $request->dbaId;
+                $agreementDoc = $dbaId . "-" . time() . $ioName;
+                $io->move(public_path('assets/files/uploads/ios/' . $dbaId . ''), $agreementDoc);
+                $Ios[] = $agreementDoc;
+            }
+        } else {
+            $agreementDoc = "Not Delivered";
+        }
+        $Documents = [];
+        if ($request->hasFile('documents')) {
+            foreach ($request->file('documents') as $document) {
+                $documentName = $document->getClientOriginalName();
+                $dbaId = $request->dbaId;
+                $documentFile = $dbaId . "-" . time() . $documentName;
+                $document->move(public_path('assets/files/uploads/document/' . $dbaId . ''), $documentFile);
+                $Documents[] = $documentFile;
+            }
+        } else {
+            $document = "Not Delivered";
+        }
+
+        $advertiser->agreementDoc = implode(',', $Ios);
         $advertiser->revSharePer = $request->revSharePer;
         $advertiser->paymentTerms = $request->paymentTerms;
         $advertiser->bank_id = $request->bank;
         $advertiser->payoneer = $request->payoneer;
         $advertiser->paypal = $request->paypal;
-        $advertiser->document = $request->document;
+        $advertiser->document = implode(',', $Documents);
         $advertiser->notes = $request->notes;
         $advertiser->agreement_start_date = $request->AgreementStartDate;
 
+        // dd($advertiser);
         $advertiser->update();
 
         return redirect()->back()->with('success', 'Advertiser Form Data Has Been Updated Successfuly:');

@@ -42,6 +42,8 @@ Route::get('/feeds/{feed}/view', [FeedsController::class, 'view'])->name('feeds.
 Route::resource('feeds', FeedsController::class);
 Route::post('/channelid','ChannelsController@ChannelId')->name('channelid');
 Route::resource('channels', ChannelsController::class);
+Route::get('reports/activity', 'ReportsController@activity')->name('activity');
+Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
 Route::resource('settings', SettingController::class);

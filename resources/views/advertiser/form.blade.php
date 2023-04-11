@@ -344,9 +344,12 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-            <select class="form-control" data-toggle="select2" id="successManager" name="successManager" required>
+            <select class="form-control" data-toggle="select2" id="successManager" name="team_member_id" required>
                 <option value="" selected>Select Success Manager</option>
-                <option value="1">Success Manager</option>
+                @foreach ($availableTeamMembers as $key => $teamMember)
+                <option value="{{$teamMember->id}}" >{{$teamMember->name}}</option>
+                @endforeach
+                <!-- <option value="1">Success Manager</option> -->
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
