@@ -25,6 +25,53 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="row mb-2 align-items-center justify-content-between">
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-md-auto" style="min-width: 200px;">
+                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-finance" data-toggle="select2">
+                                        <option>Select Partners</option>
+                                        <option value="">All</option>
+                                        <option value="">All Publishers</option>
+                                        <option value="">All Advertisers</option>
+                                        <option value="select-custom">Select Custom</option>
+                                    </select>
+                                    <div id="partners-dropdown-finance" class="dropdown-menu w-100" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="financePartner1">
+                                                <label class="custom-control-label w-100" for="financePartner1">Partner 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="financePartner2">
+                                                <label class="custom-control-label w-100" for="financePartner2">Partner 2</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto" style="min-width: 250px;">
+                                    <select class="form-control selectperiod" name="" data-toggle="select2" required>
+                                        <option>Select Month</option>
+                                        <option value="">Previous Month</option>
+                                        <option value="">Last 3 Months</option>
+                                        <option value="">Last 6 Months</option>
+                                        <option value="">Current Financial Year</option>
+                                        <option value="">Previous Financial Year</option>
+                                        <option value="select-custom">Select Custom</option>
+                                    </select>
+                                    <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">Go</button>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
@@ -72,7 +119,12 @@
 
 @endsection
 @section('script')
+<script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
+
+<script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+
+<script src="{{asset('assets/js/custom/custom-multiselect-dropdown.js')}}"></script>
 
 <script type="text/javascript">
     $('#products-datatable').DataTable({
