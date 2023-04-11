@@ -28,33 +28,92 @@
                 <div class="card-body">
                     <div class="row mb-3 justify-content-end">
                         <div class="col-auto">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile" accept=".csv">
-                                <label class="btn btn-primary" for="customFile">Export CSV</label>
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                        <label class="btn btn-primary" for="customFile">Export CSV</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto dropleft" style="min-width: 160px">
+                                    <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" data-target="#show-columns-dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Show Columns
+                                    </button>
+                                    <div id="show-columns-dropdown" class="dropdown-menu">
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="channel-path">
+                                                <label class="custom-control-label w-100" for="channel-path">Channel Path</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="referer">
+                                                <label class="custom-control-label w-100" for="referer">Referer</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="location">
+                                                <label class="custom-control-label w-100" for="location">Location</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="latency">
+                                                <label class="custom-control-label w-100" for="latency">Latency (seconds)</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="useragent">
+                                                <label class="custom-control-label w-100" for="useragent">UserAgent</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="screen-resolution">
+                                                <label class="custom-control-label w-100" for="screen-resolution">Screen Resolution</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="device">
+                                                <label class="custom-control-label w-100" for="device">Device</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="os">
+                                                <label class="custom-control-label w-100" for="os">OS</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="browser">
+                                                <label class="custom-control-label w-100" for="browser">Browser</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="row mb-2 align-items-center justify-content-between">
-                        <div class="col-auto">
-                            <label class="d-inline-flex align-items-center" style="gap: 5px;">
-                                Show
-                                <select name="products-datatable_length" aria-controls="products-datatable" class="custom-select custom-select-sm form-control form-control-sm">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                entries
-                            </label>
-                        </div>
-                        <div class="col-6">
+                        <div class="col-9">
                             <div class="row">
-                                <div class="col-3">
-                                    <select class="form-control" name="parteners" id="select-partners" data-target-dropdown="#partners-dropdown" data-toggle="select2">
-                                        <option>Select Partners</option>
-                                        <option value="">All</option>
-                                        <option value="">All Publishers</option>
-                                        <option value="">All Advertisers</option>
+                                <div class="col-auto" style="min-width: 170px;">
+                                    <select class="form-control" name="partener-type" id="partner-type" data-toggle="select2">
+                                        <option selected disabled>Select Type</option>
+                                        <option value="publishers">Publishers</option>
+                                        <option value="advertisers">Advertisers</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto" style="min-width: 200px;">
+                                    <select class="form-control" name="parteners" disabled id="partners" data-target-dropdown="#partners-dropdown" data-toggle="select2">
+                                        <option value="" selected disabled></option>
+                                        <option value="all">All</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
                                     <div id="partners-dropdown" class="dropdown-menu w-100" data-searchable="true">
@@ -75,12 +134,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <select class="form-control" data-target-dropdown="#types-dropdown" data-toggle="select2">
-                                        <option>Select Type</option>
+                                <div class="col-auto" style="min-width: 200px;">
+                                    <select class="form-control" disabled id="feeds-channels" data-target-dropdown="#types-dropdown" data-toggle="select2">
+                                        <option value="" selected disabled></option>
                                         <option value="">All</option>
-                                        <option value="">All Feeds</option>
-                                        <option value="">All Channels</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
                                     <div id="types-dropdown" class="dropdown-menu w-100" data-searchable="true">
@@ -108,7 +165,7 @@
                                         <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
-                                        <option value="custom-range" data-hello="kdam,adm,adm">Custom Range</option>
+                                        <option value="custom-range">Custom Range</option>
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
@@ -175,16 +232,13 @@
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 
 <script type="text/javascript">
-    $('#products-datatable').DataTable({
+    let table = $('#products-datatable').DataTable({
         searching: false,
         filter: true,
         paging: true,
         info: true,
-        dom: '<"toolbar">frtip',
-        fnInitComplete: function() {
-            $('div.toolbar').html();
-        }
     });
+
 
 
 
@@ -202,6 +256,39 @@
                 renderedContainer.text("Custom Range " + `( ${$(e.target).val()} )`);
             });
         }
+    })
+
+
+    //Filters Flow
+    $("#partner-type").on("select2:close", (e) => {
+        if ($(e.target).val() !== "") {
+            let selectedText = $("#partner-type option:selected").text();
+            let partnersRenderContainer = $("#partners")
+                .removeProp("disabled")
+                .siblings(".select2-container")
+                .find(".select2-selection__rendered");
+            partnersRenderContainer.text("Select " + selectedText);
+
+            let fchRenderContainer = $("#feeds-channels")
+                .removeProp("disabled")
+                .siblings(".select2-container")
+                .find(".select2-selection__rendered");
+
+            fchRenderContainer.text("Select " + ($("#partner-type").val() === "publishers" ? "Feeds" : "Channels"));
+        }
+    });
+
+
+    $("[data-toggle='dropdown']").click(function() {
+        $($(this).attr("data-target")).toggleClass("d-block")
+    })
+    $(document).on('click', (e) => {
+        console.log(e.target)
+        $('.dropdown-menu').each((_, searchDrop) => {
+            if (!searchDrop.parentNode.contains(e.target)) {
+                $(searchDrop).removeClass("d-block");
+            }
+        })
     })
 </script>
 @endsection

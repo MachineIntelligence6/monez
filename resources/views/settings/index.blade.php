@@ -134,13 +134,37 @@
                         <h4>Newsletter </h4>
                     </div>
                     <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-newsletter" data-toggle="select2">
+                                <option>Select Partners</option>
+                                <option value="">All</option>
+                                <option value="">All Publishers</option>
+                                <option value="">All Advertisers</option>
+                                <option value="select-custom">Select Custom</option>
+                            </select>
+                            <div id="partners-dropdown-newsletter" class="dropdown-menu w-100" data-searchable="true">
+                                <div class="px-2">
+                                    <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                </div>
+                                <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="newsletterPartner1">
+                                        <label class="custom-control-label w-100" for="newsletterPartner1">Partner 1</label>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="newsletterPartner2">
+                                        <label class="custom-control-label w-100" for="newsletterPartner2">Partner 2</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Subject" />
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <textarea class="form-control" placeholder="body..." id="" style="height: 100px"></textarea>
@@ -166,11 +190,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3 d-flex justify-content-between">
-                        <h4>Custom Message</h4>
+                        <h4>Custom Messages</h4>
                         <button class="btn btn-secondary" onclick="appendNewCustomMessage()"><i class="mdi mdi-plus"></i></button>
                     </div>
                     <div id="customMessagesContainer" class="row">
-                        <div class="mb-3 col-md-6" id="customMessageSample">
+                        <div class="mb-3 col-md-6 custom-message" id="customMessageSample">
                             <div class="row">
                                 <div class="col-md-12">
                                     <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2">
@@ -209,7 +233,7 @@
                             <div class="row">
                                 <div class="col-md-6 t">
                                     <div class="mt-3">
-                                        <button class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                                        <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right">
@@ -271,7 +295,7 @@
             // element.querySelectorAll("input").forEach((inp) => inp.value = "");
             // messagesContainer.appendChild(element);
             let element = document.createElement("div");
-            element.classList = "mb-3 col-md-6";
+            element.classList = "mb-3 col-md-6 custom-message";
             let idx = messagesContainer.children.length;
             element.innerHTML = `
                 <div class="row">
@@ -312,12 +336,12 @@
                 <div class="row">
                     <div class="col-md-6 t">
                         <div class="mt-3">
-                            <button class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
                         </div>
                     </div>
                     <div class="col-md-6 text-right">
                         <div class="mt-3">
-                            <button class="btn btn-primary">Send</button>
+                            <button class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>`;
@@ -326,10 +350,8 @@
             refreshCustomMultiSelect();
         }
 
-        function removeElementFromContainer(target, sampleId) {
-            let parameter = target.parentNode.parentNode;
-            if (parameter.id === sampleId) return;
-            parameter.remove();
+        function removeElementFromContainer(target) {
+            $(target).closest(".custom-message").remove();
         }
     </script>
     @endsection
