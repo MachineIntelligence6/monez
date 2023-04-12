@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                  
+
                         <div class="col-12 mb-3 d-none report-creds-input api-input-group">
                             <label for="apiKey" class="form-label">API Key</label>
                             <input type="text" class="form-control" id="apiKey" name="apiKey">
@@ -38,7 +38,7 @@
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="reportPassword" class="form-control" name="reportPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                                <input type="password" id="reportPassword" class="form-control" name="reportPassword">
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text btn">
                                         <span class="password-eye"></span>

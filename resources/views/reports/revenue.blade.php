@@ -147,7 +147,7 @@
                                 <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control" disabled id="feeds-channels" data-target-dropdown="#types-dropdown" data-toggle="select2">
                                         <option value="" selected disabled></option>
-                                        <option value="">All</option>
+                                        <option value="all">All</option>
                                         <option value="select-custom">Select Custom</option>
                                     </select>
                                     <div id="types-dropdown" class="dropdown-menu w-100" data-searchable="true">
@@ -169,10 +169,8 @@
                                     </div>
                                 </div>
                                 <div class="col-auto" style="min-width: 200px;">
-                                    <select class="form-control selectperiod" name="" data-toggle="select2" required>
+                                    <select class="form-control selectperiod" id="select-period" disabled name="period" data-toggle="select2" required>
                                         <option>Select Period</option>
-                                        <option value="">Yesterday</option>
-                                        <option value="">Today</option>
                                         <option value="">Month to Date</option>
                                         <option value="">Previous Month</option>
                                         <option value="custom-range">Custom Range</option>
@@ -297,8 +295,9 @@
 
 
 
+
     //Filters Flow
-    $("#partner-type").on("select2:close", (e) => {
+    $("#partner-type").on("change", (e) => {
         if ($(e.target).val() !== "") {
             let selectedText = $("#partner-type option:selected").text();
             let partnersRenderContainer = $("#partners")
@@ -308,14 +307,24 @@
             partnersRenderContainer.text("Select " + selectedText);
 
             let fchRenderContainer = $("#feeds-channels")
-                .removeProp("disabled")
                 .siblings(".select2-container")
                 .find(".select2-selection__rendered");
-
-            fchRenderContainer.text("Select " + ($("#partner-type").val() === "publishers" ? "Feeds" : "Channels"));
+            fchRenderContainer.text("Select " + ($("#partner-type").val() === "advertisers" ? "Feeds" : "Channels"));
         }
     });
 
+    $("#partners").change((e) => {
+        if ($(e.target).val() !== "") {
+            $("#feeds-channels")
+                .removeProp("disabled")
+        }
+    })
+    $("#feeds-channels").change((e) => {
+        if ($(e.target).val() !== "") {
+            $("#select-period")
+                .removeProp("disabled");
+        }
+    })
 
 
 

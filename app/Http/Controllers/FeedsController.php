@@ -46,6 +46,10 @@ class FeedsController extends Controller
     public function create()
     {
         $advertisers = Advertiser::all();
+        // $teamMemberIds = $advertisers->pluck('id')->toArray();
+        // $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+        // $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+        // $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
         return view('feeds.create', compact('advertisers'));
     }
 

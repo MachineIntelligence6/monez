@@ -10,10 +10,10 @@
         </div>
 
         <div class="col-auto">
-        @if($lastSegment=='create')
-    
-        @elseif($lastSegment=='edit')
-        <!-- <a href="#" class="btn btn-primary">
+            @if($lastSegment=='create')
+
+            @elseif($lastSegment=='edit')
+            <!-- <a href="#" class="btn btn-primary">
                 <span  class="fas fa-check mr-1"></span>
                 Save Info
             </a> -->
@@ -24,13 +24,13 @@
                 <span class="fas fa-edit mr-1"></span>
                 Edit Info
             </a>
-        @endif
+            @endif
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 mb-3">
             <label for="advertiser" class="form-label">Advertiser</label><label class="text-danger">*</label>
-            <select name="advertiser" class="form-control" @if($condition==$lastSegment) disabled @endif id="country-dropdown" data-toggle="select2" required>
+            <select name="advertiser" class="form-control" @if($condition==$lastSegment) disabled @endif id="advertiserZ-dropdown" data-toggle="select2" required>
                 <option value="" selected>Select Advertiser</option>
                 @foreach ($advertisers as $key => $advertiser)
                 <option value="{{ $advertiser->id }}" @if (isset($selectedAdv) && $advertiser->id == $selectedAdv) selected @endif>{{ $advertiser->companyName }}</option>
@@ -46,7 +46,7 @@
             <div class="mb-3">
                 <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                @if($lastSegment == 'create')
+                    @if($lastSegment == 'create')
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span>fd_</span>
@@ -54,9 +54,9 @@
                     </div>
                     @endif
                     @if($lastSegment == 'edit')
-                        <input type="text" class="form-control" id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? '')}}" placeholder="Enter Feed ID" disabled />
+                    <input type="text" class="form-control" id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? '')}}" placeholder="Enter Feed ID" disabled />
                     @else
-                        <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif  id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? '')}}" placeholder="Enter Feed ID" required />
+                    <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? '')}}" placeholder="Enter Feed ID" required />
                     @endif
 
                     <!-- <input type="text" class="form-control"  id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? '')}}" placeholder="Enter Feed ID" required /> -->

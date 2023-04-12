@@ -44,16 +44,9 @@ class AdvertiserController extends Controller
         $teamMembers = TeamMember::all();
         $advertisers = Advertiser::all();
 
-        // Retrieve an array of the ids of the TeamMember models
         $teamMemberIds = $teamMembers->pluck('id')->toArray();
-
-        // Get the Advertiser models where the team_member_id is in the $teamMemberIds array
         $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
-
-        // Retrieve an array of the assigned team_member_ids
         $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
-
-        // Get the TeamMember models where the id is not in the $assignedTeamMemberIds array
         $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
 
         // dd($availableTeamMembers);
@@ -201,8 +194,7 @@ class AdvertiserController extends Controller
         $advertiserReportType->gdriveEmail = $request->gdriveEmail;
         $advertiserReportType->gdrivePassword = $request->gdrivePassword;
         $advertiserReportType->save();
-
-        return redirect()->back()->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
+        return view('advertiser.index')->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
     }
 
     /**
@@ -211,9 +203,17 @@ class AdvertiserController extends Controller
      * @param  \App\Models\Advertiser  $advertiser
      * @return \Illuminate\Http\Response
      */
-    public function show(Advertiser $advertiser)
+    public function view(Advertiser $advertiser)
     {
-        //
+        $countries = Country::all();
+        $banks = Bank::all();
+        $teamMembers = TeamMember::all();
+        $selectedteam = $advertiser->team_member_id;
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+        $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
+        return view('advertiser.edit', compact('advertiser','availableTeamMembers', 'countries', 'banks','selectedteam'));
     }
 
     /**
@@ -226,7 +226,8 @@ class AdvertiserController extends Controller
     {
         $countries = Country::all();
         $banks = Bank::all();
-        return view('advertiser.edit', compact('advertiser', 'countries', 'banks'));
+        $selectedteam = $advertiser->team_member_id;
+        return view('advertiser.edit', compact('advertiser', 'countries', 'banks','selectedteam'));
     }
 
     /**
@@ -307,7 +308,7 @@ class AdvertiserController extends Controller
         // dd($advertiser);
         $advertiser->update();
 
-        return redirect()->back()->with('success', 'Advertiser Form Data Has Been Updated Successfuly:');
+        return redirect()->route('advertiser.index')->with('success', 'Advertiser Form Data Has Been Updated Successfuly:');
     }
 
     /**
@@ -348,5 +349,18 @@ class AdvertiserController extends Controller
         } else {
             return redirect()->back()->with('error', 'File not found.');
         }
+    }
+
+    public function accountInfo(Request $request,Advertiser $advertiser , $currentedit){
+        // dd($currentedit);
+        $countries = Country::all();
+        $banks = Bank::all();
+        $teamMembers = TeamMember::all();
+        $selectedteam = $advertiser->team_member_id;
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+        $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
+        return view('advertiser.edit', compact('advertiser','availableTeamMembers', 'countries', 'banks'));
     }
 }
