@@ -2,12 +2,11 @@
 
 @section('content')
 @php
-            $condition='view';
-            $currentUrl = url()->current();
-            $segments = request()->segments();
-            $lastSegment = last($segments);
- 
-            @endphp
+$condition='view';
+$currentUrl = url()->current();
+$segments = request()->segments();
+$lastSegment = last($segments);
+@endphp
 <div class="row">
     <div class="col-lg-12">
         <div class="card">

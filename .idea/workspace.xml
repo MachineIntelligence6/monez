@@ -7,12 +7,12 @@
     <list default="true" id="45c209d0-63c1-43f0-98c5-981ac074e109" name="Changes" comment="Features">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/report-columns.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/report-columns.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/feeds/modals/integration-guide.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/feeds/modals/integration-guide.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/shared/footer-script.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/shared/footer-script.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,13 +159,19 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
+    "WebServerToolWindowFactoryState": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
+    "WebServerToolWindowPanel.toolwindow.show.date": "false",
+    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
+    "WebServerToolWindowPanel.toolwindow.show.size": "false",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/DELL/Documents/GitHub/monez",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -202,6 +208,8 @@
       <workItem from="1679817556716" duration="649000" />
       <workItem from="1679860586450" duration="626000" />
       <workItem from="1681224491805" duration="1449000" />
+      <workItem from="1681277217799" duration="901000" />
+      <workItem from="1681281085863" duration="1164000" />
     </task>
     <servers />
   </component>

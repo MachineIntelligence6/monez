@@ -160,7 +160,7 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
-            <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
+            <select class="form-control" name="country_id" id="country-dropdown" data-toggle="select2" required>
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->title}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
@@ -175,11 +175,11 @@
     <div class="row mb-3">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
-            <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
+            <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple />
         </div>
         <div class="col-md-6 h-100 mb-3">
             <label for="documents" class="form-label">Documents</label>
-            <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
+            <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple />
         </div>
     </div>
 </div>
@@ -306,9 +306,9 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
+                <label for="reportType" class="form-label">Report Type</label>
                 <div class="input-group input-group-merge">
-                    <select class="form-control" id="reportType" data-toggle="select2" onchange="showReportCredsPopup(this.value)" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
+                    <select class="form-control" id="reportType" data-toggle="select2" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
                         <option value="" selected>Report Type</option>
                         <option value="api">API</option>
                         <option value="email">EMAIL</option>
@@ -328,7 +328,7 @@
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
+            <label for="reportColumns" class="form-label">Report Columns</label>
             <div class="input-group input-group-merge">
                 <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
                 <div class="input-group-append">
@@ -404,7 +404,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="payoneer" class="form-label">Payoneer</label>
-                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
+                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -422,11 +422,11 @@
 
 
 
-@section('script')
+@section('script-bottom')
 <!-- Plugins js-->
 <script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
-<script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/dropify/dropify.min.js')}}"></script>
+<script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
@@ -440,9 +440,13 @@
     })
 
 
-    function setCountryCodeToPhone(countryCode) {
+    $("#country-dropdown").on("change", (e) => {
+        console.log(e.target);
+        let countryCode = $("#country-dropdown option:selected").attr("phone-code");
+        console.log(countryCode)
         $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
-    }
+
+    })
 
     document.querySelectorAll(".enable-on-valid").forEach((el) => {
         let input = document.getElementById(el.getAttribute("data-enable-target"));
@@ -457,6 +461,8 @@
             else el.classList.add("d-none")
         })
     })
+
+
 
     //Report Type Popup Script
     const reportTypeModal = document.getElementById("report-type-modal");
@@ -475,6 +481,10 @@
             reportTypeModal.style.display = "block";
         }
     }
+
+    $("#reportType").on("select2:close", function() {
+        showReportCredsPopup($(this).val());
+    })
 
 
     $(document).ready(function() {

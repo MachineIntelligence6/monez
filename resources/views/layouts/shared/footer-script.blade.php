@@ -29,7 +29,6 @@
 
 <!-- Datatables init -->
 <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
-@yield('script-bottom')
 
 
 <!-- Plugins js-->
@@ -50,10 +49,8 @@
         $(target).removeClass('is-valid is-invalid')
             .addClass(success ? ($(target)[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');
     }
-    $(function() {
-        $('.needs-validation').find('input,select,textarea').on('input', function() {
-            validateInput(this)
-        });
+    $('form').find('input,select,textarea').on('input', function() {
+        validateInput(this)
     });
 
     function generateRandomPassword(target, inputFieldId = 'password-input-field') {
@@ -85,3 +82,5 @@
         validateInput(inputField);
     }
 </script>
+
+@yield('script-bottom')

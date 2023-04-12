@@ -28,7 +28,9 @@ Auth::routes();
 
 
 Route::resource('admin', AdminController::class);
+Route::get('/advertiser/{advertiser}/edit/{currentedit}', [AdvertiserController::class, 'accountInfo'])->name('advertiser.currentedit');
 Route::post('/check-unique-value', [AdvertiserController::class, 'checkUniqueDbId'])->name('check.unique.value');
+Route::get('/advertiser/{advertiser}/view', [AdvertiserController::class, 'view'])->name('advertiser.view');
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
 Route::get('/teammembers/view/{member}', [TeamMemberController::class, 'view'])->name('team-members.view');
