@@ -89,7 +89,7 @@ class FeedsController extends Controller
         $feedId = $feed->id;
         $FeedInegration = new FeedIntegrationGuide;
         $FeedInegration->feed_id = $feedId;
-        $FeedInegration->guideUrl = $request->guideUrl;
+        $FeedInegration->guideUrl = $request->feedUrl;
         $FeedInegration->subids = $request->subids;
         $FeedInegration->dailyCap = $request->dailyCap;
         $FeedInegration->acceptedGeos = $request->acceptedGeos;

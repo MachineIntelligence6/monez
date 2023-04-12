@@ -179,6 +179,7 @@
             </div>
         </div>
     </div> <!-- end row -->
+    @if($lastSegment=='create' || $lastSegment == 'edit')
     <div class="row mb-3" disabled="false" data-editable="true">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
@@ -195,7 +196,7 @@
             @if ($name)
             <a href="{{ route('downloadpdf',['id'=>$advertiser->id,'pdf'=> 'agreementDoc','name'=>$name ]) }}">{{$name}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}</a><br><br>
             @else
-                <p>PDF not available</p>
+                <!-- <p>PDF not available</p> -->
             @endif
             @endforeach
 
@@ -208,12 +209,13 @@
             <a href="{{ route('downloadpdf', ['id'=>$advertiser->id,'pdf'=> 'document','name'=>$docnames ]) }}">
                 {{$docnames}}--{{date('d-m-Y', strtotime($advertiser->created_at))}}
             </a>    <br><br>        @else
-                <p>PDF not available</p>
+                <!-- <p>PDF not available</p> -->
             @endif
             
             @endforeach
         </div>
     </div>
+    @endif
 </div>
 <!-- Personal Info -->
 <div class="form-category">
