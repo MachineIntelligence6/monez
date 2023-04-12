@@ -265,6 +265,9 @@ class AdvertiserController extends Controller
         $advertiser->amSkype = $request->amSkype;
         $advertiser->amLinkedIn = $request->amLinkedIn;
 
+        //old data
+        $oldIos = $advertiser->agreementDoc;
+        $oldDocuments = $advertiser->document;
         $Ios = [];
         if ($request->hasFile('ios')) {
             foreach ($request->file('ios') as $io) {
@@ -289,14 +292,15 @@ class AdvertiserController extends Controller
         } else {
             $document = "Not Delivered";
         }
-
-        $advertiser->agreementDoc = implode(',', $Ios);
+        $advertiser->agreementDoc = implode(',', array_merge(explode(',', $oldIos), $Ios));
+        $advertiser->document = implode(',', array_merge(explode(',', $oldDocuments), $Documents));
+        // $advertiser->agreementDoc = implode(',', $Ios);
         $advertiser->revSharePer = $request->revSharePer;
         $advertiser->paymentTerms = $request->paymentTerms;
         $advertiser->bank_id = $request->bank;
         $advertiser->payoneer = $request->payoneer;
         $advertiser->paypal = $request->paypal;
-        $advertiser->document = implode(',', $Documents);
+        // $advertiser->document = implode(',', $Documents);
         $advertiser->notes = $request->notes;
         $advertiser->agreement_start_date = $request->AgreementStartDate;
 

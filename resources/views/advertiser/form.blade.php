@@ -14,7 +14,7 @@
                             <span>adv_</span>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required  value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                 </div>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback" id="dba-invalid">
@@ -347,7 +347,7 @@
             <select class="form-control" data-toggle="select2" id="successManager" name="team_member_id" required>
                 <option value="" selected>Select Success Manager</option>
                 @foreach ($availableTeamMembers as $key => $teamMember)
-                <option value="{{$teamMember->id}}" >{{$teamMember->name}}</option>
+                <option value="{{$teamMember->id}}">{{$teamMember->name}}</option>
                 @endforeach
                 <!-- <option value="1">Success Manager</option> -->
             </select>
@@ -465,13 +465,11 @@
     function showReportCredsPopup(value) {
         for (let i = 0; i < reportCredsInputs.length; i++) {
             reportCredsInputs[i].classList.add("d-none");
-            // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
         }
         if (value !== "") {
             reportTypeModal.getElementsByClassName(value + "-input-group")
                 .forEach((inpGroup) => {
                     inpGroup.classList.remove("d-none");
-                    // inpGroup.querySelector("input").setAttribute("required", true);
                 })
             reportTypeModal.classList.add("show");
             reportTypeModal.style.display = "block";

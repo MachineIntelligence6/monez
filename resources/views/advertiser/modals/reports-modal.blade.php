@@ -10,22 +10,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <!-- <div class="col-12 mb-3">
-                            <label for="reportType" class="form-label">Type</label><label class="text-danger">*</label>
-                            <select class="form-control" id="report-type-input" name="reportType" required>
-                                <option value="" selected>Report Type</option>
-                                <option value="api">API</option>
-                                <option value="email">EMAIL</option>
-                                <option value="gdrive">Google Drive</option>
-                                <option value="dashboard">Dashboard</option>
-                            </select>
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div> -->
+                  
                         <div class="col-12 mb-3 d-none report-creds-input api-input-group">
-                            <label for="apiKey" class="form-label">API Key</label><label class="text-danger">*</label>
+                            <label for="apiKey" class="form-label">API Key</label>
                             <input type="text" class="form-control" id="apiKey" name="apiKey">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
@@ -33,7 +20,7 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input dashboard-input-group">
-                            <label for="dashboardPath" class="form-label">Dashboard Path</label><label class="text-danger">*</label>
+                            <label for="dashboardPath" class="form-label">Dashboard Path</label>
                             <input type="text" class="form-control" id="dashboardPath" name="dashboardPath">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
@@ -41,7 +28,7 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
-                            <label for="email" class="form-label">Email</label><label class="text-danger">*</label>
+                            <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="reportEmail" name="reportEmail">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
@@ -49,7 +36,7 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
-                            <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
+                            <label for="password" class="form-label">Password</label>
                             <div class="input-group input-group-merge">
                                 <input type="password" id="reportPassword" class="form-control" name="reportPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                                 <div class="input-group-append" data-password="false">
@@ -64,7 +51,7 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
-                            <label for="gdriveEmail" class="form-label">GDrive Email</label><label class="text-danger">*</label>
+                            <label for="gdriveEmail" class="form-label">GDrive Email</label>
                             <input type="email" class="form-control" id="gdriveEmail" name="gdriveEmail">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
@@ -72,7 +59,7 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
-                            <label for="gdrivePassword" class="form-label">GDrive Password</label><label class="text-danger">*</label>
+                            <label for="gdrivePassword" class="form-label">GDrive Password</label>
                             <div class="input-group input-group-merge">
                                 <input type="password" id="gdrivePassword" class="form-control" name="gdrivePassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                                 <div class="input-group-append" data-password="false">

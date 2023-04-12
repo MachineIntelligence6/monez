@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-12 mb-3">
                         <label for="feedUrl" class="form-label">Feed Url</label>
-                        <input type="text" class="form-control" id="feedUrl"  @if($condition == $lastSegment) disabled @endif  value="{{old('feedUrl', $feed->feedintegration->feedUrl ?? '')}}" name="feedUrl" placeholder="Feed Url">
+                        <input type="text" class="form-control" id="guideUrl"  @if($condition == $lastSegment) disabled @endif  value="{{old('feedUrl', $feed->feedintegration->feedUrl ?? '')}}" name="feedUrl" placeholder="Feed Url">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input

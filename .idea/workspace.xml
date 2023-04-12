@@ -5,17 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45c209d0-63c1-43f0-98c5-981ac074e109" name="Changes" comment="Features">
-      <change afterPath="$PROJECT_DIR$/resources/views/teammembers/edit-form.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/teammembers/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Advertiser.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Advertiser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TeamMemberController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TeamMemberController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/TeamMember.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/TeamMember.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2023_03_02_122722_create_advertisers_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2023_03_02_122722_create_advertisers_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2023_03_26_063416_create_team_members_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2023_03_26_063416_create_team_members_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/add-members-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/add-members-modal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/report-columns.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/report-columns.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/feeds/modals/integration-guide.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/feeds/modals/integration-guide.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +37,7 @@
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\wamp64\bin\php\php8.1.13\php.exe">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/psr/http-client" />
@@ -163,7 +160,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/xampp/htdocs/monez",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/DELL/Documents/GitHub/monez",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -203,6 +201,7 @@
       <workItem from="1679754540964" duration="6847000" />
       <workItem from="1679817556716" duration="649000" />
       <workItem from="1679860586450" duration="626000" />
+      <workItem from="1681224491805" duration="1449000" />
     </task>
     <servers />
   </component>
