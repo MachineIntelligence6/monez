@@ -75,7 +75,7 @@
                                     <td>
                                         {{ $feed->advertisers->companyName ?? '-'}}
                                     </td>
-                                    <td>
+                                    <td style="max-width: 500px; text-overflow: ellipsis; overflow: hidden;">
                                         {{ $feed->feedintegration->guideUrl ?? '-' }}
                                     </td>
 
@@ -114,7 +114,9 @@
 @section('script')
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        "order": []
+    });
 </script>
 <script>
 </script>

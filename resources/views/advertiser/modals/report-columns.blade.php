@@ -12,7 +12,7 @@
                    <div class="row">
                        <div class="col-md-6 mb-3">
                            <label for="dateKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="date" id="dateKey" name="dateKey">
+                           <input type="text" class="form-control" readonly value="date" id="dateKey" name="dateKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -20,7 +20,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="dateColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="dateColValue"   @if($lastSegment=='view') disabled @endif  value="{{ $advertiser->reportColumns->date ??  old('date') }}"  name="dateColValue">
+                           <input type="text" class="form-control" id="dateColValue"   @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif  value="{{ $advertiser->reportColumns->date ??  old('date') }}"  name="dateColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -28,7 +28,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="feedKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="feed" id="feedKey" name="feedKey">
+                           <input type="text" class="form-control" readonly value="feed" id="feedKey" name="feedKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -36,7 +36,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="feedColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="feedColValue"  @if($lastSegment=='view') disabled @endif   value="{{ $advertiser->reportColumns->feed ??  old('feed') }}"  name="feedColValue">
+                           <input type="text" class="form-control" id="feedColValue"  @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif  value="{{ $advertiser->reportColumns->feed ??  old('feed') }}"  name="feedColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -44,7 +44,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="subidKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="subid" id="subidKey" name="subidKey">
+                           <input type="text" class="form-control" readonly value="subid" id="subidKey" name="subidKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -52,7 +52,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="subidColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="subidColValue"  @if($lastSegment=='view') disabled @endif   value="{{ $advertiser->reportColumns->subid ??  old('subid') }}"  name="subidColValue">
+                           <input type="text" class="form-control" id="subidColValue"  @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif   value="{{ $advertiser->reportColumns->subid ??  old('subid') }}"  name="subidColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -60,7 +60,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="countryKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="country" id="countryKey" name="countryKey">
+                           <input type="text" class="form-control" readonly value="country" id="countryKey" name="countryKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -68,7 +68,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="countryColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="countryColValue"  @if($lastSegment=='view') disabled @endif   value="{{ $advertiser->reportColumns->country ??  old('country') }}"  name="countryColValue">
+                           <input type="text" class="form-control" id="countryColValue"  @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif   value="{{ $advertiser->reportColumns->country ??  old('country') }}"  name="countryColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -76,7 +76,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="totalSearchesKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="total searches" id="totalSearchesKey" name="totalSearchesKey">
+                           <input type="text" class="form-control" readonly value="total searches" id="totalSearchesKey" name="totalSearchesKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -84,7 +84,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="totalSearchesColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="totalSearchesColValue"  @if($lastSegment=='view') disabled @endif   value="{{ $advertiser->reportColumns->total_searches ??  old('total_searches') }}"  name="totalSearchesColValue">
+                           <input type="text" class="form-control" id="totalSearchesColValue"  @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif   value="{{ $advertiser->reportColumns->total_searches ??  old('total_searches') }}"  name="totalSearchesColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -92,7 +92,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="monitizedSearchesKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="monitized searches" id="monitizedSearchesKey" name="monitizedSearchesKey">
+                           <input type="text" class="form-control" readonly value="monitized searches" id="monitizedSearchesKey" name="monitizedSearchesKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -100,7 +100,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="monitizedSearchesColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="monitizedSearchesColValue"  @if($lastSegment=='view') disabled @endif   value="{{ $advertiser->reportColumns->monitized_searches ??  old('monitized_searches') }}"  name="monitizedSearchesColValue">
+                           <input type="text" class="form-control" id="monitizedSearchesColValue"  @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif   value="{{ $advertiser->reportColumns->monitized_searches ??  old('monitized_searches') }}"  name="monitizedSearchesColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -108,7 +108,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="paidClicksKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="paid clicks" id="paidClicksKey" name="paidClicksKey">
+                           <input type="text" class="form-control" readonly value="paid clicks" id="paidClicksKey" name="paidClicksKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -116,7 +116,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="paidClicksColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="paidClicksColValue"  @if($lastSegment=='view') disabled @endif   value="{{ $advertiser->reportColumns->paid_clicks ??  old('paid_clicks') }}"  name="paidClicksColValue">
+                           <input type="text" class="form-control" id="paidClicksColValue" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif   value="{{ $advertiser->reportColumns->paid_clicks ??  old('paid_clicks') }}"  name="paidClicksColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -124,7 +124,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="revenueKey" class="form-label">Key</label>
-                           <input type="text" class="form-control" disabled value="revenue" id="revenueKey" name="revenueKey">
+                           <input type="text" class="form-control" readonly value="revenue" id="revenueKey" name="revenueKey">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input
@@ -132,7 +132,7 @@
                        </div>
                        <div class="col-md-6 mb-3">
                            <label for="revenueColValue" class="form-label">Value</label>
-                           <input type="text" class="form-control" id="revenueColValue"  @if($lastSegment=='view') disabled @endif   value="{{ $advertiser->reportColumns->revenue ??  old('revenue') }}"  name="revenueColValue">
+                           <input type="text" class="form-control" id="revenueColValue"  @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif   value="{{ $advertiser->reportColumns->revenue ??  old('revenue') }}"  name="revenueColValue">
                            <div class="valid-feedback">Valid.</div>
                            <div class="invalid-feedback">
                                You must enter valid input

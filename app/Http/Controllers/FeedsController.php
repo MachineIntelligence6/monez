@@ -18,8 +18,9 @@ class FeedsController extends Controller
      */
     public function index()
     {
-        $feeds = Feed::orderBy('id', 'desc')->get();
-        $feedss = FeedIntegrationGuide::all();
+        // $feeds = Feed::orderBy('created_at', 'desc')->get();
+        $feeds = Feed::orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC")->get();
+        // $feedss = FeedIntegrationGuide::all();
         // dd($feeds);
         // $data =$feeds[2]->staticParameters;
         // $array = json_decode($data, true);
@@ -46,11 +47,12 @@ class FeedsController extends Controller
     public function create()
     {
         $advertisers = Advertiser::all();
-        // $teamMemberIds = $advertisers->pluck('id')->toArray();
-        // $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
-        // $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
-        // $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
-        return view('feeds.create', compact('advertisers'));
+        $advertiserIds = $advertisers->pluck('id')->toArray();
+        $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
+        $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
+        $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
+        // dd($availableAdvertisers,$assignedAdvertisers,$advertiserIds);
+        return view('feeds.create', compact('availableAdvertisers'));
     }
 
     public function store(Request $request)
@@ -120,7 +122,16 @@ class FeedsController extends Controller
         $countries = Country::all();
         $banks = Bank::all();
         $selectedAdv = $feed->advertiser_id;
-        return view('feeds.create', compact('feed','advertisers','selectedAdv', 'countries', 'banks'));
+        $advertisers = Advertiser::all();
+        $advertiserIds = $advertisers->pluck('id')->toArray();
+        // $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
+        $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)
+                                ->whereNotIn('advertiser_id', [$selectedAdv])
+                                ->get();
+                                // dd($assignedAdvertisers);
+        $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
+        $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
+        return view('feeds.create', compact('feed','availableAdvertisers','advertisers','selectedAdv', 'countries', 'banks'));
     }
 
     public function update(Request $request, Feed $feed)
@@ -182,7 +193,15 @@ class FeedsController extends Controller
         $countries = Country::all();
         $banks = Bank::all();
         $selectedAdv = $feed->advertiser_id;
-        return view('feeds.create', compact('feed','advertisers','selectedAdv', 'countries', 'banks'));
+        $advertisers = Advertiser::all();
+        $advertiserIds = $advertisers->pluck('id')->toArray();
+        // $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
+        $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)
+                                ->whereNotIn('advertiser_id', [$selectedAdv])
+                                ->get();
+        $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
+        $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
+        return view('feeds.create', compact('feed','availableAdvertisers','advertisers','selectedAdv', 'countries', 'banks'));
     }
 
     public function enable(Feed $feed)

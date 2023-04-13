@@ -105,6 +105,8 @@
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        "order": []
+    });
 </script>
 @endsection

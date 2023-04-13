@@ -21,7 +21,8 @@ class TeamMemberController extends Controller
 
         // $teamMembers = DB::table('team_members')
         //     ->leftJoin('advertisers', 'team_members.id', '=', 'advertisers.team_member_id')->get();
-        $teamMembers= TeamMember::orderBy('id', 'desc')->get();
+        $teamMembers= TeamMember::orderBy('created_at', 'desc')->get();
+        
             // dd($teamMembers);
         return view('teammembers.index',compact('teamMembers'));
     }

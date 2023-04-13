@@ -25,7 +25,7 @@ class AdvertiserController extends Controller
      */
     public function index()
     {
-        $advertisers = Advertiser::orderBy('id', 'desc')->get();
+        $advertisers = Advertiser::orderBy('created_at', 'asc')->get();
         // dd($advertisers);
         return view('advertiser.index', compact('advertisers'));
     }
@@ -116,7 +116,7 @@ class AdvertiserController extends Controller
         $adv->accEmail = $request->accEmail;
         $adv->password = $request->password;
         $adv->billEmail = $request->billEmail;
-        $adv->reportEmail = $request->reportEmail;
+        $adv->reportEmail = $request->form_reportEmail;
         $adv->address1 = $request->address1;
         $adv->address2 = $request->address2;
         $adv->city_id = $request->city_id;
@@ -157,17 +157,9 @@ class AdvertiserController extends Controller
 
         //updating bank id
         $lastId = $bankDetails->id;
-        // print_r($lastId);
-        // if ($lastId !== null) {
-        //     $lastId = $lastId->bank_id;
-        //     $lastId++;
-        //     $newId =$lastId;
-        // } else {
-        //     $newId ='1';
-        // }
         $advertiser =Advertiser::where('id', $adv->id)->first();
         $advertiser->bank_id = $lastId;
-       
+
         $advertiser->update();
         // dd($advertiser);
 
@@ -194,7 +186,7 @@ class AdvertiserController extends Controller
         $advertiserReportType->gdriveEmail = $request->gdriveEmail;
         $advertiserReportType->gdrivePassword = $request->gdrivePassword;
         $advertiserReportType->save();
-        return view('advertiser.index')->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
+        return redirect()->route('advertiser.index')->with('success', 'Advertiser Form Data Has Been Inserted Successfuly:');
     }
 
     /**
@@ -210,7 +202,12 @@ class AdvertiserController extends Controller
         $teamMembers = TeamMember::all();
         $selectedteam = $advertiser->team_member_id;
         $teamMemberIds = $teamMembers->pluck('id')->toArray();
-        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+
+        // dd($teamMemberIds);
+        // $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)
+            ->whereNotIn('team_member_id', [$selectedteam])
+            ->get();
         $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
         $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
         return view('advertiser.edit', compact('advertiser','availableTeamMembers', 'countries', 'banks','selectedteam'));
@@ -239,6 +236,7 @@ class AdvertiserController extends Controller
      */
     public function update(Request $request, Advertiser $advertiser)
     {
+
         $validatedData = $request->validate([
             'dbaId' => 'required',
 
@@ -252,7 +250,7 @@ class AdvertiserController extends Controller
         $advertiser->accEmail = $request->accEmail;
         $advertiser->password = $request->password;
         $advertiser->billEmail = $request->billEmail;
-        $advertiser->reportEmail = $request->reportEmail;
+        $advertiser->reportEmail = $request->form_reportEmail;
         $advertiser->address1 = $request->address1;
         $advertiser->address2 = $request->address2;
         $advertiser->city_id = $request->city_id;
@@ -307,8 +305,54 @@ class AdvertiserController extends Controller
 
         // dd($advertiser);
         $advertiser->update();
+        $advertiserId = $advertiser->id;
+        $bankDetails = AdvertiserBankDetail::where('advertiser_id', $advertiserId)->firstOrFail();
+        $bankDetails->beneficiary_name = $request->beneficiaryName;
+        $bankDetails->beneficiary_address = $request->beneficiaryAddress;
+        $bankDetails->bank_name = $request->bankName;
+        $bankDetails->bank_address = $request->bankAddress;
+        $bankDetails->account_number = $request->accountNumber;
+        $bankDetails->routing_number = $request->routingNumber;
+        $bankDetails->iban = $request->iban;
+        $bankDetails->swift = $request->swift;
+        $bankDetails->currency = $request->currency;
+        $bankDetails->update();
 
-        return redirect()->route('advertiser.index')->with('success', 'Advertiser Form Data Has Been Updated Successfuly:');
+
+        //updating bank id
+        $lastId = $bankDetails->id;
+        $advertiser =Advertiser::where('id', $adv->id)->first();
+        $advertiser->bank_id = $lastId;
+
+        $advertiser->update();
+        // dd($advertiser);
+
+
+        $advertiserReportColumn = new AdvertiserReportColumn;
+        $advertiserReportColumn->advertiser_id = $adv->id;
+        $advertiserReportColumn->date = $request->dateColValue;
+        $advertiserReportColumn->feed = $request->feedColValue;
+        $advertiserReportColumn->subid = $request->subidColValue;
+        $advertiserReportColumn->country = $request->countryColValue;
+        $advertiserReportColumn->total_searches = $request->totalSearchesColValue;
+        $advertiserReportColumn->monitized_searches = $request->monitizedSearchesColValue;
+        $advertiserReportColumn->paid_clicks = $request->paidClicksColValue;
+        $advertiserReportColumn->revenue = $request->revenueColValue;
+        $advertiserReportColumn->save();
+
+        $advertiserReportType = new AdvertiserReportType();
+        $advertiserReportType->advertiser_id = $adv->id;
+        $advertiserReportType->report_type = $request->reportType;
+        $advertiserReportType->api_key = $request->apiKey;
+        $advertiserReportType->dashboard_path = $request->dashboardPath;
+        $advertiserReportType->email = $request->email;
+        $advertiserReportType->password = $request->password;
+        $advertiserReportType->gdriveEmail = $request->gdriveEmail;
+        $advertiserReportType->gdrivePassword = $request->gdrivePassword;
+        $advertiserReportType->save();
+
+
+        return redirect()->route('advertiser.view',compact('advertiser'))->with('success', 'Advertiser Form Data Has Been Updated Successfuly:');
     }
 
     /**

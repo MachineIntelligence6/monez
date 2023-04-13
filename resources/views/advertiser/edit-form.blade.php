@@ -23,7 +23,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -33,7 +33,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="companyName" class="form-label">Company / Legal Name</label><label class="text-danger">*</label>
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="companyName" name="companyName" placeholder="Enter Company / Legal Name" value="{{ $advertiser->companyName ??  old('companyName') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="companyName" name="companyName" placeholder="Enter Company / Legal Name" value="{{ $advertiser->companyName ??  old('companyName') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -43,19 +43,19 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="regId" class="form-label">Registration / National ID</label>
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="regId" name="regId" placeholder="Enter Registration / National ID" value="{{ $advertiser->regId ??  old('regId') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="regId" name="regId" placeholder="Enter Registration / National ID" value="{{ $advertiser->regId ??  old('regId') }}">
             </div>
         </div>
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="vat" class="form-label">VAT ID</label>
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="vat" name="vat" placeholder="Enter VAT" value="{{ $advertiser->vat ??  old('vat') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="vat" name="vat" placeholder="Enter VAT" value="{{ $advertiser->vat ??  old('vat') }}">
             </div>
         </div> <!-- end col -->
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="url" class="form-label">Website</label><label class="text-danger">*</label>
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="website-url-input" name="url" placeholder="Enter website url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" value="{{ $advertiser->url ??  old('website-url-input') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="website-url-input" name="url" placeholder="Enter website url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" value="{{ $advertiser->url ??  old('website-url-input') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -66,7 +66,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                <input type="email" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="email" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="accEmail" oninput="confirmEmail()" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -76,7 +76,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" name="" placeholder="Enter confirm account email" id="confemail" onblur="confirmEmail()" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" name="" placeholder="Enter confirm account email" id="confemail" data-autovalidate="false" oninput="confirmEmail()" value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">Email and confirm email should be same.</div>
             </div>
@@ -95,14 +95,14 @@
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                    <input type="password" @if($lastSegment!='accountinfo' ) disabled @endif id="password-input-field" class="form-control" value="{{ $advertiser->password ??  old('password') }}" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                    <input type="password" @if($lastSegment!='accountinfo' ) readonly @endif id="password-input-field" class="form-control" value="{{ $advertiser->password ??  old('password') }}" name="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                     <div class="input-group-append" data-password="false">
                         <div class="input-group-text btn">
                             <span class="password-eye"></span>
                         </div>
                     </div>
                     <div class="pl-2">
-                        <button type="button" @if($lastSegment!='accountinfo' ) disabled @endif class="btn btn-secondary can-be-disabled" onclick="generateRandomPassword(this)">Regenerate</button>
+                        <button type="button" @if($lastSegment!='accountinfo' ) readonly @endif class="btn btn-secondary can-be-disabled" onclick="generateRandomPassword(this)">Regenerate</button>
                     </div>
                 </div>
 
@@ -120,7 +120,7 @@
             <div class="mb-3">
                 <label for="address1" class="form-label">Address</label><label class="text-danger">*</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="address1" name="address1" placeholder="Enter address line 1" value="{{ $advertiser->address1 ??  old('address1') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="address1" name="address1" placeholder="Enter address line 1" value="{{ $advertiser->address1 ??  old('address1') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -131,14 +131,14 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="address1" class="form-label">Address 2</label>
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="address2" name="address2" placeholder="Enter address line 2" value="{{ $advertiser->address2 ??  old('address2') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="address2" name="address2" placeholder="Enter address line 2" value="{{ $advertiser->address2 ??  old('address2') }}">
             </div>
         </div>
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="address1" class="form-label">City</label><label class="text-danger">*</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="city" name="city_id" placeholder="Enter city" value="{{ $advertiser->city_id ??  old('city_id') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="city" name="city_id" placeholder="Enter city" value="{{ $advertiser->city_id ??  old('city_id') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -149,7 +149,7 @@
             <div class="mb-3">
                 <label for="address1" class="form-label">State / Province</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="state_id" name="state_id" placeholder="Enter state / province" value="{{ $advertiser->state_id ??  old('state_id') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="state_id" name="state_id" placeholder="Enter state / province" value="{{ $advertiser->state_id ??  old('state_id') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -160,7 +160,7 @@
             <div class="mb-3">
                 <label for="address1" class="form-label">Zip Code</label>
                 <!-- <label for="cwebsite" class="form-label">Address Line 1</label> -->
-                <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="zipCode" name="zipCode" placeholder="Enter zip / code" value="{{ $advertiser->zipCode ??  old('zipCode') }}">
+                <input type="text" @if($lastSegment!='accountinfo' ) readonly @endif class="form-control" id="zipCode" name="zipCode" placeholder="Enter zip / code" value="{{ $advertiser->zipCode ??  old('zipCode') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -169,7 +169,7 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
-            <select class="form-control" @if($lastSegment!='accountinfo' ) disabled @endif id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
+            <select class="form-control" @if($lastSegment!='accountinfo' ) readonly @endif id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->title}}" phone-code="+{{$country -> countryCode}}">{{$country->title}}</option>
@@ -256,7 +256,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amFirstName" class="form-label">First Name</label><label class="text-danger">*</label>
-                <input type="text" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control" id="amFirstName" name="amFirstName" placeholder="Enter first name" value="{{ $advertiser->amFirstName ??  old('amFirstName') }}">
+                <input type="text" @if($lastSegment!='contactinfo' ) readonly @endif class="form-control" id="amFirstName" name="amFirstName" placeholder="Enter first name" value="{{ $advertiser->amFirstName ??  old('amFirstName') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -266,7 +266,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amLastName" class="form-label">Last Name</label><label class="text-danger">*</label>
-                <input type="text" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control" id="amLastName" name="amLastName" placeholder="Enter last name" value="{{ $advertiser->amLastName ??  old('amLastName') }}">
+                <input type="text" @if($lastSegment!='contactinfo' ) readonly @endif class="form-control" id="amLastName" name="amLastName" placeholder="Enter last name" value="{{ $advertiser->amLastName ??  old('amLastName') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -276,7 +276,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="amEmail" class="form-label"> Email</label><label class="text-danger">*</label>
-                <input type="email" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->amEmail ??  old('amEmail') }}">
+                <input type="email" @if($lastSegment!='contactinfo' ) readonly @endif class="form-control" id="amEmail" name="amEmail" placeholder="Enter email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->amEmail ??  old('amEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -290,13 +290,13 @@
                 <label for="amPhone" class="form-label">Phone</label>
                 <div class="input-group input-group-merge">
                     <div class="input-group-prepend" style="min-width: 80px;">
-                        <select class="form-control " @if($lastSegment!='contactinfo' ) disabled @endif id="phone-code-dropdown" data-toggle="select2">
+                        <select class="form-control " @if($lastSegment!='contactinfo' ) readonly @endif id="phone-code-dropdown" data-toggle="select2">
                             @foreach ($countries as $key => $country)
                             <option value="+{{$country->countryCode}}">+{{$country->countryCode}}</option>
                             @endforeach
                         </select>
                     </div>
-                    <input type="number" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control ml-2" id="amPhone" name="amPhone" value="{{ $advertiser->amPhone ??  old('amPhone') }}" placeholder="Enter phone number">
+                    <input type="number" @if($lastSegment!='contactinfo' ) readonly @endif class="form-control ml-2" id="amPhone" name="amPhone" value="{{ $advertiser->amPhone ??  old('amPhone') }}" placeholder="Enter phone number">
                 </div>
             </div>
         </div>
@@ -305,7 +305,7 @@
                 <label for="amSkype" class="form-label">Skype</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fab fa-skype"></i></span>
-                    <input type="text" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control" id="amSkype" name="amSkype" placeholder="@username" value="{{ $advertiser->amSkype ??  old('amSkype') }}">
+                    <input type="text" @if($lastSegment!='contactinfo' ) readonly @endif class="form-control" id="amSkype" name="amSkype" placeholder="@username" value="{{ $advertiser->amSkype ??  old('amSkype') }}">
                 </div>
             </div>
         </div>
@@ -314,7 +314,7 @@
                 <label for="amLinkedIn" class="form-label">Linkedin</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                    <input type="url" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control" id="amLinkedIn" name="amLinkedIn" placeholder="Url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" value="{{ $advertiser->amLinkedIn ??  old('amLinkedIn') }}">
+                    <input type="url" @if($lastSegment!='contactinfo' ) readonly @endif class="form-control" id="amLinkedIn" name="amLinkedIn" placeholder="Url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" value="{{ $advertiser->amLinkedIn ??  old('amLinkedIn') }}">
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">
                         You must enter valid input
@@ -345,7 +345,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
-                <input type="number" @if($lastSegment!='operationinfo' ) disabled @endif class="form-control" onchange="this.value = Math.min(this.value, 100)" id="revSharePer" name="revSharePer" placeholder="Enter Revenue Share (%)" value="{{ $advertiser->revSharePer ??  old('revSharePer') }}">
+                <input type="number" @if($lastSegment!='operationinfo' ) readonly @endif class="form-control" onchange="this.value = Math.min(this.value, 100)" id="revSharePer" name="revSharePer" placeholder="Enter Revenue Share (%)" value="{{ $advertiser->revSharePer ??  old('revSharePer') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -355,7 +355,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
-                <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif data-toggle="select2" id="paymentTerms" name="paymentTerms">
+                <select class="form-control" @if($lastSegment!='operationinfo' ) readonly @endif data-toggle="select2" id="paymentTerms" name="paymentTerms">
                     <option value="" disabled selected>Select Payment Term</option>
                     <option value="SH1">Net 15</option>
                     <option value="SH1">Net 30</option>
@@ -371,8 +371,8 @@
         </div>
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
-                <input type="email" @if($lastSegment!='operationinfo' ) disabled @endif class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
+                <label for="form_reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
+                <input type="email" @if($lastSegment!='operationinfo' ) readonly @endif class="form-control" id="reportEmail" name="form_reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -383,7 +383,7 @@
             <div class="mb-3">
                 <label for="reportType" class="form-label">Report Type</label>
                 <div class="input-group input-group-merge">
-                    <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif id="reportType" data-toggle="select2" name="reportType" value="{{ $advertiser->reportType ??  old('reportType') }}">
+                    <select class="form-control" @if($lastSegment!='operationinfo' ) readonly @endif id="reportType" data-toggle="select2" name="reportType" value="{{ $advertiser->reportType ??  old('reportType') }}">
                         <option value="" selected>Report Type</option>
                         <option value="api">API</option>
                         <option value="email">EMAIL</option>
@@ -391,7 +391,7 @@
                         <option value="dashboard">Dashboard</option>
                     </select>
                     <div class="input-group-append">
-                        <button type="button" @if($lastSegment!='operationinfo' ) disabled @endif data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
+                        <button type="button" @if($lastSegment!='operationinfo' ) readonly @endif data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
                             <span class="dripicons-document-edit"></span>
                         </button>
                     </div>
@@ -405,7 +405,7 @@
         <div class="col-md-4 mb-3">
             <label for="reportColumns" class="form-label">Report Columns</label>
             <div class="input-group input-group-merge">
-                <input type="text" @if($lastSegment!='operationinfo' ) disabled @endif class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns">
+                <input type="text" @if($lastSegment!='operationinfo' ) readonly @endif class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
@@ -419,7 +419,7 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-            <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif data-toggle="select2" id="successManager" name="successManager">
+            <select class="form-control" @if($lastSegment!='operationinfo' ) readonly @endif data-toggle="select2" id="successManager" name="successManager">
                 @foreach ($availableTeamMembers as $key => $teamMember)
                 <option value="{{$teamMember->id}}" @if (isset($selectedteam) && $teamMember->id == $selectedteam) selected @endif>{{$teamMember->name}}</option>
                 @endforeach
@@ -453,7 +453,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="billEmail" class="form-label">Billing / Finance Email</label><label class="text-danger">*</label>
-                <input type="email" @if($lastSegment!='financeinfo' ) disabled @endif class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->billEmail ??  old('billEmail') }}">
+                <input type="email" @if($lastSegment!='financeinfo' ) readonly @endif class="form-control" id="billEmail" name="billEmail" placeholder="Enter billing / financial email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->billEmail ??  old('billEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -464,7 +464,9 @@
             <div class="mb-3">
                 <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
                 <div class="input-group input-group-merge">
-                    <input type="text" @if($lastSegment!='financeinfo' ) disabled @endif style="pointer-events: none;" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank" name="bank" placeholder="Enter Bank account" value="{{ $advertiser->bank ??  old('bank') }}">
+                    <!--<input type="text" @if($lastSegment!='financeinfo' ) readonly @endif style="pointer-events: none;" value="{{ $advertiser->bankDetails->bank_name ??  old('bank_name') }}" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank" name="bank" placeholder="Enter Bank account" >-->
+                    <span @if($lastSegment!='financeinfo' ) readonly @endif style="pointer-events: none;" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank">{{ $advertiser->bankDetails->bank_name ?? old('bank_name') }}</span>
+
                     <div class="input-group-append">
                         <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
                             <span class="mdi mdi-bank-plus"></span>
@@ -481,7 +483,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="paypal" class="form-label">Paypal</label>
-                <input type="text" @if($lastSegment!='financeinfo' ) disabled @endif class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->paypal ??  old('paypal') }}">
+                <input type="text" @if($lastSegment!='financeinfo' ) readonly @endif class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->paypal ??  old('paypal') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -493,7 +495,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="payoneer" class="form-label">Payoneer</label>
-                <input type="text" @if($lastSegment!='financeinfo' ) disabled @endif class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
+                <input type="text" @if($lastSegment!='financeinfo' ) readonly @endif class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -523,6 +525,13 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <script>
+    function confirmEmail() {
+        if ($("#confemail").val() === "") return;
+        $($("#confemail")).removeClass('is-valid is-invalid')
+            .addClass(($("#accEmail").val() === $("#confemail").val()) ? ($("#confemail")[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');
+    }
+
+
     $('.dropify').dropify();
 
     // $(".edit-category-btn").click((e) => {
@@ -589,12 +598,11 @@
         reportColsInp.val("Report Columns Set");
         validateInput(reportColsInp);
     }
-    $(document).ready(() => {
-        $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
-            $("#bank").val(e.target.value)
-            console.log(e.target.value);
-            validateInput("#bank");
-        })
+
+    $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
+        $("#bank").val(e.target.value)
+        console.log(e.target.value);
+        validateInput("#bank");
     })
 </script>
 

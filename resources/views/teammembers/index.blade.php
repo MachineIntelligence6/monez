@@ -98,7 +98,7 @@
 
 <script type="text/javascript">
     $('#products-datatable').DataTable({
-
+        "order": []
     });
 </script>
 <script>
