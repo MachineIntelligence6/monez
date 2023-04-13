@@ -9,6 +9,7 @@ use App\FeedIntegrationGuide;
 use App\Country;
 use App\Bank;
 use Illuminate\Http\Request;
+
 class FeedsController extends Controller
 {
     /**
@@ -29,7 +30,7 @@ class FeedsController extends Controller
         //     ${"variable" . ($key + 1) . "a"} = $parts[0];
         //     ${"variable" . ($key + 1) . "b"} = $parts[1];
         // }
-        
+
         // Output the variables
         // echo $variable1a; // Output: 1st
         // echo $variable1b; // Output: st1
@@ -37,6 +38,12 @@ class FeedsController extends Controller
         // echo $variable2b; // Output: st2
         // dd($array);
         return view('feeds.index', compact('feeds'));
+    }
+
+
+    public function redirectsTest()
+    {
+        return view("feeds.redirect-test");
     }
 
     /**
@@ -74,7 +81,7 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        $feed->is_active= true;
+        $feed->is_active = true;
         $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -106,7 +113,7 @@ class FeedsController extends Controller
         $FeedInegration->platform = $request->platform;
         $FeedInegration->browsers = $request->browsers;
         $FeedInegration->otherRequirements = $request->otherRequirements;
-        
+
         $FeedInegration->save();
 
         // dd($feed);
@@ -126,12 +133,12 @@ class FeedsController extends Controller
         $advertiserIds = $advertisers->pluck('id')->toArray();
         // $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
         $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)
-                                ->whereNotIn('advertiser_id', [$selectedAdv])
-                                ->get();
-                                // dd($assignedAdvertisers);
+            ->whereNotIn('advertiser_id', [$selectedAdv])
+            ->get();
+        // dd($assignedAdvertisers);
         $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
         $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
-        return view('feeds.create', compact('feed','availableAdvertisers','advertisers','selectedAdv', 'countries', 'banks'));
+        return view('feeds.create', compact('feed', 'availableAdvertisers', 'advertisers', 'selectedAdv', 'countries', 'banks'));
     }
 
     public function update(Request $request, Feed $feed)
@@ -148,7 +155,7 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        $feed->is_active= true;
+        $feed->is_active = true;
         $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -197,11 +204,11 @@ class FeedsController extends Controller
         $advertiserIds = $advertisers->pluck('id')->toArray();
         // $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
         $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)
-                                ->whereNotIn('advertiser_id', [$selectedAdv])
-                                ->get();
+            ->whereNotIn('advertiser_id', [$selectedAdv])
+            ->get();
         $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
         $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
-        return view('feeds.create', compact('feed','availableAdvertisers','advertisers','selectedAdv', 'countries', 'banks'));
+        return view('feeds.create', compact('feed', 'availableAdvertisers', 'advertisers', 'selectedAdv', 'countries', 'banks'));
     }
 
     public function enable(Feed $feed)

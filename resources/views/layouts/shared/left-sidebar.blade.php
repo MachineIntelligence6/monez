@@ -63,10 +63,21 @@
                 </li>
 
                 <li>
-                    <a href="{{route('feeds.index')}}">
+                    <a href="#siderbarFeeds" data-toggle="collapse">
                         <i data-feather="search"></i>
                         <span> SEARCH FEEDS </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <div class="collapse" id="siderbarFeeds">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('feeds.index')}}">Feeds</a>
+                            </li>
+                            <li>
+                                <a href="{{route('feeds.redirects-test')}}">Redirects Test</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <li>
