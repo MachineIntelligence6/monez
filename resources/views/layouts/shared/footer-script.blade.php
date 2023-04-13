@@ -50,7 +50,8 @@
             .addClass(success ? ($(target)[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');
     }
     $('form').find('input,select,textarea').on('input', function() {
-        validateInput(this)
+        if ($(this).attr("data-autovalidate") === "false") return;
+        validateInput(this);
     });
 
     function generateRandomPassword(target, inputFieldId = 'password-input-field') {

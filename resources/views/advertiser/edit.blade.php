@@ -6,6 +6,7 @@ $condition='view';
 $currentUrl = url()->current();
 $segments = request()->segments();
 $lastSegment = last($segments);
+
 @endphp
 <div class="row">
     <div class="col-lg-12">

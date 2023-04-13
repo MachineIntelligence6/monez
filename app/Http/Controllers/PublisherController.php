@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Publisher;
 use Illuminate\Http\Request;
-
+use App\Country;
 class PublisherController extends Controller
 {
     /**
@@ -25,7 +25,9 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        return view("publisher.create");
+        dd('test');
+        $countries = Country::all();
+        return view("publisher.create",compact('countries'));
     }
 
     /**

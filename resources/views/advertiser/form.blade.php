@@ -58,7 +58,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" oninput="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -68,22 +68,13 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ old('vat') }}">
+                <input type="text" class="form-control" name="" data-autovalidate="false" placeholder="Enter confirm account email" required id="confemail" oninput="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ old('vat') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     Email and confirm email should be same.
                 </div>
             </div>
         </div>
-
-        <script>
-            function confirmEmail() {
-                var email = document.getElementById("accEmail").value
-                var confemail = document.getElementById("confemail").value
-                $(confemail).removeClass('is-valid is-invalid')
-                    .addClass(confemail.checkValidity() ? 'is-valid' : 'is-invalid');
-            }
-        </script>
 
         <div class="col-md-4">
             <div class="mb-3">
@@ -226,7 +217,11 @@
                 <div class="input-group input-group-merge">
                     <div class="input-group-prepend" style="min-width: 150px;">
                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
+                            
                             @foreach ($countries as $key => $country)
+                            <option value="{{ $country->countryCode }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
+                                {{ $country->countryCode }} ({{ $country->title }})
+                            </option>
                             <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option>
                             @endforeach
                         </select>
@@ -378,7 +373,7 @@
             <div class="mb-3">
                 <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
                 <div class="input-group input-group-merge">
-                    <input type="text" style="pointer-events: none;" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" value="{{ $advertiser->bank ??  old('bank') }}">
+                    <input type="text" style="pointer-events: none;" tabindex="-1" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" required>
                     <div class="input-group-append">
                         <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
                             <span class="mdi mdi-bank-plus"></span>
@@ -434,6 +429,13 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <script>
+    function confirmEmail() {
+        if ($("#confemail").val() === "") return;
+        $($("#confemail")).removeClass('is-valid is-invalid')
+            .addClass(($("#accEmail").val() === $("#confemail").val()) ? ($("#confemail")[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');
+    }
+
+
     $('.dropify').dropify();
     window.addEventListener("DOMContentLoaded", () => {
         generateRandomPassword(null)
@@ -529,12 +531,10 @@
         reportColsInp.val("Report Columns Set");
         validateInput(reportColsInp);
     }
-    $(document).ready(() => {
-        $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
-            $("#bank").val(e.target.value)
-            console.log(e.target.value);
-            validateInput("#bank");
-        })
+    $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
+        $("#bank").val(e.target.value)
+        console.log(e.target.value);
+        validateInput("#bank");
     })
 </script>
 

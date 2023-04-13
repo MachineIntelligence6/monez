@@ -164,7 +164,12 @@
             <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
             <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
                 <option>Select Country</option>
-                
+                <!-- @foreach ($countries as $key => $country)
+                <option value="{{ $country->countryCode }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
+                    {{ $country->countryCode }} ({{ $country->title }})
+                </option>
+                <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option>
+                @endforeach -->
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">

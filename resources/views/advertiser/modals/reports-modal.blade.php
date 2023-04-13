@@ -13,7 +13,7 @@
 
                         <div class="col-12 mb-3 d-none report-creds-input api-input-group">
                             <label for="apiKey" class="form-label">API Key</label>
-                            <input type="text" class="form-control" id="apiKey" name="apiKey">
+                            <input type="text" class="form-control" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif id="apiKey" name="apiKey">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -29,7 +29,7 @@
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="reportEmail" name="reportEmail">
+                            <input type="email" class="form-control" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif id="reportEmail" name="reportEmail">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -38,7 +38,7 @@
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="reportPassword" class="form-control" name="reportPassword">
+                                <input type="password" id="reportPassword" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif class="form-control" name="reportPassword">
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text btn">
                                         <span class="password-eye"></span>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
                             <label for="gdriveEmail" class="form-label">GDrive Email</label>
-                            <input type="email" class="form-control" id="gdriveEmail" name="gdriveEmail">
+                            <input type="email" class="form-control" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif id="gdriveEmail" name="gdriveEmail">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -61,7 +61,7 @@
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
                             <label for="gdrivePassword" class="form-label">GDrive Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="gdrivePassword" class="form-control" name="gdrivePassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                                <input type="password" id="gdrivePassword" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else readonly @endif class="form-control" name="gdrivePassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text btn">
                                         <span class="password-eye"></span>
