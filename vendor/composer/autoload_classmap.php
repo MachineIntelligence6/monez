@@ -177,6 +177,7 @@ return array(
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'Database\\Seeders\\AdvertiserSeeder' => $baseDir . '/database/seeds/AdvertiserSeeder.php',
     'Database\\Seeders\\CitySeeder' => $baseDir . '/database/seeds/CitySeeder.php',
+    'Database\\Seeders\\CountriesSeeder' => $baseDir . '/database/seeds/CountriesSeeder.php',
     'Database\\Seeders\\PublisherSeeder' => $baseDir . '/database/seeds/PublisherSeeder.php',
     'Database\\Seeders\\StateSeeder' => $baseDir . '/database/seeds/StateSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',

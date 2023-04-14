@@ -14,11 +14,11 @@
                             <span>adv_</span>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
-                </div>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback" id="dba-invalid">
-                    You must enter valid input
+                    <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback" id="dba-invalid">
+                        You must enter valid input
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
                 <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" oninput="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
+                <div id="accEmail-invalid" class="invalid-feedback">
                     You must enter valid input
                 </div>
             </div>
@@ -154,7 +154,7 @@
             <select class="form-control" name="country_id" id="country-dropdown" data-toggle="select2" required>
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
-                <option value="{{$country->title}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
+                <option value="{{$country->id}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
                 @endforeach
             </select>
             <div class="valid-feedback">Valid.</div>
@@ -216,13 +216,13 @@
                 <label for="amPhone" class="form-label">Phone</label>
                 <div class="input-group input-group-merge">
                     <div class="input-group-prepend" style="min-width: 150px;">
-                        <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
-                            
+                        <select class="form-control " name="country_code" id="phone-code-dropdown" data-toggle="select2">
+
                             @foreach ($countries as $key => $country)
-                            <option value="{{ $country->countryCode }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
+                            <option value="{{ $country->id }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
                                 {{ $country->countryCode }} ({{ $country->title }})
                             </option>
-                            <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option>
+                            <!-- <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option> -->
                             @endforeach
                         </select>
                     </div>
@@ -292,7 +292,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
+                <input type="email" class="form-control" id="reportEmail" name="form_reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -489,34 +489,59 @@
     })
 
 
-    $(document).ready(function() {
-        $('#dbaId').on('input', function() {
-            var inputVal = $(this).val();
-            if (inputVal.length > 0) {
-                $.ajax({
-                    url: '{{ route("check.unique.value") }}',
-                    type: 'POST',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        input_field: inputVal
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'error') {
-                            validateInput("#dbaId", false);
-                            $("#dba-invalid").text('Advertiser ID already exists.');
-                        } else {
-                            console.log(response);
-                        }
-                    },
-                    error: function(response) {
+    $('#dbaId').on('input', function() {
+        var inputVal = $(this).val();
+        if (inputVal.length > 0) {
+            $.ajax({
+                url: '{{ route("check.unique.value") }}',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    input_field: inputVal
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'error') {
+                        validateInput("#dbaId", false);
+                        $("#dba-invalid").text('Advertiser ID already exists.');
+                    } else {
                         console.log(response);
                     }
-                });
-            } else {
-                $("#dba-invalid").text('You must enter valid input.');
-            }
-        });
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        } else {
+            $("#dba-invalid").text('You must enter valid input.');
+        }
+    });
+    $('#accEmail').on('input', function() {
+        var inputVal = $(this).val();
+        if (inputVal.length > 0) {
+            $.ajax({
+                url: '{{ route("check.unique.accEmail") }}',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    input_field: inputVal
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'error') {
+                        validateInput("#accEmail", false);
+                        $("#accEmail-invalid").text('Email already registered.');
+                    } else {
+                        console.log(response);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        } else {
+            $("#accEmail-invalid").text('You must enter valid input.');
+        }
     });
 
 

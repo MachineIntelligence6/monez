@@ -18,13 +18,13 @@
 
                                 @elseif($lastSegment=='edit')
                                 <button class="btn btn-primary" type="submit"><span class="fas fa-check mr-1"></span>
-                                Save Info</button>
+                                    Save Info</button>
 
                                 @else
                                 <a href="{{route('team-members.edit',$teamMember->id)}}" class="btn btn-secondary">
-                                <span class="fas fa-edit mr-1"></span>
-                                Edit Info
-                            </a>
+                                    <span class="fas fa-edit mr-1"></span>
+                                    Edit Info
+                                </a>
                                 @endif
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Name</label>
+                                        <label for="name" class="form-label">Name</label><label class="text-danger">*</label>
                                         <input type="text" class="form-control" id="name" value="{{old('name', $teamMember->name ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="name" placeholder="name" required>
                                         <div class="valid-feedback">Valid.</div>
                                         <div class="invalid-feedback">
@@ -43,10 +43,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="email" class="form-label"> Email</label>
+                                        <label for="email" class="form-label"> Email</label><label class="text-danger">*</label>
                                         <input type="email" class="form-control" id="email" value="{{old('email', $teamMember->email ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="email" placeholder="email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required>
                                         <div class="valid-feedback">Valid.</div>
-                                        <div class="invalid-feedback">
+                                        <div id="email-invalid" class="invalid-feedback">
                                             You must enter valid input
                                         </div>
                                     </div>
@@ -64,12 +64,12 @@
                                             <div class="pl-2">
                                                 <!-- <div class="btn btn-secondary" onclick="@if($condition==$lastSegment || $condition==$Segmenttwo) disabled  generateRandomPassword(this) @endif">Regenerate</div> -->
                                                 @if($lastSegment == 'create' || $lastSegment=='edit')
-                                               
+
                                                 <div class="btn btn-secondary" onclick="generateRandomPassword(this)">Regenerate</div>
                                                 @else
-                                               
+
                                                 @endif
-                                                
+
                                             </div>
                                         </div>
                                         <div class="valid-feedback">Valid.</div>
@@ -80,16 +80,16 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="amPhone" class="form-label">Phone</label>
+                                        <label for="amPhone" class="form-label">Phone</label><label class="text-danger">*</label>
                                         <div class="input-group input-group-merge">
                                             <div class="input-group-prepend" style="min-width: 150px;">
-                                                <select name="country_code" class="form-control " @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif  id="phone-code-dropdown" data-toggle="select2">
+                                                <select name="country_code" class="form-control " @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif id="phone-code-dropdown" data-toggle="select2" required>
                                                     @foreach ($countries as $key => $country)
-                                                    <option value="{{$country->title}}" >{{$country->countryCode}} ({{$country -> title}})</option>
+                                                    <option value="{{$country->title}}">{{$country->countryCode}} ({{$country -> title}})</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <input type="number" class="form-control ml-2"  value="{{old('amPhone', $teamMember->amPhone ?? '')}}"  id="amPhone"  @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif  name="amPhone" placeholder="Enter phone number">
+                                            <input type="number" class="form-control ml-2" value="{{old('amPhone', $teamMember->amPhone ?? '')}}" id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="amPhone" placeholder="Enter phone number">
                                         </div>
                                     </div>
                                 </div>
