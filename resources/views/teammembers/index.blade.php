@@ -65,20 +65,20 @@
                                     <td style="width: 100%;">{{ $teamMember->email }}</td>
                                     <td>
                                         <span class="d-inline-flex" style="gap: 5px;">
-                                        <a class="btn bg-secondary text-white" href="{{route('team-members.view',$teamMember->id)}}">View Info</a>
-                                        @if(isset($teamMember->advertisers))
-                                        @else
-                                        <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
-                                        @endif
+                                            <a class="btn bg-secondary text-white" href="{{route('team-members.view',$teamMember->id)}}">View Info</a>
+                                            @if(isset($teamMember->advertisers))
+                                            @else
+                                            <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                            @endif
                                         </span>
                                     </td>
 
 
-                                   
+
                                 </tr>
                                 @endforeach
                                 @endif
