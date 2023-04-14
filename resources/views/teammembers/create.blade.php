@@ -1,30 +1,29 @@
-
 @extends('layouts.vertical', ['title' => 'TeamMember Profile'])
 @section('css')
 <!-- Plugins css -->
 <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
-            @php
-            $condition='view';
-            $currentUrl = url()->current();
-            $Segmenttwo = request()->segment(2);
-            $segments = request()->segments();
-            $lastSegment = last($segments);
-           
-            @endphp
+@php
+$condition='view';
+$currentUrl = url()->current();
+$Segmenttwo = request()->segment(2);
+$segments = request()->segments();
+$lastSegment = last($segments);
+
+@endphp
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <!-- {{ route('team-members.store') }} -->
-            
+
                 <form class="needs-validation" method="post" action="{{ url()->current() == route('team-members.create') ? route('team-members.store') : route('team-members.update', $teamMember->id) }}" novalidate>
                     @csrf
                     @if($lastSegment=='edit')
-                        @method('PUT')
-                        @else
-                        @method('POST')
+                    @method('PUT')
+                    @else
+                    @method('POST')
                     @endif
                     @include('teammembers.form')
                 </form>
@@ -51,8 +50,40 @@
         generateRandomPassword(null)
     })
 
+
+
+    $('#email').on('input', function() {
+        var inputVal = $(this).val();
+        if (inputVal.length > 0) {
+            $.ajax({
+                url: '{{ route("check.unique.teamEmail") }}',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    input_field: inputVal
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log("Ali " + response)
+                    if (response.status === 'error') {
+                        validateInput("#email", false);
+                        $("#email-invalid").text('Email already registered.');
+                    } else {
+                        console.log(response);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        } else {
+            $("#email-invalid").text('You must enter valid input.');
+        }
+    });
+
     const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const specialChars = "!$%#^&|?"
+
     function generateNewPassword() {
         var passwordLength = Math.floor(Math.random() * 12);
         if (passwordLength < 8) passwordLength += 8;

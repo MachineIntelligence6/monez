@@ -9,6 +9,8 @@ use App\Country;
 use App\State;
 use App\City;
 use App\Bank;
+use Illuminate\Support\Facades\Validator;
+
 class TeamMemberController extends Controller
 {
     /**
@@ -55,8 +57,8 @@ class TeamMemberController extends Controller
             'name'  => 'required',
             'email' => 'required',
             'password'=> 'required',
-            'skype'=> 'required',
-            'linkedin'=> 'required',
+            // 'skype'=> 'required',
+            // 'linkedin'=> 'required',
         ]);
         // dd($validatedData);
         $teamMember = new TeamMember();
@@ -117,6 +119,18 @@ class TeamMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function checkUniqueteamEmail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'input_field' => 'unique:team_members,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
+        }
+
+        return response()->json(['status' => 'success']);
+    }
     public function update(Request $request, $id)
     {
         $members = TeamMember::query()->where('id',$id)->first();

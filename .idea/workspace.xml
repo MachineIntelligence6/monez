@@ -6,22 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="45c209d0-63c1-43f0-98c5-981ac074e109" name="Changes" comment="Features">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Advertiser.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Advertiser.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdvertiserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PublisherController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PublisherController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TeamMemberController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TeamMemberController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2023_03_02_122722_create_advertisers_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2023_03_02_122722_create_advertisers_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2023_03_26_063416_create_team_members_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2023_03_26_063416_create_team_members_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/bank-details-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/bank-details-modal.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/report-columns.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/report-columns.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/advertiser/modals/reports-modal.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/feeds/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/feeds/form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/feeds/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/feeds/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/shared/footer-script.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/shared/footer-script.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/publisher/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/publisher/form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/create.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +220,7 @@
       <workItem from="1679860586450" duration="626000" />
       <workItem from="1681224491805" duration="1449000" />
       <workItem from="1681277217799" duration="901000" />
-      <workItem from="1681281085863" duration="5343000" />
+      <workItem from="1681281085863" duration="10799000" />
     </task>
     <servers />
   </component>

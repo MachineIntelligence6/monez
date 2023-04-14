@@ -27,6 +27,10 @@ class Advertiser extends Model
     {
         return $this->hasOne(AdvertiserReportColumn::class,'advertiser_id','id' );
     }
+    public function reportTypes()
+    {
+        return $this->hasOne(AdvertiserReportType::class,'advertiser_id','id' );
+    }
 
 
 }
