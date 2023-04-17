@@ -9,6 +9,7 @@ use App\FeedIntegrationGuide;
 use App\Country;
 use App\Bank;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FeedsController extends Controller
 {
@@ -19,24 +20,7 @@ class FeedsController extends Controller
      */
     public function index()
     {
-        // $feeds = Feed::orderBy('created_at', 'desc')->get();
         $feeds = Feed::orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC")->get();
-        // $feedss = FeedIntegrationGuide::all();
-        // dd($feeds);
-        // $data =$feeds[2]->staticParameters;
-        // $array = json_decode($data, true);
-        // foreach ($array as $key => $value) {
-        //     $parts = explode(' , ', $value);
-        //     ${"variable" . ($key + 1) . "a"} = $parts[0];
-        //     ${"variable" . ($key + 1) . "b"} = $parts[1];
-        // }
-
-        // Output the variables
-        // echo $variable1a; // Output: 1st
-        // echo $variable1b; // Output: st1
-        // echo $variable2a; // Output: 2nd
-        // echo $variable2b; // Output: st2
-        // dd($array);
         return view('feeds.index', compact('feeds'));
     }
 
@@ -58,25 +42,40 @@ class FeedsController extends Controller
         $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
         $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
         $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
-        // dd($availableAdvertisers,$assignedAdvertisers,$advertiserIds);
         return view('feeds.create', compact('availableAdvertisers'));
     }
 
     public function store(Request $request)
     {
-
-        // dd('test');
         $validatedData = $request->validate([
             'advertiser' => 'required',
             'feedId'  => 'required',
             'feedPath' => 'required',
             'keywordParameter' => 'required',
         ]);
-        $feedId = "fd_" . $request->feedId;
+        // $feedId = "fd_" . $request->feedId;
         $feed = new Feed;
 
+        $lastId = Feed::orderBy('feedId', 'desc')->first();
+        if ($lastId !== null) {
+            $lastId = $lastId->feedId;
+            $str = $lastId;
+            $numericPart = substr($str, 3, -1);
+            if (is_numeric($numericPart)) {
+                $numericPart++;
+            } else {
+                $numericPart= 'fd_1';
+            }
+            
+            $newId = 'fd_' . $numericPart; 
+            echo $newId; 
+        } else {
+            $newId ='fd_1';
+        }
+
+
         $feed->advertiser_id = $request->advertiser;
-        $feed->feedId = $feedId;
+        $feed->feedId = $newId;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
@@ -131,7 +130,6 @@ class FeedsController extends Controller
         $selectedAdv = $feed->advertiser_id;
         $advertisers = Advertiser::all();
         $advertiserIds = $advertisers->pluck('id')->toArray();
-        // $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
         $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)
             ->whereNotIn('advertiser_id', [$selectedAdv])
             ->get();
@@ -146,6 +144,7 @@ class FeedsController extends Controller
         $validatedData = $request->validate([
             'advertiser' => 'required',
             'feedPath' => 'required',
+            'phone' => 'required',
             'keywordParameter' => 'required',
         ]);
         $feedId = "fd_" . $request->feedId;
@@ -231,5 +230,21 @@ class FeedsController extends Controller
         $feed->is_default = true;
         $feed->save();
         return redirect()->back();
+    }
+
+    public function checkUniqueFeedId(Request $request)
+    {
+        // $inputfeild = $request->test;
+        // $prefixedValue = 'fd_' . input_field;        
+        $validator = Validator::make($request->all(), [
+
+            'input_field' => 'unique:feeds,feedId',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The value is not unique.']);
+        }
+
+        return response()->json(['status' => 'success']);
     }
 }

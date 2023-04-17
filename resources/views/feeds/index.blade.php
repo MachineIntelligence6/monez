@@ -81,17 +81,17 @@
 
 
                                     <td>
-                                        <a class="btn bg-secondary text-white" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
+                                        <a class="" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
 
                                         @if ($feed->is_default)
                                         <a class="btn bg-yellow text-white">Default Feed</a>
                                         @else
                                         @if ($feed->is_active)
-                                        <a class="btn bg-danger text-white" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                        <a class="text-danger " href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
                                         @else
-                                        <a class="btn bg-success text-white" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                        <a class="text-success " href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
                                         @endif
-                                        <a class="btn bg-blue text-white" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+                                        <a class="text-blue " href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
                                         @endif
                                     </td>
                                 </tr>
@@ -115,7 +115,11 @@
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 <script type="text/javascript">
     $('#products-datatable').DataTable({
-        "order": []
+        "order": [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
     });
 </script>
 <script>

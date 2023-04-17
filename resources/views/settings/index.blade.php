@@ -197,12 +197,12 @@
                         <div class="mb-3 col-md-6 custom-message" id="customMessageSample">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2">
+                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2" name="recipientType">
                                         <option>Select Partners</option>
-                                        <option value="">All</option>
-                                        <option value="">All Publishers</option>
-                                        <option value="">All Advertisers</option>
-                                        <option value="select-custom">Select Custom</option>
+                                        <option value="all">All</option>
+                                        <option value="publishers">All Publishers</option>
+                                        <option value="advertisers">All Advertisers</option>
+                                        <option value="custom">Select Custom</option>
                                     </select>
                                     <div id="partners-dropdown-message" class="dropdown-menu w-100" data-searchable="true">
                                         <div class="px-2">
@@ -294,23 +294,51 @@
             // element.id = ""
             // element.querySelectorAll("input").forEach((inp) => inp.value = "");
             // messagesContainer.appendChild(element);
+            var jsonData = {!!$jsonData!!};
+            console.log(jsonData.publishers);
+            console.log(jsonData.advertisers);
             let element = document.createElement("div");
             element.classList = "mb-3 col-md-6 custom-message";
             let idx = messagesContainer.children.length;
             element.innerHTML = `
-                <div class="row">
+                
+            <div class="row">
                     <div class="col-md-12">
                         <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-${idx}" data-toggle="select2">
                             <option>Select Partners</option>
-                            <option value="">All</option>
-                            <option value="">All Publishers</option>
-                            <option value="">All Advertisers</option>
-                            <option value="select-custom">Select Custom</option>
+                            <option value="all">All</option>
+                            <option value="publishers">All Publishers</option>
+                            <option value="advertisers">All Advertisers</option>
+                            <option value="custom">Select Custom</option>
                         </select>
                         <div id="partners-dropdown-message-${idx}" class="dropdown-menu w-100" data-searchable="true">
                             <div class="px-2">
                                 <input type="text" class="form-control dropdown-search-input" placeholder="search">
                             </div>
+                            ${
+                                [...jsonData.publishers].map((item)=> {
+                                    return `
+                                    <div class="dropdown-item">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="p_${item.id}">
+                                    <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
+                                </div>
+                            </div>
+                                    `
+                                })
+                            }
+                            ${
+                                [...jsonData.advertisers].map((item)=> {
+                                    return `
+                                    <div class="dropdown-item">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="a_${item.id}">
+                                    <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
+                                </div>
+                            </div>
+                                    `
+                                })
+                            }
                             <div class="dropdown-item">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="messagePartner1">

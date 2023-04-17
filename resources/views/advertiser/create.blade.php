@@ -14,10 +14,10 @@ $lastSegment = last($segments);
                     @csrf
                     @method('POST')
                     @include('advertiser.form')
-                    @include('advertiser.modals.report-columns')
-                    @include('advertiser.modals.bank-details-modal')
-                    @include('advertiser.modals.reports-modal')
                 </form>
+                @include('advertiser.modals.report-columns')
+                @include('advertiser.modals.bank-details-modal')
+                @include('advertiser.modals.reports-modal')
             </div>
         </div>
     </div>

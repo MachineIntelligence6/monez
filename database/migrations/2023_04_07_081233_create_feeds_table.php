@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('feeds', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Advertiser::class)->nullable();
-            $table->string("feedId");
+            $table->string("feedId")->unique();
             $table->string("feedPath")->nullable();
             $table->string("keywordParameter")->nullable();
             $table->integer("priorityScore")->nullable();
