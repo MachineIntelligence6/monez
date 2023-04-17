@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Advertiser;
+use App\CustomMessage;
+use App\Publisher;
 use console;
 use App\Setting;
 use App\SearchPath;
@@ -21,7 +24,14 @@ class SettingController extends Controller
 
     public function index()
     {
-        return view("settings.index");
+        $publishers = Publisher::all();
+        $advertisers = Advertiser::all();
+
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers]);
+
+        return view('settings.index',compact('publishers','advertisers'), ['jsonData' => $jsonData]);
+
+        // return view("settings.index",compact('publishers','advertisers'));
     }
 
     public function financialYear(Request $request)
@@ -92,6 +102,42 @@ class SettingController extends Controller
     public function custummessage()
     {
         return view('crm.settings.custummessage');
+    }
+
+    public function storeCustomMessage(Request $request)
+    {
+        // $validatedData = $request->validate([
+        //     'recipient_ids' => 'required',
+        //     'recipient_type' => 'required',
+        //     'message'  => 'required',
+        // ]);
+        
+        $message = new CustomMessage;
+        $messagerecipient_type = 'advertisers';
+        $message->message = 'test message to show';
+        if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers') {
+            $message->recipient_type = 'advertisers';
+            $message->recipient_ids = null;
+        } else {
+            $message->recipient_type = 'custom';
+            $ids = $request->recipient_ids;
+            $idString = implode(',', $ids);
+            $message->recipient_ids = $idString;
+        }
+
+        // $message->message = 'test message to show';
+        // if ($request->recipient_type === 'publishers' || $request->recipient_type === 'advertisers') {
+        //     $message->recipient_type = $request->recipient_type;
+        //     $message->recipient_ids = null;
+        // } else {
+        //     $message->recipient_type = 'custom';
+        //     $ids = $request->recipient_ids;
+        //     $idString = implode(',', $ids);
+        //     $message->recipient_ids = $idString;
+        // }
+
+        $message->save();
+        
     }
 
     public function newsletters()

@@ -5,6 +5,16 @@
 <div>
     <h5 class="mb-3 text-uppercase">Channel Info</h5>
     <div class="row">
+        <div class="col-md-4 d-none">
+            <div class="mb-3">
+                <label for="channelId" class="form-label">Channel Id</label><label class="text-danger">*</label>
+                <input type="text" class="form-control" value="1001" id="channelId" name="channelId" required />
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">
+                    You must enter valid input
+                </div>
+            </div>
+        </div>
         <div class="col-md-4 mb-3">
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
             <select class="form-control" name="publisher" data-toggle="select2" required>
@@ -19,20 +29,11 @@
                 Select a Publisher to continue.
             </div>
         </div>
-        <div class="col-md-4 d-none">
-            <div class="mb-3">
-                <label for="channelId" class="form-label">Channel Id</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" value="1001" id="channelId" name="channelId" required />
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
-                </div>
-            </div>
-        </div>
+
         <div class="col-md-4 mb-3">
             <label for="channelId" class="form-label">Channel Id</label>
             <input type="text" class="form-control" id="channelId" name="channelId" disabled>
-            
+
         </div>
         <div class="col-md-4">
             <div class="mb-3">

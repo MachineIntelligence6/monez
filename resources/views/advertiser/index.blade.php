@@ -86,7 +86,7 @@
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->
-                                        <a href="{{route('advertiser.view',['advertiser'=>$advertiser->id])}}" class="btn btn-secondary"> View Info</a>
+                                        <a href="{{route('advertiser.view',['advertiser'=>$advertiser->id])}}" class=""> View Info</a>
 
                                         <!-- <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
                                     </td>
@@ -106,7 +106,11 @@
 
 <script type="text/javascript">
     $('#products-datatable').DataTable({
-        "order": []
+        "order": [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
     });
 </script>
 @endsection

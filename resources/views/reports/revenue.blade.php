@@ -275,6 +275,11 @@
         filter: true,
         paging: true,
         info: true,
+        order: [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
     });
 
     $(".selectperiod").on("select2:close", function() {

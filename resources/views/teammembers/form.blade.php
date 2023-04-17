@@ -17,9 +17,13 @@
                                 @if($Segmenttwo=='create')
 
                                 @elseif($lastSegment=='edit')
+                                <a href="{{route('team-members.view',$teamMember->id)}}" class="btn btn-secondary">
+                                    <!-- <span class="fas fa-edit mr-1"></span> -->
+                                    Canc
+                                </a>
                                 <button class="btn btn-primary" type="submit"><span class="fas fa-check mr-1"></span>
-                                    Save Info</button>
-
+                                    Save Info
+                                </button>
                                 @else
                                 <a href="{{route('team-members.edit',$teamMember->id)}}" class="btn btn-secondary">
                                     <span class="fas fa-edit mr-1"></span>
@@ -44,7 +48,7 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="email" class="form-label"> Email</label><label class="text-danger">*</label>
-                                        <input type="email" class="form-control" id="email" value="{{old('email', $teamMember->email ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="email" placeholder="email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required>
+                                        <input type="email" class="form-control" id="email" data-check-unique="oninput" data-invalid-message="Email already registered." data-unique-path="{{ route('check.unique.teamEmail') }}" value="{{old('email', $teamMember->email ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="email" placeholder="email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required>
                                         <div class="valid-feedback">Valid.</div>
                                         <div id="email-invalid" class="invalid-feedback">
                                             You must enter valid input
@@ -85,11 +89,11 @@
                                             <div class="input-group-prepend" style="min-width: 150px;">
                                                 <select name="country_code" class="form-control " @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif id="phone-code-dropdown" data-toggle="select2" required>
                                                     @foreach ($countries as $key => $country)
-                                                    <option value="{{$country->title}}">{{$country->countryCode}} ({{$country -> title}})</option>
+                                                    <option value="{{$country->id}}" @if (isset($selectedcountry) && $country->id == $selectedcountry) selected @endif>{{$country->countryCode}} ({{$country -> title}})</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <input type="number" class="form-control ml-2" value="{{old('amPhone', $teamMember->amPhone ?? '')}}" id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="amPhone" placeholder="Enter phone number">
+                                            <input type="number" class="form-control ml-2" value="{{old('amPhone', $teamMember->amPhone ?? '')}}" data-invalid-message="Phone Number already registered." data-check-unique="oninput" data-unique-path="{{ route('check.unique.teamPhone') }}" id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="amPhone" placeholder="Enter phone number">
                                         </div>
                                     </div>
                                 </div>
@@ -135,3 +139,4 @@
             </div>
         </div>
     </div>
+</div>

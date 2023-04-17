@@ -15,9 +15,9 @@ return new class extends Migration {
         Schema::create('team_members', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('password');
-            $table->string('amPhone')->nullable();
+            $table->string('amPhone')->unique();
             $table->string('country_code')->nullable();
             $table->string('skype')->nullable();
             $table->string('linkedin')->nullable();

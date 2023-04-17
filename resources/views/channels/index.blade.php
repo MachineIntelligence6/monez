@@ -83,7 +83,13 @@
 @endsection
 @section('script-bottom')
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        order: [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
+    });
 </script>
 <script>
 </script>

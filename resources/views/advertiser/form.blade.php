@@ -14,7 +14,7 @@
                             <span>adv_</span>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" required value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-check-unique="oninput" data-invalid-message="Advertiser ID already registered." data-unique-path="{{ route('check.unique.value') }}" placeholder="Enter Advertiser ID" required value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback" id="dba-invalid">
                         You must enter valid input
@@ -58,7 +58,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" oninput="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" oninput="confirmEmail()" data-check-unique="oninput" data-invalid-message="Email already registered." data-unique-path="{{ route('check.unique.accEmail') }}" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div id="accEmail-invalid" class="invalid-feedback">
                     You must enter valid input
@@ -326,6 +326,7 @@
             <label for="reportColumns" class="form-label">Report Columns</label>
             <div class="input-group input-group-merge">
                 <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
+                <input type="text" class="form-control d-none" id="reportColumnsId" name="report_columns_id">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
@@ -374,6 +375,7 @@
                 <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
                 <div class="input-group input-group-merge">
                     <input type="text" style="pointer-events: none;" tabindex="-1" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" required>
+                    <input type="text" class="form-control d-none" id="bankId" name="bank_id">
                     <div class="input-group-append">
                         <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
                             <span class="mdi mdi-bank-plus"></span>
@@ -489,60 +491,7 @@
     })
 
 
-    $('#dbaId').on('input', function() {
-        var inputVal = $(this).val();
-        if (inputVal.length > 0) {
-            $.ajax({
-                url: '{{ route("check.unique.value") }}',
-                type: 'POST',
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    input_field: inputVal
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'error') {
-                        validateInput("#dbaId", false);
-                        $("#dba-invalid").text('Advertiser ID already exists.');
-                    } else {
-                        console.log(response);
-                    }
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            });
-        } else {
-            $("#dba-invalid").text('You must enter valid input.');
-        }
-    });
-    $('#accEmail').on('input', function() {
-        var inputVal = $(this).val();
-        if (inputVal.length > 0) {
-            $.ajax({
-                url: '{{ route("check.unique.accEmail") }}',
-                type: 'POST',
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    input_field: inputVal
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'error') {
-                        validateInput("#accEmail", false);
-                        $("#accEmail-invalid").text('Email already registered.');
-                    } else {
-                        console.log(response);
-                    }
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            });
-        } else {
-            $("#accEmail-invalid").text('You must enter valid input.');
-        }
-    });
+
 
 
     function onSaveColumnsModal() {
@@ -558,9 +507,47 @@
     }
     $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
         $("#bank").val(e.target.value)
-        console.log(e.target.value);
         validateInput("#bank");
     })
+
+
+    $("#bankDetailsForm").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+                $("#bankId").val(response.id);
+                $(this).closest(".modal")
+                    .removeClass("show")
+                    .css("display", "none");
+                console.log(response);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#reportColumnsForm").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+                $("#reportColumnsId").val(response.id);
+                $(this).closest(".modal")
+                    .removeClass("show")
+                    .css("display", "none");
+                console.log(response)
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
 </script>
 
 @endsection

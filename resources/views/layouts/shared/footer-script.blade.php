@@ -82,6 +82,48 @@
         inputField.value = password;
         validateInput(inputField);
     }
+
+
+
+    // Input Fields Uniqueness checking
+    function checkUniqueInputField(target) {
+        let invalidTarget = $(target).siblings(".invalid-feedback");
+        let checkUniquePath = $(target).attr("data-unique-path");
+        let invalidMessage = $(target).attr("data-invalid-message");
+        // $(target).on('input', function() {
+        var inputVal = $(target).val();
+        if (inputVal.length > 0) {
+            $.ajax({
+                url: checkUniquePath,
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    input_field: inputVal
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'error') {
+                        validateInput(target, false);
+                        $(invalidTarget).text(invalidMsg);
+                    } else {
+                        console.log(response);
+                        $(invalidTarget).text('You must enter valid input.');
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+        } else {
+            $(invalidTarget).text('You must enter valid input.');
+        }
+        // });
+    }
+
+    $("input[data-check-unique='oninput'],select[data-check-unique='oninput']")
+        .on("input", function() {
+            checkUniqueInputField(this);
+        })
 </script>
 
 @yield('script-bottom')

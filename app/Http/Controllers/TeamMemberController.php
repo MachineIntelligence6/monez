@@ -57,6 +57,7 @@ class TeamMemberController extends Controller
             'name'  => 'required',
             'email' => 'required',
             'password'=> 'required',
+            'amPhone'=>'required',
             // 'skype'=> 'required',
             // 'linkedin'=> 'required',
         ]);
@@ -98,7 +99,8 @@ class TeamMemberController extends Controller
     {
         $countries = Country::all();
         $banks = Bank::all();
-        return view('teammembers.create', compact('teamMember', 'countries', 'banks'));
+        $selectedcountry = $teamMember->country_code;
+        return view('teammembers.create', compact('teamMember','selectedcountry', 'countries', 'banks'));
     }
 
     public function view(TeamMember $teamMember)
@@ -121,12 +123,39 @@ class TeamMemberController extends Controller
      */
     public function checkUniqueteamEmail(Request $request)
     {
+        $id = $request->teammember_id;
         $validator = Validator::make($request->all(), [
             'input_field' => 'unique:team_members,email',
         ]);
+        // $validator = Validator::make($request->all(), [
+        //     'input_field' => [
+        //         'email',
+        //         Rule::unique('team_members', 'email')->ignore(Auth::id())
+        //     ]
+        // ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
+        }
+        
+        return response()->json(['status' => 'success']);
+        
 
         if ($validator->fails()) {
             return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function checkUniqueteamPhone(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'input_field' => 'unique:team_members,amPhone',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The Phone# is already used.']);
         }
 
         return response()->json(['status' => 'success']);
@@ -161,4 +190,6 @@ class TeamMemberController extends Controller
 
 
     }
+
+    
 }

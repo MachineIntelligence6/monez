@@ -129,6 +129,11 @@
 <script type="text/javascript">
     $('#products-datatable').DataTable({
         searching: false,
+        order: [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
     });
 </script>
 <script>
