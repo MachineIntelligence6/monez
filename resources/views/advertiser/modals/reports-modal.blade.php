@@ -13,7 +13,7 @@
 
                         <div class="col-12 mb-3 d-none report-creds-input api-input-group">
                             <label for="apiKey" class="form-label">API Key</label>
-                            <input type="text" class="form-control" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else disabled @endif id="apiKey" value="{{ $advertiser->reportTypes->api_key ??  old('api_key') }}" name="apiKey">
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="apiKey" value="{{ $advertiser->reportTypes->api_key ??  old('api_key') }}" name="apiKey">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -29,7 +29,7 @@
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else disabled @endif id="reportEmail" value="{{ $advertiser->reportTypes->email ??  old('email') }}" name="reportEmail">
+                            <input type="email" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="reportEmail" value="{{ $advertiser->reportTypes->email ??  old('email') }}" name="reportEmail">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -38,7 +38,7 @@
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="reportPassword" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else disabled @endif class="form-control" value="{{ $advertiser->reportTypes->password ??  old('password') }}" name="reportPassword">
+                                <input type="password" id="reportPassword" @if($lastSegment!='view' ) @else disabled @endif class="form-control" value="{{ $advertiser->reportTypes->password ??  old('password') }}" name="reportPassword">
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text btn">
                                         <span class="password-eye"></span>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
                             <label for="gdriveEmail" class="form-label">GDrive Email</label>
-                            <input type="email" class="form-control" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else disabled @endif value="{{ $advertiser->reportTypes->gdriveEmail ??  old('gdriveEmail') }}" id="gdriveEmail" name="gdriveEmail">
+                            <input type="email" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{ $advertiser->reportTypes->gdriveEmail ??  old('gdriveEmail') }}" id="gdriveEmail" name="gdriveEmail">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -61,7 +61,7 @@
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
                             <label for="gdrivePassword" class="form-label">GDrive Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="gdrivePassword" @if($lastSegment == 'operationinfo' || $lastSegment == 'create') @else disabled @endif value="{{ $advertiser->reportTypes->gdrivePassword ??  old('gdrivePassword') }}" class="form-control" name="gdrivePassword" >
+                                <input type="password" id="gdrivePassword" @if($lastSegment!='view' ) @else disabled @endif value="{{ $advertiser->reportTypes->gdrivePassword ??  old('gdrivePassword') }}" class="form-control" name="gdrivePassword" >
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text btn">
                                         <span class="password-eye"></span>

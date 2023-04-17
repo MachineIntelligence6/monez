@@ -36,10 +36,10 @@ Route::post('/advertiser/store/reporttype', [AdvertiserController::class, 'adver
 Route::post('/advertiser/store/reportcolumns', [AdvertiserController::class, 'advertiserReportColumns'])->name('store.reportcolumns');
 Route::get('/advertiser/{advertiser}/view', [AdvertiserController::class, 'view'])->name('advertiser.view');
 
-Route::post('/advertiser/account-info', [AdvertiserController::class, 'storeAccountInfo'])->name('advertiser.storeAccountInfo');
-Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
-Route::post('/advertiser/{advertiser}/operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
-Route::post('/advertiser/{advertiser}/finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
+Route::post('/advertiser/store-account-info', [AdvertiserController::class, 'storeAccountInfo'])->name('advertiser.storeAccountInfo');
+Route::post('/advertiser/{advertiser}/store-contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
+Route::post('/advertiser/{advertiser}/store-operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
+Route::post('/advertiser/{advertiser}/store-finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
 
 Route::post('/advertiser/{advertiser}/account-info', [AdvertiserController::class, 'updateAccountInfo'])->name('advertiser.updateAccountInfo');
 Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'updateContactInfo'])->name('advertiser.updateContactInfo');
@@ -66,7 +66,8 @@ Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
 Route::post('/settings.custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
-Route::post('/settings/custommessage/{custommessage}', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');
+Route::post('/settings/{customMessage}/custommessage', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');
+Route::post('/settings/{customMessage}/custommessage/destroy', [SettingController::class, 'destroycustommessage'])->name('destroy.custommessage');
 Route::resource('settings', SettingController::class);
 Route::resource('account', AccountController::class);
 //MD Khan

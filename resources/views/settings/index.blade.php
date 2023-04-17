@@ -197,12 +197,12 @@
 
                         @if(isset($custommessages))
                         @foreach ($custommessages as $key => $custommessage)
-                    
-                        <form method="POST" action="{{ route('update.custommessage', ['custommessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message" id="customMessageSample">
+
+                        <form method="POST" action="{{ route('update.custommessage', ['customMessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message" id="customMessageSample">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
-                                    <select class="form-control"  name="parteners" data-target-dropdown="#partners-dropdown-message{{$key}}" data-toggle="select2">
+                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message{{$key}}" data-toggle="select2">
                                         <option>Select Partners</option>
                                         <option value="all" @if(isset($custommessage) && $custommessage->recipient_type == 'all') selected @endif>All</option>
                                         <option value="publishers" @if(isset($custommessage) && $custommessage->recipient_type == 'publishers') selected @endif>All Publishers</option>
@@ -231,14 +231,18 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mt-3">
-                                        <textarea class="form-control"  name="message" placeholder="message..." id="" style="height: 100px">{{old('message', $custommessage->message ?? '')}}</textarea>
+                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px">{{old('message', $custommessage->message ?? '')}}</textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 t">
                                     <div class="mt-3">
-                                        <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                                    <form action="{{route('destroy.custommessage', ['customMessage'=>$custommessage->id])}}" method="POST">
+                                                @csrf
+                                                @method('POST')
+                                                <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                                            </form>
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-right">
@@ -248,6 +252,11 @@
                                 </div>
                             </div>
                         </form>
+                        <!-- <form action="{{route('destroy.custommessage', ['customMessage'=>$custommessage->id])}}" method="POST">
+                                                @csrf
+                                                @method('POST')
+                                                <button class="btn btn-danger" type="submit" ><i class="mdi mdi-trash-can"></i></button>
+                                            </form> -->
                         @endforeach
                         @endif
 
@@ -279,7 +288,7 @@
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartneradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
-                                                <label class="custom-control-label w-100"  for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
+                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
                                             </div>
                                         </div>
                                         @endforeach

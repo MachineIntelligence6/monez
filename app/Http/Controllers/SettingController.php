@@ -144,7 +144,6 @@ class SettingController extends Controller
 
     public function updateCustomMessage(Request $request, CustomMessage $customMessage)
     {
-        // dd($customMessage);
         $validatedData = $request->validate([
             'message'  => 'required',
         ]);
@@ -173,6 +172,7 @@ class SettingController extends Controller
             // dd($idString);
             $customMessage->recipient_ids = $idString;
         }
+        // dd($customMessage);
         $customMessage->update();
         return redirect()->route('settings.index');
     }
@@ -185,5 +185,85 @@ class SettingController extends Controller
     public function notifications()
     {
         return view('crm.settings.notifications');
+    }
+
+    public function storeNotification(Request $request)
+    {
+        // dd('test');
+        $validatedData = $request->validate([
+            // 'recipient_ids' => 'required',
+            // 'recipient_type' => 'required',
+            // 'message'  => 'required',
+        ]);
+        
+        $message = new CustomMessage;
+        $messagerecipient_type = $request->parteners;
+        $message->message = $request->message;
+        if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers') {
+            // dd($messagerecipient_type);
+            $message->recipient_type = $request->parteners;
+            $message->recipient_ids = null;
+        } else {
+            // dd($messagerecipient_type,'custom');
+            $message->recipient_type = 'custom';
+            $customUsers = $request->input('custom_users');
+            $ids = [];
+            foreach ($customUsers as $customUser) {
+                $parts = explode('_', $customUser);
+                if ($parts[0] === 'p') {
+                    $ids[] = 'p_' . $parts[1];
+                } elseif ($parts[0] === 'a') {
+                    $ids[] = 'a_' . $parts[1];
+                }
+            }
+             $idString = implode(',', $ids);
+            // dd($idString);
+            $message->recipient_ids = $idString;
+        }
+        $message->save();
+        return redirect()->route('settings.index');
+        
+    }
+
+    public function updateNotification(Request $request, CustomMessage $customMessage)
+    {
+        $validatedData = $request->validate([
+            'message'  => 'required',
+        ]);
+
+        $customMessage->message = $request->message;
+        $messagerecipient_type = $request->parteners;
+        $customMessage->message = $request->message;
+        if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
+            // dd($messagerecipient_type);
+            $customMessage->recipient_type = $request->parteners;
+            $customMessage->recipient_ids = null;
+        } else {
+            // dd($messagerecipient_type,'custom');
+            $customMessage->recipient_type = 'custom';
+            $customUsers = $request->input('custom_users');
+            $ids = [];
+            foreach ($customUsers as $customUser) {
+                $parts = explode('_', $customUser);
+                if ($parts[0] === 'p') {
+                    $ids[] = 'p_' . $parts[1];
+                } elseif ($parts[0] === 'a') {
+                    $ids[] = 'a_' . $parts[1];
+                }
+            }
+             $idString = implode(',', $ids);
+            // dd($idString);
+            $customMessage->recipient_ids = $idString;
+        }
+        // dd($customMessage);
+        $customMessage->update();
+        return redirect()->route('settings.index');
+    }
+
+    public function destroycustommessage(CustomMessage $customMessage)
+    {
+        $customMessage->delete();
+
+        return redirect()->route('settings.index');
     }
 }
