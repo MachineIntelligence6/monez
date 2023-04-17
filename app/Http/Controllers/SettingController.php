@@ -26,10 +26,10 @@ class SettingController extends Controller
     {
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
+        $custommessages = CustomMessage::all();
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers,'custommessages'=>$custommessages]);
 
-        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers]);
-
-        return view('settings.index',compact('publishers','advertisers'), ['jsonData' => $jsonData]);
+        return view('settings.index',compact('publishers','advertisers','custommessages'), ['jsonData' => $jsonData]);
 
         // return view("settings.index",compact('publishers','advertisers'));
     }
@@ -106,38 +106,75 @@ class SettingController extends Controller
 
     public function storeCustomMessage(Request $request)
     {
-        // $validatedData = $request->validate([
-        //     'recipient_ids' => 'required',
-        //     'recipient_type' => 'required',
-        //     'message'  => 'required',
-        // ]);
+        // dd('test');
+        $validatedData = $request->validate([
+            // 'recipient_ids' => 'required',
+            // 'recipient_type' => 'required',
+            // 'message'  => 'required',
+        ]);
         
         $message = new CustomMessage;
-        $messagerecipient_type = 'advertisers';
-        $message->message = 'test message to show';
+        $messagerecipient_type = $request->parteners;
+        $message->message = $request->message;
         if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers') {
-            $message->recipient_type = 'advertisers';
+            // dd($messagerecipient_type);
+            $message->recipient_type = $request->parteners;
             $message->recipient_ids = null;
         } else {
+            // dd($messagerecipient_type,'custom');
             $message->recipient_type = 'custom';
-            $ids = $request->recipient_ids;
-            $idString = implode(',', $ids);
+            $customUsers = $request->input('custom_users');
+            $ids = [];
+            foreach ($customUsers as $customUser) {
+                $parts = explode('_', $customUser);
+                if ($parts[0] === 'p') {
+                    $ids[] = 'p_' . $parts[1];
+                } elseif ($parts[0] === 'a') {
+                    $ids[] = 'a_' . $parts[1];
+                }
+            }
+             $idString = implode(',', $ids);
+            // dd($idString);
             $message->recipient_ids = $idString;
         }
-
-        // $message->message = 'test message to show';
-        // if ($request->recipient_type === 'publishers' || $request->recipient_type === 'advertisers') {
-        //     $message->recipient_type = $request->recipient_type;
-        //     $message->recipient_ids = null;
-        // } else {
-        //     $message->recipient_type = 'custom';
-        //     $ids = $request->recipient_ids;
-        //     $idString = implode(',', $ids);
-        //     $message->recipient_ids = $idString;
-        // }
-
         $message->save();
+        return redirect()->route('settings.index');
         
+    }
+
+    public function updateCustomMessage(Request $request, CustomMessage $customMessage)
+    {
+        // dd($customMessage);
+        $validatedData = $request->validate([
+            'message'  => 'required',
+        ]);
+
+        $customMessage->message = $request->message;
+        $messagerecipient_type = $request->parteners;
+        $customMessage->message = $request->message;
+        if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
+            // dd($messagerecipient_type);
+            $customMessage->recipient_type = $request->parteners;
+            $customMessage->recipient_ids = null;
+        } else {
+            // dd($messagerecipient_type,'custom');
+            $customMessage->recipient_type = 'custom';
+            $customUsers = $request->input('custom_users');
+            $ids = [];
+            foreach ($customUsers as $customUser) {
+                $parts = explode('_', $customUser);
+                if ($parts[0] === 'p') {
+                    $ids[] = 'p_' . $parts[1];
+                } elseif ($parts[0] === 'a') {
+                    $ids[] = 'a_' . $parts[1];
+                }
+            }
+             $idString = implode(',', $ids);
+            // dd($idString);
+            $customMessage->recipient_ids = $idString;
+        }
+        $customMessage->update();
+        return redirect()->route('settings.index');
     }
 
     public function newsletters()

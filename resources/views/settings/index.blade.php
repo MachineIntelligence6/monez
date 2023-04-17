@@ -194,17 +194,22 @@
                         <button class="btn btn-secondary" onclick="appendNewCustomMessage()"><i class="mdi mdi-plus"></i></button>
                     </div>
                     <div id="customMessagesContainer" class="row">
-                        <div class="mb-3 col-md-6 custom-message" id="customMessageSample">
+
+                        @if(isset($custommessages))
+                        @foreach ($custommessages as $key => $custommessage)
+                    
+                        <form method="POST" action="{{ route('update.custommessage', ['custommessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message" id="customMessageSample">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-12">
-                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2" name="recipientType">
+                                    <select class="form-control"  name="parteners" data-target-dropdown="#partners-dropdown-message{{$key}}" data-toggle="select2">
                                         <option>Select Partners</option>
-                                        <option value="all">All</option>
-                                        <option value="publishers">All Publishers</option>
-                                        <option value="advertisers">All Advertisers</option>
-                                        <option value="custom">Select Custom</option>
+                                        <option value="all" @if(isset($custommessage) && $custommessage->recipient_type == 'all') selected @endif>All</option>
+                                        <option value="publishers" @if(isset($custommessage) && $custommessage->recipient_type == 'publishers') selected @endif>All Publishers</option>
+                                        <option value="advertisers" @if(isset($custommessage) && $custommessage->recipient_type == 'advertisers') selected @endif>All Advertisers</option>
+                                        <option value="select-custom" @if(isset($custommessage) && $custommessage->recipient_type == 'custom') selected @endif>Select Custom</option>
                                     </select>
-                                    <div id="partners-dropdown-message" class="dropdown-menu w-100" data-searchable="true">
+                                    <div id="partners-dropdown-message{{$key}}" class="dropdown-menu w-100" data-searchable="true">
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
@@ -226,7 +231,78 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mt-3">
-                                        <textarea class="form-control" placeholder="message..." id="" style="height: 100px"></textarea>
+                                        <textarea class="form-control"  name="message" placeholder="message..." id="" style="height: 100px">{{old('message', $custommessage->message ?? '')}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 t">
+                                    <div class="mt-3">
+                                        <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary">update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        @endforeach
+                        @endif
+
+
+                        <form method="POST" action="{{ route('store.custommessage') }}" class="mb-3 col-md-6 custom-message" id="customMessageSample">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2">
+                                        <option>Select Partners</option>
+                                        <option value="all">All</option>
+                                        <option value="publishers">All Publishers</option>
+                                        <option value="advertisers">All Advertisers</option>
+                                        <option value="select-custom">Select Custom</option>
+                                    </select>
+                                    <div id="partners-dropdown-message" class="dropdown-menu w-100" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        @foreach ($publishers as $key => $publisher)
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartnerpub{{$publisher->id}}" value="p_{{$publisher->id}}">
+                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}">{{$publisher->companyName}}</label>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        @foreach ($advertisers as $key => $advertiser)
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartneradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
+                                                <label class="custom-control-label w-100"  for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
+                                            </div>
+                                        </div>
+                                        @endforeach
+
+                                        <!-- <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="messagePartner1">
+                                                <label class="custom-control-label w-100" for="messagePartner1">Partner 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="messagePartner2">
+                                                <label class="custom-control-label w-100" for="messagePartner2">Partner 2</label>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mt-3">
+                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -242,7 +318,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <!-- end card-body-->
@@ -294,9 +370,11 @@
             // element.id = ""
             // element.querySelectorAll("input").forEach((inp) => inp.value = "");
             // messagesContainer.appendChild(element);
-            var jsonData = {!!$jsonData!!};
-            console.log(jsonData.publishers);
-            console.log(jsonData.advertisers);
+            var jsonData = {
+                !!$jsonData!!
+            };
+            // console.log(jsonData.publishers);
+            // console.log(jsonData.advertisers);
             let element = document.createElement("div");
             element.classList = "mb-3 col-md-6 custom-message";
             let idx = messagesContainer.children.length;
@@ -309,7 +387,7 @@
                             <option value="all">All</option>
                             <option value="publishers">All Publishers</option>
                             <option value="advertisers">All Advertisers</option>
-                            <option value="custom">Select Custom</option>
+                            <option value="select-custom">Select Custom</option>
                         </select>
                         <div id="partners-dropdown-message-${idx}" class="dropdown-menu w-100" data-searchable="true">
                             <div class="px-2">

@@ -65,7 +65,8 @@ Route::get('reports/activity', 'ReportsController@activity')->name('activity');
 Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
-Route::get('/settings.custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
+Route::post('/settings.custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
+Route::post('/settings/custommessage/{custommessage}', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');
 Route::resource('settings', SettingController::class);
 Route::resource('account', AccountController::class);
 //MD Khan
