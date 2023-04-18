@@ -5,25 +5,25 @@
 <div id="btnwizard">
     <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
         <li class="nav-item">
-            <a href="#accountInfoTab" data-toggle="tab" class="nav-link rounded-0 active pt-2 pb-2">
+            <a data-target="#accountInfoTab" data-toggle="tab" class="nav-link rounded-0 active pt-2 pb-2">
                 <i class="mdi mdi-office-building mr-2"></i>
                 Account Info
             </a>
         </li>
         <li class="nav-item">
-            <a href="#contactInfoTab" data-toggle="tab" id="contactInfoTabbutton" class="nav-link rounded-0 pt-2 pb-2">
+            <a data-target="#contactInfoTab" data-toggle="tab" id="contactInfoTabbutton" class="nav-link rounded-0 pt-2 pb-2">
                 <i class="mdi mdi-account-circle mr-2"></i>
                 Contact Info (Account Manager)
             </a>
         </li>
         <li class="nav-item">
-            <a href="#operationsInfoTab" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+            <a data-target="#operationsInfoTab" data-toggle="tab" id="operationInfoTabbutton" class="nav-link rounded-0 pt-2 pb-2">
                 <i class="mdi mdi-office-building mr-2"></i>
                 Operations Info
             </a>
         </li>
         <li class="nav-item">
-            <a href="#financeInfoTab" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+            <a data-target="#financeInfoTab" data-toggle="tab" id="financeInfoTabbutton" class="nav-link rounded-0 pt-2 pb-2">
                 <i class="mdi mdi-office-building mr-2"></i>
                 Finance Info
             </a>
@@ -33,7 +33,7 @@
     <div class="tab-content mb-0 b-0 pt-0">
         <!-- Account Info Tab Start  -->
         <div class="tab-pane active show fade" id="accountInfoTab">
-            <form class="needs-validation" method="post" action="{{route('advertiser.storeAccountInfo') }}" enctype="multipart/form-data" novalidate>
+            <form class="needs-validation" id="accountInfofor" method="post" action="{{route('advertiser.storeAccountInfo') }}" enctype="multipart/form-data" novalidate>
                 @csrf
                 @method('POST')
                 <div class="row">
@@ -216,7 +216,7 @@
         <!-- Contact Info Tab Start  -->
         <div class="tab-pane fade" id="contactInfoTab">
             @if (isset($advertiser))
-            <form class="needs-validation" method="post" action="{{ route('advertiser.storeContactInfo', [$advertiser->id]) }}" enctype="multipart/form-data" novalidate>
+            <form class="needs-validation" id="contactInfoform" method="post" action="{{ route('advertiser.storeContactInfo', [$advertiser->id]) }}" enctype="multipart/form-data" novalidate>
                 @endif
                 @csrf
                 @method('POST')
@@ -307,7 +307,7 @@
         <!-- Operations Info Tab Start  -->
         <div class="tab-pane" id="operationsInfoTab">
             @if (isset($advertiser))
-            <form class="needs-validation" method="post" action="{{route('advertiser.storeOperationInfo', [$advertiser->id]) }}" enctype="multipart/form-data" novalidate>
+            <form class="needs-validation" id="operationInfoform" method="post" action="{{route('advertiser.storeOperationInfo', [$advertiser->id]) }}" enctype="multipart/form-data" novalidate>
                 @endif @csrf
                 @method('POST')
                 <div class="row">
@@ -350,36 +350,13 @@
                             </div>
                         </div>
                     </div> <!-- end col -->
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="reportType" class="form-label">Report Type</label>
-                            <div class="input-group input-group-merge">
-                                <select class="form-control" id="reportType" data-toggle="select2" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
-                                    <option value="" selected>Report Type</option>
-                                    <option value="api">API</option>
-                                    <option value="email">EMAIL</option>
-                                    <option value="gdrive">Google Drive</option>
-                                    <option value="dashboard">Dashboard</option>
-                                </select>
-                                <div class="input-group-append">
-                                    <button type="button" data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
-                                        <span class="dripicons-document-edit"></span>
-                                    </button>
-                                </div>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-4 mb-3">
-                        <label for="reportColumns" class="form-label">Report Columns</label>
+                        <label for="reportColumns" class="form-label">Report Details</label>
                         <div class="input-group input-group-merge">
-                            <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns">
+                            <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report details">
                             <input type="text" class="form-control d-none" id="reportColumnsId" name="report_columns_id">
                             <div class="input-group-append">
-                                <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
+                                <button type="button" data-trigger="modal" data-target="report-details-modal" class="btn btn-secondary">
                                     <span class="dripicons-document-edit"></span>
                                 </button>
                             </div>
@@ -417,7 +394,7 @@
         <!-- Finance Info Tab Start -->
         <div class="tab-pane" id="financeInfoTab">
             @if (isset($advertiser))
-            <form class="needs-validation" method="post" action="{{route('advertiser.storeFinanceInfo', [$advertiser->id]) }}" enctype="multipart/form-data" novalidate>
+            <form class="needs-validation" id="financeInfoform" method="post" action="{{route('advertiser.storeFinanceInfo', [$advertiser->id]) }}" enctype="multipart/form-data" novalidate>
                 @endif
                 @csrf
                 @method('POST')
@@ -538,11 +515,11 @@
 
 
 
-    //Report Type Popup Script
-    const reportTypeModal = document.getElementById("report-type-modal");
+    //Report Type Script
+    const reportTypeModal = document.getElementById("report-details-modal");
     const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
 
-    function showReportCredsPopup(value) {
+    function showReportCredsReleventInputs(value) {
         for (let i = 0; i < reportCredsInputs.length; i++) {
             reportCredsInputs[i].classList.add("d-none");
         }
@@ -551,13 +528,11 @@
                 .forEach((inpGroup) => {
                     inpGroup.classList.remove("d-none");
                 })
-            reportTypeModal.classList.add("show");
-            reportTypeModal.style.display = "block";
         }
     }
 
     $("#reportType").on("select2:close", function() {
-        showReportCredsPopup($(this).val());
+        showReportCredsReleventInputs($(this).val());
     })
 
 
@@ -620,48 +595,57 @@
     });
 
 
-
-    $(document).ready(function() {
-        function myFunction() {
-			var url = window.location.pathname;
-        var segments = url.split('/');
-        var lastSegment = segments.pop();
-        if(lastSegment=='store-account-info'){
-            $("#contactInfoTabbutton")[0].click();
-        }
-		}
-
-		window.onload = myFunction;
-    $('#accountInfobtn').submit(function(e) {
-        e.preventDefault();
-
+    $("#accountInfoform").submit(function(event) {
+        event.preventDefault();
         $.ajax({
             url: $(this).attr('action'),
-            type: 'POST',
+            type: $(this).attr('method'),
             data: $(this).serialize(),
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Move to the next tab
-                        $('#myTab a[href="#tab2"]').tab('show');
-                    $("#contactInfoTabbutton")[0].click()
-                    
+            success: (response) => {
+                $("#contactInfoTabbutton")[0].click()
 
-                    
-
-                } else {
-                    // Handle the error
-                }
             },
-            error: function() {
-                // Handle the error
+            error: (error) => {
+                console.log(error);
             }
         });
-
-        return false; // Prevent default form submission behavior
     });
-});
+    $("#contactInfoform").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+                $("#operationInfoTabbutton").click()
 
+                console.log(response)
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
+    $("#operationInfoform").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+
+                console.log(response)
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
+
+
+    $(document).ready(function() {
+
+    });
 </script>
 
 @endsection

@@ -81,17 +81,17 @@
 
 
                                     <td>
-                                        <a class="" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
+                                        <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
 
                                         @if ($feed->is_default)
                                         <a class="btn bg-yellow text-white">Default Feed</a>
                                         @else
                                         @if ($feed->is_active)
-                                        <a class="text-danger " href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                        <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
                                         @else
-                                        <a class="text-success " href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                        <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
                                         @endif
-                                        <a class="text-blue " href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+                                        <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
                                         @endif
                                     </td>
                                 </tr>

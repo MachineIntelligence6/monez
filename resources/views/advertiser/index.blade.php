@@ -86,7 +86,7 @@
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->
-                                        <a href="{{route('advertiser.view',['advertiser'=>$advertiser->id])}}" class=""> View Info</a>
+                                        <a href="{{route('advertiser.view',['advertiser'=>$advertiser->id])}}" class="mx-1"> View Info</a>
 
                                         <!-- <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
                                     </td>

@@ -65,6 +65,9 @@ Route::get('reports/activity', 'ReportsController@activity')->name('activity');
 Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
+Route::get('sendnewsletter', [SettingController::class, 'sendnewsletter'])->name('sendnewsletter');
+
+Route::post('/settings/notification', [SettingController::class, 'storeNotification'])->name('store.notification');
 Route::post('/settings.custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
 Route::post('/settings/{customMessage}/custommessage', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');
 Route::post('/settings/{customMessage}/custommessage/destroy', [SettingController::class, 'destroycustommessage'])->name('destroy.custommessage');

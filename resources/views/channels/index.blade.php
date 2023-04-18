@@ -43,6 +43,7 @@
                                     <th>Publisher</th>
                                     <th style="width: 100%;">Channel Url</th>
                                     <th>Assigned Feeds</th>
+                                    <th>Status</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                             </thead>
@@ -53,9 +54,10 @@
                                     <td>Publisher 1</td>
                                     <td><a class="text-blue" href="https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}">https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}</a></td>
                                     <td> Feed 1 <br> Feed 2</td>
+                                    <td>Live</td>
                                     <td>
-                                        <a class="btn bg-secondary text-white">View Info</a>
-                                        <a class="btn bg-danger text-white">Disable</a>
+                                        <a href="#" class="mx-2">View Info</a>
+                                        <a href="#" class="text-danger mx-2">Disable</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -64,9 +66,10 @@
                                     <td>Advertiser 2</td>
                                     <td><a class="text-blue" href="http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}">http://trends.search-hub.co/v1/search/CNTRYCS10135SS?q={Search_Keywords}</a></td>
                                     <td> Feed 1 <br> Feed 2</td>
+                                    <td>Live</td>
                                     <td>
-                                        <a class="btn bg-secondary text-white">View Info</a>
-                                        <a class="btn bg-danger text-white">Disable</a>
+                                        <a href="#" class="mx-2">View Info</a>
+                                        <a href="#" class="text-danger mx-2">Disable</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -82,15 +85,14 @@
 
 @endsection
 @section('script-bottom')
+<script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 <script type="text/javascript">
     $('#products-datatable').DataTable({
         order: [],
         "lengthMenu": [
             [50, 100, 250, 500],
-            [50, 100, 250, 500]
+            [50, 100, 250, 500],
         ],
     });
-</script>
-<script>
 </script>
 @endsection

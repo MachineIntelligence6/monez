@@ -465,8 +465,8 @@ class AdvertiserController extends Controller
         $selectedcountry = $advertiser->country_id;
         $selectedcountrycode=$advertiser->country_code;
         // $jsonData = json_encode(['advertiser' => $advertiser, 'selectedcountrycode' => $selectedcountrycode,'countries'=>$countries,'selectedcountry'=>$selectedcountry,'countries'=>$availableTeamMembers]);
-        // return response()->json(['status' => 'success']);
-        return view('advertiser.create',compact('advertiser','selectedcountrycode','countries','selectedcountry','availableTeamMembers'));
+        return response()->json(['status' => 'success']);
+        // return view('advertiser.create',compact('advertiser','selectedcountrycode','countries','selectedcountry','availableTeamMembers'));
     }
     public function storeContactInfo(Request $request, Advertiser $advertiser){
         $validatedData = $request->validate([
@@ -492,7 +492,8 @@ class AdvertiserController extends Controller
         $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
         $selectedcountry = $advertiser->country_id;
         $selectedcountrycode=$advertiser->country_code;
-        return view('advertiser.create',compact('advertiser','countries','selectedcountrycode','selectedcountry','availableTeamMembers'));
+        return response()->json(['status' => 'success']);
+        // return view('advertiser.create',compact('advertiser','countries','selectedcountrycode','selectedcountry','availableTeamMembers'));
         // return redirect()->route('advertiser.create',compact('advertiser'));
     }
     public function storeOperationInfo(Request $request, Advertiser $advertiser){
@@ -548,7 +549,8 @@ class AdvertiserController extends Controller
         $selectedcountry = $advertiser->country_id;
         $selectedcountrycode=$advertiser->country_code;
         // dd($selectedteam);
-        return view('advertiser.create',compact('advertiser','countries','selectedcountry','selectedcountrycode','availableTeamMembers','selectedteam'));
+        return response()->json(['status' => 'success']);
+        // return view('advertiser.create',compact('advertiser','countries','selectedcountry','selectedcountrycode','availableTeamMembers','selectedteam'));
     }
     public function storeFinanceInfo(Request $request, Advertiser $advertiser){
         $advertiser->billEmail = $request->billEmail;
