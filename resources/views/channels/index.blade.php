@@ -48,18 +48,32 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($channels as $channel)
                                 <tr>
-                                    <td>1</td>
-                                    <td>1001</td>
-                                    <td>Publisher 1</td>
-                                    <td><a class="text-blue" href="https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}">https://www.msearch.co/pse/search?spid=113&sspid=1004&channel=country_mob&query={Search_Keywords}</a></td>
-                                    <td> Feed 1 <br> Feed 2</td>
+                                    <td>{{$channel->id ?? '-'}}</td>
+                                    <td>{{$channel->channelId ?? '-'}}</td>
+                                    <td>{{$channel->publisher->id ?? '-'}}</td>
+                                    <td><a class="text-blue" href="{{$channel->channelpath ?? '-'}}">{{$channel->channelpath ?? '-'}}</a></td>
+                                    <td>
+                                        @if(isset($channel->feeds))
+                                        @foreach($channel->feeds as $feed)
+                                        {{$feed->id ?? ''}} <br>
+                                        @endforeach
+                                        @endif
+                                    </td>
                                     <td>Live</td>
                                     <td>
-                                        <a href="#" class="mx-2">View Info</a>
-                                        <a href="#" class="text-danger mx-2">Disable</a>
+                                    <a class="mx-2" href="{{route('channel.view',['channel'=>$channel->id])}}">View Info</a>
+                                        @if ($channel->is_active)
+                                        <a class="text-danger mx-2" href="{{ route('channel.disable', ['channel' => $channel]) }}" value="0">Disable</a>
+                                        @else
+                                        <a class="text-success mx-2" href="{{ route('channel.enable', ['channel' => $channel]) }}" value="1">Enable</a>
+                                        @endif
+                                    
+                                    <!-- <a href="#" class="text-danger mx-2">Disable</a> -->
                                     </td>
                                 </tr>
+                                @endforeach
                                 <tr>
                                     <td>2</td>
                                     <td>1002</td>

@@ -313,7 +313,7 @@
                                         <form action="{{route('destroy.custommessage', ['customMessage'=>$custommessage->id])}}" method="POST">
                                             @csrf
                                             @method('POST')
-                                            <button class="btn btn-danger" id="deleteCustomMsg" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                                            <button class="btn btn-danger" id="deleteCustomMsg" msg-id="{{$custommessage->id}}" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
                                         </form>
                                     </div>
                                 </div>
@@ -559,15 +559,23 @@
 
         function removeElementFromContainer(target) {
             let form = $(target).closest(".custom-message");
+            var id = $(this).data("msg-id");
+            var token = $(this).data("token");
             $.ajax({
-                url: $(form).attr('action'),
-                type: $(form).attr('method'),
-                data: $(form).serialize(),
+                url: `settings/${id}/custommessage/destroy`,
+                type: 'Post',
+                dataType: "JSON",
+                data: {
+                    "customMessage": id,
+                    "_method": 'DELETE',
+                    "_token": token,
+                },
                 success: (response) => {
-                    console.log('success');
+                    console.log('success',id);
                     $(form).remove();
                 },
                 error: (error) => {
+                    console.log('false',id);
                     console.log(error);
                 }
             });
@@ -576,6 +584,26 @@
         $("#deleteCustomMsg").submit(function(event) {
             event.preventDefault();
 
+        });
+
+        $(".deleteProduct").click(function() {
+            var id = $(this).data("id");
+            var token = $(this).data("token");
+            $.ajax({
+                url: `settings/${id}/custommessage/destroy`,
+                type: 'Delete',
+                dataType: "JSON",
+                data: {
+                    "id": id,
+                    "_method": 'DELETE',
+                    "_token": token,
+                },
+                success: function() {
+                    console.log("it Work",id);
+                }
+            });
+
+            console.log("It failed");
         });
     </script>
     @endsection

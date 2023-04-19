@@ -3,24 +3,37 @@
 <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <div>
-    <h5 class="mb-3 text-uppercase">Channel Info</h5>
-    <div class="row">
-        <div class="col-md-4 d-none">
-            <div class="mb-3">
-                <label for="channelId" class="form-label">Channel Id</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" value="1001" id="channelId" name="channelId" required />
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
-                </div>
-            </div>
+<div class="row justify-content-between">
+        <div class="col-auto">
+        <h5 class="mb-3 text-uppercase">Channel Info</h5>
         </div>
+
+        <div class="col-auto">
+            @if($lastSegment=='create')
+
+            @elseif($lastSegment=='edit')
+            <!-- <a href="#" class="btn btn-primary">
+                <span  class="fas fa-check mr-1"></span>
+                Save Info
+            </a> -->
+            <button class="btn btn-primary" type="submit"><span class="fas fa-check mr-1"></span>
+                Save Info</button>
+            @else
+            <a href="{{route('channels.edit',['channel'=>$channel->id])}}" class="btn btn-secondary">
+                <span class="fas fa-edit mr-1"></span>
+                Edit Info
+            </a>
+            @endif
+        </div>
+    </div>
+    
+    <div class="row">
         <div class="col-md-4 mb-3">
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
             <select class="form-control" name="publisher" data-toggle="select2" required>
                 <option value="" selected>Select Publisher</option>
-                @foreach ($publishers as $key => $publisher)
-                <option value="{{ $publisher->id }}">{{ $publisher->companyName }}</option>
+                @foreach ($availablePublishers as $key => $publisher)
+                <option value="{{ $publisher->id }}" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>{{ $publisher->companyName }}</option>
 
                 @endforeach
             </select>
@@ -32,7 +45,7 @@
 
         <div class="col-md-4 mb-3">
             <label for="channelId" class="form-label">Channel Id</label>
-            <input type="text" class="form-control" id="channelId" name="channelId" disabled>
+            <input type="text" class="form-control" id="channelId" value="{{$channelId}}" name="channelId" readonly>
 
         </div>
         <div class="col-md-4">
@@ -40,7 +53,7 @@
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
                 <select class="form-control" name="channelPath" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
                     <option value="" selected>Select Channel Path</option>
-                    <option value="https://google.com">Channel Path 1</option>
+                    <option value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option>
                 </select>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
@@ -112,7 +125,7 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="c_priorityScore" class="form-label">Channel Performance Score</label>
-            <input type="number" class="form-control" id="priorityScore" name="c_priorityScore" placeholder="Enter Channel Performance Score">
+            <input type="number" class="form-control" id="priorityScore" value="{{old('c_priorityScore', $channel->c_priorityScore ?? '')}}" name="c_priorityScore" placeholder="Enter Channel Performance Score">
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
@@ -122,24 +135,28 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <label for="c_comments" class="form-label">Comments/Notes</label>
-            <textarea class="form-control" rows="4" id="comments" name="c_comments" placeholder="Notes..."></textarea>
+            <textarea class="form-control" rows="4" id="comments"  name="c_comments" placeholder="Notes...">{{old('c_comments', $channel->c_comments ?? '')}}</textarea>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
             </div>
         </div>
     </div>
-
+    @if($lastSegment=='view')
     <div class="row mb-3 px-2">
         <button type="button" class="col-auto btn btn-outline-secondary" data-trigger="modal" data-target="feed-timeline-modal">
             Channel Timeline
         </button>
     </div>
-
+    @endif
+    @if($lastSegment=='create')
     <div class="row pl-2">
         <button class="btn btn-primary col-auto" type="submit">Add Channel</button>
         <a href="{{ route('channels.index') }}" class="btn btn-secondary ml-1">Cancel</a>
     </div>
+
+    @endif
+   
 </div>
 
 

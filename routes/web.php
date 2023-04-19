@@ -59,6 +59,9 @@ Route::get('/feeds/make-default/{feed}', [FeedsController::class, 'makeDefault']
 Route::get('/feeds/{feed}/view', [FeedsController::class, 'view'])->name('feeds.view');
 Route::get('/feeds/redirects-test', [FeedsController::class, 'redirectsTest'])->name('feeds.redirects-test');
 Route::resource('feeds', FeedsController::class);
+Route::get('/channel/enable/{channel}', [ChannelsController::class, 'enable'])->name('channel.enable');
+Route::get('/channel/disable/{channel}', [ChannelsController::class, 'disable'])->name('channel.disable');
+Route::get('/channel/{channel}/view', [ChannelsController::class, 'view'])->name('channel.view');
 Route::post('/channelid', 'ChannelsController@ChannelId')->name('channelid');
 Route::resource('channels', ChannelsController::class);
 Route::get('reports/activity', 'ReportsController@activity')->name('activity');

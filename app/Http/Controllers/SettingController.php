@@ -32,9 +32,9 @@ class SettingController extends Controller
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $custommessages = CustomMessage::all();
-        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers,'custommessages'=>$custommessages]);
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers, 'custommessages' => $custommessages]);
 
-        return view('settings.index',compact('publishers','advertisers','custommessages'), ['jsonData' => $jsonData]);
+        return view('settings.index', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
 
         // return view("settings.index",compact('publishers','advertisers'));
     }
@@ -117,7 +117,7 @@ class SettingController extends Controller
             // 'recipient_type' => 'required',
             // 'message'  => 'required',
         ]);
-        
+
         $message = new CustomMessage;
         $messagerecipient_type = $request->parteners;
         $message->message = $request->message;
@@ -138,13 +138,12 @@ class SettingController extends Controller
                     $ids[] = 'a_' . $parts[1];
                 }
             }
-             $idString = implode(',', $ids);
+            $idString = implode(',', $ids);
             // dd($idString);
             $message->recipient_ids = $idString;
         }
         $message->save();
         return redirect()->route('settings.index');
-        
     }
 
     public function updateCustomMessage(Request $request, CustomMessage $customMessage)
@@ -173,7 +172,7 @@ class SettingController extends Controller
                     $ids[] = 'a_' . $parts[1];
                 }
             }
-             $idString = implode(',', $ids);
+            $idString = implode(',', $ids);
             // dd($idString);
             $customMessage->recipient_ids = $idString;
         }
@@ -194,12 +193,12 @@ class SettingController extends Controller
         $user = $request->partners;
         $messagerecipient_type = $request->parteners;
         $divValue = $request->input('note_editing_area');
-// dd($divValue);
+        // dd($divValue);
         if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
             // dd($messagerecipient_type);
             $messagerecipient_type = $request->parteners;
             $recipient_ids = null;
-            if($messagerecipient_type === 'all'){
+            if ($messagerecipient_type === 'all') {
                 $advertisers = Advertiser::all();
                 $publishers = Publisher::all();
                 $advertiserIds = $advertisers->pluck('id')->all();
@@ -212,14 +211,14 @@ class SettingController extends Controller
                 $ids = array_merge($advertiserIds, $publisherIds);
                 $recipient_ids = $ids;
                 // dd($recipientEmails,$recipient_ids);
-            }elseif($messagerecipient_type=='publishers'){
+            } elseif ($messagerecipient_type == 'publishers') {
                 $publishers = Publisher::all();
-                $publisherIds = $publishers->pluck('id')->all();            
+                $publisherIds = $publishers->pluck('id')->all();
                 $recipient_ids = $publisherIds;
                 $publisherEmails = $publishers->pluck('reportEmail')->all();
                 $recipientEmails =  $publisherEmails;
                 // dd($recipient_ids,$recipientEmails);
-            }else{
+            } else {
                 $advertisers = Advertiser::all();
                 $advertiserIds = $advertisers->pluck('id')->all();
                 $recipient_ids = $advertiserIds;
@@ -241,12 +240,12 @@ class SettingController extends Controller
                     $adv_ids[] =  $parts[1];
                 }
             }
-            $publishers= Publisher::whereIn('id',$pub_ids)->get();
-            
+            $publishers = Publisher::whereIn('id', $pub_ids)->get();
+
             $publisherEmails = $publishers->pluck('reportEmail')->all();
             // dd($pub_ids,$publisherEmails);
-            $advertisers= Advertiser::whereIn('id',$adv_ids)->get();
-           
+            $advertisers = Advertiser::whereIn('id', $adv_ids)->get();
+
             $advertiserEmails = $advertisers->pluck('reportEmail')->all();
             // dd($adv_ids,$advertiserEmails);
             $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
@@ -254,14 +253,14 @@ class SettingController extends Controller
             // dd($emails);
             // $recipient_ids = $idString;
         }
-        $mailData=[
-            "subject"=>$subject,
-            "body" =>$body
+        $mailData = [
+            "subject" => $subject,
+            "body" => $body
         ];
         // dd($recipientEmails);
         foreach ($recipientEmails as $recipientEmail) {
             if (!empty($recipientEmail)) {
-            Mail::to($recipientEmail)->send(new Newslettermail($mailData));
+                Mail::to($recipientEmail)->send(new Newslettermail($mailData));
             }
             // Mail::to('mail', ['body' => $body], function($messages) use ($body, $subject, $recipientEmail){
             //     $messages->to($recipientEmail);
@@ -278,55 +277,54 @@ class SettingController extends Controller
 
     public function storeNotification(Request $request)
     {
-        try{
-        // dd('test');
-        $validatedData = $request->validate([
-            'parteners' => 'required',
-            'requestType' => 'required',
-          
-        ]);
-        
-        $notification = new Notification;
-        $notificationrecipient_type = $request->parteners;
-        $notificationdoc_type = $request->requestType;
-       
-        if ($notificationrecipient_type === 'publishers' || $notificationrecipient_type === 'advertisers' || $notificationrecipient_type === 'all') {
-            // dd($notificationrecipient_type);
-            $notification->recipient_type = $request->parteners;
-            $notification->recipient_ids = $request->parteners;
-            //in fetching time we have to fetch all the advertisers and publishers thats why here the recipient_ids is null
-        } else {
-            // dd($notificationrecipient_type,'custom');
-            $notification->recipient_type = 'custom';
-            $customUsers = $request->input('custom_users');
-            $ids = [];
-            foreach ($customUsers as $customUser) {
-                $parts = explode('_', $customUser);
-                if ($parts[0] === 'p') {
-                    $ids[] = 'p_' . $parts[1];
-                } elseif ($parts[0] === 'a') {
-                    $ids[] = 'a_' . $parts[1];
+        try {
+            // dd('test');
+            $validatedData = $request->validate([
+                'parteners' => 'required',
+                'requestType' => 'required',
+
+            ]);
+
+            $notification = new Notification;
+            $notificationrecipient_type = $request->parteners;
+            $notificationdoc_type = $request->requestType;
+
+            if ($notificationrecipient_type === 'publishers' || $notificationrecipient_type === 'advertisers' || $notificationrecipient_type === 'all') {
+                // dd($notificationrecipient_type);
+                $notification->recipient_type = $request->parteners;
+                $notification->recipient_ids = $request->parteners;
+                //in fetching time we have to fetch all the advertisers and publishers thats why here the recipient_ids is null
+            } else {
+                // dd($notificationrecipient_type,'custom');
+                $notification->recipient_type = 'custom';
+                $customUsers = $request->input('custom_users');
+                $ids = [];
+                foreach ($customUsers as $customUser) {
+                    $parts = explode('_', $customUser);
+                    if ($parts[0] === 'p') {
+                        $ids[] = 'p_' . $parts[1];
+                    } elseif ($parts[0] === 'a') {
+                        $ids[] = 'a_' . $parts[1];
+                    }
                 }
+                $idString = implode(',', $ids);
+                // dd($idString);
+                $notification->recipient_ids = $idString;
             }
-             $idString = implode(',', $ids);
-            // dd($idString);
-            $notification->recipient_ids = $idString;
+            if ($notificationdoc_type != "ios") {
+                $notification->files = $request->document_name;
+            } else {
+                $notification->files = null;
+            }
+            // dd($notificationrecipient_type,$notificationdoc_type,$notification->files);
+            $notification->doc_type = $notificationdoc_type;
+            // dd($notificationrecipient_type,$notification->doc_type,$notification->files);
+            $notification->save();
+            return redirect()->route('settings.index');
+        } catch (\Throwable $th) {
+            error_log($th->getMessage());
+            return response()->json(['succeed' => 'false']);
         }
-        if($notificationdoc_type!="ios"){
-            $notification->files = $request->document_name;
-        }else{
-            $notification->files = null;
-        }
-        // dd($notificationrecipient_type,$notificationdoc_type,$notification->files);
-        $notification->doc_type = $notificationdoc_type;
-        // dd($notificationrecipient_type,$notification->doc_type,$notification->files);
-        $notification->save();
-        return redirect()->route('settings.index');
-    } catch (\Throwable $th) {
-        error_log($th->getMessage());
-        return response()->json(['succeed' => 'false']);
-    }
-        
     }
 
     public function updateNotification(Request $request, CustomMessage $customMessage)
@@ -355,7 +353,7 @@ class SettingController extends Controller
                     $ids[] = 'a_' . $parts[1];
                 }
             }
-             $idString = implode(',', $ids);
+            $idString = implode(',', $ids);
             // dd($idString);
             $customMessage->recipient_ids = $idString;
         }
@@ -366,9 +364,12 @@ class SettingController extends Controller
 
     public function destroycustommessage(CustomMessage $customMessage)
     {
-        dd($customMessage);
-        $customMessage->delete();
+        if ($customMessage) {
 
-        return redirect()->route('settings.index');
+            dd($customMessage);
+            $customMessage->delete();
+
+            return redirect()->route('settings.index');
+        }
     }
 }
