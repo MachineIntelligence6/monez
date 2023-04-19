@@ -57,7 +57,7 @@
                                     <td>
                                         @if(isset($channel->feeds))
                                         @foreach($channel->feeds as $feed)
-                                        {{$feed->id ?? ''}} <br>
+                                        {{$feed->feedId ?? ''}} <br>
                                         @endforeach
                                         @endif
                                     </td>
