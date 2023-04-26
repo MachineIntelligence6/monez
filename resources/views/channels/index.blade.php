@@ -74,7 +74,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                <tr>
+                                <!-- <tr>
                                     <td>2</td>
                                     <td>1002</td>
                                     <td>Advertiser 2</td>
@@ -85,7 +85,7 @@
                                         <a href="#" class="mx-2">View Info</a>
                                         <a href="#" class="text-danger mx-2">Disable</a>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>

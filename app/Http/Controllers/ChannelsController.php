@@ -194,7 +194,7 @@ class ChannelsController extends Controller
         $feeds = Feed::all();
         $feedsIds = $feeds->pluck('id')->toArray();
         
-        $assignedfeeds = Feed::whereIn('id', $feed_ids_array)->get();
+        $assignedfeeds = Feed::whereIn('id', [$feedids])->get();
         // dd($feedsIds,$feed_ids_array);
         // dd($ids,$assignedfeeds);
         $assignedfeedsIds = $assignedfeeds->pluck('id')->toArray();
@@ -222,7 +222,7 @@ class ChannelsController extends Controller
         $feeds = Feed::all();
         $feedsIds = $feeds->pluck('id')->toArray();
         
-        $assignedfeeds = Feed::whereIn('id', $feed_ids_array)->get();
+        $assignedfeeds = Feed::whereIn('id', [$feed_ids_array])->get();
         // dd($feedsIds,$feed_ids_array);
         // dd($ids,$assignedfeeds);
         $assignedfeedsIds = $assignedfeeds->pluck('id')->toArray();

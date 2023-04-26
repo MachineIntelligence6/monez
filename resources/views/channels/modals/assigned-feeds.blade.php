@@ -29,7 +29,7 @@
 
 
                             <select class="form-control" name="feed[]" id="country-dropdown" data-toggle="select2" required>
-                                <option value="">Select Feed</option>
+                                <option value="1" selected>Select Feed</option>
                                 @foreach ($availablefeeds as $key => $feed)
                                 <option value="{{ $feed->id }}">{{ $feed->feedId }}</option>
                                 @endforeach
@@ -60,7 +60,7 @@
                             <select class="form-control" name="feed[]" id="country-dropdown" data-toggle="select2" required>
                                 <option value="">Select Feed</option>
                                 @foreach ($availablefeeds as $key => $feed)
-                                <option value="{{ $feed->id }}">{{ $feed->feedId }}</option>
+                                <option value="{{ $feed->id }}" @if($feed->is_default) selected @endif>{{ $feed->feedId }}</option>
                                 @endforeach
                             </select>
                             <div class="valid-feedback">Valid.</div>

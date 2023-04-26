@@ -38,8 +38,10 @@
                             <span>fd_</span>
                         </div>
                     </div> -->
-                    @endif
-                    <input type="text" class="form-control" @if($lastSegment!='create' ) disabled @endif id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? 'fd_1')}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required />
+                    @endif 
+                    <input type="text" class="form-control"  id="feedId" name="feedId" value="{{$feedId}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required  readonly/>
+
+                    <!-- <input type="text" class="form-control" @if($lastSegment!='create' ) disabled @endif id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? 'fd_1')}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required  readonly/> -->
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">
                         You must enter valid input
@@ -62,11 +64,11 @@
         </div>
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="feedPath" class="form-label">Report ID</label>
-                <input type="url" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedPath" value="{{old('feedPath', $feed->feedPath ?? '')}}" name="feedPath" placeholder="Enter Report ID">
+                <label for="reportId" class="form-label">Report ID</label>
+                <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="reportId" value="{{old('reportId', $feed->reportId ?? '')}}" name="reportId" placeholder="Enter Report ID">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
-                    You must enter valid path
+                    You must enter valid ID
                 </div>
             </div>
         </div>

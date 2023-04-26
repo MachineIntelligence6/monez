@@ -270,6 +270,7 @@
                         @if(isset($custommessages))
                         @foreach ($custommessages as $key => $custommessage)
 
+                        
                         <form method="POST" action="{{ route('update.custommessage', ['customMessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message" @if($key=="0" ) id="customMessageSample" @endif>
                             @csrf
                             <div class="row">
@@ -285,18 +286,22 @@
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
+                                        @foreach ($publishers as $key => $publisher)
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="messagePartner1">
-                                                <label class="custom-control-label w-100" for="messagePartner1">Partner 1</label>
+                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartnerpub{{$publisher->id}}" value="p_{{$publisher->id}}">
+                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}">{{$publisher->companyName}}</label>
                                             </div>
                                         </div>
+                                        @endforeach
+                                        @foreach ($advertisers as $key => $advertiser)
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="messagePartner2">
-                                                <label class="custom-control-label w-100" for="messagePartner2">Partner 2</label>
+                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartneradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
+                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
                                             </div>
                                         </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -464,6 +469,9 @@
         // var jsonData = {
         //     !!$jsonData!!
         // };
+        var jsonData = <?php echo $jsonData; ?>;
+
+
 
         function appendNewCustomMessage() {
             // let element = sample.cloneNode(true);
@@ -471,88 +479,73 @@
             // element.querySelectorAll("input").forEach((inp) => inp.value = "");
             // messagesContainer.appendChild(element);
             // 
-            // console.log(jsonData.publishers);
-            // console.log(jsonData.advertisers);
+            console.log(jsonData.publishers);
+            console.log(jsonData.advertisers);
             let element = document.createElement("div");
             element.classList = "mb-3 col-md-6 custom-message";
             let idx = messagesContainer.children.length;
-
-            // ${
-            //                     [...jsonData.publishers].map((item)=> {
-            //                         return `
-            //                         <div class="dropdown-item">
-            //                     <div class="custom-control custom-checkbox">
-            //                         <input type="checkbox" class="custom-control-input" id="p_${item.id}">
-            //                         <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
-            //                     </div>
-            //                 </div>
-            //                         `
-            //                     })
-            //                 }
-            //                 ${
-            //                     [...jsonData.advertisers].map((item)=> {
-            //                         return `
-            //                         <div class="dropdown-item">
-            //                     <div class="custom-control custom-checkbox">
-            //                         <input type="checkbox" class="custom-control-input" id="a_${item.id}">
-            //                         <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
-            //                     </div>
-            //                 </div>
-            //                         `
-            //                     })
-            //                 }
-
             element.innerHTML = `
-                
-            <div class="row">
-                    <div class="col-md-12">
-                        <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-${idx}" data-toggle="select2">
-                            <option>Select Partners</option>
-                            <option value="all">All</option>
-                            <option value="publishers">All Publishers</option>
-                            <option value="advertisers">All Advertisers</option>
-                            <option value="select-custom">Select Custom</option>
-                        </select>
-                        <div id="partners-dropdown-message-${idx}" class="dropdown-menu w-100" data-searchable="true">
-                            <div class="px-2">
-                                <input type="text" class="form-control dropdown-search-input" placeholder="search">
-                            </div>
-                            
-                            <div class="dropdown-item">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="messagePartner1">
-                                    <label class="custom-control-label w-100" for="messagePartner1">Partner 1</label>
-                                </div>
-                            </div>
-                            <div class="dropdown-item">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="messagePartner2">
-                                    <label class="custom-control-label w-100" for="messagePartner2">Partner 2</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="mt-3">
-                            <textarea class="form-control" placeholder="message..." id="" style="height: 100px"></textarea>
+                        <div class="col-md-12">
+                            <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-${idx}" data-toggle="select2">
+                                <option>Select Partners</option>
+                                <option value="all">All</option>
+                                <option value="publishers">All Publishers</option>
+                                <option value="advertisers">All Advertisers</option>
+                                <option value="select-custom">Select Custom</option>
+                            </select>
+                            <div id="partners-dropdown-message-${idx}" class="dropdown-menu w-100" data-searchable="true">
+                                <div class="px-2">
+                                    <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                </div>
+                                ${
+                                    [...jsonData.publishers].map((item)=> {
+                                        return `
+                                        <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="p_${item.id}">
+                                        <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
+                                    </div>
+                                </div>`
+                                    })
+                                }
+                                ${
+                                    [...jsonData.advertisers].map((item)=> {
+                                        return `
+                                        <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="a_${item.id}">
+                                        <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
+                                    </div>
+                                </div>
+                                        `
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 t">
-                        <div class="mt-3">
-                            <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mt-3">
+                                <textarea class="form-control" placeholder="message..." id="" style="height: 100px"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 text-right">
-                        <div class="mt-3">
-                            <button class="btn btn-primary">Save</button>
+                    <div class="row">
+                        <div class="col-md-6 t">
+                            <div class="mt-3">
+                                <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                            </div>
                         </div>
-                    </div>
-                </div>`;
+                        <div class="col-md-6 text-right">
+                            <div class="mt-3">
+                                <button class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>`;
+
             messagesContainer.appendChild(element);
+
             select2Refresh();
             refreshCustomMultiSelect();
         }
@@ -571,11 +564,11 @@
                     "_token": token,
                 },
                 success: (response) => {
-                    console.log('success',id);
+                    console.log('success', id);
                     $(form).remove();
                 },
                 error: (error) => {
-                    console.log('false',id);
+                    console.log('false', id);
                     console.log(error);
                 }
             });
@@ -599,7 +592,7 @@
                     "_token": token,
                 },
                 success: function() {
-                    console.log("it Work",id);
+                    console.log("it Work", id);
                 }
             });
 

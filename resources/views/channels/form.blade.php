@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
-            <select class="form-control" name="publisher" data-toggle="select2" required>
+            <select class="form-control" @if($condition==$lastSegment) disabled @endif name="publisher" data-toggle="select2" required>
                 <option value="" selected>Select Publisher</option>
                 @foreach ($availablePublishers as $key => $publisher)
                 <option value="{{ $publisher->id }}" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>{{ $publisher->companyName }}</option>
@@ -51,9 +51,9 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
-                <select class="form-control" name="channelPath" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
-                    <option value="" selected>Select Channel Path</option>
-                    <option value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option>
+                <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channelPath" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
+                    <option value="" >Select Channel Path</option>
+                    <option  selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option>
                 </select>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
@@ -125,7 +125,7 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="c_priorityScore" class="form-label">Channel Performance Score</label>
-            <input type="number" class="form-control" id="priorityScore" value="{{old('c_priorityScore', $channel->c_priorityScore ?? '')}}" name="c_priorityScore" placeholder="Enter Channel Performance Score">
+            <input type="number" @if($condition==$lastSegment) disabled @endif class="form-control" id="priorityScore" value="{{old('c_priorityScore', $channel->c_priorityScore ?? '')}}" name="c_priorityScore" placeholder="Enter Channel Performance Score">
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
@@ -135,7 +135,7 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <label for="c_comments" class="form-label">Comments/Notes</label>
-            <textarea class="form-control" rows="4" id="comments"  name="c_comments" placeholder="Notes...">{{old('c_comments', $channel->c_comments ?? '')}}</textarea>
+            <textarea class="form-control" @if($condition==$lastSegment) disabled @endif rows="4" id="comments"  name="c_comments" placeholder="Notes...">{{old('c_comments', $channel->c_comments ?? '')}}</textarea>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
@@ -175,6 +175,7 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <script>
+    
     function generateRandomStr(length = 6) {
         let result = '';
         const characters = 'abcdefghijklmnopqrstuvwxyz';
@@ -214,6 +215,7 @@
         element.id = ""
         element.querySelectorAll("input").forEach((inp) => inp.value = "");
         container.appendChild(element);
+        $('.mySelect2').select2();
     }
 
     function removeElementFromContainer(target, sampleId) {
