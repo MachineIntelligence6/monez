@@ -7,6 +7,7 @@ use App\AdvertiserReportColumn;
 use App\AdvertiserReportType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 use App\Advertiser;
 use App\Country;
@@ -378,6 +379,7 @@ class AdvertiserController extends Controller
     // }
 
     public function storeAccountInfo(Request $request){
+        // dd('test');
         $validatedData = $request->validate([
             'dbaId' => 'required',
             'companyName'  => 'required',
@@ -451,7 +453,20 @@ class AdvertiserController extends Controller
         $advertiser->agreementDoc = implode(',', array_merge(explode(',', $oldIos), $Ios));
         $advertiser->document = implode(',', array_merge(explode(',', $oldDocuments), $Documents));
         $advertiser->save();
-        return redirect()->route('advertiser.create',compact('advertiser'));
+
+        $countries = Country::all();
+        $teamMembers = TeamMember::all();
+        $advertisers = Advertiser::all();
+
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+        $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
+        $selectedcountry = $advertiser->country_id;
+        $selectedcountrycode=$advertiser->country_code;
+        // $jsonData = json_encode(['advertiser' => $advertiser, 'selectedcountrycode' => $selectedcountrycode,'countries'=>$countries,'selectedcountry'=>$selectedcountry,'countries'=>$availableTeamMembers]);
+        return response()->json(['status' => 'success']);
+        // return view('advertiser.create',compact('advertiser','selectedcountrycode','countries','selectedcountry','availableTeamMembers'));
     }
     public function storeContactInfo(Request $request, Advertiser $advertiser){
         $validatedData = $request->validate([
@@ -467,7 +482,19 @@ class AdvertiserController extends Controller
         $advertiser->amLinkedIn = $request->amLinkedIn;
         $advertiser->country_code = $request->country_code;
         $advertiser->update();
-        return redirect()->route('advertiser.create',compact('advertiser'));
+        $countries = Country::all();
+        $teamMembers = TeamMember::all();
+        $advertisers = Advertiser::all();
+
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)->get();
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+        $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
+        $selectedcountry = $advertiser->country_id;
+        $selectedcountrycode=$advertiser->country_code;
+        return response()->json(['status' => 'success']);
+        // return view('advertiser.create',compact('advertiser','countries','selectedcountrycode','selectedcountry','availableTeamMembers'));
+        // return redirect()->route('advertiser.create',compact('advertiser'));
     }
     public function storeOperationInfo(Request $request, Advertiser $advertiser){
         $validatedData = $request->validate([
@@ -481,7 +508,8 @@ class AdvertiserController extends Controller
         }
         $advertiserId = $advertiser->id;
         $advertiser->reportEmail = $request->form_reportEmail;
-        $advertiser->update();
+        $advertiser->team_member_id = $request->team_member_id;
+       
         $advertiserReportColumn = new AdvertiserReportColumn;
         $advertiserReportColumn->advertiser_id = $advertiser->id;
         $advertiserReportColumn->date = $request->dateColValue;
@@ -506,17 +534,32 @@ class AdvertiserController extends Controller
         $advertiserReportType->gdrivePassword = $request->gdrivePassword;
         $advertiserReportType->save();
         
-        
-        return redirect()->route('advertiser.view',compact('advertiser'));
+        $advertiser->update();
+        $countries = Country::all();
+        $teamMembers = TeamMember::all();
+        $advertisers = Advertiser::all();
+        $selectedteam = $advertiser->team_member_id;
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+        $assignedAdvertisers = Advertiser::whereIn('team_member_id', $teamMemberIds)
+            ->whereNotIn('team_member_id', [$selectedteam])
+            ->get();
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+        $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
+
+        $selectedcountry = $advertiser->country_id;
+        $selectedcountrycode=$advertiser->country_code;
+        // dd($selectedteam);
+        return response()->json(['status' => 'success']);
+        // return view('advertiser.create',compact('advertiser','countries','selectedcountry','selectedcountrycode','availableTeamMembers','selectedteam'));
     }
     public function storeFinanceInfo(Request $request, Advertiser $advertiser){
         $advertiser->billEmail = $request->billEmail;
         $advertiser->payoneer = $request->payoneer;
         $advertiser->paypal = $request->paypal;
-        $advertiser->update();
+        
         $advertiserId = $advertiser->id;
         $bankDetails = new AdvertiserBankDetail;
-        $bankDetails->advertiser_id = $advertiserId->id;
+        $bankDetails->advertiser_id = $advertiserId;
         $bankDetails->beneficiary_name = $request->beneficiaryName;
         $bankDetails->beneficiary_address = $request->beneficiaryAddress;
         $bankDetails->bank_name = $request->bankName;
@@ -527,7 +570,12 @@ class AdvertiserController extends Controller
         $bankDetails->swift = $request->swift;
         $bankDetails->currency = $request->currency;
         $bankDetails->save();
-                return redirect()->route('advertiser.create',compact('advertiser'));
+        $advertiser->update();
+        $countries = Country::all();
+        $teamMembers = TeamMember::all();
+        $advertisers = Advertiser::all();
+
+        return view('advertiser.index',compact('advertisers'));
     }
 
     public function updateAccountInfo(Request $request, Advertiser $advertiser){

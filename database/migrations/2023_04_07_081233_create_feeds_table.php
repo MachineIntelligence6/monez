@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Advertiser::class)->nullable();
             $table->string("feedId")->unique();
+            $table->string("reportId")->nullable();
             $table->string("feedPath")->nullable();
             $table->string("keywordParameter")->nullable();
             $table->integer("priorityScore")->nullable();

@@ -14,6 +14,7 @@ class PublisherController extends Controller
      */
     public function index()
     {
+        // dd('test index');
         $publishers = [];
         return view("publisher.index", compact("publishers"));
     }
@@ -25,8 +26,10 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        dd('test');
+        // dd('test create');
+        
         $countries = Country::all();
+        // dd($countries);
         return view("publisher.create",compact('countries'));
     }
 

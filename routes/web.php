@@ -36,10 +36,10 @@ Route::post('/advertiser/store/reporttype', [AdvertiserController::class, 'adver
 Route::post('/advertiser/store/reportcolumns', [AdvertiserController::class, 'advertiserReportColumns'])->name('store.reportcolumns');
 Route::get('/advertiser/{advertiser}/view', [AdvertiserController::class, 'view'])->name('advertiser.view');
 
-Route::post('/advertiser/account-info', [AdvertiserController::class, 'storeAccountInfo'])->name('advertiser.storeAccountInfo');
-Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
-Route::post('/advertiser/{advertiser}/operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
-Route::post('/advertiser/{advertiser}/finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
+Route::post('/advertiser/store-account-info', [AdvertiserController::class, 'storeAccountInfo'])->name('advertiser.storeAccountInfo');
+Route::post('/advertiser/{advertiser}/store-contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
+Route::post('/advertiser/{advertiser}/store-operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
+Route::post('/advertiser/{advertiser}/store-finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
 
 Route::post('/advertiser/{advertiser}/account-info', [AdvertiserController::class, 'updateAccountInfo'])->name('advertiser.updateAccountInfo');
 Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'updateContactInfo'])->name('advertiser.updateContactInfo');
@@ -59,13 +59,21 @@ Route::get('/feeds/make-default/{feed}', [FeedsController::class, 'makeDefault']
 Route::get('/feeds/{feed}/view', [FeedsController::class, 'view'])->name('feeds.view');
 Route::get('/feeds/redirects-test', [FeedsController::class, 'redirectsTest'])->name('feeds.redirects-test');
 Route::resource('feeds', FeedsController::class);
+Route::get('/channel/enable/{channel}', [ChannelsController::class, 'enable'])->name('channel.enable');
+Route::get('/channel/disable/{channel}', [ChannelsController::class, 'disable'])->name('channel.disable');
+Route::get('/channel/{channel}/view', [ChannelsController::class, 'view'])->name('channel.view');
 Route::post('/channelid', 'ChannelsController@ChannelId')->name('channelid');
 Route::resource('channels', ChannelsController::class);
 Route::get('reports/activity', 'ReportsController@activity')->name('activity');
 Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
-Route::get('/settings.custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
+Route::get('sendnewsletter', [SettingController::class, 'sendnewsletter'])->name('sendnewsletter');
+
+Route::post('/settings/notification', [SettingController::class, 'storeNotification'])->name('store.notification');
+Route::post('/settings.custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
+Route::post('/settings/{customMessage}/custommessage', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');
+Route::post('/settings/{customMessage}/custommessage/destroy', [SettingController::class, 'destroycustommessage'])->name('destroy.custommessage');
 Route::resource('settings', SettingController::class);
 Route::resource('account', AccountController::class);
 //MD Khan
