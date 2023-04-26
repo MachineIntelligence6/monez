@@ -38,15 +38,15 @@
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <!-- <th>#</th> -->
                                     <th>Feed Id</th>
                                     <th>Advertiser</th>
-                                    <th style="width: 100%;">Feed Path</th>
+                                    <th style="width: 100%;">Feed Url</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <!-- <tr>
                                     <td>1</td>
                                     <td>msearch</td>
                                     <td>Advertiser 1</td>
@@ -66,7 +66,39 @@
                                         <a class="btn bg-danger text-white">Disable</a>
                                         <a class="btn bg-blue text-white">Make Default</a>
                                     </td>
+                                </tr> -->
+                                @foreach($feeds as $feed)
+                                <tr>
+                                    <td>
+                                        {{ $feed->feedId ?? '-' }}
+                                    </td>
+                                    <td>
+                                        {{ $feed->advertisers->companyName ?? '-'}}
+                                    </td>
+                                    <td style="max-width: 500px; text-overflow: ellipsis; overflow: hidden;">
+                                        {{ $feed->feedintegration->guideUrl ?? '-' }}
+                                    </td>
+
+
+                                    <td>
+                                        <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
+
+                                        @if ($feed->is_default)
+                                        <a class="btn bg-yellow text-white">Default Feed</a>
+                                        @else
+                                        @if ($feed->is_active)
+                                        <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                        @else
+                                        <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                        @endif
+                                        <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+                                        @endif
+                                    </td>
                                 </tr>
+                                @endforeach
+
+
+
                             </tbody>
                         </table>
                     </div>
@@ -82,7 +114,13 @@
 @section('script')
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        "order": [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
+    });
 </script>
 <script>
 </script>

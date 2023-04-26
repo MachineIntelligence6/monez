@@ -82,11 +82,11 @@
                                         {{ $advertiser->amFirstName ?? '' }} {{ $advertiser->amLastName ?? '' }}
                                     </td>
                                     <td>
-                                        Succeess Manager
+                                        {{ $advertiser->teamMember->name ?? '-' }}
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->
-                                        <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="btn btn-secondary"> View Info</a>
+                                        <a href="{{route('advertiser.view',['advertiser'=>$advertiser->id])}}" class="mx-1"> View Info</a>
 
                                         <!-- <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
                                     </td>
@@ -105,6 +105,12 @@
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        "order": [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
+    });
 </script>
 @endsection

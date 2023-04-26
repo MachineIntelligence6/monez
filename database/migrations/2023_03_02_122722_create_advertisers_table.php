@@ -30,6 +30,7 @@ class CreateAdvertisersTable extends Migration
             $table->string('city_id')->nullable();
             $table->string('state_id')->nullable();
             $table->string('country_id')->nullable();
+            $table->string('country_code')->nullable();
             $table->unsignedInteger('zipCode')->nullable();
             $table->string('amFirstName')->nullable();
             $table->string('amLastName')->nullable();

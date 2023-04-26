@@ -63,10 +63,21 @@
                 </li>
 
                 <li>
-                    <a href="{{route('feeds.index')}}">
+                    <a href="#siderbarFeeds" data-toggle="collapse">
                         <i data-feather="search"></i>
                         <span> SEARCH FEEDS </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <div class="collapse" id="siderbarFeeds">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('feeds.index')}}">Feeds</a>
+                            </li>
+                            <li>
+                                <a href="{{route('feeds.redirects-test')}}">Redirects Test</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <li>
@@ -95,10 +106,10 @@
                     <div class="collapse" id="sidebarReports">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{route('reports.index')}}">Activity Reports</a>
+                                <a href="{{route('activity')}}">Activity Reports</a>
                             </li>
                             <li>
-                                <a href="{{route('reports.create')}}">Revenue Reports</a>
+                                <a href="{{route('revenue')}}">Revenue Reports</a>
                             </li>
                         </ul>
                     </div>

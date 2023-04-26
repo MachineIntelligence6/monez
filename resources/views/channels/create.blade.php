@@ -1,12 +1,23 @@
 @extends('layouts.vertical', ['title' => 'Add Channel'])
 @section('content')
+@php
+$condition='view';
+$currentUrl = url()->current();
+$segments = request()->segments();
+$lastSegment = last($segments);
+
+@endphp
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" method="post" action="" enctype="multipart/form-data" novalidate>
+                <form class="needs-validation" method="post" action="{{ url()->current() == route('channels.create') ? route('channels.store') : route('channels.update', $channel->id) }}" enctype="multipart/form-data" novalidate>
                     @csrf
-                    @method('POST')
+                    @if($lastSegment=='edit')
+                        @method('PUT')
+                        @else
+                        @method('POST')
+                    @endif
                     @include('channels.form')
                     @include('channels.modals.integration-guide')
                     @include('channels.modals.static-parameters')

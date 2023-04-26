@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Publisher;
 use Illuminate\Http\Request;
-
+use App\Country;
 class PublisherController extends Controller
 {
     /**
@@ -14,6 +14,7 @@ class PublisherController extends Controller
      */
     public function index()
     {
+        // dd('test index');
         $publishers = [];
         return view("publisher.index", compact("publishers"));
     }
@@ -25,7 +26,11 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        return view("publisher.create");
+        // dd('test create');
+        
+        $countries = Country::all();
+        // dd($countries);
+        return view("publisher.create",compact('countries'));
     }
 
     /**

@@ -15,6 +15,22 @@ class Advertiser extends Model
     {
         return $this->hasMany(TeamMember::class );
     }
+    public function teamMember()
+    {
+        return $this->hasOne(TeamMember::class,'id','team_member_id' );
+    }
+    public function bankDetails()
+    {
+        return $this->hasOne(AdvertiserBankDetail::class,'advertiser_id','id' );
+    }
+    public function reportColumns()
+    {
+        return $this->hasOne(AdvertiserReportColumn::class,'advertiser_id','id' );
+    }
+    public function reportTypes()
+    {
+        return $this->hasOne(AdvertiserReportType::class,'advertiser_id','id' );
+    }
 
 
 }
