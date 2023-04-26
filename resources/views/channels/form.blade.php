@@ -3,9 +3,9 @@
 <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <div>
-<div class="row justify-content-between">
+    <div class="row justify-content-between">
         <div class="col-auto">
-        <h5 class="mb-3 text-uppercase">Channel Info</h5>
+            <h5 class="mb-3 text-uppercase">Channel Info</h5>
         </div>
 
         <div class="col-auto">
@@ -26,8 +26,13 @@
             @endif
         </div>
     </div>
-    
+
     <div class="row">
+        <div class="col-md-4 mb-3">
+            <label for="channelId" class="form-label">Channel Id</label>
+            <input type="text" class="form-control" id="channelId" value="{{$channelId}}" name="channelId" readonly>
+
+        </div>
         <div class="col-md-4 mb-3">
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
             <select class="form-control" @if($condition==$lastSegment) disabled @endif name="publisher" data-toggle="select2" required>
@@ -43,17 +48,33 @@
             </div>
         </div>
 
+        @if($lastSegment!='create')
         <div class="col-md-4 mb-3">
-            <label for="channelId" class="form-label">Channel Id</label>
-            <input type="text" class="form-control" id="channelId" value="{{$channelId}}" name="channelId" readonly>
+            <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
+            <!-- <select class="form-control" @if($condition==$lastSegment || $channel->status=='disable') disabled @endif name="status" data-toggle="select2" required> -->
+            <select class="form-control" name="status" @if($condition==$lastSegment || $channel->status=='disable') disabled @endif name="status" data-toggle="select2" required>
 
+                <option value="live" readonly>Live</option>
+                <option value="pause" readonly>Pause</option>
+                <option value="disable" @if($channel->status == 'disable') readonly selected @endif>Disable</option>
+                <option value="enable" @if($channel->status == 'enable') readonly selected @endif>Enable</option>
+
+
+            </select>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                Select a Status to continue.
+            </div>
         </div>
+        @endif
+
+
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
                 <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channelPath" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
-                    <option value="" >Select Channel Path</option>
-                    <option  selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option>
+                    <option value="">Select Channel Path</option>
+                    <option selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option>
                 </select>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
@@ -135,7 +156,7 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <label for="c_comments" class="form-label">Comments/Notes</label>
-            <textarea class="form-control" @if($condition==$lastSegment) disabled @endif rows="4" id="comments"  name="c_comments" placeholder="Notes...">{{old('c_comments', $channel->c_comments ?? '')}}</textarea>
+            <textarea class="form-control" @if($condition==$lastSegment) disabled @endif rows="4" id="comments" name="c_comments" placeholder="Notes...">{{old('c_comments', $channel->c_comments ?? '')}}</textarea>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
@@ -156,7 +177,7 @@
     </div>
 
     @endif
-   
+
 </div>
 
 
@@ -175,7 +196,6 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <script>
-    
     function generateRandomStr(length = 6) {
         let result = '';
         const characters = 'abcdefghijklmnopqrstuvwxyz';

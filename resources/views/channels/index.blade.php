@@ -50,24 +50,25 @@
                             <tbody>
                                 @foreach($channels as $channel)
                                 <tr>
-                                    <td>{{$channel->id ?? '-'}}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{$channel->channelId ?? '-'}}</td>
                                     <td>{{$channel->publisher->id ?? '-'}}</td>
                                     <td><a class="text-blue" href="{{$channel->channelpath ?? '-'}}">{{$channel->channelpath ?? '-'}}</a></td>
                                     <td>
                                         @if(isset($channel->feeds))
-                                        @foreach($channel->feeds as $feed)
+                                        @foreach($channel->feeds as $key => $feed)
                                         {{$feed->feedId ?? ''}} <br>
                                         @endforeach
                                         @endif
                                     </td>
-                                    <td>Live</td>
+                                    <td>{{$channel->status == 'enable' ? 'Live' : ($channel->status ?? '')}}</td>
                                     <td>
                                     <a class="mx-2" href="{{route('channel.view',['channel'=>$channel->id])}}">View Info</a>
-                                        @if ($channel->is_active)
-                                        <a class="text-danger mx-2" href="{{ route('channel.disable', ['channel' => $channel]) }}" value="0">Disable</a>
+                                        @if ($channel->status=='disable')
+                                        <a class="text-success mx-2" href="{{ route('channel.enable', ['channel' => $channel]) }}" value="enable">Enable</a>
                                         @else
-                                        <a class="text-success mx-2" href="{{ route('channel.enable', ['channel' => $channel]) }}" value="1">Enable</a>
+                                        <a class="text-danger mx-2" href="{{ route('channel.disable', ['channel' => $channel]) }}" value="disable">Disable</a>
+
                                         @endif
                                     
                                     <!-- <a href="#" class="text-danger mx-2">Disable</a> -->

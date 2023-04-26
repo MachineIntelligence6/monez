@@ -15,6 +15,8 @@ class Channel extends Model
 
     public function feeds()
     {
+        // return $this->hasMany(Feed::class);
+
         return $this->hasMany(Feed::class, 'id', 'feed_ids');
     }
    

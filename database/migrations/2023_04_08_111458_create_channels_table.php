@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string("c_assignedFeeds")->nullable();
             $table->integer("c_priorityScore")->nullable();
             $table->string("c_comments")->nullable();
-            $table->boolean('status')->default(0);
+            $table->enum('status', ['live', 'pause', 'enable', 'disable'])->default('enable');
             $table->boolean('is_active')->default(1);
             $table->softDeletes();
             $table->timestamps();

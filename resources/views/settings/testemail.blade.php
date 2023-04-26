@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head></head>
 <body>
-    <p>{{ $mailData['body'] }}</p>
+    {{ $mailData['body'] }}
 </body>
 </html>

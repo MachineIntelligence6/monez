@@ -188,8 +188,13 @@ class SettingController extends Controller
 
     public function sendnewsletter(Request $request)
     {
+        $sumoEditorValue = $request->input('sumoeditor_value');
+
+        print_r($sumoEditorValue,$request->subject);
+        print_r($request->parteners);
+        // dd($request->input('sumoeditor_value'),$sumoEditorValue);
         $subject = $request->subject;
-        $body = $request->body;
+        $body = $request->input('sumoeditor_value');
         $user = $request->partners;
         $messagerecipient_type = $request->parteners;
         $divValue = $request->input('note_editing_area');
@@ -204,8 +209,8 @@ class SettingController extends Controller
                 $advertiserIds = $advertisers->pluck('id')->all();
                 $publisherIds = $publishers->pluck('id')->all();
 
-                $advertiserEmails = $advertisers->pluck('reportEmail')->all();
-                $publisherEmails = $publishers->pluck('reportEmail')->all();
+                $advertiserEmails = $advertisers->pluck('accEmail')->all();
+                $publisherEmails = $publishers->pluck('accEmail')->all();
                 $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
 
                 $ids = array_merge($advertiserIds, $publisherIds);
@@ -215,14 +220,14 @@ class SettingController extends Controller
                 $publishers = Publisher::all();
                 $publisherIds = $publishers->pluck('id')->all();
                 $recipient_ids = $publisherIds;
-                $publisherEmails = $publishers->pluck('reportEmail')->all();
+                $publisherEmails = $publishers->pluck('accEmail')->all();
                 $recipientEmails =  $publisherEmails;
                 // dd($recipient_ids,$recipientEmails);
             } else {
                 $advertisers = Advertiser::all();
                 $advertiserIds = $advertisers->pluck('id')->all();
                 $recipient_ids = $advertiserIds;
-                $advertiserEmails = $advertisers->pluck('reportEmail')->all();
+                $advertiserEmails = $advertisers->pluck('accEmail')->all();
                 $recipientEmails = $advertiserEmails;
                 // dd($recipient_ids,$recipientEmails);
             }
@@ -242,11 +247,11 @@ class SettingController extends Controller
             }
             $publishers = Publisher::whereIn('id', $pub_ids)->get();
 
-            $publisherEmails = $publishers->pluck('reportEmail')->all();
+            $publisherEmails = $publishers->pluck('accEmail')->all();
             // dd($pub_ids,$publisherEmails);
             $advertisers = Advertiser::whereIn('id', $adv_ids)->get();
 
-            $advertiserEmails = $advertisers->pluck('reportEmail')->all();
+            $advertiserEmails = $advertisers->pluck('accEmail')->all();
             // dd($adv_ids,$advertiserEmails);
             $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
             //  $idString = implode(',', $ids);
@@ -257,7 +262,7 @@ class SettingController extends Controller
             "subject" => $subject,
             "body" => $body
         ];
-        // dd($recipientEmails);
+        // dd($recipientEmails,$mailData);
         foreach ($recipientEmails as $recipientEmail) {
             if (!empty($recipientEmail)) {
                 Mail::to($recipientEmail)->send(new Newslettermail($mailData));

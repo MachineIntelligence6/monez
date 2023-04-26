@@ -18,10 +18,11 @@ class Feed extends Model
     }
     // public function channel()
     // {
+
+    //     // return $this->belongsTo(Channel::class);
     //     return $this->belongsTo(Channel::class, 'feed_ids', 'id');
     // }
-    // public function channel()
-    // {
-    //     return $this->belongsTo(Channel::class);
-    // }
+    public function channel(){
+        return $this->belongsTo(Channel::class,'id','feed_ids');
+    }
 }

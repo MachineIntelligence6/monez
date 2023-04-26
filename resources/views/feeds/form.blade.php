@@ -18,7 +18,8 @@
                 Save Info
             </a> -->
             <button class="btn btn-primary" type="submit"><span class="fas fa-check mr-1"></span>
-                Save Info</button>
+                Save Info
+            </button>
             @else
             <a href="{{route('feeds.edit',['feed'=>$feed->id])}}" class="btn btn-secondary">
                 <span class="fas fa-edit mr-1"></span>
@@ -28,20 +29,18 @@
         </div>
     </div>
     <div class="row">
+    @if($lastSegment=='create')
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
-                    @if($lastSegment == 'create')
-                    <!-- <div class="input-group-append">
+                    <div class="input-group-append">
                         <div class="input-group-text">
-                            <span>fd_</span>
+                            <span id="spanValue">{{$feedId}}</span>
+                            <input type="hidden" name="spanValue" value="{{$feedId}}">
                         </div>
-                    </div> -->
-                    @endif 
-                    <input type="text" class="form-control"  id="feedId" name="feedId" value="{{$feedId}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required  readonly/>
-
-                    <!-- <input type="text" class="form-control" @if($lastSegment!='create' ) disabled @endif id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? 'fd_1')}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required  readonly/> -->
+                    </div>
+                    <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? '')}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required />
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">
                         You must enter valid input
@@ -49,6 +48,26 @@
                 </div>
             </div>
         </div>
+        @else
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
+                <div class="input-group input-group-merge">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span id="spanValue">{{$partfirst}}</span>
+                            <input type="hidden" name="spanValue" value="{{$partfirst}}">
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="feedId" value="{{$partsecond}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required />
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">
+                        You must enter valid input
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
         <div class="col-md-4 mb-3">
             <label for="advertiser" class="form-label">Advertiser</label><label class="text-danger">*</label>
             <select name="advertiser" class="form-control" @if($condition==$lastSegment) disabled @endif id="advertiserZ-dropdown" data-toggle="select2" required>
@@ -62,16 +81,20 @@
                 Select an Advertiser to continue.
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="mb-3">
-                <label for="reportId" class="form-label">Report ID</label>
-                <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="reportId" value="{{old('reportId', $feed->reportId ?? '')}}" name="reportId" placeholder="Enter Report ID">
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid ID
-                </div>
+        @if($lastSegment!='create')
+        <div class="col-md-4 mb-3">
+            <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
+            <select class="form-control" @if($condition==$lastSegment || $feed->status=='disable') disabled @endif name="status" data-toggle="select2" required>
+                <option value="live" selected disabled>Live</option>
+                <option value="pause" disabled>Pause</option>
+                <option value="disable">Disable</option>
+            </select>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                Select a Status to continue.
             </div>
         </div>
+        @endif
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="feedPath" class="form-label">Feed Path</label><label class="text-danger">*</label>

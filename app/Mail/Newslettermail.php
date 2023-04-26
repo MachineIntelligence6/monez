@@ -29,7 +29,9 @@ class Newslettermail extends Mailable
     // }
     public function build()
 {
-    return $this->subject($this->mailData['subject'])->view('settings.testemail')->with(['mailData' => $this->mailData]);
+    // return $this->subject($this->mailData['subject'])->view('settings.testemail')->with(['mailData' => $this->mailData]);
+    return $this->view('settings.testemail')->subject($this->mailData['subject'])->html($this->mailData['body']);
+
 }
 
     /**

@@ -106,30 +106,30 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2">
+                                <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-notifications" data-toggle="select2">
                                     <option>Select Partners</option>
                                     <option value="all">All</option>
                                     <option value="publishers">All Publishers</option>
                                     <option value="advertisers">All Advertisers</option>
                                     <option value="select-custom">Select Custom</option>
                                 </select>
-                                <div id="partners-dropdown-message" class="dropdown-menu w-100" data-searchable="true">
+                                <div id="partners-dropdown-notifications" style="max-height: 300px; overflow-y: scroll;" class="dropdown-menu w-100" data-searchable="true">
                                     <div class="px-2">
                                         <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                     </div>
                                     @foreach ($publishers as $key => $publisher)
                                     <div class="dropdown-item">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartnerpub{{$publisher->id}}" value="p_{{$publisher->id}}">
-                                            <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}">{{$publisher->companyName}}</label>
+                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="notificationpub{{$publisher->id}}" value="p_{{$publisher->id}}">
+                                            <label class="custom-control-label w-100" for="notificationpub{{$publisher->id}}">{{$publisher->companyName}}</label>
                                         </div>
                                     </div>
                                     @endforeach
                                     @foreach ($advertisers as $key => $advertiser)
                                     <div class="dropdown-item">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartneradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
-                                            <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
+                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="notificationadv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
+                                            <label class="custom-control-label w-100" for="notificationadv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
                                         </div>
                                     </div>
                                     @endforeach
@@ -161,16 +161,16 @@
 
         <div class="col-md-6">
             <div class="card h-100">
-                <form action="{{ route('sendnewsletter')}}">
-                    <form method="POST" action="{{ route('sendnewsletter') }}">
-                        @csrf
-                        <div class="card-body">
-                            <div class="mb-3 d-flex justify-content-between">
-                                <h4>Newsletter </h4>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <!-- <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-newsletter" data-toggle="select2">
+                <form action="{{ route('sendnewsletter') }}">
+                    @csrf
+
+                    <div class="card-body">
+                        <div class="mb-3 d-flex justify-content-between">
+                            <h4>Newsletter </h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <!-- <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-newsletter" data-toggle="select2">
                                 <option>Select Partners</option>
                                 <option value="">All</option>
                                 <option value="">All Publishers</option>
@@ -194,63 +194,64 @@
                                     </div>
                                 </div>
                             </div> -->
-                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2">
-                                        <option>Select Partners</option>
-                                        <option value="all">All</option>
-                                        <option value="publishers">All Publishers</option>
-                                        <option value="advertisers">All Advertisers</option>
-                                        <option value="select-custom">Select Custom</option>
-                                    </select>
-                                    <div id="partners-dropdown-message" class="dropdown-menu w-100" data-searchable="true">
-                                        <div class="px-2">
-                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
-                                        </div>
-                                        @foreach ($publishers as $key => $publisher)
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartnerpub{{$publisher->id}}" value="p_{{$publisher->id}}">
-                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}">{{$publisher->companyName}}</label>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                        @foreach ($advertisers as $key => $advertiser)
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartneradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
-                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
-                                            </div>
-                                        </div>
-                                        @endforeach
+                                <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-newsletter" data-toggle="select2">
+                                    <option>Select Partners</option>
+                                    <option value="all">All</option>
+                                    <option value="publishers">All Publishers</option>
+                                    <option value="advertisers">All Advertisers</option>
+                                    <option value="select-custom">Select Custom</option>
+                                </select>
+                                <div id="partners-dropdown-newsletter" style="max-height: 300px; overflow-y: scroll;" class="dropdown-menu w-100" data-searchable="true">
+                                    <div class="px-2">
+                                        <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" name="subject" class="form-control" placeholder="Subject" />
+                                    @foreach ($publishers as $key => $publisher)
+                                    <div class="dropdown-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="newsletterpub{{$publisher->id}}" value="p_{{$publisher->id}}">
+                                            <label class="custom-control-label w-100" for="newsletterpub{{$publisher->id}}">{{$publisher->companyName}}</label>
+                                        </div>
                                     </div>
+                                    @endforeach
+                                    @foreach ($advertisers as $key => $advertiser)
+                                    <div class="dropdown-item">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="newsletteradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
+                                            <label class="custom-control-label w-100" for="newsletteradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
-                                <div class="col-md-12">
-                                    <!-- <div class="form-group">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="text" name="subject" class="form-control" placeholder="Subject" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <!-- <div class="form-group">
                                     <textarea class="form-control" name="body" placeholder="body..." id="" style="height: 100px"></textarea>
                                 </div> -->
 
-                                    <div class="form-group">
-                                        <div id="sumoeditor">
+                                <div class="form-group">
+                                    <div id="sumoeditor" name="sumoeditor">
 
-                                        </div>
                                     </div>
                                 </div>
+                                <input type="hidden" id="sumoeditor-value" value="" name="sumoeditor_value" />
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <form action="{{ route('sendnewsletter')}}">
-                                        <div class="mt-3">
-                                            <button class="btn btn-primary">Send</button>
-                                        </div>
-                                    </form>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <!-- <form action="{{ route('sendnewsletter')}}"> -->
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" id="getSumoEditorValue">Send</button>
                                 </div>
+                                <!-- </form> -->
                             </div>
-                        </div> <!-- end card-body-->
-                    </form>
+                        </div>
+                    </div> <!-- end card-body-->
+                </form>
             </div> <!-- end card-->
         </div>
         <!-- end col -->
@@ -270,7 +271,7 @@
                         @if(isset($custommessages))
                         @foreach ($custommessages as $key => $custommessage)
 
-                        
+
                         <form method="POST" action="{{ route('update.custommessage', ['customMessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message" @if($key=="0" ) id="customMessageSample" @endif>
                             @csrf
                             <div class="row">
@@ -282,7 +283,7 @@
                                         <option value="advertisers" @if(isset($custommessage) && $custommessage->recipient_type == 'advertisers') selected @endif>All Advertisers</option>
                                         <option value="select-custom" @if(isset($custommessage) && $custommessage->recipient_type == 'custom') selected @endif>Select Custom</option>
                                     </select>
-                                    <div id="partners-dropdown-message{{$key}}" class="dropdown-menu w-100" data-searchable="true">
+                                    <div id="partners-dropdown-message{{$key}}" style="max-height: 300px; overflow-y: scroll;" class="dropdown-menu w-100" data-searchable="true">
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
@@ -449,6 +450,11 @@
             maxHeight: null, // set maximum height of editor
             focus: false // set focus to editable area after initializing summernote
         });
+        $('#getSumoEditorValue').on('click', function() {
+            let body = $(".note-editable").html();
+            $("#sumoeditor-value").val(body);
+
+        });
 
         function select2Refresh() {
             $("select[data-toggle='select2']").select2();
@@ -484,7 +490,33 @@
             let element = document.createElement("div");
             element.classList = "mb-3 col-md-6 custom-message";
             let idx = messagesContainer.children.length;
+
+            // ${
+            //                     [...jsonData.publishers].map((item)=> {
+            //                         return `
+            //                         <div class="dropdown-item">
+            //                     <div class="custom-control custom-checkbox">
+            //                         <input type="checkbox" class="custom-control-input" id="p_${item.id}">
+            //                         <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
+            //                     </div>
+            //                 </div>
+            //                         `
+            //                     })
+            //                 }
+            //                 ${
+            //                     [...jsonData.advertisers].map((item)=> {
+            //                         return `
+            //                         <div class="dropdown-item">
+            //                     <div class="custom-control custom-checkbox">
+            //                         <input type="checkbox" class="custom-control-input" id="a_${item.id}">
+            //                         <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
+            //                     </div>
+            //                 </div>
+            //                         `
+            //                     })
+            //                 }
             element.innerHTML = `
+                
                 <div class="row">
                         <div class="col-md-12">
                             <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-${idx}" data-toggle="select2">
@@ -506,7 +538,8 @@
                                         <input type="checkbox" class="custom-control-input" id="p_${item.id}">
                                         <label class="custom-control-label w-100" for="${item.id}">${item.companyName}</label>
                                     </div>
-                                </div>`
+                                </div>
+                                        `
                                     })
                                 }
                                 ${
@@ -521,6 +554,7 @@
                                         `
                                     })
                                 }
+                                
                             </div>
                         </div>
                     </div>
