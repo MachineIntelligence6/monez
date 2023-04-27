@@ -431,10 +431,10 @@ class SettingController extends Controller
     {
         if ($customMessage) {
 
-            // dd($customMessage);
+            // dd($customMessage,$customMessage->id);
             $customMessage->delete();
-
-            return redirect()->route('settings.index');
+            return response()->json(['status' => 'success']);
+            // return redirect()->route('settings.index');
         }
     }
 }

@@ -621,9 +621,11 @@
         // });
 
         $(".deleteProduct").click(function() {
-            
+
             var id = $(this).attr("msg-id");
             var token = $(this).data("token");
+            let form = $(this).closest(".custom-message");
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': token
@@ -638,10 +640,11 @@
                     _token: "{{ csrf_token() }}", // add your CSRF token here
                 },
                 success: function(data) {
-                    console.log(id);
+                    console.log('success', id);
+                    $(form).remove();
                 },
                 error: function(xhr, status, error) {
-                    console.log(id);
+                    console.log('error', id);
                 }
             });
 
