@@ -111,7 +111,7 @@ class SettingController extends Controller
 
     public function storeCustomMessage(Request $request)
     {
-        // dd('test');
+        // dd('test',$request->input('msg_custom_users'));
         $validatedData = $request->validate([
             // 'recipient_ids' => 'required',
             // 'recipient_type' => 'required',
@@ -128,7 +128,7 @@ class SettingController extends Controller
         } else {
             // dd($messagerecipient_type,'custom');
             $message->recipient_type = 'custom';
-            $customUsers = $request->input('custom_users');
+            $customUsers = $request->input('msg_custom_users');
             $ids = [];
             foreach ($customUsers as $customUser) {
                 $parts = explode('_', $customUser);
@@ -148,6 +148,7 @@ class SettingController extends Controller
 
     public function updateCustomMessage(Request $request, CustomMessage $customMessage)
     {
+        // dd('test',$request->input('msg_custom_users'));
         $validatedData = $request->validate([
             'message'  => 'required',
         ]);
@@ -162,7 +163,7 @@ class SettingController extends Controller
         } else {
             // dd($messagerecipient_type,'custom');
             $customMessage->recipient_type = 'custom';
-            $customUsers = $request->input('custom_users');
+            $customUsers = $request->input('msg_custom_users');
             $ids = [];
             foreach ($customUsers as $customUser) {
                 $parts = explode('_', $customUser);
@@ -188,17 +189,17 @@ class SettingController extends Controller
 
     public function sendnewsletter(Request $request)
     {
-        $sumoEditorValue = $request->input('sumoeditor_value');
+        $content = $request->input('content');
 
-        print_r($sumoEditorValue,$request->subject);
-        print_r($request->parteners);
-        // dd($request->input('sumoeditor_value'),$sumoEditorValue);
+        
+        // print_r($sumoEditorValue,$request->subject);
+        // print_r($request->parteners);
+        // dd($content);
         $subject = $request->subject;
-        $body = $request->input('sumoeditor_value');
+        $body = $content;
         $user = $request->partners;
         $messagerecipient_type = $request->parteners;
-        $divValue = $request->input('note_editing_area');
-        // dd($divValue);
+
         if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
             // dd($messagerecipient_type);
             $messagerecipient_type = $request->parteners;
@@ -258,15 +259,74 @@ class SettingController extends Controller
             // dd($emails);
             // $recipient_ids = $idString;
         }
+
+        preg_match_all('/data:image\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:jpg|jpeg|gif|png)/i', $body, $imageMatches);
+        preg_match_all('/data:video\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:mp4|avi|mov|wmv)/i', $body, $videoMatches);
+        
+        $imageAttachments = [];
+        $videoAttachments = [];
+        
+        foreach ($imageMatches[0] as $key => $match) {
+            if (!empty($imageMatches[2][$key])) {
+                // Matched base64-encoded image data
+                $type = $imageMatches[1][$key];
+                $data = base64_decode($imageMatches[2][$key]);
+                $filename = 'image_' . $key . '.' . $type;
+                $imageAttachments[] = [
+                    'data' => $data,
+                    'name' => $filename,
+                ];
+            } else {
+                $url = $match;
+            }
+        }
+        
+        foreach ($videoMatches[0] as $key => $match) {
+            if (!empty($videoMatches[2][$key])) {
+                $type = $videoMatches[1][$key];
+                $data = base64_decode($videoMatches[2][$key]);
+                $filename = 'video_' . $key . '.' . $type;
+                $videoAttachments[] = [
+                    'data' => $data,
+                    'name' => $filename,
+                ];
+            } else {
+                $url = $match;
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $videoData = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+        
+                if ($httpCode !== 200) {
+                    continue;
+                }
+        
+                $type = pathinfo($url, PATHINFO_EXTENSION);
+                $data = $videoData;
+                $filename = 'video_' . $key . '.' . $type;
+                $videoAttachments[] = [
+                    'data' => $data,
+                    'name' => $filename,
+                ];
+            }
+        }
+        
+        
         $mailData = [
             "subject" => $subject,
             "body" => $body
         ];
-        // dd($recipientEmails,$mailData);
+        
         foreach ($recipientEmails as $recipientEmail) {
             if (!empty($recipientEmail)) {
-                Mail::to($recipientEmail)->send(new Newslettermail($mailData));
+                Mail::to($recipientEmail)->send(new Newslettermail($mailData, $body, $imageAttachments, $videoAttachments));
             }
+        
+        
+             // Mail::to($recipientEmail)->send(new Newslettermail($mailData));
             // Mail::to('mail', ['body' => $body], function($messages) use ($body, $subject, $recipientEmail){
             //     $messages->to($recipientEmail);
             //     $messages->subject($subject);
@@ -371,7 +431,7 @@ class SettingController extends Controller
     {
         if ($customMessage) {
 
-            dd($customMessage);
+            // dd($customMessage);
             $customMessage->delete();
 
             return redirect()->route('settings.index');

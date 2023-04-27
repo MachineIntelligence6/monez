@@ -14,25 +14,46 @@ class Newslettermail extends Mailable
     use Queueable, SerializesModels;
 
     public $mailData;
+    public $body;
+    public $imageAttachments;
+    public $videoAttachments;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($mailData)
+    public function __construct($mailData, $body, $imageAttachments, $videoAttachments)
     {
         $this->mailData = $mailData;
+        $this->body = $body;
+        $this->imageAttachments = $imageAttachments;
+        $this->videoAttachments = $videoAttachments;
     }
-    // public function build()
-    // {
-    //     return $this->subject('Test Email')->view('settings.testemail');
-    // }
     public function build()
-{
-    // return $this->subject($this->mailData['subject'])->view('settings.testemail')->with(['mailData' => $this->mailData]);
-    return $this->view('settings.testemail')->subject($this->mailData['subject'])->html($this->mailData['body']);
+    {
+        $mail = $this->from('no-reply@example.com', 'No Reply')
+            ->subject($this->mailData['subject'])
+            ->view('settings.testemail', $this->mailData);
+            // ->html($this->body);
 
-}
+        foreach ($this->imageAttachments as $attachment) {
+            $mail->attachData($attachment['data'], $attachment['name'], [
+                'mime' => 'image/' . pathinfo($attachment['name'], PATHINFO_EXTENSION),
+            ]);
+        }
+
+        foreach ($this->videoAttachments as $attachment) {
+            $mail->attachData($attachment['data'], $attachment['name'], [
+                'mime' => 'video/' . pathinfo($attachment['name'], PATHINFO_EXTENSION),
+            ]);
+        }
+
+        // dd($mail,$this->body);
+        return $mail;
+
+        // return $this->subject($this->mailData['subject'])->view('settings.testemail', $this->mailData);
+
+    }
 
     /**
      * Get the message envelope.

@@ -42,6 +42,7 @@
                                     <th>Feed Id</th>
                                     <th>Advertiser</th>
                                     <th style="width: 100%;">Feed Url</th>
+                                    <th>Status</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
                             </thead>
@@ -75,10 +76,12 @@
                                     <td>
                                         {{ $feed->advertisers->companyName ?? '-'}}
                                     </td>
-                                    <td style="max-width: 500px; text-overflow: ellipsis; overflow: hidden;">
+                                    <td style="max-width: 450px; text-overflow: ellipsis; overflow: hidden;">
                                         {{ $feed->feedintegration->guideUrl ?? '-' }}
                                     </td>
-
+                                    <td>
+                                    {{$feed->status == 'enable' ? 'Live' : ($feed->status ?? '')}}
+                                    </td>
 
                                     <td>
                                         <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
