@@ -37,14 +37,17 @@ Route::post('/advertiser/store/reportcolumns', [AdvertiserController::class, 'ad
 Route::get('/advertiser/{advertiser}/view', [AdvertiserController::class, 'view'])->name('advertiser.view');
 
 Route::post('/advertiser/store-account-info', [AdvertiserController::class, 'storeAccountInfo'])->name('advertiser.storeAccountInfo');
-Route::post('/advertiser/{advertiser}/store-contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
-Route::post('/advertiser/{advertiser}/store-operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
-Route::post('/advertiser/{advertiser}/store-finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
+Route::post('/advertiser/store-contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
+Route::post('/advertiser/store-operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
+Route::post('/advertiser/store-finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
 
 Route::post('/advertiser/{advertiser}/account-info', [AdvertiserController::class, 'updateAccountInfo'])->name('advertiser.updateAccountInfo');
 Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'updateContactInfo'])->name('advertiser.updateContactInfo');
 Route::post('/advertiser/{advertiser}/operation-info', [AdvertiserController::class, 'updateOperationInfo'])->name('advertiser.updateOperationInfo');
 Route::post('/advertiser/{advertiser}/finance-info', [AdvertiserController::class, 'updateFinanceInfo'])->name('advertiser.updateFinanceInfo');
+Route::get('/advertiser/create/contact', [AdvertiserController::class, 'createContact'])->name('advertiser.create.contact');
+Route::get('/advertiser/create/operation', [AdvertiserController::class, 'createOperation'])->name('advertiser.create.operation');
+Route::get('/advertiser/create/finance', [AdvertiserController::class, 'createFinance'])->name('advertiser.create.finance');
 Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
 Route::post('/check-unique-teamemail', [TeamMemberController::class, 'checkUniqueteamEmail'])->name('check.unique.teamEmail');
