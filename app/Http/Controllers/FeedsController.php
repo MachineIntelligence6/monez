@@ -226,14 +226,16 @@ class FeedsController extends Controller
 
     public function enable(Feed $feed)
     {
-        $feed->is_active = true;
+        // $feed->is_active = true;
+        $feed->status = 'enable';
         $feed->save();
         return redirect()->back();
     }
 
     public function disable(Feed $feed)
     {
-        $feed->is_active = false;
+        // $feed->is_active = false;
+        $feed->status = 'disable';
         $feed->save();
         return redirect()->back();
     }

@@ -51,14 +51,14 @@
         @if($lastSegment!='create')
         <div class="col-md-4 mb-3">
             <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
-            <!-- <select class="form-control" @if($condition==$lastSegment || $channel->status=='disable') disabled @endif name="status" data-toggle="select2" required> -->
-            <select class="form-control" name="status" @if($condition==$lastSegment || $channel->status=='disable') disabled @endif name="status" data-toggle="select2" required>
+            <select class="form-control" name="status" @if($condition==$lastSegment ) disabled @endif name="status" data-toggle="select2" required>
 
-                <option value="live" readonly>Live</option>
-                <option value="pause" readonly>Pause</option>
-                <option value="disable" @if($channel->status == 'disable') readonly selected @endif>Disable</option>
-                <option value="enable" @if($channel->status == 'enable') readonly selected @endif>Enable</option>
-
+                <option value="live" @if($channel->status == 'enable') disabled selected @endif>Live</option>
+                <option value="pause" disabled>Pause</option>
+                <option value="disable" @if($channel->status == 'disable') disabled  selected @endif>Disable</option>
+                @if($channel->status == 'disable')
+                <option value="enable" @if($channel->status == 'enable') disabled selected @endif>Enable</option>
+                @endif
 
             </select>
             <div class="valid-feedback">Valid.</div>
@@ -222,8 +222,8 @@
         });
         var allParams = [("channel=" + channelId), ...staticParams, ...dynamicParams, "q=<query>"]
             .filter(p => p !== "").join("&");
-        let randomStr = generateRandomStr();
-        let url = `${basePath + (basePath.endsWith("/")? "" : "/")+randomStr}?${allParams}`;
+        // let randomStr = generateRandomStr();
+        let url = `${basePath}?${allParams}`;
         $("#guideUrl").val(url);
     }
 
