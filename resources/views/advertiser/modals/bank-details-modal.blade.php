@@ -15,7 +15,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="beneficiaryName" class="form-label">Beneficiary Name</label><label class="text-danger">*</label>
-                                <input type="text" @if($lastSegment!='view' ) @else disabled @endif class="form-control" id="beneficiaryName" name="beneficiaryName" value="{{ $advertiser->bankDetails->beneficiary_name ??  old('beneficiary_name') }}" placeholder="Enter Beneficiary Name" required>
+                                <input type="text" @if($lastSegment!='view' ) @else disabled @endif class="form-control" id="beneficiaryName" name="beneficiaryName" value="{{session()->get('bankDetails.beneficiary_name')}}" placeholder="Enter Beneficiary Name" required>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -26,7 +26,7 @@
                             <div class="mb-3">
                                 <label for="beneficiaryAddress" class="form-label">Beneficiary Full
                                     Address</label><label class="text-danger">*</label>
-                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="beneficiaryAddress" name="beneficiaryAddress" value="{{ $advertiser->bankDetails->beneficiary_address ??  old('beneficiary_address') }}" placeholder="Enter Beneficiary Address" required>
+                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="beneficiaryAddress" name="beneficiaryAddress" value="{{session()->get('bankDetails.beneficiary_address')}}" placeholder="Enter Beneficiary Address" required>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -36,7 +36,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="bankName" class="form-label">Bank Name</label><label class="text-danger">*</label>
-                                <input type="text" id="bankName" class="form-control" @if($lastSegment!='view' ) @else disabled @endif name="bankName" value="{{ $advertiser->bankDetails->bank_name ??  old('bank_name') }}" placeholder="Enter Bank name" required>
+                                <input type="text" id="bankName" class="form-control" @if($lastSegment!='view' ) @else disabled @endif name="bankName" value="{{session()->get('bankDetails.bank_name')}}" placeholder="Enter Bank name" required>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -46,7 +46,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="bankAddress" class="form-label">Bank Full Address</label><label class="text-danger">*</label>
-                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="bankAddress" name="bankAddress" value="{{ $advertiser->bankDetails->bank_address ??  old('bank_address') }}" placeholder="Enter Bank Address" required>
+                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="bankAddress" name="bankAddress" value="{{session()->get('bankDetails.bank_address')}}" placeholder="Enter Bank Address" required>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -57,7 +57,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="accountNumber" class="form-label">Account Number</label><label class="text-danger">*</label>
-                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="accountNumber" name="accountNumber" value="{{ $advertiser->bankDetails->account_number ??  old('account_number') }}" placeholder="Enter Bank account number" required>
+                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="accountNumber" name="accountNumber" value="{{session()->get('bankDetails.account_number')}}" placeholder="Enter Bank account number" required>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="routingNumber" class="form-label">Routing Number</label>
-                                <input type="number" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="routingNumber" name="routingNumber" value="{{ $advertiser->bankDetails->routing_number ??  old('routing_number') }}" placeholder="Enter Routing number">
+                                <input type="number" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="routingNumber" name="routingNumber" value="{{session()->get('bankDetails.routing_number')}}" placeholder="Enter Routing number">
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -77,7 +77,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="iban" class="form-label">IBAN</label>
-                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="iban" value="{{ $advertiser->bankDetails->iban ??  old('iban') }}" name="iban" placeholder="Enter IBAN">
+                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="iban" value="{{session()->get('bankDetails.iban')}}" name="iban" placeholder="Enter IBAN">
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -87,7 +87,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="swift" class="form-label">SWIFT</label><label class="text-danger">*</label>
-                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="swift" value="{{ $advertiser->bankDetails->swift ??  old('swift') }}" name="swift" placeholder="" required>
+                                <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="swift" value="{{session()->get('bankDetails.swift')}}" name="swift" placeholder="" required>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input
@@ -99,8 +99,8 @@
                                 <label for="currency" class="form-label">Currency</label><label class="text-danger">*</label>
                                 <select class="form-control" id="currency" data-toggle="select2" @if($lastSegment!='view' ) @else disabled @endif name="currency" required>
                                     <option selected>Select Currency</option>
-                                    <option @if(isset($advertiser) && isset($advertiser->bankDetails) && $advertiser->bankDetails->currency == 'usd') selected @endif value="usd">USD</option>
-                                    <option @if(isset($advertiser) && isset($advertiser->bankDetails) && $advertiser->bankDetails->currency == 'eur') selected @endif value="eur">EUR</option>
+                                    <option @if(session()->get('bankDetails.currency') == 'usd') selected @endif value="usd">USD</option>
+                                    <option @if(session()->get('bankDetails.currency') == 'eur') selected @endif value="eur">EUR</option>
                                 </select>
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
