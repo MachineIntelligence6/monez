@@ -268,7 +268,8 @@
                     </div>
                     <div id="customMessagesContainer" class="row">
 
-                        @if(isset($custommessages))
+                    @if(isset($custommessages) && count($custommessages) > 0)
+                       
                         @foreach ($custommessages as $key => $custommessage)
 
                         @php
@@ -289,12 +290,11 @@
                         @endphp
 
 
-                        <form method="POST" novalidate action="{{ route('update.custommessage', ['customMessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message" @if($key=="0" ) id="customMessageSample" @endif>
+                        <form method="POST" novalidate action="{{ route('update.custommessage', ['customMessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message needs-validation" @if($key=="0" ) id="customMessageSample" @endif>
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
                                     <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-{{$key}}" data-toggle="select2">
-                                        <option>Select Partners</option>
                                         <option value="all" @if(isset($custommessage) && $custommessage->recipient_type == 'all') selected @endif>All</option>
                                         <option value="publishers" @if(isset($custommessage) && $custommessage->recipient_type == 'publishers') selected @endif>All Publishers</option>
                                         <option value="advertisers" @if(isset($custommessage) && $custommessage->recipient_type == 'advertisers') selected @endif>All Advertisers</option>
@@ -327,7 +327,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mt-3">
-                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px">{{old('message', $custommessage->message ?? '')}}</textarea>
+                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px" required>{{old('message', $custommessage->message ?? '')}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -356,11 +356,11 @@
                         @endforeach
 
                         @else
-                        <form method="POST" action="{{ route('store.custommessage') }}" class="mb-3 col-md-6 custom-message" id="customMessageSample">
+                        <form method="POST" action="{{ route('store.custommessage') }}" class="mb-3 col-md-6 custom-message needs-validation" id="customMessageSample">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
-                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2">
+                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2" required>
                                         <option>Select Partners</option>
                                         <option value="all">All</option>
                                         <option value="publishers">All Publishers</option>
@@ -406,7 +406,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mt-3">
-                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px"></textarea>
+                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -508,12 +508,13 @@
             // element.querySelectorAll("input").forEach((inp) => inp.value = "");
             // messagesContainer.appendChild(element);
             // 
-            console.log(jsonData.publishers);
-            console.log(jsonData.advertisers);
+            // console.log(jsonData.publishers);
+            // console.log(jsonData.advertisers);
             let element = document.createElement("form");
             element.action = formaction;
             element.method = "POST";
-            element.classList = "mb-3 col-md-6 custom-message";
+            element.classList = "mb-3 col-md-6 custom-message needs-validation";
+            element.noValidate = true;
             let idx = messagesContainer.children.length;
 
 
@@ -521,7 +522,7 @@
                             @csrf
                 <div class="row">
                         <div class="col-md-12">
-                            <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-${idx}" data-toggle="select2">
+                            <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-${idx}" data-toggle="select2" required>
                                 <option>Select Partners</option>
                                 <option value="all">All</option>
                                 <option value="publishers">All Publishers</option>
@@ -539,7 +540,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mt-3">
-                                <textarea name="message" class="form-control" placeholder="message..." id="" style="height: 100px"></textarea>
+                                <textarea name="message" class="form-control" placeholder="message..." id="" style="height: 100px" required></textarea>
                             </div>
                         </div>
                     </div>

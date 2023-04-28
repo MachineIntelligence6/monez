@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\ChannelsController;
+use App\Http\Controllers\ChannelPathController;
 use App\Http\Controllers\FeedsController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\PublisherController;
@@ -71,10 +72,12 @@ Route::resource('finance', FinanceController::class);
 Route::get('sendnewsletter', [SettingController::class, 'sendnewsletter'])->name('sendnewsletter');
 
 Route::post('/settings/notification', [SettingController::class, 'storeNotification'])->name('store.notification');
-Route::post('/settings.custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
+Route::post('/settings/custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
 Route::post('/settings/{customMessage}/custommessage', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');
 Route::post('/settings/{customMessage}/custommessage/destroy', [SettingController::class, 'destroycustommessage'])->name('destroy.custommessage');
 Route::resource('settings', SettingController::class);
+Route::get('/channelpaths/{channelpath}/view', [ChannelPathController::class, 'view'])->name('channelpaths.view');
+Route::resource('channelpaths', ChannelPathController::class);
 Route::resource('account', AccountController::class);
 //MD Khan
 Route::get('downloadpdf/{id}/{pdf}/{name}', 'AdvertiserController@DownloadPdf')->name('downloadpdf');

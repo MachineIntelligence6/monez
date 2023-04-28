@@ -151,7 +151,6 @@ class FeedsController extends Controller
         $feed_id = $request->feedId;
         $feed->feedId =   $spanValue . $feed_id;
         $feed->advertiser_id = $request->advertiser;
-        $feed->feedId =   $spanValue . $feed_id;
         $feed->advertiser_id = $request->advertiser;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;

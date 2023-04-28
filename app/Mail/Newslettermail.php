@@ -33,7 +33,7 @@ class Newslettermail extends Mailable
     {
         $mail = $this->from('no-reply@example.com', 'No Reply')
             ->subject($this->mailData['subject'])
-            ->view('settings.testemail', $this->mailData);
+            ->view('settings.newsletteremail', $this->mailData);
             // ->html($this->body);
 
         foreach ($this->imageAttachments as $attachment) {
@@ -51,7 +51,7 @@ class Newslettermail extends Mailable
         // dd($mail,$this->body);
         return $mail;
 
-        // return $this->subject($this->mailData['subject'])->view('settings.testemail', $this->mailData);
+        // return $this->subject($this->mailData['subject'])->view('settings.newsletteremail', $this->mailData);
 
     }
 

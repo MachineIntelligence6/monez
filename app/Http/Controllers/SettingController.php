@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\NewsletterNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+
 // use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -111,39 +113,47 @@ class SettingController extends Controller
 
     public function storeCustomMessage(Request $request)
     {
-        // dd('test',$request->input('msg_custom_users'));
-        $validatedData = $request->validate([
-            // 'recipient_ids' => 'required',
-            // 'recipient_type' => 'required',
-            // 'message'  => 'required',
-        ]);
+        try {
 
-        $message = new CustomMessage;
-        $messagerecipient_type = $request->parteners;
-        $message->message = $request->message;
-        if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers') {
-            // dd($messagerecipient_type);
-            $message->recipient_type = $request->parteners;
-            $message->recipient_ids = $request->parteners;
-        } else {
-            // dd($messagerecipient_type,'custom');
-            $message->recipient_type = 'custom';
-            $customUsers = $request->input('msg_custom_users');
-            $ids = [];
-            foreach ($customUsers as $customUser) {
-                $parts = explode('_', $customUser);
-                if ($parts[0] === 'p') {
-                    $ids[] = 'p_' . $parts[1];
-                } elseif ($parts[0] === 'a') {
-                    $ids[] = 'a_' . $parts[1];
+            // dd('test',$request->input('msg_custom_users'));
+            $validatedData = $request->validate([
+                'recipient_type' => 'required',
+                'message'  => 'required',
+            ]);
+
+            $message = new CustomMessage;
+            $messagerecipient_type = $request->parteners;
+            $message->message = $request->message;
+            if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
+                // dd($messagerecipient_type);
+                $message->recipient_type = $request->parteners;
+                $message->recipient_ids = $request->parteners;
+            } else {
+                // dd($messagerecipient_type,'custom');
+                $message->recipient_type = 'custom';
+                $customUsers = $request->input('msg_custom_users');
+                $ids = [];
+                foreach ($customUsers as $customUser) {
+                    $parts = explode('_', $customUser);
+                    if ($parts[0] === 'p') {
+                        $ids[] = 'p_' . $parts[1];
+                    } elseif ($parts[0] === 'a') {
+                        $ids[] = 'a_' . $parts[1];
+                    }
                 }
+                $idString = implode(',', $ids);
+                // dd($idString);
+                $message->recipient_ids = $idString;
             }
-            $idString = implode(',', $ids);
-            // dd($idString);
-            $message->recipient_ids = $idString;
+            $message->save();
+            return redirect()->route('settings.index');
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error($e->getMessage());
+
+            // Return a redirect response with error message
+            return redirect()->back()->withErrors(['error' => 'An error occurred while saving data!']);
         }
-        $message->save();
-        return redirect()->route('settings.index');
     }
 
     public function updateCustomMessage(Request $request, CustomMessage $customMessage)
@@ -191,7 +201,7 @@ class SettingController extends Controller
     {
         $content = $request->input('content');
 
-        
+
         // print_r($sumoEditorValue,$request->subject);
         // print_r($request->parteners);
         // dd($content);
@@ -262,10 +272,10 @@ class SettingController extends Controller
 
         preg_match_all('/data:image\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:jpg|jpeg|gif|png)/i', $body, $imageMatches);
         preg_match_all('/data:video\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:mp4|avi|mov|wmv)/i', $body, $videoMatches);
-        
+
         $imageAttachments = [];
         $videoAttachments = [];
-        
+
         foreach ($imageMatches[0] as $key => $match) {
             if (!empty($imageMatches[2][$key])) {
                 // Matched base64-encoded image data
@@ -280,7 +290,7 @@ class SettingController extends Controller
                 $url = $match;
             }
         }
-        
+
         foreach ($videoMatches[0] as $key => $match) {
             if (!empty($videoMatches[2][$key])) {
                 $type = $videoMatches[1][$key];
@@ -299,11 +309,11 @@ class SettingController extends Controller
                 $videoData = curl_exec($ch);
                 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
-        
+
                 if ($httpCode !== 200) {
                     continue;
                 }
-        
+
                 $type = pathinfo($url, PATHINFO_EXTENSION);
                 $data = $videoData;
                 $filename = 'video_' . $key . '.' . $type;
@@ -313,20 +323,20 @@ class SettingController extends Controller
                 ];
             }
         }
-        
-        
+
+
         $mailData = [
             "subject" => $subject,
             "body" => $body
         ];
-        
+
         foreach ($recipientEmails as $recipientEmail) {
             if (!empty($recipientEmail)) {
                 Mail::to($recipientEmail)->send(new Newslettermail($mailData, $body, $imageAttachments, $videoAttachments));
             }
-        
-        
-             // Mail::to($recipientEmail)->send(new Newslettermail($mailData));
+
+
+            // Mail::to($recipientEmail)->send(new Newslettermail($mailData));
             // Mail::to('mail', ['body' => $body], function($messages) use ($body, $subject, $recipientEmail){
             //     $messages->to($recipientEmail);
             //     $messages->subject($subject);
@@ -437,4 +447,8 @@ class SettingController extends Controller
             // return redirect()->route('settings.index');
         }
     }
+
+    
+
+
 }

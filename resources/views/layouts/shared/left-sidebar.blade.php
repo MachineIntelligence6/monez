@@ -122,12 +122,30 @@
                     </a>
                 </li>
 
+
                 <li>
+                    <a href="#sidebarSettings" data-toggle="collapse" style="cursor: pointer;">
+                    <i class="fe-settings"></i>
+                        <span> SETTINGS </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarSettings">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('settings.index')}}">SETTINGS</a>
+                            </li>
+                            <li>
+                                <a href="{{route('channelpaths.index')}}">Channel Paths</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- <li>
                     <a href="{{route('settings.index')}}">
                         <i class="fe-settings"></i>
                         <span> SETTINGS </span>
                     </a>
-                </li>
+                </li> -->
             </ul>
 
         </div>
