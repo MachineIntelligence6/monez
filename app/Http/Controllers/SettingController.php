@@ -449,6 +449,36 @@ class SettingController extends Controller
     }
 
     
+    public function notificationIndex()
+    
+    {
+        $publishers = Publisher::all();
+        $advertisers = Advertiser::all();
+        $custommessages = CustomMessage::all();
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers, 'custommessages' => $custommessages]);
 
+        return view('settings.notifications', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
+        // return view('settings.notifications');
+    }
+    public function newsletterIndex()
+    {
+        $publishers = Publisher::all();
+        $advertisers = Advertiser::all();
+        $custommessages = CustomMessage::all();
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers, 'custommessages' => $custommessages]);
+
+        return view('settings.newsletters', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
+        // return view('settings.newsletters');
+    }
+    public function custommessageIndex()
+    {
+        $publishers = Publisher::all();
+        $advertisers = Advertiser::all();
+        $custommessages = CustomMessage::all();
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers, 'custommessages' => $custommessages]);
+
+        return view('settings.custommessage', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
+        // return view('settings.custommessage');
+    }
 
 }

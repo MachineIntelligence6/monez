@@ -73,7 +73,9 @@ Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
 Route::get('sendnewsletter', [SettingController::class, 'sendnewsletter'])->name('sendnewsletter');
-
+Route::get('/settings/notification/view', [SettingController::class, 'notificationIndex'])->name('notification.view');
+Route::get('/settings/newsletter/view', [SettingController::class, 'newsletterIndex'])->name('newsletter.view');
+Route::get('/settings/custommessage/view', [SettingController::class, 'custommessageIndex'])->name('custommessage.view');
 Route::post('/settings/notification', [SettingController::class, 'storeNotification'])->name('store.notification');
 Route::post('/settings/custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
 Route::post('/settings/{customMessage}/custommessage', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');

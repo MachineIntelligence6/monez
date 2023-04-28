@@ -52,8 +52,8 @@
         <div class="col-md-4 mb-3">
             <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
             <select class="form-control" name="status" @if($condition==$lastSegment ) disabled @endif name="status" data-toggle="select2" required>
-
-                <option value="live" @if($channel->status == 'enable') disabled selected @endif>Live</option>
+            <option value="select status" >select status</option>
+                <option value="live" disabled>Live</option>
                 <option value="pause" disabled>Pause</option>
                 <option value="disable" @if($channel->status == 'disable') disabled  selected @endif>Disable</option>
                 @if($channel->status == 'disable')
@@ -72,9 +72,13 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
-                <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channelPath" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
-                    <option value="">Select Channel Path</option>
-                    <option selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option>
+                <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channel_path_id" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
+                @foreach ($availablechannelpaths as $key => $channelpath)
+                <option value="{{ $channelpath->id }}" @if (isset($selectedchannelpath) && $channelpath->id == $selectedchannelpath) selected @endif>{{ $channelpath->channel_name }}</option>
+
+                @endforeach    
+                <!-- <option value="">Select Channel Path</option>
+                    <option selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option> -->
                 </select>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">

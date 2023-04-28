@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Add Channel'])
+@extends('layouts.vertical', ['title' => 'Add Channel Path'])
 @section('content')
 <div class="row">
 @php

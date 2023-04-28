@@ -137,6 +137,15 @@
                             <li>
                                 <a href="{{route('channelpaths.index')}}">Channel Paths</a>
                             </li>
+                            <li>
+                                <a href="{{route('notification.view')}}">Notification</a>
+                            </li>
+                            <li>
+                                <a href="{{route('newsletter.view')}}">Newsletter</a>
+                            </li>
+                            <li>
+                                <a href="{{route('custommessage.view')}}">Custom Message</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

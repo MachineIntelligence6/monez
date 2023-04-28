@@ -85,7 +85,8 @@
         <div class="col-md-4 mb-3">
             <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
             <select class="form-control" @if($condition==$lastSegment || isset($feed->channel)) disabled @endif name="status" data-toggle="select2" required>
-                <option value="live" @if($feed->status == 'enable') disabled selected @endif>Live</option>
+            <option value="select status" >select status</option>    
+            <option value="live" disabled>Live</option>
                 <option value="pause" disabled>Pause</option>
                 <option value="disable" @if($feed->status == 'disable') disabled selected @endif>Disable</option>
                 @if($feed->status == 'disable')

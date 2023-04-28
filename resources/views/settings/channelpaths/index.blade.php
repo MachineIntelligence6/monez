@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Channelpaths'])
+@extends('layouts.vertical', ['title' => 'Channel Paths'])
 
 @section('content')
 <!-- Start Content-->
@@ -12,10 +12,10 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                        <li class="breadcrumb-item active">Channelpaths</li>
+                        <li class="breadcrumb-item active">Channel Paths</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Channelpaths</h4>
+                <h4 class="page-title">Channel Paths</h4>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <a href="{{route('feeds.create')}}" class="btn btn-danger waves-effect waves-light">
+                            <a href="{{route('channelpaths.create')}}" class="btn btn-danger waves-effect waves-light">
                                 <i class="mdi mdi-plus-circle mr-1"></i>
                                 Add New
                             </a>

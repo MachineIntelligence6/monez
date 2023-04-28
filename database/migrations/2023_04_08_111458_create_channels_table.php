@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Publisher::class)->nullable();
             $table->string("channelId")->unique();
-            $table->string("channelpath")->nullable();
+            $table->bigInteger('channel_path_id')->unsigned()->nullable();
             $table->string("c_staticParameters")->nullable();
             $table->string("c_dynamicParameters")->nullable();
             $table->string("feed_ids")->nullable();
