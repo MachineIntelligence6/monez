@@ -59,7 +59,7 @@ class FeedsController extends Controller
             // Update the id with the incremented numeric part and new underscore part
             $newId = "F" . $numericPart . "_";
         } else {
-            $newId = 'F1_md01d';
+            $newId = 'F1_';
         }
         $feedId = $newId;
         return view('feeds.create', compact('availableAdvertisers', 'feedId'));
@@ -82,7 +82,7 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        $feed->status = 'enable';
+        $feed->status = 'live';
         $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -156,10 +156,10 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        if($request->status!=null){
+        if ($request->status != null) {
             $feed->status = $request->status;
         }
-        
+
         // $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -226,7 +226,7 @@ class FeedsController extends Controller
     public function enable(Feed $feed)
     {
         // $feed->is_active = true;
-        $feed->status = 'enable';
+        $feed->status = 'live';
         $feed->save();
         return redirect()->back();
     }

@@ -59,7 +59,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
-                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-{{$key}}" data-toggle="select2">
+                                    <select class="form-control" name="parteners"  data-target-dropdown="#partners-dropdown-message-{{$key}}" data-toggle="select2">
                                         <option value="all" @if(isset($custommessage) && $custommessage->recipient_type == 'all') selected @endif>All</option>
                                         <option value="publishers" @if(isset($custommessage) && $custommessage->recipient_type == 'publishers') selected @endif>All Publishers</option>
                                         <option value="advertisers" @if(isset($custommessage) && $custommessage->recipient_type == 'advertisers') selected @endif>All Advertisers</option>
@@ -216,48 +216,15 @@
 
 
 
-    <script>
-        $(document).ready(function() {
-            $('.mySelect2').select2();
-            $('#content').summernote({
-                height: 230, // set editor height
-                minHeight: null, // set minimum height of editor
-                maxHeight: null, // set maximum height of editor
-                focus: false // set focus to editable area after initializing summernote
-            });
 
-        });
-
-        $(".note-btn.dropdown-toggle").click(() => {
-            $(".note-dropdown-menu").addClass("show");
-        })
-    </script>
 
     <script>
-        // $('#sumoeditor').summernote({
-        //     height: 230, // set editor height
-        //     minHeight: null, // set minimum height of editor
-        //     maxHeight: null, // set maximum height of editor
-        //     focus: false // set focus to editable area after initializing summernote
-        // });
-        // $('#getSumoEditorValue').on('click', function() {
-        //     let body = $(".note-editable").html();
-        //     $("#sumoeditor-value").val(body);
-
-        // });
-
+       
         function select2Refresh() {
             $("select[data-toggle='select2']").select2();
         }
 
-        $('.requestType').on("change", function() {
-            console.log($(this).val())
-            if ($(this).val() == 'documents') {
-                $('#documentName').removeClass("d-none");
-            } else {
-                $('#documentName').addClass("d-none");
-            }
-        });
+       
 
 
         let messagesContainer = document.getElementById('customMessagesContainer');

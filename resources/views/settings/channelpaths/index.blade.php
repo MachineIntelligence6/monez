@@ -25,45 +25,74 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <a href="{{route('channelpaths.create')}}" class="btn btn-danger waves-effect waves-light">
-                                <i class="mdi mdi-plus-circle mr-1"></i>
-                                Add New
-                            </a>
+                    <form action="" method="post">
+                        @csrf
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-9">
+                                <div class="">
+                                    <input type="url" class="form-control" id="channelpath" value="{{old('channel_path', $channelpath->channel_path ?? '')}}" name="channel_path" placeholder="Enter Channel Path" required pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})">
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid path
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-danger waves-effect waves-light">
+                                    <i class="mdi mdi-plus-circle mr-1"></i>
+                                    Add Path
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
 
-                    <div class="table-responsive">
-                        <table class="table table-centered table-nowrap table-striped" id="products-datatable">
-                            <thead>
-                                <tr>
-                                    <!-- <th>#</th> -->
-                                    <th>Channel Name</th>
-                                    <th>Channel Path</th>
-                                    <th >Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               
-                                @foreach($channelpaths as $channelpath)
-                                <tr>
-                                    <td>
-                                        {{ $channelpath->channel_name ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $channelpath->channel_path ?? '-'}}
-                                    </td>
-                                    <td>
-                                        <a class="mx-2" href="{{route('channelpaths.view',['channelpath'=>$channelpath->id])}}">View Info</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-
-
-
-                            </tbody>
-                        </table>
+                    <div class="row mt-4">
+                        <!-- Start -->
+                        <div class="col-12">
+                            <div class="row mb-3 align-items-center justify-content-between py-1" style="border-bottom: 1px solid #00000010;">
+                                <div class="col-auto">
+                                    <p>http://127.0.0.1:8000/channelpaths</p>
+                                </div>
+                                <div class="col-auto">
+                                @if ($feed->is_default)
+                                        <a class="btn bg-yellow text-white">Default Feed</a>
+                                        @else
+                                            @if(isset($channelpaths->channel))
+                                            @else
+                                                @if($feed->status=='live')
+                                                <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                                @else
+                                                <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                                @endif
+                                            @endif
+                                            <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+                                        @endif
+                                        @if(isset($channelpaths->advertisers))
+                                            @else
+                                            <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-danger mx-2">Delete</button>
+                                            </form>
+                                            @endif
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End -->
+                        <div class="col-12">
+                            <div class="row mb-3 align-items-center justify-content-between py-1" style="border-bottom: 1px solid #00000010;">
+                                <div class="col-auto">
+                                    <p>http://127.0.0.1:8000/channelpaths</p>
+                                </div>
+                                <div class="col-auto">
+                                    <a class="btn bg-yellow text-white">Default</a>
+                                    <a class="text-danger mx-2" href="#" value="0">Disable</a>
+                                    <a class="text-success mx-2" href="#" value="1">Enable</a>
+                                    <a class="text-blue mx-2" href="#">Make Default</a>
+                                    <a class="text-danger mx-2" href="#" value="0">Delete</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div> <!-- end card-body-->
             </div> <!-- end card-->

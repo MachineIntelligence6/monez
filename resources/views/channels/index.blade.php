@@ -61,11 +61,11 @@
                                         @endforeach
                                         @endif
                                     </td>
-                                    <td>{{$channel->status == 'enable' ? 'Live' : ($channel->status ?? '')}}</td>
+                                    <td>{{$channel->status}}</td>
                                     <td>
                                         <a class="mx-2" href="{{route('channel.view',['channel'=>$channel->id])}}">View Info</a>
                                         @if ($channel->status=='disable')
-                                        <a class="text-success mx-2" href="{{ route('channel.enable', ['channel' => $channel]) }}" value="enable">Enable</a>
+                                        <a class="text-success mx-2" href="{{ route('channel.enable', ['channel' => $channel]) }}" value="live">Enable</a>
                                         @else
                                         <a class="text-danger mx-2" href="{{ route('channel.disable', ['channel' => $channel]) }}" value="disable">Disable</a>
 

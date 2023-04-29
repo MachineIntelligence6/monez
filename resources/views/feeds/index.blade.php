@@ -80,7 +80,7 @@
                                         {{ $feed->feedintegration->guideUrl ?? '-' }}
                                     </td>
                                     <td>
-                                    {{$feed->status == 'enable' ? 'Live' : ($feed->status ?? '')}}
+                                    {{$feed->status}}
                                     </td>
 
                                     <td>
@@ -92,15 +92,15 @@
                                         @if ($feed->is_default)
                                         <a class="btn bg-yellow text-white">Default Feed</a>
                                         @else
-                                        @if(isset($feed->channel))
-                                        @else
-                                        @if($feed->status=='enable')
-                                        <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
-                                        @else
-                                        <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
-                                        @endif
-                                        @endif
-                                        <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+                                            @if(isset($feed->channel))
+                                            @else
+                                                @if($feed->status=='live')
+                                                <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                                @else
+                                                <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                                @endif
+                                            @endif
+                                            <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
                                         @endif
                                     </td>
                                 </tr>

@@ -132,7 +132,7 @@
                     <div class="collapse" id="sidebarSettings">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{route('settings.index')}}">SETTINGS</a>
+                                <a href="{{route('settings.index')}}">Default Settings</a>
                             </li>
                             <li>
                                 <a href="{{route('channelpaths.index')}}">Channel Paths</a>
@@ -145,6 +145,9 @@
                             </li>
                             <li>
                                 <a href="{{route('custommessage.view')}}">Custom Message</a>
+                            </li>
+                            <li>
+                                <a href="{{route('drafts.view')}}">Drafts</a>
                             </li>
                         </ul>
                     </div>

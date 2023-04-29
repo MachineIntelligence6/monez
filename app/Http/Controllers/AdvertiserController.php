@@ -33,7 +33,7 @@ class AdvertiserController extends Controller
 
     public function __construct()
     {
-        $this->countries = Country::all();
+        $this->countries = Country::orderBy('title', 'ASC')->get();
         $this->states = State::all();
         $this->cities = City::all();
         $this->banks = Bank::all();

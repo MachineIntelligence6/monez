@@ -75,12 +75,22 @@ Route::resource('finance', FinanceController::class);
 Route::get('sendnewsletter', [SettingController::class, 'sendnewsletter'])->name('sendnewsletter');
 Route::get('/settings/notification/view', [SettingController::class, 'notificationIndex'])->name('notification.view');
 Route::get('/settings/newsletter/view', [SettingController::class, 'newsletterIndex'])->name('newsletter.view');
+Route::get('/settings/drafts/view', [SettingController::class, 'draftsIndex'])->name('drafts.view');
 Route::get('/settings/custommessage/view', [SettingController::class, 'custommessageIndex'])->name('custommessage.view');
 Route::post('/settings/notification', [SettingController::class, 'storeNotification'])->name('store.notification');
 Route::post('/settings/custommessage', [SettingController::class, 'storeCustomMessage'])->name('store.custommessage');
 Route::post('/settings/{customMessage}/custommessage', [SettingController::class, 'updateCustomMessage'])->name('update.custommessage');
 Route::post('/settings/{customMessage}/custommessage/destroy', [SettingController::class, 'destroycustommessage'])->name('destroy.custommessage');
+Route::get('downloadpdf/{name}', [SettingController::class,'DownloadDraftPdf'])->name('downloaddraftpdf');
+Route::post('/settings/drafts/submit', [SettingController::class, 'submitDraftForm'])->name('submit.drafts');
+Route::post('/settings/drafts', [SettingController::class, 'storeDrafts'])->name('store.drafts');
+Route::get('settings/drafts/{id}', [SettingController::class,'updateDrafts'])->name('update.drafts');
+
+
 Route::resource('settings', SettingController::class);
+Route::get('/channelpaths/enable/{channelpath}', [ChannelPathController::class, 'enable'])->name('channelpaths.enable');
+Route::get('/channelpaths/disable/{channelpath}', [ChannelPathController::class, 'disable'])->name('channelpaths.disable');
+Route::get('/channelpath/make-default/{channelpath}', [ChannelPathController::class, 'makeChannelPathDefault'])->name('channelpath.make-default');
 Route::get('/channelpaths/{channelpath}/view', [ChannelPathController::class, 'view'])->name('channelpaths.view');
 Route::resource('channelpaths', ChannelPathController::class);
 Route::resource('account', AccountController::class);

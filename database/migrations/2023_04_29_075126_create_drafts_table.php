@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('channel_paths', function (Blueprint $table) {
+        Schema::create('drafts', function (Blueprint $table) {
             $table->id();
-            $table->string('channel_path')->nullable();
-            $table->boolean('is_default')->default(0);
-            $table->boolean('status')->default(1);
+            $table->string('io_filenames');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('channel_paths');
+        Schema::dropIfExists('drafts');
     }
 };

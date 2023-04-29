@@ -6,12 +6,28 @@
   <component name="ChangeListManager">
     <list default="true" id="45c209d0-63c1-43f0-98c5-981ac074e109" name="Changes" comment="Features">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TeamMemberController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TeamMemberController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2023_03_26_063416_create_team_members_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2023_03_26_063416_create_team_members_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/advertiser/edit-form.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/teammembers/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/teammembers/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Feed.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Feed.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChannelPathController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChannelPathController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ChannelsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ChannelsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SettingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2023_04_28_082725_create_channel_paths_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2023_04_28_082725_create_channel_paths_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/channels/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/channels/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/channels/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/channels/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/channels/modals/assigned-feeds.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/channels/modals/assigned-feeds.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/feeds/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/feeds/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/feeds/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/feeds/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/shared/footer-script.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/shared/footer-script.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/shared/left-sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/shared/left-sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/settings/channelpaths/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/settings/channelpaths/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/settings/custommessage.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/settings/custommessage.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/settings/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/settings/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/settings/newsletteremail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/settings/newsletteremail.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/settings/newsletters.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/settings/newsletters.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/settings/notifications.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/settings/notifications.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,27 +169,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "true",
-    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
-    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
-    "WebServerToolWindowPanel.toolwindow.show.date": "false",
-    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
-    "WebServerToolWindowPanel.toolwindow.show.size": "false",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/DELL/Documents/GitHub/monez",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL/Documents/GitHub/monez&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.CommitDialog&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
@@ -209,6 +225,7 @@
       <workItem from="1681224491805" duration="1449000" />
       <workItem from="1681277217799" duration="901000" />
       <workItem from="1681281085863" duration="11728000" />
+      <workItem from="1682765500959" duration="311000" />
     </task>
     <servers />
   </component>

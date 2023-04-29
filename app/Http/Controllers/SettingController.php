@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Advertiser;
 use App\CustomMessage;
+use App\Drafts;
 use App\Newsletter;
 use App\Mail\Newslettermail;
 use App\Notification;
@@ -113,11 +114,12 @@ class SettingController extends Controller
 
     public function storeCustomMessage(Request $request)
     {
+        // dd('test');
         try {
 
             // dd('test',$request->input('msg_custom_users'));
             $validatedData = $request->validate([
-                'recipient_type' => 'required',
+                'parteners' => 'required',
                 'message'  => 'required',
             ]);
 
@@ -146,7 +148,7 @@ class SettingController extends Controller
                 $message->recipient_ids = $idString;
             }
             $message->save();
-            return redirect()->route('settings.index');
+            return redirect()->route('custommessage.view');
         } catch (\Exception $e) {
             // Log the error
             Log::error($e->getMessage());
@@ -448,9 +450,9 @@ class SettingController extends Controller
         }
     }
 
-    
+
     public function notificationIndex()
-    
+
     {
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
@@ -480,5 +482,98 @@ class SettingController extends Controller
         return view('settings.custommessage', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
         // return view('settings.custommessage');
     }
+    public function draftsIndex()
+    {
+        $draftfile = Drafts::orderBy('created_at', 'desc')->first();
+        // dd($draftfile);
+        return view('settings.drafts', compact('draftfile'));
+    }
+    public function storeDrafts(Request $request)
+    {
+        $draft = Drafts::orderBy('created_at', 'desc')->first();
+        if ($draft) {
+            // dd('test',$draft);
+            $updatedraft = Drafts::orderBy('created_at', 'desc')->first();
+            if ($request->hasfile('io')) {
+                $file = $request->file('io');
+                // $named = $file->getClientOriginalName();
+                $name = 'io.' . $file->getClientOriginalExtension();
+                // Check if a file with the same name already exists
+                if (file_exists(public_path('assets/files/uploads/drafts/io/' . $name))) {
+                    // Delete the existing file
+                    // dd('delete');
+                    unlink(public_path('assets/files/uploads/drafts/io/' . $name));
+                }
+                $file->move(public_path('assets/files/uploads/drafts/io/'), $name);
+            }
+            // dd($name);
+            $updatedraft->io_filenames = json_encode($name);
+            $updatedraft->update();
+            // dd($updatedraft);
+        }else{
+            if ($request->hasfile('io')) {
+                $file = $request->file('io');
+                $name = 'io' . '.' . $file->getClientOriginalExtension();
+                $named = str_replace('"', '', $name);
+                // $named = $file->getClientOriginalName();
+                // dd('named',$named);
+                $file->move(public_path() . '/assets/files/uploads/drafts/io/', $name);
+                // $data[] = $name;
+            }
+    
+    
+            // dd($name);
+            $draft = new Drafts();
+            $draft->io_filenames = json_encode($name);
+            $draft->save();
+        }
+        return redirect()->route('drafts.view');
+    }
+    public function submitDraftForm(Request $request)
+    {
+        $draft = Drafts::orderBy('created_at', 'desc')->first();
 
+        if ($draft) {
+            // Redirect to update route
+            return redirect()->route('update.drafts', $draft->id);
+        } else {
+            // Redirect to store route
+            return redirect()->route('store.drafts');
+        }
+    }
+    public function updateDrafts(Request $request, $id)
+    {
+        $draft = Drafts::where('id', $id)->first();
+
+        if ($request->hasfile('io')) {
+            $file = $request->file('io');
+            $name = 'draftIO.' . $file->getClientOriginalExtension();
+
+            // Check if a file with the same name already exists
+            if (file_exists(public_path('assets/files/uploads/drafts/io/' . $name))) {
+                // Delete the existing file
+                unlink(public_path('assets/files/uploads/drafts/io/' . $name));
+            }
+
+            $file->move(public_path('assets/files/uploads/drafts/io/'), $name);
+        }
+
+
+        // dd($name);
+        // $draft = new Drafts();
+        $draft->io_filenames = json_encode($name);
+        $draft->update();
+        return redirect()->route('drafts.view');
+    }
+    public function DownloadDraftPdf(Request $request, $name)
+    {
+        // dd($name);
+        $filePath = public_path('assets/files/uploads/drafts/io/' . $name);
+        // dd($filePath);
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        } else {
+            return redirect()->back()->with('error', 'File not found.');
+        }
+    }
 }
