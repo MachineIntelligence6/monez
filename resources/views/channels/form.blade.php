@@ -266,7 +266,7 @@
 
     let assignFeedInnerHtml = `
     <div class="col-md-6">
-        <select class="form-control" @if($condition==$lastSegment) disabled @endif name="feed[]" data-toggle="select2" required>
+        <select class="form-control" @if($condition==$lastSegment) disabled @endif name="feed[]" data-toggle="select2">
             <option value="">Select Feed</option>
             @foreach ($feeds as $feed)
             <option value="{{ $feed->id }}" @if(isset($parts[0]) && $feed->id == $parts[0]) selected @endif>{{ $feed->feedId }}</option>

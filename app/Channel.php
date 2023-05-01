@@ -19,14 +19,10 @@ class Channel extends Model
     }
     public function feeds()
     {
-        // return $this->hasMany(Feed::class);
-
-        return $this->hasMany(Feed::class, 'id', 'feed_ids');
-        // return $this->hasMany(Feed::class)->whereIn('id', explode(',', $this->feed_ids));
-        // $feedIds = explode(',', $this->feed_ids);
-        // // dd($feedIds);
-        // // $return = $this->hasMany(Feed::class, 'id', 'feed_ids')->whereIn('id', $feedIds);
-        // return $this->hasMany(Feed::class, 'id', 'feed_ids')->whereIn('id', $feedIds);
+        // return $this->hasMany(Feed::class, 'id', 'feed_ids');
+        $feedIds = explode(',', $this->feed_ids);
+        $feeds = DB::table('feeds')->whereIn('id', $feedIds)->get();
+        return $feeds;
 
 
     }

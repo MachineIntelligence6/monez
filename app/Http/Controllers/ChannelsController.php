@@ -91,7 +91,7 @@ class ChannelsController extends Controller
             $numericPart++;
             // Generate a new underscore part with alphabetic and numeric characters
             $newUnderscorePart = "";
-            $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            $characters = "0123456789abcdefghijklmnopqrstuvwxyz";
             $length = 5; // desired length of the new underscore part
             for ($i = 0; $i < $length; $i++) {
                 $newUnderscorePart .= $characters[rand(0, strlen($characters) - 1)];
@@ -99,7 +99,7 @@ class ChannelsController extends Controller
             // Update the id with the incremented numeric part and new underscore part
             $newId = "C" . $numericPart . "_" . $newUnderscorePart;
         } else {
-            $newId = 'C1_c1wRL';
+            $newId = 'C1_d1wmd';
         }
         // dd($channelId,$newId);
         $channelId = $newId;

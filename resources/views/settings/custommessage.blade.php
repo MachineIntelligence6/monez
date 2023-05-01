@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="mb-3 d-flex justify-content-between">
-                        <h4>Custom Messages</h4>
+                        <h4></h4>
                         <button class="btn btn-secondary" onclick="appendNewCustomMessage()"><i class="mdi mdi-plus"></i></button>
                     </div>
                     <div id="customMessagesContainer" class="row">

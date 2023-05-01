@@ -23,7 +23,7 @@
     </div>
     <!-- end page title -->
 
-    
+
 
     <div class="row">
 
@@ -34,7 +34,7 @@
 
                     <div class="card-body">
                         <div class="mb-3 d-flex justify-content-between">
-                            <h4>Newsletter </h4>
+                            <!-- <h4>Newsletter </h4> -->
                         </div>
                         <div class="row">
                             <div class="col-md-12 mb-3">
@@ -113,7 +113,10 @@
                             <div class="col-md-12 text-right">
                                 <!-- <form action="{{ route('sendnewsletter')}}"> -->
                                 <div class="mt-3">
-                                    <button class="btn btn-primary">Send</button>
+                                    <button class="btn btn-primary">
+                                        Send
+                                        <i class="ml-2 mdi mdi-send"></i>
+                                    </button>
                                 </div>
                                 <!-- </form> -->
                             </div>

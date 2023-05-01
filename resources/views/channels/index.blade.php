@@ -55,8 +55,8 @@
                                     <td>{{$channel->publisher->companyName ?? '-'}}</td>
                                     <td><a class="text-blue" href="{{$channel->channelpath->channel_path ?? '-'}}">{{$channel->channelpath->channel_path ?? '-'}}</a></td>
                                     <td>
-                                        @if(isset($channel->feeds))
-                                        @foreach($channel->feeds as $key => $feed)
+                                        @if($channel->feeds() !== null)
+                                        @foreach($channel->feeds() as $key => $feed)
                                         {{$feed->feedId ?? ''}} <br>
                                         @endforeach
                                         @endif

@@ -31,7 +31,7 @@
                     @csrf
                     <div class="card-body">
                         <div class="mb-3 d-flex justify-content-between">
-                            <h4>Notifications </h4>
+                            <!-- <h4>Notifications </h4> -->
                         </div>
                         <div class="row">
                             <div class="col-md-12 mb-3">
@@ -102,7 +102,10 @@
                         <div class="row">
                             <div class="col-md-12 text-right">
                                 <div class="mt-3">
-                                    <button class="btn btn-primary" type="submit">Send</button>
+                                    <button class="btn btn-primary" type="submit">
+                                        Send
+                                        <i class="ml-2 mdi mdi-send"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +115,7 @@
         </div>
         <!-- end col -->
 
-      
+
         <!-- end col -->
     </div>
     <!-- end row -->
