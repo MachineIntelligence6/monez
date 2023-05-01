@@ -1,200 +1,402 @@
-@extends('layouts.vertical', ['title' => 'Financial Year'])
+@extends('layouts.vertical', ['title' => 'Custom Messages'])
 
 @section('content')
-    <!-- Start Content-->
-    <div class="container-fluid">
-    
-        <!-- start page title -->
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box">
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                            <li class="breadcrumb-item active">Settings</li>
-                        </ol>
-                    </div>
-                    <h4 class="page-title">Custom Message</h4>
+<!-- Start Content-->
+<div class="container-fluid">
+
+
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Settings</a></li>
+                        <li class="breadcrumb-item active">Custom Messages</li>
+                    </ol>
                 </div>
+                <h4 class="page-title">Custom Messages</h4>
             </div>
-        </div>     
-        <!-- end page title --> 
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3 d-flex justify-content-between">
+                        <h4></h4>
+                        <button class="btn btn-secondary" onclick="appendNewCustomMessage()"><i class="mdi mdi-plus"></i></button>
+                    </div>
+                    <div id="customMessagesContainer" class="row">
+
+                        @if(isset($custommessages) && count($custommessages) > 0)
+
+                        @foreach ($custommessages as $key => $custommessage)
+
+                        @php
+                        $pub_ids = [];
+                        $adv_ids = [];
+                        $selectedOptions = explode(',', $custommessage->recipient_ids);
+
+                        foreach ($selectedOptions as $selectedOption) {
+                        $parts = explode('_', $selectedOption);
+                        if ($parts[0] === 'p') {
+                        $pub_ids[] = $parts[1];
+                        } elseif ($parts[0] === 'a') {
+                        $adv_ids[] = $parts[1];
+                        }
+                        }
 
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
+                        @endphp
 
-                            <!-- <div class="inbox-rightbar"> -->
 
-                            <h4 class="header-title mt-5 mt-sm-0">Custom Message - Admin Settings</h4>
-                                <!-- <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light waves-effect"><i class="mdi mdi-archive font-18"></i></button>
-                                    <button type="button" class="btn btn-sm btn-light waves-effect"><i class="mdi mdi-alert-octagon font-18"></i></button>
-                                    <button type="button" class="btn btn-sm btn-light waves-effect"><i class="mdi mdi-delete-variant font-18"></i></button>
-                                </div>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="mdi mdi-folder font-18"></i>
-                                        <i class="mdi mdi-chevron-down"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <span class="dropdown-header">Move to</span>
-                                        <a class="dropdown-item" href="javascript: void(0);">Social</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Promotions</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Updates</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Forums</a>
-                                    </div>
-                                </div>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="mdi mdi-label font-18"></i>
-                                        <i class="mdi mdi-chevron-down"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <span class="dropdown-header">Label as:</span>
-                                        <a class="dropdown-item" href="javascript: void(0);">Updates</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Social</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Promotions</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Forums</a>
-                                    </div>
-                                </div>
-
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="mdi mdi-dots-horizontal font-18"></i> More
-                                        <i class="mdi mdi-chevron-down"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <span class="dropdown-header">More Option :</span>
-                                        <a class="dropdown-item" href="javascript: void(0);">Mark as Unread</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Add to Tasks</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Add Star</a>
-                                        <a class="dropdown-item" href="javascript: void(0);">Mute</a>
-                                    </div>
-                                </div> -->
-
-                                <div class="mt-4">
-                                    <form>
-                                        <div class="mb-3">
-                                            <input type="email" class="form-control" placeholder="To">
+                        <form method="POST" novalidate action="{{ route('update.custommessage', ['customMessage'=>$custommessage->id]) }}" class="mb-3 col-md-6 custom-message needs-validation" @if($key=="0" ) id="customMessageSample" @endif>
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <select class="form-control" name="parteners"  data-target-dropdown="#partners-dropdown-message-{{$key}}" data-toggle="select2">
+                                        <option value="all" @if(isset($custommessage) && $custommessage->recipient_type == 'all') selected @endif>All</option>
+                                        <option value="publishers" @if(isset($custommessage) && $custommessage->recipient_type == 'publishers') selected @endif>All Publishers</option>
+                                        <option value="advertisers" @if(isset($custommessage) && $custommessage->recipient_type == 'advertisers') selected @endif>All Advertisers</option>
+                                        <option value="select-custom" @if(isset($custommessage) && $custommessage->recipient_type == 'custom') selected @endif>Select Custom</option>
+                                    </select>
+                                    <div id="partners-dropdown-message-{{$key}}" style="max-height: 300px; overflow-y: scroll;" class="dropdown-menu w-100" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
-
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" placeholder="Subject">
-                                        </div>
-                                        <div class="mb-3 card border-0">
-                                            <div id="snow-editor" style="height: 230px;">
-                                                <h3><span class="ql-size-large">Hello World!</span></h3>
-                                                <p><br></p>
-                                                <h3>This is an simple editable area.</h3>
-                                                <p><br></p>
-                                                <ul>
-                                                    <li>
-                                                        Select a text to reveal the toolbar.
-                                                    </li>
-                                                    <li>
-                                                        Edit rich document on-the-fly, so elastic!
-                                                    </li>
-                                                </ul>
-                                                <p><br></p>
-                                                <p>
-                                                    End of simple area
-                                                </p>
-                                            </div> <!-- end Snow-editor-->
-                                        </div>
-
-                                        <div>
-                                            <div class="text-end">
-                                                <button type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-content-save-outline"></i></button>
-                                                <button type="button" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-delete"></i></button>
-                                                <button class="btn btn-primary waves-effect waves-light"> <span>Send</span> <i class="mdi mdi-send ms-2"></i> </button>
+                                        @foreach ($publishers as $key => $publisher)
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name="msg_custom_users[]" @if(in_array($publisher->id, $pub_ids)) checked @endif id="messagePartnerpub{{$publisher->id}}_{{$custommessage->id}}" value="p_{{$publisher->id}}">
+                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}_{{$custommessage->id}}">{{$publisher->companyName}}</label>
                                             </div>
                                         </div>
 
-                                    </form>
-                                </div> <!-- end card-->
+                                        @endforeach
+                                        @foreach ($advertisers as $key => $advertiser)
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name="msg_custom_users[]" @if(in_array($advertiser->id, $adv_ids)) checked @endif id="messagePartneradv{{$advertiser->id}}_{{$custommessage->id}}" value="a_{{$advertiser->id}}">
+                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}_{{$custommessage->id}}">{{$advertiser->companyName}}</label>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mt-3">
+                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px" required>{{old('message', $custommessage->message ?? '')}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 t">
+                                    <div class="mt-3">
+                                        <!-- <form action="{{route('destroy.custommessage', ['customMessage'=>$custommessage->id])}}" method="POST">
+                                            @csrf
+                                            @method('POST') -->
+                                        <button class="btn btn-danger deleteProduct" id="deleteCustomMsg" msg-id="{{$custommessage->id}}" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                                        <!-- </form> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary">update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- <form action="{{route('destroy.custommessage', ['customMessage'=>$custommessage->id])}}" method="POST">
+                                                @csrf
+                                                @method('POST')
+                                                <button class="btn btn-danger" type="submit" ><i class="mdi mdi-trash-can"></i></button>
+                                            </form> -->
+                        @endforeach
+
+                        @else
+                        <form method="POST" action="{{ route('store.custommessage') }}" class="mb-3 col-md-6 custom-message needs-validation" id="customMessageSample">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message" data-toggle="select2" required>
+                                        <option>Select Partners</option>
+                                        <option value="all">All</option>
+                                        <option value="publishers">All Publishers</option>
+                                        <option value="advertisers">All Advertisers</option>
+                                        <option value="select-custom">Select Custom</option>
+                                    </select>
+                                    <div id="partners-dropdown-message" style="max-height: 300px; overflow-y: scroll;" class="dropdown-menu w-100" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        @foreach ($publishers as $key => $publisher)
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartnerpub{{$publisher->id}}" value="p_{{$publisher->id}}">
+                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}">{{$publisher->companyName}}</label>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        @foreach ($advertisers as $key => $advertiser)
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartneradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
+                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
+                                            </div>
+                                        </div>
+                                        @endforeach
+
+                                        <!-- <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="messagePartner1">
+                                                <label class="custom-control-label w-100" for="messagePartner1">Partner 1</label>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-item">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="messagePartner2">
+                                                <label class="custom-control-label w-100" for="messagePartner2">Partner 2</label>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mt-3">
+                                        <textarea class="form-control" name="message" placeholder="message..." id="" style="height: 100px" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 t">
+                                    <div class="mt-3">
+                                        <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        @endif
+
+
+
+                    </div>
+                </div>
+                <!-- end card-body-->
+            </div> <!-- end card-->
+        </div>
+        <!-- end col -->
+
+    </div>
+    <!-- end row -->
+
+    @endsection
+
+    @section('script-bottom')
+
+    <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
+    <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+
+    <script src="{{asset('assets/js/custom/custom-multiselect-dropdown.js')}}"></script>
+    <!-- <script src="{{asset('assets/libs/summernote/summernote.min.js')}}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+
+
+
+
+
+    <script>
+       
+        function select2Refresh() {
+            $("select[data-toggle='select2']").select2();
+        }
+
+       
+
+
+        let messagesContainer = document.getElementById('customMessagesContainer');
+        let sample = messagesContainer.querySelector('#customMessageSample');
+        var jsonData = <?php echo $jsonData; ?>;
+        let formaction = "<?php echo route('store.custommessage') ?>"
+
+
+
+        function appendNewCustomMessage() {
+            // let element = sample.cloneNode(true);
+            // element.id = ""
+            // element.querySelectorAll("input").forEach((inp) => inp.value = "");
+            // messagesContainer.appendChild(element);
+            // 
+            // console.log(jsonData.publishers);
+            // console.log(jsonData.advertisers);
+            let element = document.createElement("form");
+            element.action = formaction;
+            element.method = "POST";
+            element.classList = "mb-3 col-md-6 custom-message needs-validation";
+            element.noValidate = true;
+            let idx = messagesContainer.children.length;
+
+
+            element.innerHTML = `
+                            @csrf
+                <div class="row">
+                        <div class="col-md-12">
+                            <select class="form-control" name="parteners" data-target-dropdown="#partners-dropdown-message-${idx}" data-toggle="select2" required>
+                                <option>Select Partners</option>
+                                <option value="all">All</option>
+                                <option value="publishers">All Publishers</option>
+                                <option value="advertisers">All Advertisers</option>
+                                <option value="select-custom">Select Custom</option>
+                            </select>
+                            <div id="partners-dropdown-message-${idx}" style="max-height: 300px; overflow-y: scroll;" class="dropdown-menu w-100" data-searchable="true">
+                                <div class="px-2">
+                                    <input type="text" class="form-control dropdown-search-input" placeholder="search" />
+                                </div>
 
                             </div>
-                            <!-- end inbox-rightbar-->
-                      
-                        </div> <!-- end row -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mt-3">
+                                <textarea name="message" class="form-control" placeholder="message..." id="" style="height: 100px" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 t">
+                            <div class="mt-3">
+                                <button class="btn btn-danger" type="button" onclick="removeElementFromContainer(this)"><i class="mdi mdi-trash-can"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="mt-3">
+                                <button class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                  `;
 
- 
-                </div> <!-- end card-->
-            </div> <!-- end col -->
-        </div>
-        <!-- end row -->
-        
-    </div> <!-- container -->
-    <!-- Modal -->
-    <div class="modal fade" id="custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-light">
-                    <h4 class="modal-title" id="myCenterModalLabel">Add New Finanace</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body p-4">
-                    <p>In Progress</p>
-                   
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-@endsection
-@section('script')
-<script>
-document.addEventListener("DOMContentLoaded", function (event) {
-  var quill = new Quill('#snow-editor', {
-    theme: 'snow'
-  });
-});
-</script>
+            messagesContainer.appendChild(element);
 
-<!-- <script>
-    // Snow theme
-    var quill = new Quill('#snow-editor', {
-        theme: 'snow',
-        modules: {
-            'toolbar': [
-                [{
-                    'font': []
-                }, {
-                    'size': []
-                }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{
-                    'color': []
-                }, {
-                    'background': []
-                }],
-                [{
-                    'script': 'super'
-                }, {
-                    'script': 'sub'
-                }],
-                [{
-                    'header': [false, 1, 2, 3, 4, 5, 6]
-                }, 'blockquote', 'code-block'],
-                [{
-                    'list': 'ordered'
-                }, {
-                    'list': 'bullet'
-                }, {
-                    'indent': '-1'
-                }, {
-                    'indent': '+1'
-                }],
-                ['direction', {
-                    'align': []
-                }],
-                ['link', 'image', 'video'],
-                ['clean']
-            ]
-        },
-    });
-</script> -->
-@endsection
+            let dropdown = $(messagesContainer).find(".custom-message").find(`#partners-dropdown-message-${idx}`);
+            console.log(dropdown)
+            jsonData.publishers.forEach((item) => {
+                $(dropdown).append(
+                    `
+                                        <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="msg_custom_users[]"  class="custom-control-input" id="p_${item.id}" value="p_${item.id}"/>
+                                        <label class="custom-control-label w-100" for="p_${item.id}">${item.companyName}</label>
+                                    </div>
+                                </div>
+                                        `
+                )
+            })
+            jsonData.advertisers.forEach((item) => {
+                $(dropdown).append(
+                    `
+                                        <div class="dropdown-item">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="msg_custom_users[]" class="custom-control-input" id="a_${item.id}" value="a_${item.id}"/>
+                                        <label class="custom-control-label w-100" for="a_${item.id}">${item.companyName}</label>
+                                    </div>
+                                </div>
+                                        `
+                )
+            })
+
+
+            select2Refresh();
+            refreshCustomMultiSelect();
+        }
+
+        function removeElementFromContainer(target) {
+            let form = $(target).closest(".custom-message");
+            // var id = $(this).data("msg-id");
+            // var token = $(this).data("token");
+            // $.ajax({
+            //     url: `settings/${id}/custommessage/destroy`,
+            //     type: 'Post',
+            //     dataType: "JSON",
+            //     data: {
+            //         "customMessage": id,
+            //         "_method": 'DELETE',
+            //         "_token": token,
+            //     },
+            //     success: (response) => {
+            //         console.log('success', id);
+            //         $(form).remove();
+            //     },
+            //     error: (error) => {
+            //         console.log('false', id);
+            //         console.log(error);
+            //     }
+            // });
+        }
+
+        // $("#deleteCustomMsg").submit(function(event) {
+        //     event.preventDefault();
+
+        // });
+
+        $(".deleteProduct").click(function() {
+
+            var id = $(this).attr("msg-id");
+            var token = $(this).data("token");
+            let form = $(this).closest(".custom-message");
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': token
+                }
+            });
+            $.ajax({
+                url: `settings/${id}/custommessage/destroy`,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    _token: "{{ csrf_token() }}", // add your CSRF token here
+                },
+                success: function(data) {
+                    console.log('success', id);
+                    $(form).remove();
+                },
+                error: function(xhr, status, error) {
+                    console.log('error', id);
+                }
+            });
+
+            // $.ajax({
+            //     url: `settings/${id}/custommessage/destroy`,
+            //     type: 'POST',
+            //     dataType: "JSON",
+            //     data: {
+            //         "id": id,
+            //         "_token": "{{ csrf_token() }}",
+            //         "_method": 'POST',
+            //         "_token": token,
+            //     },
+            //     success: function() {
+            //         console.log("it Work", id);
+            //     }
+            // });
+            console.log(id);
+            console.log("It failed");
+        });
+    </script>
+    @endsection

@@ -102,7 +102,9 @@
             </div>
             <div class="modal-footer border-top">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                @if($lastSegment!='view')
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
+                @endif
             </div>
         </div>
     </div>

@@ -188,6 +188,8 @@
                                     <th>SubId</th>
                                     <th>Channel Path</th>
                                     <th>Referer</th>
+                                    <th>No. of redirects</th>
+                                    <th>Alert</th>
                                     <th>IP Address</th>
                                     <!-- Location = City + Country  -->
                                     <th>Location</th>
@@ -198,6 +200,7 @@
                                     <th>Device</th>
                                     <th>OS</th>
                                     <th>Browser</th>
+
                                 </tr>
                             </thead>
                             <tbody>

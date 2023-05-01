@@ -3,9 +3,9 @@
 <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <div>
-<div class="row justify-content-between">
+    <div class="row justify-content-between">
         <div class="col-auto">
-        <h5 class="mb-3 text-uppercase">Channel Info</h5>
+            <h5 class="mb-3 text-uppercase">Channel Info</h5>
         </div>
 
         <div class="col-auto">
@@ -26,8 +26,13 @@
             @endif
         </div>
     </div>
-    
+
     <div class="row">
+        <div class="col-md-4 mb-3">
+            <label for="channelId" class="form-label">Channel Id</label>
+            <input type="text" class="form-control" id="channelId" value="{{$channelId}}" name="channelId" readonly>
+
+        </div>
         <div class="col-md-4 mb-3">
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
             <select class="form-control" @if($condition==$lastSegment) disabled @endif name="publisher" data-toggle="select2" required>
@@ -43,17 +48,37 @@
             </div>
         </div>
 
+        @if($lastSegment!='create')
         <div class="col-md-4 mb-3">
-            <label for="channelId" class="form-label">Channel Id</label>
-            <input type="text" class="form-control" id="channelId" value="{{$channelId}}" name="channelId" readonly>
+            <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
+            <select class="form-control" name="status" @if($condition==$lastSegment ) disabled @endif name="status" data-toggle="select2" required>
+                <option value="select status">select status</option>
+                <option value="live" @if($channel->status == 'live') selected @endif disabled>Live</option>
+                <option value="pause" disabled>Pause</option>
+                <option value="disable" @if($channel->status == 'disable') disabled selected @endif>Disable</option>
+                @if($channel->status == 'disable')
+                <option value="live">Enable</option>
+                @endif
 
+            </select>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                Select a Status to continue.
+            </div>
         </div>
+        @endif
+
+        @if($lastSegment=='create')
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
-                <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channelPath" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
-                    <option value="" >Select Channel Path</option>
-                    <option  selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option>
+                <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channel_path_id" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
+                    @foreach ($channelpaths as $key => $channelpath)
+                    <option value="{{ $channelpath->id }}" @if($channelpath->is_default) selected @endif>{{ $channelpath->channel_path }}</option>
+
+                    @endforeach
+                    <!-- <option value="">Select Channel Path</option>
+                    <option selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option> -->
                 </select>
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
@@ -61,6 +86,25 @@
                 </div>
             </div>
         </div> <!-- end col -->
+        @else
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
+                <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channel_path_id" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
+                    @foreach ($channelpaths as $key => $channelpath)
+                    <option value="{{ $channelpath->id }}" @if (isset($selectedchannelpath) && $channelpath->id == $selectedchannelpath) selected @endif>{{ $channelpath->channel_path }}</option>
+
+                    @endforeach
+                    <!-- <option value="">Select Channel Path</option>
+                    <option selected value="https://google.com" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>Channel Path 1</option> -->
+                </select>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">
+                    You must enter valid path
+                </div>
+            </div>
+        </div> <!-- end col -->
+        @endif
         <div class="col-md-4 mb-3">
             <label for="c_staticParameters" class="form-label">Static Parameters<span class="text-danger"></span></label>
             <div class="input-group input-group-merge">
@@ -135,7 +179,7 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <label for="c_comments" class="form-label">Comments/Notes</label>
-            <textarea class="form-control" @if($condition==$lastSegment) disabled @endif rows="4" id="comments"  name="c_comments" placeholder="Notes...">{{old('c_comments', $channel->c_comments ?? '')}}</textarea>
+            <textarea class="form-control" @if($condition==$lastSegment) disabled @endif rows="4" id="comments" name="c_comments" placeholder="Notes...">{{old('c_comments', $channel->c_comments ?? '')}}</textarea>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
@@ -156,7 +200,7 @@
     </div>
 
     @endif
-   
+
 </div>
 
 
@@ -175,7 +219,6 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <script>
-    
     function generateRandomStr(length = 6) {
         let result = '';
         const characters = 'abcdefghijklmnopqrstuvwxyz';
@@ -202,10 +245,11 @@
         });
         var allParams = [("channel=" + channelId), ...staticParams, ...dynamicParams, "q=<query>"]
             .filter(p => p !== "").join("&");
-        let randomStr = generateRandomStr();
-        let url = `${basePath + (basePath.endsWith("/")? "" : "/")+randomStr}?${allParams}`;
+        // let randomStr = generateRandomStr();
+        let url = `${basePath}?${allParams}`;
         $("#guideUrl").val(url);
     }
+
 
 
     function appendElementToContainer(containerId, sampleId) {
@@ -216,6 +260,43 @@
         element.querySelectorAll("input").forEach((inp) => inp.value = "");
         container.appendChild(element);
         $('.mySelect2').select2();
+        select2Refresh();
+    }
+
+
+    let assignFeedInnerHtml = `
+    <div class="col-md-6">
+        <select class="form-control" @if($condition==$lastSegment) disabled @endif name="feed[]" data-toggle="select2">
+            <option value="">Select Feed</option>
+            @foreach ($feeds as $feed)
+            <option value="{{ $feed->id }}" @if(isset($parts[0]) && $feed->id == $parts[0]) selected @endif>{{ $feed->feedId }}</option>
+            @endforeach
+        </select>
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">
+            You must enter valid input
+        </div>
+    </div>
+    <div class="col-md-5">
+        <input type="number" class="form-control" @if($condition==$lastSegment) disabled @endif value="{{old('dailyCap', $parts[1] ?? '')}}" id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap" />
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">
+            You must enter valid input
+        </div>
+    </div>
+    <div class="col-1">
+        <button type="button" onclick="removeElementFromContainer(this, 'assignedFeedSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+    </div>
+    `
+
+    function appendAsssignFeedComponent() {
+        console.log("dsldls")
+        let element = document.createElement("div");
+        element.style = "max-width: 100%; overflow-x: hidden;"
+        element.classList = "d-flex w-100 assignedFeed mb-3"
+        element.innerHTML = assignFeedInnerHtml;
+        $("#assignedFeedsContainer").append(element);
+        $("#assignedFeedsContainer").children().last().find("select[data-toggle='select2']").select2();
     }
 
     function removeElementFromContainer(target, sampleId) {
