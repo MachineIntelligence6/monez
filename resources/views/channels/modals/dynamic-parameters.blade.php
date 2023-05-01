@@ -9,9 +9,11 @@
                 </button>
             </div>
             <div class="modal-body modal-scroll">
+            @if($lastSegment!='view')
                 <div class="row justify-content-end px-2 mb-3">
                     <button type="button" onclick="appendElementToContainer('dynamicParametersContainer', 'dynamicParameterSample')" class="btn btn-secondary"><i class="mdi mdi-plus"></i></button>
                 </div>
+                @endif
                 <div id="dynamicParametersContainer">
                 @if(isset($channel))
                     @php
@@ -68,7 +70,9 @@
             </div>
             <div class="modal-footer border-top">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                @if($lastSegment!='view')
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save Details</button>
+                @endif
             </div>
         </div>
     </div>

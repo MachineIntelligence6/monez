@@ -56,7 +56,7 @@
         if ($(this).attr("data-autovalidate") === "false") return;
         validateInput(this);
     });
-    
+
 
     function generateRandomPassword(target, inputFieldId = 'password-input-field') {
         var inputField;
@@ -128,6 +128,10 @@
         .on("input", function() {
             checkUniqueInputField(this);
         })
+
+    function select2Refresh() {
+        $("select[data-toggle='select2']").select2();
+    }
 </script>
 
 @yield('script-bottom')

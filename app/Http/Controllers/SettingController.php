@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Advertiser;
 use App\CustomMessage;
+use App\Drafts;
 use App\Newsletter;
 use App\Mail\Newslettermail;
 use App\Notification;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\NewsletterNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+
 // use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -112,42 +115,52 @@ class SettingController extends Controller
     public function storeCustomMessage(Request $request)
     {
         // dd('test');
-        $validatedData = $request->validate([
-            // 'recipient_ids' => 'required',
-            // 'recipient_type' => 'required',
-            // 'message'  => 'required',
-        ]);
+        try {
 
-        $message = new CustomMessage;
-        $messagerecipient_type = $request->parteners;
-        $message->message = $request->message;
-        if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers') {
-            // dd($messagerecipient_type);
-            $message->recipient_type = $request->parteners;
-            $message->recipient_ids = $request->parteners;
-        } else {
-            // dd($messagerecipient_type,'custom');
-            $message->recipient_type = 'custom';
-            $customUsers = $request->input('custom_users');
-            $ids = [];
-            foreach ($customUsers as $customUser) {
-                $parts = explode('_', $customUser);
-                if ($parts[0] === 'p') {
-                    $ids[] = 'p_' . $parts[1];
-                } elseif ($parts[0] === 'a') {
-                    $ids[] = 'a_' . $parts[1];
+            // dd('test',$request->input('msg_custom_users'));
+            $validatedData = $request->validate([
+                'parteners' => 'required',
+                'message'  => 'required',
+            ]);
+
+            $message = new CustomMessage;
+            $messagerecipient_type = $request->parteners;
+            $message->message = $request->message;
+            if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
+                // dd($messagerecipient_type);
+                $message->recipient_type = $request->parteners;
+                $message->recipient_ids = $request->parteners;
+            } else {
+                // dd($messagerecipient_type,'custom');
+                $message->recipient_type = 'custom';
+                $customUsers = $request->input('msg_custom_users');
+                $ids = [];
+                foreach ($customUsers as $customUser) {
+                    $parts = explode('_', $customUser);
+                    if ($parts[0] === 'p') {
+                        $ids[] = 'p_' . $parts[1];
+                    } elseif ($parts[0] === 'a') {
+                        $ids[] = 'a_' . $parts[1];
+                    }
                 }
+                $idString = implode(',', $ids);
+                // dd($idString);
+                $message->recipient_ids = $idString;
             }
-            $idString = implode(',', $ids);
-            // dd($idString);
-            $message->recipient_ids = $idString;
+            $message->save();
+            return redirect()->route('custommessage.view');
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error($e->getMessage());
+
+            // Return a redirect response with error message
+            return redirect()->back()->withErrors(['error' => 'An error occurred while saving data!']);
         }
-        $message->save();
-        return redirect()->route('settings.index');
     }
 
     public function updateCustomMessage(Request $request, CustomMessage $customMessage)
     {
+        // dd('test',$request->input('msg_custom_users'));
         $validatedData = $request->validate([
             'message'  => 'required',
         ]);
@@ -162,7 +175,7 @@ class SettingController extends Controller
         } else {
             // dd($messagerecipient_type,'custom');
             $customMessage->recipient_type = 'custom';
-            $customUsers = $request->input('custom_users');
+            $customUsers = $request->input('msg_custom_users');
             $ids = [];
             foreach ($customUsers as $customUser) {
                 $parts = explode('_', $customUser);
@@ -188,12 +201,17 @@ class SettingController extends Controller
 
     public function sendnewsletter(Request $request)
     {
+        $content = $request->input('content');
+
+
+        // print_r($sumoEditorValue,$request->subject);
+        // print_r($request->parteners);
+        // dd($content);
         $subject = $request->subject;
-        $body = $request->body;
+        $body = $content;
         $user = $request->partners;
         $messagerecipient_type = $request->parteners;
-        $divValue = $request->input('note_editing_area');
-        // dd($divValue);
+
         if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
             // dd($messagerecipient_type);
             $messagerecipient_type = $request->parteners;
@@ -204,8 +222,8 @@ class SettingController extends Controller
                 $advertiserIds = $advertisers->pluck('id')->all();
                 $publisherIds = $publishers->pluck('id')->all();
 
-                $advertiserEmails = $advertisers->pluck('reportEmail')->all();
-                $publisherEmails = $publishers->pluck('reportEmail')->all();
+                $advertiserEmails = $advertisers->pluck('accEmail')->all();
+                $publisherEmails = $publishers->pluck('accEmail')->all();
                 $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
 
                 $ids = array_merge($advertiserIds, $publisherIds);
@@ -215,14 +233,14 @@ class SettingController extends Controller
                 $publishers = Publisher::all();
                 $publisherIds = $publishers->pluck('id')->all();
                 $recipient_ids = $publisherIds;
-                $publisherEmails = $publishers->pluck('reportEmail')->all();
+                $publisherEmails = $publishers->pluck('accEmail')->all();
                 $recipientEmails =  $publisherEmails;
                 // dd($recipient_ids,$recipientEmails);
             } else {
                 $advertisers = Advertiser::all();
                 $advertiserIds = $advertisers->pluck('id')->all();
                 $recipient_ids = $advertiserIds;
-                $advertiserEmails = $advertisers->pluck('reportEmail')->all();
+                $advertiserEmails = $advertisers->pluck('accEmail')->all();
                 $recipientEmails = $advertiserEmails;
                 // dd($recipient_ids,$recipientEmails);
             }
@@ -242,26 +260,85 @@ class SettingController extends Controller
             }
             $publishers = Publisher::whereIn('id', $pub_ids)->get();
 
-            $publisherEmails = $publishers->pluck('reportEmail')->all();
+            $publisherEmails = $publishers->pluck('accEmail')->all();
             // dd($pub_ids,$publisherEmails);
             $advertisers = Advertiser::whereIn('id', $adv_ids)->get();
 
-            $advertiserEmails = $advertisers->pluck('reportEmail')->all();
+            $advertiserEmails = $advertisers->pluck('accEmail')->all();
             // dd($adv_ids,$advertiserEmails);
             $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
             //  $idString = implode(',', $ids);
             // dd($emails);
             // $recipient_ids = $idString;
         }
+
+        preg_match_all('/data:image\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:jpg|jpeg|gif|png)/i', $body, $imageMatches);
+        preg_match_all('/data:video\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:mp4|avi|mov|wmv)/i', $body, $videoMatches);
+
+        $imageAttachments = [];
+        $videoAttachments = [];
+
+        foreach ($imageMatches[0] as $key => $match) {
+            if (!empty($imageMatches[2][$key])) {
+                // Matched base64-encoded image data
+                $type = $imageMatches[1][$key];
+                $data = base64_decode($imageMatches[2][$key]);
+                $filename = 'image_' . $key . '.' . $type;
+                $imageAttachments[] = [
+                    'data' => $data,
+                    'name' => $filename,
+                ];
+            } else {
+                $url = $match;
+            }
+        }
+
+        foreach ($videoMatches[0] as $key => $match) {
+            if (!empty($videoMatches[2][$key])) {
+                $type = $videoMatches[1][$key];
+                $data = base64_decode($videoMatches[2][$key]);
+                $filename = 'video_' . $key . '.' . $type;
+                $videoAttachments[] = [
+                    'data' => $data,
+                    'name' => $filename,
+                ];
+            } else {
+                $url = $match;
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $videoData = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+
+                if ($httpCode !== 200) {
+                    continue;
+                }
+
+                $type = pathinfo($url, PATHINFO_EXTENSION);
+                $data = $videoData;
+                $filename = 'video_' . $key . '.' . $type;
+                $videoAttachments[] = [
+                    'data' => $data,
+                    'name' => $filename,
+                ];
+            }
+        }
+
+
         $mailData = [
             "subject" => $subject,
             "body" => $body
         ];
-        // dd($recipientEmails);
+
         foreach ($recipientEmails as $recipientEmail) {
             if (!empty($recipientEmail)) {
-                Mail::to($recipientEmail)->send(new Newslettermail($mailData));
+                Mail::to($recipientEmail)->send(new Newslettermail($mailData, $body, $imageAttachments, $videoAttachments));
             }
+
+
+            // Mail::to($recipientEmail)->send(new Newslettermail($mailData));
             // Mail::to('mail', ['body' => $body], function($messages) use ($body, $subject, $recipientEmail){
             //     $messages->to($recipientEmail);
             //     $messages->subject($subject);
@@ -366,10 +443,137 @@ class SettingController extends Controller
     {
         if ($customMessage) {
 
-            dd($customMessage);
+            // dd($customMessage,$customMessage->id);
             $customMessage->delete();
+            return response()->json(['status' => 'success']);
+            // return redirect()->route('settings.index');
+        }
+    }
 
-            return redirect()->route('settings.index');
+
+    public function notificationIndex()
+
+    {
+        $publishers = Publisher::all();
+        $advertisers = Advertiser::all();
+        $custommessages = CustomMessage::all();
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers, 'custommessages' => $custommessages]);
+
+        return view('settings.notifications', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
+        // return view('settings.notifications');
+    }
+    public function newsletterIndex()
+    {
+        $publishers = Publisher::all();
+        $advertisers = Advertiser::all();
+        $custommessages = CustomMessage::all();
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers, 'custommessages' => $custommessages]);
+
+        return view('settings.newsletters', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
+        // return view('settings.newsletters');
+    }
+    public function custommessageIndex()
+    {
+        $publishers = Publisher::all();
+        $advertisers = Advertiser::all();
+        $custommessages = CustomMessage::all();
+        $jsonData = json_encode(['publishers' => $publishers, 'advertisers' => $advertisers, 'custommessages' => $custommessages]);
+
+        return view('settings.custommessage', compact('publishers', 'advertisers', 'custommessages'), ['jsonData' => $jsonData]);
+        // return view('settings.custommessage');
+    }
+    public function draftsIndex()
+    {
+        $draftfile = Drafts::orderBy('created_at', 'desc')->first();
+        // dd($draftfile);
+        return view('settings.drafts', compact('draftfile'));
+    }
+    public function storeDrafts(Request $request)
+    {
+        $draft = Drafts::orderBy('created_at', 'desc')->first();
+        if ($draft) {
+            // dd('test',$draft);
+            $updatedraft = Drafts::orderBy('created_at', 'desc')->first();
+            if ($request->hasfile('io')) {
+                $file = $request->file('io');
+                // $named = $file->getClientOriginalName();
+                $name = 'io.' . $file->getClientOriginalExtension();
+                // Check if a file with the same name already exists
+                if (file_exists(public_path('assets/files/uploads/drafts/io/' . $name))) {
+                    // Delete the existing file
+                    // dd('delete');
+                    unlink(public_path('assets/files/uploads/drafts/io/' . $name));
+                }
+                $file->move(public_path('assets/files/uploads/drafts/io/'), $name);
+            }
+            // dd($name);
+            $updatedraft->io_filenames = json_encode($name);
+            $updatedraft->update();
+            // dd($updatedraft);
+        }else{
+            if ($request->hasfile('io')) {
+                $file = $request->file('io');
+                $name = 'io' . '.' . $file->getClientOriginalExtension();
+                $named = str_replace('"', '', $name);
+                // $named = $file->getClientOriginalName();
+                // dd('named',$named);
+                $file->move(public_path() . '/assets/files/uploads/drafts/io/', $name);
+                // $data[] = $name;
+            }
+    
+    
+            // dd($name);
+            $draft = new Drafts();
+            $draft->io_filenames = json_encode($name);
+            $draft->save();
+        }
+        return redirect()->route('drafts.view');
+    }
+    public function submitDraftForm(Request $request)
+    {
+        $draft = Drafts::orderBy('created_at', 'desc')->first();
+
+        if ($draft) {
+            // Redirect to update route
+            return redirect()->route('update.drafts', $draft->id);
+        } else {
+            // Redirect to store route
+            return redirect()->route('store.drafts');
+        }
+    }
+    public function updateDrafts(Request $request, $id)
+    {
+        $draft = Drafts::where('id', $id)->first();
+
+        if ($request->hasfile('io')) {
+            $file = $request->file('io');
+            $name = 'draftIO.' . $file->getClientOriginalExtension();
+
+            // Check if a file with the same name already exists
+            if (file_exists(public_path('assets/files/uploads/drafts/io/' . $name))) {
+                // Delete the existing file
+                unlink(public_path('assets/files/uploads/drafts/io/' . $name));
+            }
+
+            $file->move(public_path('assets/files/uploads/drafts/io/'), $name);
+        }
+
+
+        // dd($name);
+        // $draft = new Drafts();
+        $draft->io_filenames = json_encode($name);
+        $draft->update();
+        return redirect()->route('drafts.view');
+    }
+    public function DownloadDraftPdf(Request $request, $name)
+    {
+        // dd($name);
+        $filePath = public_path('assets/files/uploads/drafts/io/' . $name);
+        // dd($filePath);
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        } else {
+            return redirect()->back()->with('error', 'File not found.');
         }
     }
 }

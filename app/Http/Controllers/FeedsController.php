@@ -45,16 +45,24 @@ class FeedsController extends Controller
         $latestFeed = Feed::latest()->first();
         if ($latestFeed) {
             $feedId = $latestFeed->feedId;
-            $lastId = $feedId;
-                    $str = $lastId;
-                    $numericPart = substr($str, 3);
-                    $numericPart++;
-                    $newId = 'fd_' . $numericPart;
+            // $lastId = $feedId;
+            //         $str = $lastId;
+            //         $numericPart = substr($str, 3);
+            //         $numericPart++;
+            //         $newId = 'fd_' . $numericPart;
+
+
+
+            $numericPart = (int) substr($feedId, 1);
+            // Increment the numeric part
+            $numericPart++;
+            // Update the id with the incremented numeric part and new underscore part
+            $newId = "F" . $numericPart . "_";
         } else {
-            $newId = 'fd_1';
+            $newId = 'F1_';
         }
         $feedId = $newId;
-        return view('feeds.create', compact('availableAdvertisers','feedId'));
+        return view('feeds.create', compact('availableAdvertisers', 'feedId'));
     }
 
     public function store(Request $request)
@@ -65,35 +73,16 @@ class FeedsController extends Controller
             'feedPath' => 'required',
             'keywordParameter' => 'required',
         ]);
-        // $feedId = "fd_" . $request->feedId;
+        $spanValue = $request->input('spanValue');
+        $feed_id = $request->feedId;
         $feed = new Feed;
-
-        // $lastId = Feed::orderBy('feedId', 'desc')->first();
-        // if ($lastId !== null) {
-        //     $lastId = $lastId->feedId;
-        //     $str = $lastId;
-        //     $numericPart = substr($str, 3, -1);
-        //     if (is_numeric($numericPart)) {
-        //         $numericPart++;
-        //     } else {
-        //         $numericPart= 'fd_1';
-        //     }
-            
-        //     $newId = 'fd_' . $numericPart; 
-        //     echo $newId; 
-        // } else {
-        //     $newId ='fd_1';
-        // }
-
-
         $feed->advertiser_id = $request->advertiser;
-        $feed->feedId = $request->feedId;
-        $feed->reportId = $request->reportId;
+        $feed->feedId =   $spanValue . $feed_id;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        $feed->is_active = true;
+        $feed->status = 'live';
         $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -138,6 +127,9 @@ class FeedsController extends Controller
     public function edit(Feed $feed)
     {
         $feedId = $feed->feedId;
+        $underscorePos = strpos($feedId, "_");
+        $partfirst = substr($feedId, 0, $underscorePos + 1);
+        $partsecond = substr($feedId, $underscorePos + 1);
         $advertisers = Advertiser::all();
         $countries = Country::all();
         $banks = Bank::all();
@@ -150,18 +142,24 @@ class FeedsController extends Controller
         // dd($assignedAdvertisers);
         $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
         $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
-        return view('feeds.create', compact('feed', 'availableAdvertisers', 'advertisers', 'selectedAdv', 'countries', 'banks','feedId'));
+        return view('feeds.create', compact('feed', 'availableAdvertisers', 'advertisers', 'selectedAdv', 'countries', 'banks', 'partfirst', 'partsecond'));
     }
 
     public function update(Request $request, Feed $feed)
     {
+        $spanValue = $request->input('spanValue');
+        $feed_id = $request->feedId;
+        $feed->feedId =   $spanValue . $feed_id;
         $feed->advertiser_id = $request->advertiser;
-        $feed->reportId = $request->reportId;
+        $feed->advertiser_id = $request->advertiser;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        // $feed->is_active = true;
+        if ($request->status != null) {
+            $feed->status = $request->status;
+        }
+
         // $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -178,7 +176,7 @@ class FeedsController extends Controller
         }
         $feed->staticParameters = json_encode($mergedArrayStat);
         $feed->dynamicParameters = json_encode($mergedArrayDy);
-      
+
         $feed->update();
         $feedId = $feed->id;
 
@@ -204,6 +202,12 @@ class FeedsController extends Controller
     {
         // dd($feed);
         $feedId = $feed->feedId;
+        // $parts = explode("_", $feedId);
+        // $partfirst = $parts[0];
+        // $partsecond= $parts[1];
+        $underscorePos = strpos($feedId, "_");
+        $partfirst = substr($feedId, 0, $underscorePos + 1);
+        $partsecond = substr($feedId, $underscorePos + 1);
         $advertisers = Advertiser::all();
         $countries = Country::all();
         $banks = Bank::all();
@@ -216,19 +220,21 @@ class FeedsController extends Controller
             ->get();
         $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
         $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
-        return view('feeds.create', compact('feed', 'availableAdvertisers', 'advertisers', 'selectedAdv', 'countries', 'banks','feedId'));
+        return view('feeds.create', compact('feed', 'availableAdvertisers', 'advertisers', 'selectedAdv', 'countries', 'banks', 'partfirst', 'partsecond'));
     }
 
     public function enable(Feed $feed)
     {
-        $feed->is_active = true;
+        // $feed->is_active = true;
+        $feed->status = 'live';
         $feed->save();
         return redirect()->back();
     }
 
     public function disable(Feed $feed)
     {
-        $feed->is_active = false;
+        // $feed->is_active = false;
+        $feed->status = 'disable';
         $feed->save();
         return redirect()->back();
     }

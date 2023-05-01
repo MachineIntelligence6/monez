@@ -44,28 +44,28 @@
                 <li>
                     <a href="{{route('second', ['crm', 'admin'])}}" class="isDisabled">
                         <i data-feather="airplay"></i>
-                        <span> ADMIN </span>
+                        <span> Admin </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="{{route('team-members.index')}}">
                         <i data-feather="users"></i>
-                        <span> TEAM MEMBERS </span>
+                        <span> Team Members </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="{{route('advertiser.index')}}">
                         <i data-feather="briefcase"></i>
-                        <span> ADVERTISERS </span>
+                        <span> Advertisers </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="#siderbarFeeds" data-toggle="collapse">
                         <i data-feather="search"></i>
-                        <span> SEARCH FEEDS </span>
+                        <span> Search Feeds </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="siderbarFeeds">
@@ -74,7 +74,7 @@
                                 <a href="{{route('feeds.index')}}">Feeds</a>
                             </li>
                             <li>
-                                <a href="{{route('feeds.redirects-test')}}">Redirects Test</a>
+                                <a href="{{route('feeds.redirects-test')}}">Redirect Tests</a>
                             </li>
                         </ul>
                     </div>
@@ -83,7 +83,7 @@
                 <li>
                     <a href="{{route('publisher.index')}}">
                         <i data-feather="package"></i>
-                        <span> PUBLISHERS </span>
+                        <span> Publishers </span>
                     </a>
                 </li>
 
@@ -92,14 +92,14 @@
                 <li>
                     <a href="{{route('channels.index')}}">
                         <i data-feather="file-text"></i>
-                        <span> CHANNELS </span>
+                        <span> Channels </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="#sidebarReports" data-toggle="collapse" style="cursor: pointer;">
                         <i data-feather="book"></i>
-                        <span> REPORTS </span>
+                        <span> Reports </span>
                         <span class="menu-arrow"></span>
                         <!-- <span class="fas fa-chevron-down float-right"></span> -->
                     </a>
@@ -118,16 +118,46 @@
                 <li>
                     <a href="{{route('finance.index')}}">
                         <i data-feather="shopping-cart"></i>
-                        <span> FINANCE </span>
+                        <span> Finance </span>
                     </a>
                 </li>
 
+
                 <li>
+                    <a href="#sidebarSettings" data-toggle="collapse" style="cursor: pointer;">
+                        <i class="fe-settings"></i>
+                        <span> Settings </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarSettings">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{route('settings.index')}}">Default Settings</a>
+                            </li>
+                            <li>
+                                <a href="{{route('channelpaths.index')}}">Channel Paths</a>
+                            </li>
+                            <li>
+                                <a href="{{route('notification.view')}}">Notification</a>
+                            </li>
+                            <li>
+                                <a href="{{route('newsletter.view')}}">Newsletter</a>
+                            </li>
+                            <li>
+                                <a href="{{route('custommessage.view')}}">Custom Messages</a>
+                            </li>
+                            <li>
+                                <a href="{{route('drafts.view')}}">Drafts</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- <li>
                     <a href="{{route('settings.index')}}">
                         <i class="fe-settings"></i>
                         <span> SETTINGS </span>
                     </a>
-                </li>
+                </li> -->
             </ul>
 
         </div>

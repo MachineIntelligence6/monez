@@ -17,14 +17,14 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Publisher::class)->nullable();
             $table->string("channelId")->unique();
-            $table->string("channelpath")->nullable();
+            $table->bigInteger('channel_path_id')->unsigned()->nullable();
             $table->string("c_staticParameters")->nullable();
             $table->string("c_dynamicParameters")->nullable();
             $table->string("feed_ids")->nullable();
             $table->string("c_assignedFeeds")->nullable();
             $table->integer("c_priorityScore")->nullable();
             $table->string("c_comments")->nullable();
-            $table->boolean('status')->default(0);
+            $table->enum('status', ['live', 'pause', 'enable', 'disable'])->default('enable');
             $table->boolean('is_active')->default(1);
             $table->softDeletes();
             $table->timestamps();

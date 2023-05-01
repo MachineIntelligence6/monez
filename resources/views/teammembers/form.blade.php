@@ -19,7 +19,7 @@
                                 @elseif($lastSegment=='edit')
                                 <a href="{{route('team-members.view',$teamMember->id)}}" class="btn btn-secondary">
                                     <!-- <span class="fas fa-edit mr-1"></span> -->
-                                    Canc
+                                    Cancel
                                 </a>
                                 <button class="btn btn-primary" type="submit"><span class="fas fa-check mr-1"></span>
                                     Save Info
