@@ -92,7 +92,7 @@
                 <li>
                     <a href="{{route('channels.index')}}">
                         <i data-feather="file-text"></i>
-                        <span> CHannels </span>
+                        <span> Channels </span>
                     </a>
                 </li>
 
