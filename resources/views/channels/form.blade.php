@@ -74,7 +74,7 @@
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
                 <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channel_path_id" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
                     @foreach ($channelpaths as $key => $channelpath)
-                    <option value="{{ $channelpath->id }}" @if($channelpath->is_default) selected @endif>{{ $channelpath->channel_name }}</option>
+                    <option value="{{ $channelpath->id }}" @if($channelpath->is_default) selected @endif>{{ $channelpath->channel_path }}</option>
 
                     @endforeach
                     <!-- <option value="">Select Channel Path</option>
@@ -92,7 +92,7 @@
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
                 <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channel_path_id" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
                     @foreach ($channelpaths as $key => $channelpath)
-                    <option value="{{ $channelpath->id }}" @if (isset($selectedchannelpath) && $channelpath->id == $selectedchannelpath) selected @endif>{{ $channelpath->channel_name }}</option>
+                    <option value="{{ $channelpath->id }}" @if (isset($selectedchannelpath) && $channelpath->id == $selectedchannelpath) selected @endif>{{ $channelpath->channel_path }}</option>
 
                     @endforeach
                     <!-- <option value="">Select Channel Path</option>

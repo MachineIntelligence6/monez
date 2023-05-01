@@ -48,38 +48,38 @@
 
                     <div class="row mt-4">
                         <!-- Start -->
+                        @foreach($channelpaths as $channelpath)
                         <div class="col-12">
                             <div class="row mb-3 align-items-center justify-content-between py-1" style="border-bottom: 1px solid #00000010;">
                                 <div class="col-auto">
-                                    <p>http://127.0.0.1:8000/channelpaths</p>
+                                    <p>{{$channelpath->channel_path}}</p>
                                 </div>
-                                <div class="col-auto">
-                                @if ($feed->is_default)
-                                        <a class="btn bg-yellow text-white">Default Feed</a>
+                                <div class="col-auto d-flex">
+                                @if ($channelpath->is_default)
+                                        <a class="btn bg-yellow text-white">Default</a>
                                         @else
-                                            @if(isset($channelpaths->channel))
+                                            @if(isset($channelpath->channel))
                                             @else
-                                                @if($feed->status=='live')
-                                                <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
+                                                @if($channelpath->status=='true')
+                                                <a class="text-danger mx-2" href="{{ route('channelpaths.disable', ['channelpath' => $channelpath]) }}" value="0">Disable</a>
                                                 @else
-                                                <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                                <a class="text-success mx-2" href="{{ route('channelpaths.enable', ['channelpath' => $channelpath]) }}" value="1">Enable</a>
                                                 @endif
-                                            @endif
-                                            <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
-                                        @endif
-                                        @if(isset($channelpaths->advertisers))
-                                            @else
-                                            <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
+                                                 <form action="{{ route('channelpaths.destroy', $channelpath->id )  }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="text-danger mx-2">Delete</button>
+                                                <!-- <a class="text-danger mx-2" type="submit" href="#" value="0">Delete</a> -->
+                                                <button type="submit" class="text-danger mx-2 btn p-0 m-0">Delete</button>
                                             </form>
                                             @endif
+                                            <a class="text-blue mx-2" href="{{ route('channelpath.make-default', ['channelpath' => $channelpath]) }}">Make Default</a>
+                                        @endif
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                         <!-- End -->
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="row mb-3 align-items-center justify-content-between py-1" style="border-bottom: 1px solid #00000010;">
                                 <div class="col-auto">
                                     <p>http://127.0.0.1:8000/channelpaths</p>
@@ -92,7 +92,7 @@
                                     <a class="text-danger mx-2" href="#" value="0">Delete</a>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div> <!-- end card-body-->
             </div> <!-- end card-->

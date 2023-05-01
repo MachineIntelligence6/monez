@@ -12,7 +12,7 @@ class ChannelPathController extends Controller
     
     public function index()
     {
-        $channelpaths = ChannelPath::orderBy('created_at', 'asc')->get();
+        $channelpaths = ChannelPath::orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC")->get();
         return view('settings.channelpaths.index',compact('channelpaths'));
     }
     public function create()
@@ -47,7 +47,7 @@ class ChannelPathController extends Controller
         
 
         $channelpath->update();
-        return redirect()->route('channelpaths.index')->with('success', 'channelPath Form Data Has Been Updated Successfuly:');
+        return redirect()->route('settings.channelpaths.index')->with('success', 'channelPath Form Data Has Been Updated Successfuly:');
     }
 
     public function view(ChannelPath $channelpath)
@@ -76,5 +76,14 @@ class ChannelPathController extends Controller
         $channelpath->status = false;
         $channelpath->save();
         return redirect()->back();
+    }
+    public function destroy($id)
+    {
+        // dd($id);
+        $member = ChannelPath::findOrFail($id);
+        $member->delete();
+        return redirect()->route('channelpaths.index');
+
+
     }
 }
