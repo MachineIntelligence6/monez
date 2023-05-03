@@ -42,27 +42,17 @@ class FeedsController extends Controller
         $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
         $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
         $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
-        $latestFeed = Feed::latest()->first();
-        if ($latestFeed) {
-            $feedId = $latestFeed->feedId;
-            // $lastId = $feedId;
-            //         $str = $lastId;
-            //         $numericPart = substr($str, 3);
-            //         $numericPart++;
-            //         $newId = 'fd_' . $numericPart;
-
-
-
-            $numericPart = (int) substr($feedId, 1);
-            // Increment the numeric part
-            $numericPart++;
-            // Update the id with the incremented numeric part and new underscore part
-            $newId = "F" . $numericPart . "_";
-        } else {
-            $newId = 'F1_';
-        }
-        $feedId = $newId;
-        return view('feeds.create', compact('availableAdvertisers', 'feedId'));
+        // $latestFeed = Feed::latest()->first();
+        // if ($latestFeed) {
+        //     $feedId = $latestFeed->feedId;
+        //      $numericPart = (int) substr($feedId, 1);
+        //     $numericPart++;
+        //     $newId = "F" . $numericPart . "_";
+        // } else {
+        //     $newId = 'F1_';
+        // }
+        // $feedId = $newId;
+        return view('feeds.create', compact('availableAdvertisers'));
     }
 
     public function store(Request $request)
@@ -74,7 +64,19 @@ class FeedsController extends Controller
             'keywordParameter' => 'required',
         ]);
         $spanValue = $request->input('spanValue');
-        $feed_id = $request->feedId;
+        //feedid auto incr 
+        $latestFeed = Feed::latest()->first();
+        if ($latestFeed) {
+            $feedId = $latestFeed->feedId;
+             $numericPart = (int) substr($feedId, 1);
+            $numericPart++;
+            $newId = "F" . $numericPart . "_";
+        } else {
+            $newId = 'F1_';
+        }
+        $feedId = $newId;
+
+        $feed_id = $feedId.$request->feedId;
         $feed = new Feed;
         $feed->advertiser_id = $request->advertiser;
         $feed->feedId =   $spanValue . $feed_id;
@@ -82,7 +84,7 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        $feed->status = 'live';
+        $feed->status = 'pause';
         $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -99,6 +101,7 @@ class FeedsController extends Controller
         }
         $feed->staticParameters = json_encode($mergedArrayStat);
         $feed->dynamicParameters = json_encode($mergedArrayDy);
+        // dd($feed);
         $feed->save();
         $feedId = $feed->id;
         $FeedInegration = new FeedIntegrationGuide;
@@ -156,10 +159,9 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        if ($request->status != null) {
-            $feed->status = $request->status;
+        if($request->status==null){
+            $feed->status =$feed->status;
         }
-
         // $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');

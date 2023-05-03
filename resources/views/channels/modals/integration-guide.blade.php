@@ -10,9 +10,10 @@
             </div>
             <div class="modal-body modal-scroll">
                 <div class="row">
-                    <div class="col-12 mb-3">
+              
+                    <div class="col-12 mb-3" @if($lastSegment=="create" ) style="display:hide" @endif>
                         <label for="c_guideUrl" class="form-label">Channel Url</label>
-                        <input type="text" class="form-control" id="guideUrl" @if($condition == $lastSegment) disabled @endif  value="{{old('c_guideUrl', $channel->channelintegration->c_guideUrl ?? '')}}" name="c_guideUrl" placeholder="Channel Url">
+                        <input type="text" class="form-control" id="guideUrl" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_guideUrl', $channel->channelintegration->c_guideUrl ?? '')}}" name="c_guideUrl" placeholder="Channel Url">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -20,7 +21,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_subids" class="form-label">Sub Ids</label>
-                        <input type="text" class="form-control" id="guideUrl" @if($condition == $lastSegment) disabled @endif  value="{{old('c_subids', $channel->channelintegration->c_subids ?? '')}}" name="c_subids" placeholder="Sub Ids">
+                        <input type="text" class="form-control" id="c_subids" @if($condition == $lastSegment) disabled @endif  value="{{old('c_subids', $channel->channelintegration->c_subids ?? '')}}" name="c_subids" placeholder="Sub Ids">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -28,7 +29,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_dailyCap" class="form-label">Daily Cap</label>
-                        <input type="text" class="form-control" id="dailyCap" @if($condition == $lastSegment) disabled @endif  value="{{old('c_dailyCap', $channel->channelintegration->c_dailyCap ?? '')}}" name="c_dailyCap" placeholder="Daily Cap">
+                        <input type="text" class="form-control" id="dailyCap" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_dailyCap', $channel->channelintegration->c_dailyCap ?? '')}}" name="c_dailyCap" placeholder="Daily Cap">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
