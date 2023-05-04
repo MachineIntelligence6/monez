@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdvertisersTable extends Migration
+class CreateAAdvertisersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAdvertisersTable extends Migration
      */
     public function up()
     {
-        Schema::create('advertisers', function (Blueprint $table) {
+        Schema::create('advertisddders', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\TeamMember::class)->nullable();
             $table->string("dbaId");
