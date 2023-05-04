@@ -16,7 +16,7 @@
                 @endif
                 <div id="staticParametersContainer">
                 @if($lastSegment!='create')
-                    <div class="d-flex w-100 staticParameter mb-3" style="max-width: 100%; overflow-x: hidden;">
+                    <div class="d-flex w-100 staticParameter1 mb-3" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="paramName" readonly name="paramName[]" value="channel" />
                             <div class="valid-feedback">Valid.</div>

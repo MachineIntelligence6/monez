@@ -185,28 +185,28 @@ class ChannelsController extends Controller
         $channel->c_staticParameters = json_encode($mergedArrayStat);
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
-
-        $parts = parse_url($request->c_guideUrl);
-        parse_str($parts['query'], $query);
-        $query['channel'] = $channelId;
-        $parts['query'] = http_build_query($query);
-$new_url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'] . '?' . $parts['query'];
-
-        // dd($new_url, $request->c_guideUrl);
         $channel->save();
         $channel_Id = $channel->id;
         //generating url start
-        // $basePath = $channel->channelpath->channel_path;
-        $url = 'https://www.techvblogs.com/blog/send-mail-queue-laravel';
+        $url = $request->c_guide_Url;
 
+        // Get the position of the first "&" after the "channel" parameter
+        $start = strpos($url, "channel=") + strlen("channel=");
+        $end = strpos($url, "&", $start);
+
+        // Split the URL into two parts
+        $url1 = substr($url, 0, $start) . $channelId;
+        $url2 = substr($url, $end);
+
+        // Concatenate the two parts to form the updated URL
+        $updated_url = $url1 . $url2;
+
+        // dd($updated_url);
         //end
 
-
-        $c_guideUrl = $url;
         $channelInegration = new ChannelIntegrationGuide;
         $channelInegration->channel_id = $channel_Id;
-        // $channelInegration->c_guideUrl = $request->c_guideUrl;
-        $channelInegration->c_guideUrl = $url;
+        $channelInegration->c_guideUrl = $updated_url;
         $channelInegration->c_subids = $request->c_subids;
         $channelInegration->c_dailyCap = $request->c_dailyCap;
         $channelInegration->c_acceptedGeos = $request->c_acceptedGeos;
