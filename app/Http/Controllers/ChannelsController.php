@@ -82,6 +82,39 @@ class ChannelsController extends Controller
         $assignedfeeds = Feed::whereIn('id', $ids)->get();
         $assignedfeedsIds = $assignedfeeds->pluck('id')->toArray();
         $availablefeeds = Feed::whereNotIn('id', $assignedfeedsIds)->get();
+        // $latestChannel = Channel::latest()->first();
+
+        // if ($latestChannel) {
+        //     $channelId = $latestChannel->channelId;
+        //     $numericPart = (int) substr($channelId, 1);
+        //     // Increment the numeric part
+        //     $numericPart++;
+        //     // Generate a new underscore part with alphabetic and numeric characters
+        //     $newUnderscorePart = "";
+        //     $characters = "0123456789abcdefghijklmnopqrstuvwxyz";
+        //     $length = 5; // desired length of the new underscore part
+        //     for ($i = 0; $i < $length; $i++) {
+        //         $newUnderscorePart .= $characters[rand(0, strlen($characters) - 1)];
+        //     }
+        //     // Update the id with the incremented numeric part and new underscore part
+        //     $newId = "C" . $numericPart . "_" . $newUnderscorePart;
+        // } else {
+        //     $newId = 'C1_d1wmd';
+        // }
+        // // dd($channelId,$newId);
+        // $channelId = $newId;
+        // dd($channelId);
+        // dd($channelId,$availablefeeds);
+        return view('channels.create', compact('availablePublishers', 'channelpaths', 'feeds'));
+    }
+
+    public function store(Request $request)
+    {
+        $channel = new Channel;
+        // dd($channel,$channelId);
+        $channel->publisher_id = '1';
+        // $channel->publisher_id = $request->publisher;
+
         $latestChannel = Channel::latest()->first();
 
         if ($latestChannel) {
@@ -103,23 +136,14 @@ class ChannelsController extends Controller
         }
         // dd($channelId,$newId);
         $channelId = $newId;
-        // dd($channelId);
-        // dd($channelId,$availablefeeds);
-        return view('channels.create', compact('availablePublishers', 'channelpaths', 'feeds', 'channelId'));
-    }
 
-    public function store(Request $request)
-    {
-        $channel = new Channel;
-        // dd($channel,$channelId);
-        $channel->publisher_id = '1';
-        // $channel->publisher_id = $request->publisher;
-        $channel->channelId = $request->channelId;
+
+        $channel->channelId = $channelId;
         $channel->channel_path_id = $request->channel_path_id;
         $channel->c_priorityScore = $request->c_priorityScore;
         $channel->c_comments = $request->c_comments;
         $channel->is_active = true;
-        $channel->status = 'live';
+        $channel->status = 'pause';
 
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -133,13 +157,24 @@ class ChannelsController extends Controller
         $mergedArrayDy = [];
         $mergeArrayFeed = [];
         $ids = [];
-
         for ($i = 0; $i < count($s_paramName); $i++) {
+
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
         }
+        // $count = min(count($d_paramName), count($d_paramVal));
+
         for ($i = 0; $i < count($d_paramName); $i++) {
-            $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
+            $mergedArrayDy[] = $d_paramName[$i];
         }
+        // $count = count($d_paramName);
+        // for ($i = 0; $i < count($d_paramName); $i++) {
+        //     if (isset($d_paramVal[$i])) {
+        //         $mergedArrayStat[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
+        //     } else {
+        //         // If $s_paramVal[$i] is null, add a null value to the merged array
+        //         $mergedArrayStat[] = $d_paramName[$i] . ' , ' . 'null';
+        //     }
+        // }
         for ($i = 0; $i < count($assign_feed); $i++) {
             $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
             $ids[] = (string) $assign_feed[$i];
@@ -152,9 +187,26 @@ class ChannelsController extends Controller
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
         $channel->save();
         $channel_Id = $channel->id;
+        //generating url start
+        $url = $request->c_guide_Url;
+
+        // Get the position of the first "&" after the "channel" parameter
+        $start = strpos($url, "channel=") + strlen("channel=");
+        $end = strpos($url, "&", $start);
+
+        // Split the URL into two parts
+        $url1 = substr($url, 0, $start) . $channelId;
+        $url2 = substr($url, $end);
+
+        // Concatenate the two parts to form the updated URL
+        $updated_url = $url1 . $url2;
+
+        // dd($updated_url);
+        //end
+
         $channelInegration = new ChannelIntegrationGuide;
         $channelInegration->channel_id = $channel_Id;
-        $channelInegration->c_guideUrl = $request->c_guideUrl;
+        $channelInegration->c_guideUrl = $updated_url;
         $channelInegration->c_subids = $request->c_subids;
         $channelInegration->c_dailyCap = $request->c_dailyCap;
         $channelInegration->c_acceptedGeos = $request->c_acceptedGeos;
@@ -247,11 +299,14 @@ class ChannelsController extends Controller
         $channel->c_priorityScore = $request->c_priorityScore;
         $channel->c_comments = $request->c_comments;
         // $channel->is_active = true;
-        if ($channel->status == 'disable') {
-            $channel->status = 'disable';
-        } else {
-            $channel->status = $request->status;
-        };
+        if ($request->status == null) {
+            $channel->status = $channel->status;
+        }
+        // if ($channel->status == 'disable') {
+        //     $channel->status = 'disable';
+        // } else {
+        //     $channel->status = $request->status;
+        // };
 
 
         // dd($request->status);
@@ -271,8 +326,11 @@ class ChannelsController extends Controller
         for ($i = 0; $i < count($s_paramName); $i++) {
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
         }
+        // for ($i = 0; $i < count($d_paramName); $i++) {
+        //     $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
+        // }
         for ($i = 0; $i < count($d_paramName); $i++) {
-            $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
+            $mergedArrayDy[] = $d_paramName[$i];
         }
         for ($i = 0; $i < count($assign_feed); $i++) {
             $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];

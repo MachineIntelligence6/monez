@@ -9,32 +9,55 @@
                 </button>
             </div>
             <div class="modal-body modal-scroll">
-            @if($lastSegment!='view')
+                @if($lastSegment!='view')
                 <div class="row justify-content-end px-2 mb-3">
                     <button type="button" onclick="appendElementToContainer('dynamicParametersContainer', 'dynamicParameterSample')" class="btn btn-secondary"><i class="mdi mdi-plus"></i></button>
                 </div>
                 @endif
                 <div id="dynamicParametersContainer">
-                @if(isset($channel))
-                    @php
-                    $data =$channel->c_dynamicParameters;
-                    $array = json_decode($data, true);
-                    @endphp
-                    @foreach ($array as $key => $value) 
-               
-                    @php
-                    $parts = explode(' , ', $value);
-                    @endphp
-                    <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
+                    <div class="d-flex w-100 dynamicParameter mb-3" id="" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
-                            <input type="text" class="form-control"   @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramName', $parts[1] ?? '')}}" id="paramName" name="dy_paramName[]" placeholder="Enter Parameter Name" />
+                            <input type="text" class="form-control" id="paramName" readonly name="dy_paramName[]" value="query" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control" id="paramValue" @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramValue', $parts[1] ?? '')}}" name="dy_paramValue[]" placeholder="User entered value" />
+                            <input type="text" class="form-control" style="border: none;" id="paramValue" name="dy_paramValue[]" disabled placeholder="User entered value" />
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <!-- <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button> -->
+                        </div>
+                    </div>
+                    @if(isset($channel))
+                    @php
+                    $data =$channel->c_dynamicParameters;
+                    $array = json_decode($data, true);
+                    @endphp
+                    @foreach ($array as $key => $value)
+
+                    @php
+                    $parts = explode(' , ', $value);
+                    @endphp
+
+                    @if ($value == 'query')
+                    @continue
+                    @endif
+                    <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif value="{{old('dy_paramName', $value ?? '')}}" id="paramName" name="dy_paramName[]" placeholder="Enter Parameter Name" />
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" style="border: none;" id="paramValue" disabled name="dy_paramValue[]" placeholder="User entered value" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -55,7 +78,7 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control" id="paramValue" name="dy_paramValue[]" placeholder="User entered value" />
+                            <input type="text" class="form-control" style="border: none;" id="paramValue" name="dy_paramValue[]" disabled placeholder="User entered value" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
