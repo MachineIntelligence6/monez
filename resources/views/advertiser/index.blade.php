@@ -67,26 +67,26 @@
                                 @foreach($advertisers as $advertiser)
                                 <tr>
                                     <td>
-                                        {{ $advertiser->dbaId ?? '-' }}
+                                        {{ $advertiser->advertiser_id }}
                                     </td>
                                     <td>
-                                        {{ $advertiser->companyName ?? '-'}}
+                                        {{ $advertiser->company_name}}
                                     </td>
                                     <td>
-                                        {{ $advertiser->url ?? '-' }}
+                                        {{ $advertiser->website_url }}
                                     </td>
                                     <td>
-                                        {{ $advertiser->accEmail ?? '-' }}
+                                        {{ $advertiser->account_email }}
                                     </td>
                                     <td>
-                                        {{ $advertiser->amFirstName ?? '' }} {{ $advertiser->amLastName ?? '' }}
+                                        {{ $advertiser->acc_mng_first_name }} {{ $advertiser->acc_mng_lirst_name }}
                                     </td>
                                     <td>
-                                        {{ $advertiser->teamMember->name ?? '-' }}
+                                        {{ $advertiser->user->name ?? ''}}
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->
-                                        <a href="{{route('advertiser.view',['advertiser'=>$advertiser->id])}}" class="mx-1"> View Info</a>
+                                        <a href="{{route('advertiser.show', $advertiser)}}" class="mx-1"> View Info</a>
 
                                         <!-- <a href="{{route('advertiser.edit',['advertiser'=>$advertiser->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
                                     </td>
