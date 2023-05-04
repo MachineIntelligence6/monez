@@ -26,7 +26,7 @@
             <div class="col-md-4">
                 <div class="mb-3">
                     <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                    <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                    <input type="text" @if($lastSegment!='accountinfo' || $lastSegment!='create' ) disabled @endif class="form-control" id="dbaId" name="dbaId" placeholder="Enter Advertiser ID" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
                     <div class="valid-feedback">Valid.</div>
                     <div id="dba-invalid" class="invalid-feedback">
                         You must enter valid input
@@ -409,7 +409,7 @@
                     </div>
                 </div>
             </div> <!-- end col -->
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div class="mb-3">
                     <label for="reportType" class="form-label">Report Type</label>
                     <div class="input-group input-group-merge">
@@ -431,13 +431,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="col-md-4 mb-3">
                 <label for="reportColumns" class="form-label">Report Columns</label>
                 <div class="input-group input-group-merge">
                     <input type="text" @if($lastSegment!='operationinfo' ) disabled @endif class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns">
                     <div class="input-group-append">
-                        <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
+                        <button type="button" data-trigger="modal" data-target="report-details-modal" class="btn btn-secondary">
                             <span class="dripicons-document-edit"></span>
                         </button>
                     </div>
@@ -463,7 +463,7 @@
             </div>
         </div> <!-- end row -->
     </div>
-    @include('advertiser.modals.report-columns')
+    <!-- @include('advertiser.modals.report-columns') -->
     @include('advertiser.modals.reports-modal')
 </form>
 <form class="needs-validation" method="POST" action="{{ route('advertiser.updateFinanceInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
@@ -650,28 +650,24 @@
 
 
         //Report Type Popup Script
-        const reportTypeModal = document.getElementById("report-type-modal");
-        const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
+        const reportTypeModal = document.getElementById("report-details-modal");
+    const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
 
-        function showReportCredsPopup(value) {
-            for (let i = 0; i < reportCredsInputs.length; i++) {
-                reportCredsInputs[i].classList.add("d-none");
-                // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
-            }
-            if (value !== "") {
-                reportTypeModal.getElementsByClassName(value + "-input-group")
-                    .forEach((inpGroup) => {
-                        inpGroup.classList.remove("d-none");
-                        // inpGroup.querySelector("input").setAttribute("required", true);
-                    })
-                reportTypeModal.classList.add("show");
-                reportTypeModal.style.display = "block";
-            }
+    function showReportCredsReleventInputs(value) {
+        for (let i = 0; i < reportCredsInputs.length; i++) {
+            reportCredsInputs[i].classList.add("d-none");
         }
+        if (value !== "") {
+            reportTypeModal.getElementsByClassName(value + "-input-group")
+                .forEach((inpGroup) => {
+                    inpGroup.classList.remove("d-none");
+                })
+        }
+    }
 
-        $("#reportType").on("select2:close", function() {
-            showReportCredsPopup($(this).val());
-        })
+    $("#reportType").on("select2:close", function() {
+        showReportCredsReleventInputs($(this).val());
+    })
 
 
         function onSaveColumnsModal() {

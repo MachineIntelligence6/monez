@@ -659,6 +659,8 @@ class AdvertiserController extends Controller
         $bankDetails = session()->get('bankDetails');
         $advertiserReportType = session()->get('advertiserReportType');
         $advertiserReportColumn = session()->get('advertiserReportColumn');
+        // dd($advertiserReportType,$advertiserReportColumn);
+        // dd($advertiser,$bankDetails);
         $bankDetails->advertiser_id = $advertiser->id;
         $advertiserReportType->advertiser_id = $advertiser->id;
         $advertiserReportColumn->advertiser_id = $advertiser->id;
