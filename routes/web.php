@@ -27,6 +27,25 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::prefix('advertiser')->name('advertiser.')->group(function () {
+    Route::get('/', [App\Http\Controllers\AdvertiserController::class, 'index'])->name('index');
+    Route::prefix('store')->name('store.')->group(function () {
+        Route::post('/account', [App\Http\Controllers\AdvertiserController::class, 'storeAccountInSession'])->name('account');
+        Route::post('/contact', [App\Http\Controllers\AdvertiserController::class, 'storeContactInSession'])->name('contact');
+        Route::post('/operation', [App\Http\Controllers\AdvertiserController::class, 'storeOperationInSession'])->name('operation');
+        Route::post('/report', [App\Http\Controllers\AdvertiserController::class, 'storeReportInSession'])->name('report');
+        Route::post('/bank', [App\Http\Controllers\AdvertiserController::class, 'storeBankInSession'])->name('bank');
+        Route::post('/', [App\Http\Controllers\AdvertiserController::class, 'store'])->name('store');
+    });
+    Route::get('/create', [App\Http\Controllers\AdvertiserController::class, 'create'])->name('create');
+    Route::post('/check-unique-id', [App\Http\Controllers\AdvertiserController::class, 'checkUniqueAdvertiserId'])->name('check-unique-id');
+    Route::post('/check-unique-email', [App\Http\Controllers\AdvertiserController::class, 'checkUniqueAccountEmail'])->name('check-unique-email');
+    Route::get('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'show'])->name('show');
+    Route::put('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'update'])->name('update');
+    Route::delete('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'destroy'])->name('destroy');
+    Route::get('/{advertiser}/edit', [App\Http\Controllers\AdvertiserController::class, 'edit'])->name('edit');
+});
+
 
 Route::resource('admin', AdminController::class);
 Route::get('/advertiser/{advertiser}/edit/{currentedit}', [AdvertiserController::class, 'accountInfo'])->name('advertiser.currentedit');
