@@ -1,7 +1,7 @@
 @section('css')
     <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateAccountInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+<form class="needs-validation" id="accountinfo" method="POST" action="{{ route('advertiser.updateAccountInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
     @csrf
     @method('POST')
     <div class="form-category">
@@ -240,7 +240,7 @@
     </div>
 </form>
 <!-- Personal Info -->
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateContactInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+<form class="needs-validation" id="contactinfo" method="POST" action="{{ route('advertiser.updateContactInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
     @csrf
     @method('POST')
     <div class="form-category">
@@ -352,7 +352,7 @@
     </div>
 </form>
 
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateOperationInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+<form class="needs-validation" id="operationinfo" method="POST" action="{{ route('advertiser.updateOperationInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
     @csrf
     @method('POST')
     <div class="form-category">
@@ -464,9 +464,12 @@
         </div> <!-- end row -->
     </div>
     <!-- @include('advertiser.modals.report-columns') -->
-    @include('advertiser.modals.reports-modal')
+    
 </form>
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateFinanceInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+<form class="needs-validation"  method="POST" action="{{ route('advertiser.updateReportModal', [$advertiser->id]) }}" enctype="multipart/form-data">
+@include('advertiser.modals.reports-modal')
+</form>
+<form class="needs-validation" id="financeinfo" method="POST" action="{{ route('advertiser.updateFinanceInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
     @csrf
     @method('POST')
     <div class="form-category">

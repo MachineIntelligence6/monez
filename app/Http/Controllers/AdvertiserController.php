@@ -773,6 +773,35 @@ class AdvertiserController extends Controller
         $advertiserId = $advertiser->id;
         $advertiser->reportEmail = $request->form_reportEmail;
 
+        // $advertiserReportColumn = AdvertiserReportColumn::where('advertiser_id', $advertiserId)->firstOrFail();
+        // $advertiserReportColumn->advertiser_id = $advertiser->id;
+        // $advertiserReportColumn->date = $request->dateColValue;
+        // $advertiserReportColumn->feed = $request->feedColValue;
+        // $advertiserReportColumn->subid = $request->subidColValue;
+        // $advertiserReportColumn->country = $request->countryColValue;
+        // $advertiserReportColumn->total_searches = $request->totalSearchesColValue;
+        // $advertiserReportColumn->monitized_searches = $request->monitizedSearchesColValue;
+        // $advertiserReportColumn->paid_clicks = $request->paidClicksColValue;
+        // $advertiserReportColumn->revenue = $request->revenueColValue;
+
+
+        // $advertiserReportType = AdvertiserReportType::where('advertiser_id', $advertiserId)->firstOrFail();
+        // $advertiserReportType->advertiser_id = $advertiser->id;
+        // $advertiserReportType->report_type = $request->reportType;
+        // $advertiserReportType->api_key = $request->apiKey;
+        // $advertiserReportType->dashboard_path = $request->dashboardPath;
+        // $advertiserReportType->email = $request->reportEmail;
+        // $advertiserReportType->password = $request->reportPassword;
+        // $advertiserReportType->gdriveEmail = $request->gdriveEmail;
+        // $advertiserReportType->gdrivePassword = $request->gdrivePassword;
+        $advertiser->update();
+        // $advertiserReportColumn->update();
+        // $advertiserReportType->update();
+        return redirect()->route('advertiser.view', compact('advertiser'))->with('success', 'Advertiser Operation Info Has Been Updated Successfuly:');
+    }
+    public function updateReportModal(Request $request, Advertiser $advertiser)
+    {
+        $advertiserId = $advertiser->id;
         $advertiserReportColumn = AdvertiserReportColumn::where('advertiser_id', $advertiserId)->firstOrFail();
         $advertiserReportColumn->advertiser_id = $advertiser->id;
         $advertiserReportColumn->date = $request->dateColValue;
@@ -794,11 +823,13 @@ class AdvertiserController extends Controller
         $advertiserReportType->password = $request->reportPassword;
         $advertiserReportType->gdriveEmail = $request->gdriveEmail;
         $advertiserReportType->gdrivePassword = $request->gdrivePassword;
-        $advertiser->update();
         $advertiserReportColumn->update();
         $advertiserReportType->update();
-        return redirect()->route('advertiser.view', compact('advertiser'))->with('success', 'Advertiser Operation Info Has Been Updated Successfuly:');
+        // return redirect()->route('advertiser.updateOperationInfo', [$advertiser->id, '/#operationinfo']);
+        return redirect()->route('advertiser.currentedit', ['advertiser' => $advertiser->id, 'currentedit' => 'operationinfo/#operationinfo']);
+        // return redirect()->route('advertiser.view', compact('advertiser'))->with('success', 'Advertiser Operation Info Has Been Updated Successfuly:');
     }
+
     public function updateFinanceInfo(Request $request, Advertiser $advertiser)
     {
         $advertiser->billEmail = $request->billEmail;

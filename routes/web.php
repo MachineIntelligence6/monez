@@ -45,6 +45,8 @@ Route::post('/advertiser/store-finance-info', [AdvertiserController::class, 'sto
 Route::post('/advertiser/{advertiser}/account-info', [AdvertiserController::class, 'updateAccountInfo'])->name('advertiser.updateAccountInfo');
 Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'updateContactInfo'])->name('advertiser.updateContactInfo');
 Route::post('/advertiser/{advertiser}/operation-info', [AdvertiserController::class, 'updateOperationInfo'])->name('advertiser.updateOperationInfo');
+Route::post('/advertiser/{advertiser}/operation-modal', [AdvertiserController::class, 'updateReportModal'])->name('advertiser.updateReportModal');
+
 Route::post('/advertiser/{advertiser}/finance-info', [AdvertiserController::class, 'updateFinanceInfo'])->name('advertiser.updateFinanceInfo');
 Route::get('/advertiser/create/contact', [AdvertiserController::class, 'createContact'])->name('advertiser.create.contact');
 Route::get('/advertiser/create/operation', [AdvertiserController::class, 'createOperation'])->name('advertiser.create.operation');

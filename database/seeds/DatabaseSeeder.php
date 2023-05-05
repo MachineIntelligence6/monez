@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(BankSeeder::class);
-		// $this->call(CountriesSeeder::class);
+		$this->call(CountriesSeeder::class);
 		$this->call(UserSeeder::class);
-
+        // $this->call(CountriesSeeder::class);
         TeamMember::create([
             'name'=>'ads',
             'email'=>'asdas@gmail.com',
