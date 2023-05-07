@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Log;
 // use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use function GuzzleHttp\Promise\all;
+
 // use Session;
 
 class SettingController extends Controller
@@ -199,78 +201,100 @@ class SettingController extends Controller
         return view('crm.settings.newsletters');
     }
 
-    public function sendnewsletter(Request $request)
+    public function sendNewsletter(Request $request)
     {
-        $content = $request->input('content');
-
-
-        // print_r($sumoEditorValue,$request->subject);
-        // print_r($request->parteners);
-        // dd($content);
+        return $request;
         $subject = $request->subject;
-        $body = $content;
-        $user = $request->partners;
+        $body = $request->content;
         $messagerecipient_type = $request->parteners;
 
-        if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
-            // dd($messagerecipient_type);
-            $messagerecipient_type = $request->parteners;
-            $recipient_ids = null;
-            if ($messagerecipient_type === 'all') {
+        $publishers = [];
+        $advertisers = [];
+
+        switch ($messagerecipient_type) {
+            case 'all':
                 $advertisers = Advertiser::all();
                 $publishers = Publisher::all();
-                $advertiserIds = $advertisers->pluck('id')->all();
-                $publisherIds = $publishers->pluck('id')->all();
-
-                $advertiserEmails = $advertisers->pluck('accEmail')->all();
-                $publisherEmails = $publishers->pluck('accEmail')->all();
-                $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
-
-                $ids = array_merge($advertiserIds, $publisherIds);
-                $recipient_ids = $ids;
-                // dd($recipientEmails,$recipient_ids);
-            } elseif ($messagerecipient_type == 'publishers') {
+                break;
+            case 'publishers':
                 $publishers = Publisher::all();
-                $publisherIds = $publishers->pluck('id')->all();
-                $recipient_ids = $publisherIds;
-                $publisherEmails = $publishers->pluck('accEmail')->all();
-                $recipientEmails =  $publisherEmails;
-                // dd($recipient_ids,$recipientEmails);
-            } else {
+                break;
+            case 'advertisers':
                 $advertisers = Advertiser::all();
-                $advertiserIds = $advertisers->pluck('id')->all();
-                $recipient_ids = $advertiserIds;
-                $advertiserEmails = $advertisers->pluck('accEmail')->all();
-                $recipientEmails = $advertiserEmails;
-                // dd($recipient_ids,$recipientEmails);
-            }
-        } else {
-            // dd($messagerecipient_type,'custom');
-            $messagerecipient_type = 'custom';
-            $customUsers = $request->input('custom_users');
-            $pub_ids = [];
-            $adv_ids = [];
-            foreach ($customUsers as $customUser) {
-                $parts = explode('_', $customUser);
-                if ($parts[0] === 'p') {
-                    $pub_ids[] =  $parts[1];
-                } elseif ($parts[0] === 'a') {
-                    $adv_ids[] =  $parts[1];
+                break;
+            case 'select-custom':
+                if ($request->has('custom_advertisers')) {
+                    $advertisers = Advertiser::whereIn('id', $request->custom_advertisers)->get();
                 }
-            }
-            $publishers = Publisher::whereIn('id', $pub_ids)->get();
-
-            $publisherEmails = $publishers->pluck('accEmail')->all();
-            // dd($pub_ids,$publisherEmails);
-            $advertisers = Advertiser::whereIn('id', $adv_ids)->get();
-
-            $advertiserEmails = $advertisers->pluck('accEmail')->all();
-            // dd($adv_ids,$advertiserEmails);
-            $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
-            //  $idString = implode(',', $ids);
-            // dd($emails);
-            // $recipient_ids = $idString;
+                if ($request->has('custom_publishers')) {
+                    $publishers = Publisher::whereIn('id', $request->custom_publishers)->get();
+                }
+                break;
+            default:
+                # code...
+                break;
         }
+
+        // return $advertisers;
+        // if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
+        //     // dd($messagerecipient_type);
+        //     $messagerecipient_type = $request->parteners;
+        //     $recipient_ids = null;
+        //     if ($messagerecipient_type === 'all') {
+        //         $advertisers = Advertiser::all();
+        //         $publishers = Publisher::all();
+        //         $advertiserIds = $advertisers->pluck('id')->all();
+        //         $publisherIds = $publishers->pluck('id')->all();
+
+        //         $advertiserEmails = $advertisers->pluck('accEmail')->all();
+        //         $publisherEmails = $publishers->pluck('accEmail')->all();
+        //         $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
+
+        //         $ids = array_merge($advertiserIds, $publisherIds);
+        //         $recipient_ids = $ids;
+        //         // dd($recipientEmails,$recipient_ids);
+        //     } elseif ($messagerecipient_type == 'publishers') {
+        //         $publishers = Publisher::all();
+        //         $publisherIds = $publishers->pluck('id')->all();
+        //         $recipient_ids = $publisherIds;
+        //         $publisherEmails = $publishers->pluck('accEmail')->all();
+        //         $recipientEmails =  $publisherEmails;
+        //         // dd($recipient_ids,$recipientEmails);
+        //     } else {
+        //         $advertisers = Advertiser::all();
+        //         $advertiserIds = $advertisers->pluck('id')->all();
+        //         $recipient_ids = $advertiserIds;
+        //         $advertiserEmails = $advertisers->pluck('accEmail')->all();
+        //         $recipientEmails = $advertiserEmails;
+        //         // dd($recipient_ids,$recipientEmails);
+        //     }
+        // } else {
+        //     // dd($messagerecipient_type,'custom');
+        //     $messagerecipient_type = 'custom';
+        //     $customUsers = $request->input('custom_users');
+        //     $pub_ids = [];
+        //     $adv_ids = [];
+        //     foreach ($customUsers as $customUser) {
+        //         $parts = explode('_', $customUser);
+        //         if ($parts[0] === 'p') {
+        //             $pub_ids[] =  $parts[1];
+        //         } elseif ($parts[0] === 'a') {
+        //             $adv_ids[] =  $parts[1];
+        //         }
+        //     }
+        //     $publishers = Publisher::whereIn('id', $pub_ids)->get();
+
+        //     $publisherEmails = $publishers->pluck('accEmail')->all();
+        //     // dd($pub_ids,$publisherEmails);
+        //     $advertisers = Advertiser::whereIn('id', $adv_ids)->get();
+
+        //     $advertiserEmails = $advertisers->pluck('accEmail')->all();
+        //     // dd($adv_ids,$advertiserEmails);
+        //     $recipientEmails = array_merge($advertiserEmails, $publisherEmails);
+        //     //  $idString = implode(',', $ids);
+        //     // dd($emails);
+        //     // $recipient_ids = $idString;
+        // }
 
         preg_match_all('/data:image\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:jpg|jpeg|gif|png)/i', $body, $imageMatches);
         preg_match_all('/data:video\/(.*?);base64,(.*)|https?:\/\/\S+\.(?:mp4|avi|mov|wmv)/i', $body, $videoMatches);
@@ -331,18 +355,10 @@ class SettingController extends Controller
             "subject" => $subject,
             "body" => $body
         ];
-
-        foreach ($recipientEmails as $recipientEmail) {
-            if (!empty($recipientEmail)) {
-                Mail::to($recipientEmail)->send(new Newslettermail($mailData, $body, $imageAttachments, $videoAttachments));
-            }
-
-
-            // Mail::to($recipientEmail)->send(new Newslettermail($mailData));
-            // Mail::to('mail', ['body' => $body], function($messages) use ($body, $subject, $recipientEmail){
-            //     $messages->to($recipientEmail);
-            //     $messages->subject($subject);
-            // });
+        $imageAttachments = null;
+        $videoAttachments = null;
+        foreach ($advertisers as $recipientEmail) {
+            Mail::to($recipientEmail->account_email)->send(new Newslettermail($mailData, $body, $imageAttachments, $videoAttachments));
         }
         return redirect()->back();
     }
@@ -520,8 +536,8 @@ class SettingController extends Controller
                 $file->move(public_path() . '/assets/files/uploads/drafts/io/', $name);
                 // $data[] = $name;
             }
-    
-    
+
+
             // dd($name);
             $draft = new Drafts();
             $draft->io_filenames = json_encode($name);

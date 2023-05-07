@@ -73,19 +73,19 @@
                                     <div class="px-2">
                                         <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                     </div>
-                                    @foreach ($publishers as $key => $publisher)
+                                    @foreach ($advertisers as $key => $publisher)
                                     <div class="dropdown-item">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="newsletterpub{{$publisher->id}}" value="p_{{$publisher->id}}">
-                                            <label class="custom-control-label w-100" for="newsletterpub{{$publisher->id}}">{{$publisher->companyName}}</label>
+                                            <input type="checkbox" class="custom-control-input" name="custom_publishers[]" id="newsletterpub{{$publisher->id}}" value="{{$publisher->id}}">
+                                            <label class="custom-control-label w-100" for="newsletterpub{{$publisher->id}}">{{$publisher->id}}</label>
                                         </div>
                                     </div>
                                     @endforeach
                                     @foreach ($advertisers as $key => $advertiser)
                                     <div class="dropdown-item">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" name="custom_users[]" id="newsletteradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
-                                            <label class="custom-control-label w-100" for="newsletteradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
+                                            <input type="checkbox" class="custom-control-input" name="custom_advertisers[]" id="newsletteradv{{$advertiser->id}}" value="{{$advertiser->id}}">
+                                            <label class="custom-control-label w-100" for="newsletteradv{{$advertiser->id}}">{{$advertiser->advertiser_id}}</label>
                                         </div>
                                     </div>
                                     @endforeach

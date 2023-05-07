@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 
 class ChannelPathController extends Controller
 {
-    //
     
     public function index()
     {
         $channelpaths = ChannelPath::orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC")->get();
         return view('settings.channelpaths.index',compact('channelpaths'));
     }
+
     public function create()
-    {       
+    {
         return view('settings.channelpaths.create');
     }
 
@@ -29,14 +29,14 @@ class ChannelPathController extends Controller
         $channelPath = new ChannelPath;
         $channelPath->status = '1';
         $channelPath->channel_path = $request->channel_path;
-        
+
         $channelPath->save();
         return redirect()->route('channelpaths.index')->with('success', 'channelPath Form Data Has Been Inserted Successfuly');
     }
 
     public function edit(ChannelPath $channelpath)
     {
-       
+
         return view('settings.channelpaths.create', compact('channelpath'));
     }
 
@@ -44,7 +44,7 @@ class ChannelPathController extends Controller
     {
         // $channelpath->channel_name = $request->channel_name;
         $channelpath->channel_path = $request->channel_path;
-        
+
 
         $channelpath->update();
         return redirect()->route('settings.channelpaths.index')->with('success', 'channelPath Form Data Has Been Updated Successfuly:');
@@ -53,7 +53,7 @@ class ChannelPathController extends Controller
     public function view(ChannelPath $channelpath)
     {
         // dd($channelpath);
-    
+
         return view('settings.channelpaths.create', compact('channelpath'));
     }
     public function makeChannelPathDefault(ChannelPath $channelpath)

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Newslettermail extends Mailable
+class Newslettermail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -36,17 +36,17 @@ class Newslettermail extends Mailable
             ->view('settings.newsletteremail', $this->mailData);
             // ->html($this->body);
 
-        foreach ($this->imageAttachments as $attachment) {
-            $mail->attachData($attachment['data'], $attachment['name'], [
-                'mime' => 'image/' . pathinfo($attachment['name'], PATHINFO_EXTENSION),
-            ]);
-        }
+        // foreach ($this->imageAttachments as $attachment) {
+        //     $mail->attachData($attachment['data'], $attachment['name'], [
+        //         'mime' => 'image/' . pathinfo($attachment['name'], PATHINFO_EXTENSION),
+        //     ]);
+        // }
 
-        foreach ($this->videoAttachments as $attachment) {
-            $mail->attachData($attachment['data'], $attachment['name'], [
-                'mime' => 'video/' . pathinfo($attachment['name'], PATHINFO_EXTENSION),
-            ]);
-        }
+        // foreach ($this->videoAttachments as $attachment) {
+        //     $mail->attachData($attachment['data'], $attachment['name'], [
+        //         'mime' => 'video/' . pathinfo($attachment['name'], PATHINFO_EXTENSION),
+        //     ]);
+        // }
 
         // dd($mail,$this->body);
         return $mail;

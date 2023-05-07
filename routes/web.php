@@ -47,6 +47,8 @@ Route::prefix('advertiser')->name('advertiser.')->group(function () {
     Route::get('/{advertiser}/edit/{currentedit}', [App\Http\Controllers\AdvertiserController::class, 'edit'])->name('edit');
 });
 
+Route::resource('channel-paths', ChannelsController::class);
+
 
 Route::resource('admin', AdminController::class);
 Route::post('/check-unique-value', [AdvertiserController::class, 'checkUniqueDbId'])->name('check.unique.value');
@@ -91,7 +93,7 @@ Route::get('reports/activity', 'ReportsController@activity')->name('activity');
 Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
 Route::resource('reports', ReportsController::class);
 Route::resource('finance', FinanceController::class);
-Route::get('sendnewsletter', [SettingController::class, 'sendnewsletter'])->name('sendnewsletter');
+Route::get('/sendnewsletter', [SettingController::class, 'sendNewsletter'])->name('sendnewsletter');
 Route::get('/settings/notification/view', [SettingController::class, 'notificationIndex'])->name('notification.view');
 Route::get('/settings/newsletter/view', [SettingController::class, 'newsletterIndex'])->name('newsletter.view');
 Route::get('/settings/drafts/view', [SettingController::class, 'draftsIndex'])->name('drafts.view');
