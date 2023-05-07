@@ -2,8 +2,9 @@
    <div class="modal fade" id="define-report-columns-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-modal="true" role="dialog">
        <div class="modal-dialog modal-lg">
            <div class="modal-content shadow shadow-5">
-               <form id="report_coloumnsForm" action="{{ route('store.reportcolumns') }}" method="POST" class="needs-validation" novalidate>
+               <form id="reportColoumnsForm" action="{{ route('advertiser.store.report') }}" method="POST" class="needs-validation" novalidate>
                    @csrf
+                   <input type="hidden" name="edit_form" value="edit_form">
                    <div class="modal-header border-bottom">
                        <h5 class="text-uppercase modal-title">Add Report Columns</h5>
                        <button type="button" class="btn p-0" data-dismiss="modal" aria-label="Close">

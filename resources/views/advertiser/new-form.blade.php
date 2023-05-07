@@ -39,9 +39,9 @@
                             <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
                             <div class="input-group input-group-merge">
                                 <div class="input-group-append">
-                                    <div class="input-group-text">
+                                    {{-- <div class="input-group-text">
                                         <span>A{{$counter}}_</span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <input type="text" class="form-control" id="dbaId" name="advertiser_id" data-check-unique="oninput" data-invalid-message="Advertiser ID already registered." data-unique-path="{{ route('advertiser.check-unique-id') }}" placeholder="Enter Advertiser ID" required value="{{ session()->get('advertiser.advertiser_id') }}" />
                                 <div class="valid-feedback">Valid.</div>
@@ -392,7 +392,7 @@
         <!-- Finance Info Tab Start -->
         <div class="tab-pane {{ $activeTab == 'financeInfoTab' ? 'active show' : '' }}" id="financeInfoTab">
 
-            <form class="needs-validation" id="financeInfoform" method="post" action="{{ route('advertiser.store') }}" enctype="multipart/form-data" novalidate>
+            <form class="needs-validation" id="financeInfoform" method="post" action="{{ route('advertiser.store.all') }}" enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="row">
                     <div class="col-md-4">

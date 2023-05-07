@@ -1,9 +1,9 @@
 @section('css')
     <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateAccountInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+<form class="needs-validation" method="POST" action="{{ route('advertiser.update', ['advertiser'=>$advertiser->id , 'currentedit' => 'accountinfo']) }}" enctype="multipart/form-data">
     @csrf
-    @method('POST')
+    @method('PUT')
     <div class="form-category">
         <div class="d-flex align-items-center justify-content-between">
             <h5 class="mb-3 text-uppercase">
@@ -11,7 +11,7 @@
                 Account Info
             </h5>
             @if($lastSegment!='accountinfo')
-                <a href="{{ route('advertiser.currentedit', ['advertiser'=>$advertiser->id ,'currentedit' => 'accountinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <a href="{{ route('advertiser.edit', ['advertiser'=>$advertiser->id , 'currentedit' => 'accountinfo']) }}" class="edit-category-btn btn btn-secondary">
                     <span class="fas fa-edit mr-1"></span>
                     Edit Info
                 </a>
@@ -171,8 +171,8 @@
                 </div>
             </div> <!-- end col -->
             <div class="col-md-4">
-                <label for="country" class="form-label">Country{{$advertiser->country}}</label><label class="text-danger">*</label>
-                <select class="form-control" name="country_id" @if($lastSegment!='accountinfo' ) disabled @endif id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
+                <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
+                <select class="form-control" name="country" @if($lastSegment!='accountinfo' ) disabled @endif id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
                     <option>Select Country</option>
                     @foreach ($countries as $key => $country)
                         <option value="{{$country->title}}" @if (isset($advertiser) && $country->title == $advertiser->country) selected @endif phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
@@ -189,13 +189,13 @@
                 <div class="col-md-6 h-100">
                     <div class="mb-3">
                         <label for="io" class="form-label">IO</label>
-                        <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
+                        <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
                     </div>
                 </div>
                 <div class="col-md-6 h-100">
                     <div class="mb-3">
                         <label for="documents" class="form-label">Documents</label>
-                        <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
+                        <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
                     </div>
                 </div>
             </div>
@@ -239,16 +239,16 @@
         </div>
     </div>
 </form>
-<!-- Personal Info -->
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateContactInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+
+<form class="needs-validation" method="POST" action="{{ route('advertiser.update', ['advertiser'=>$advertiser->id , 'currentedit' => 'contactinfo']) }}" enctype="multipart/form-data">
     @csrf
-    @method('POST')
+    @method('PUT')
     <div class="form-category">
         <div class="d-flex align-items-center justify-content-between">
             <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)</h5>
 
             @if($lastSegment!='contactinfo')
-                <a href="{{ route('advertiser.currentedit', ['advertiser'=>$advertiser->id ,'currentedit' => 'contactinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <a href="{{ route('advertiser.edit', ['advertiser'=>$advertiser->id ,'currentedit' => 'contactinfo']) }}" class="edit-category-btn btn btn-secondary">
                     <span class="fas fa-edit mr-1"></span>
                     Edit Info
                 </a>
@@ -351,15 +351,15 @@
     </div>
 </form>
 
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateOperationInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+<form class="needs-validation" method="POST" action="{{ route('advertiser.update', ['advertiser'=>$advertiser->id , 'currentedit' => 'operationinfo']) }}" enctype="multipart/form-data">
     @csrf
-    @method('POST')
+    @method('PUT')
     <div class="form-category">
         <!-- Agreement & Terms -->
         <div class="d-flex align-items-center justify-content-between">
             <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info</h5>
             @if($lastSegment!='operationinfo')
-                <a href="{{ route('advertiser.currentedit', ['advertiser'=>$advertiser->id ,'currentedit' => 'operationinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <a href="{{ route('advertiser.edit', ['advertiser'=>$advertiser->id ,'currentedit' => 'operationinfo']) }}" class="edit-category-btn btn btn-secondary">
                     <span class="fas fa-edit mr-1"></span>
                     Edit Info
                 </a>
@@ -461,18 +461,19 @@
                 </div>
             </div>
         </div> <!-- end row -->
-    </div>
-    @include('advertiser.modals.report-columns')
-    @include('advertiser.modals.reports-modal')
-</form>
-<form class="needs-validation" method="POST" action="{{ route('advertiser.updateFinanceInfo', [$advertiser->id]) }}" enctype="multipart/form-data">
+    </form>
+</div>
+@include('advertiser.modals.report-columns')
+{{-- @include('advertiser.modals.reports-modal') --}}
+
+<form class="needs-validation" method="POST" action="{{ route('advertiser.update', ['advertiser'=>$advertiser->id , 'currentedit' => 'financeinfo']) }}" enctype="multipart/form-data">
     @csrf
-    @method('POST')
+    @method('PUT')
     <div class="form-category">
         <div class="d-flex align-items-center justify-content-between">
             <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info</h5>
             @if($lastSegment!='financeinfo')
-                <a href="{{ route('advertiser.currentedit', ['advertiser'=>$advertiser->id ,'currentedit' => 'financeinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <a href="{{ route('advertiser.edit', ['advertiser'=>$advertiser->id ,'currentedit' => 'financeinfo']) }}" class="edit-category-btn btn btn-secondary">
                     <span class="fas fa-edit mr-1"></span>
                     Edit Info
                 </a>
@@ -499,7 +500,7 @@
                     <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
                     <div class="input-group input-group-merge">
                         <!--<input type="text" @if($lastSegment!='financeinfo' ) disabled @endif style="pointer-events: none;" value="{{ $advertiser->bankDetails->bank_name ??  old('bank_name') }}" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank" name="bank" placeholder="Enter Bank account" >-->
-                        <span @if($lastSegment!='financeinfo' ) disabled @endif style="pointer-events: none;" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank">{{ $advertiser->bankDetails->bank_name ?? old('bank_name') }}</span>
+                        <span @if($lastSegment!='financeinfo' ) disabled @endif style="pointer-events: none;" class="form-control remote-form-control" data-targetInput="bankNameInput" id="bank">{{ $advertiser->bank_name ?? old('bank_name') }}</span>
 
                         <div class="input-group-append">
                             <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
@@ -538,8 +539,8 @@
             </div> <!-- end col -->
         </div>
     </div>
-    @include('advertiser.modals.bank-details-modal')
 </form>
+@include('advertiser.modals.bank-details-modal')
 
 @if($lastSegment=='create')
     <div class="row">
@@ -570,7 +571,24 @@
 
         $('.dropify').dropify();
 
-
+        $("#reportColoumnsForm").submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: (response) => {
+                    // $("#reportColumnsId").val(response.id);
+                    $(this).closest(".modal")
+                        .removeClass("show")
+                        .css("display", "none");
+                    console.log(response)
+                },
+                error: (error) => {
+                    console.log(error);
+                }
+            });
+        });
 
         $('#dbaId').on('input', function() {
             var inputVal = $(this).val();
@@ -690,6 +708,8 @@
             console.log(e.target.value);
             validateInput("#bank");
         })
+
+
     </script>
 
 @endsection
