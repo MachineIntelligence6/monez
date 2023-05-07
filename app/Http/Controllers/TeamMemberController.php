@@ -123,7 +123,7 @@ class TeamMemberController extends Controller
     {
         $id = $request->teammember_id;
         $validator = Validator::make($request->all(), [
-            'input_field' => 'unique:team_members,email',
+            'input_field' => 'unique:users,email',
         ]);
         // $validator = Validator::make($request->all(), [
         //     'input_field' => [
@@ -149,7 +149,7 @@ class TeamMemberController extends Controller
     public function checkUniqueteamPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'input_field' => 'unique:team_members,amPhone',
+            'input_field' => 'unique:users,amPhone',
         ]);
 
         if ($validator->fails()) {

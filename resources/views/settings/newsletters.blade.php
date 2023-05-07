@@ -73,11 +73,11 @@
                                     <div class="px-2">
                                         <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                     </div>
-                                    @foreach ($advertisers as $key => $publisher)
+                                    @foreach ($publishers as $key => $publisher)
                                     <div class="dropdown-item">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" name="custom_publishers[]" id="newsletterpub{{$publisher->id}}" value="{{$publisher->id}}">
-                                            <label class="custom-control-label w-100" for="newsletterpub{{$publisher->id}}">{{$publisher->id}}</label>
+                                            <label class="custom-control-label w-100" for="newsletterpub{{$publisher->id}}">{{$publisher->publisher_id}}</label>
                                         </div>
                                     </div>
                                     @endforeach
