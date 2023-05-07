@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Publishers'])
+@extends('layouts.vertical', ['title' => 'publishers'])
 
 @section('content')
 <!-- Start Content-->
@@ -29,7 +29,7 @@
                         <div class="col-sm-4">
                             <!-- <button type="button" class="btn btn-danger waves-effect waves-light" data-toggle="modal" data-target="#custom-modal"><i class="mdi mdi-plus-circle mr-1"></i> Add New</button> -->
 
-                            <a href="{{route('second', ['Publisher', 'create'])}}" class="btn btn-danger waves-effect waves-light">
+                            <a href="{{route('second', ['publisher', 'create'])}}" class="btn btn-danger waves-effect waves-light">
                                 <i class="mdi mdi-plus-circle mr-1"></i>
                                 Add New
                             </a>
@@ -67,28 +67,26 @@
                                 @foreach($publishers as $publisher)
                                 <tr>
                                     <td>
-                                        {{ $publisher->dbaId ?? '-' }}
+                                        {{ $publisher->publisher_id }}
                                     </td>
                                     <td>
-                                        {{ $publisher->companyName ?? '-'}}
+                                        {{ $publisher->company_name}}
                                     </td>
                                     <td>
-                                        {{ $publisher->url ?? '-' }}
+                                        {{ $publisher->website_url }}
                                     </td>
                                     <td>
-                                        {{ $publisher->accEmail ?? '-' }}
+                                        {{ $publisher->account_email }}
                                     </td>
                                     <td>
-                                        {{ $publisher->amFirstName ?? '' }} {{ $publisher->amLastName ?? '' }}
+                                        {{ $publisher->acc_mng_first_name }} {{ $publisher->acc_mng_lirst_name }}
                                     </td>
                                     <td>
-                                        Succeess Manager
+                                        {{ $publisher->user->name ?? ''}}
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->
-                                        <a href="{{route('Publisher.edit',['Publisher'=>$publisher->id])}}" class="btn btn-secondary"> View Info</a>
-
-                                        <!-- <a href="{{route('Publisher.edit',['Publisher'=>$publisher->id])}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a> -->
+                                        <a href="{{route('publisher.show', $publisher)}}" class="mx-1"> View Info</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -105,6 +103,12 @@
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 
 <script type="text/javascript">
-    $('#products-datatable').DataTable();
+    $('#products-datatable').DataTable({
+        "order": [],
+        "lengthMenu": [
+            [50, 100, 250, 500],
+            [50, 100, 250, 500]
+        ],
+    });
 </script>
 @endsection

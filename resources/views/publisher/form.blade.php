@@ -14,11 +14,11 @@
                             <span>adv_</span>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-autovalidate="false" placeholder="Enter Advertiser ID" required pattern="[a-z0-9\.]+" value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
-                </div>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback" id="dba-invalid">
-                    You must enter valid input
+                    <input type="text" class="form-control" id="dbaId" name="dbaId" data-check-unique="oninput" data-invalid-message="Advertiser ID already registered." data-unique-path="{{ route('check.unique.value') }}" placeholder="Enter Advertiser ID" required value="{{ $advertiser->dbaId ??  old('dbaId') }}" />
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback" id="dba-invalid">
+                        You must enter valid input
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,9 +58,9 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="accEmail" class="form-label">Account Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
+                <input type="email" class="form-control" id="accEmail" name="accEmail" placeholder="Enter account email" oninput="confirmEmail()" data-check-unique="oninput" data-invalid-message="Email already registered." data-unique-path="{{ route('check.unique.accEmail') }}" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->accEmail ??  old('accEmail') }}">
                 <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
+                <div id="accEmail-invalid" class="invalid-feedback">
                     You must enter valid input
                 </div>
             </div>
@@ -68,22 +68,13 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="confemail" class="form-label">Confirm Email</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" name="" placeholder="Enter confirm account email" required id="confemail" onblur="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ old('vat') }}">
+                <input type="text" class="form-control" name="" data-autovalidate="false" placeholder="Enter confirm account email" required id="confemail" oninput="confirmEmail()" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ old('vat') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     Email and confirm email should be same.
                 </div>
             </div>
         </div>
-
-        <script>
-            function confirmEmail() {
-                var email = document.getElementById("accEmail").value
-                var confemail = document.getElementById("confemail").value
-                $(confemail).removeClass('is-valid is-invalid')
-                    .addClass(confemail.checkValidity() ? 'is-valid' : 'is-invalid');
-            }
-        </script>
 
         <div class="col-md-4">
             <div class="mb-3">
@@ -104,8 +95,6 @@
                         letter.
                     </div>
                 </div>
-
-
             </div>
         </div> <!-- end col -->
 
@@ -162,7 +151,7 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <label for="country" class="form-label">Country</label><label class="text-danger">*</label>
-            <select class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
+            <select class="form-control" name="country_id" id="country-dropdown" data-toggle="select2" required>
                 <option>Select Country</option>
                 @foreach ($countries as $key => $country)
                 <option value="{{$country->id}}" phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
@@ -177,11 +166,11 @@
     <div class="row mb-3">
         <div class="col-md-6 h-100 mb-3">
             <label for="io" class="form-label">IO</label>
-            <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
+            <input type="file" name="ios[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple />
         </div>
         <div class="col-md-6 h-100 mb-3">
             <label for="documents" class="form-label">Documents</label>
-            <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf jpg" accept="image/jpeg,application/pdf" data-max-file-size="5M" multiple />
+            <input type="file" name="documents[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple />
         </div>
     </div>
 </div>
@@ -227,8 +216,14 @@
                 <label for="amPhone" class="form-label">Phone</label>
                 <div class="input-group input-group-merge">
                     <div class="input-group-prepend" style="min-width: 150px;">
-                        <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
-      
+                        <select class="form-control " name="country_code" id="phone-code-dropdown" data-toggle="select2">
+
+                            @foreach ($countries as $key => $country)
+                            <option value="{{ $country->id }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
+                                {{ $country->countryCode }} ({{ $country->title }})
+                            </option>
+                            <!-- <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option> -->
+                            @endforeach
                         </select>
                     </div>
                     <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number">
@@ -297,7 +292,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
-                <input type="email" class="form-control" id="reportEmail" name="reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
+                <input type="email" class="form-control" id="reportEmail" name="form_reportEmail" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ $advertiser->reportEmail ??  old('reportEmail') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid input
@@ -306,9 +301,9 @@
         </div> <!-- end col -->
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
+                <label for="reportType" class="form-label">Report Type</label>
                 <div class="input-group input-group-merge">
-                    <select class="form-control" id="reportType" data-toggle="select2" onchange="showReportCredsPopup(this.value)" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
+                    <select class="form-control" id="reportType" data-toggle="select2" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
                         <option value="" selected>Report Type</option>
                         <option value="api">API</option>
                         <option value="email">EMAIL</option>
@@ -328,9 +323,10 @@
             </div>
         </div>
         <div class="col-md-4 mb-3">
-            <label for="reportColumns" class="form-label">Report Columns</label><label class="text-danger">*</label>
+            <label for="reportColumns" class="form-label">Report Columns</label>
             <div class="input-group input-group-merge">
                 <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns" value="{{ $advertiser->reportColumns ??  old('reportColumns') }}">
+                <input type="text" class="form-control d-none" id="reportColumnsId" name="report_columns_id">
                 <div class="input-group-append">
                     <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
                         <span class="dripicons-document-edit"></span>
@@ -344,9 +340,12 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-            <select class="form-control" data-toggle="select2" id="successManager" name="successManager" required>
+            <select class="form-control" data-toggle="select2" id="successManager" name="team_member_id" required>
                 <option value="" selected>Select Success Manager</option>
-                <option value="1">Success Manager</option>
+                @foreach ($availableTeamMembers as $key => $teamMember)
+                <option value="{{$teamMember->id}}">{{$teamMember->name}}</option>
+                @endforeach
+                <!-- <option value="1">Success Manager</option> -->
             </select>
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
@@ -375,7 +374,8 @@
             <div class="mb-3">
                 <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
                 <div class="input-group input-group-merge">
-                    <input type="text" style="pointer-events: none;" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" value="{{ $advertiser->bank ??  old('bank') }}">
+                    <input type="text" style="pointer-events: none;" tabindex="-1" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" required>
+                    <input type="text" class="form-control d-none" id="bankId" name="bank_id">
                     <div class="input-group-append">
                         <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
                             <span class="mdi mdi-bank-plus"></span>
@@ -401,7 +401,7 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label for="payoneer" class="form-label">Payoneer</label>
-                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
+                <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" value="{{ $advertiser->payoneer ??  old('payoneer') }}">
                 <div class="valid-feedback">Valid.</div>
                 <div class="invalid-feedback">
                     You must enter valid email format
@@ -419,11 +419,11 @@
 
 
 
-@section('script')
+@section('script-bottom')
 <!-- Plugins js-->
 <script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
-<script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/dropify/dropify.min.js')}}"></script>
+<script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
@@ -431,15 +431,26 @@
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <script>
+    function confirmEmail() {
+        if ($("#confemail").val() === "") return;
+        $($("#confemail")).removeClass('is-valid is-invalid')
+            .addClass(($("#accEmail").val() === $("#confemail").val()) ? ($("#confemail")[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');
+    }
+
+
     $('.dropify').dropify();
     window.addEventListener("DOMContentLoaded", () => {
         generateRandomPassword(null)
     })
 
 
-    function setCountryCodeToPhone(countryCode) {
+    $("#country-dropdown").on("change", (e) => {
+        console.log(e.target);
+        let countryCode = $("#country-dropdown option:selected").attr("phone-code");
+        console.log(countryCode)
         $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
-    }
+
+    })
 
     document.querySelectorAll(".enable-on-valid").forEach((el) => {
         let input = document.getElementById(el.getAttribute("data-enable-target"));
@@ -455,6 +466,8 @@
         })
     })
 
+
+
     //Report Type Popup Script
     const reportTypeModal = document.getElementById("report-type-modal");
     const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
@@ -462,49 +475,23 @@
     function showReportCredsPopup(value) {
         for (let i = 0; i < reportCredsInputs.length; i++) {
             reportCredsInputs[i].classList.add("d-none");
-            // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
         }
         if (value !== "") {
             reportTypeModal.getElementsByClassName(value + "-input-group")
                 .forEach((inpGroup) => {
                     inpGroup.classList.remove("d-none");
-                    // inpGroup.querySelector("input").setAttribute("required", true);
                 })
             reportTypeModal.classList.add("show");
             reportTypeModal.style.display = "block";
         }
     }
 
+    $("#reportType").on("select2:close", function() {
+        showReportCredsPopup($(this).val());
+    })
 
-    $(document).ready(function() {
-        $('#dbaId').on('input', function() {
-            var inputVal = $(this).val();
-            if (inputVal.length > 0) {
-                $.ajax({
-                    url: '{{ route("check.unique.value") }}',
-                    type: 'POST',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        input_field: inputVal
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'error') {
-                            validateInput("#dbaId", false);
-                            $("#dba-invalid").text('Advertiser ID already exists.');
-                        } else {
-                            console.log(response);
-                        }
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
-            } else {
-                $("#dba-invalid").text('You must enter valid input.');
-            }
-        });
-    });
+
+
 
 
     function onSaveColumnsModal() {
@@ -518,13 +505,49 @@
         reportColsInp.val("Report Columns Set");
         validateInput(reportColsInp);
     }
-    $(document).ready(() => {
-        $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
-            $("#bank").val(e.target.value)
-            console.log(e.target.value);
-            validateInput("#bank");
-        })
+    $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
+        $("#bank").val(e.target.value)
+        validateInput("#bank");
     })
+
+
+    $("#bankDetailsForm").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+                $("#bankId").val(response.id);
+                $(this).closest(".modal")
+                    .removeClass("show")
+                    .css("display", "none");
+                console.log(response);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#reportColumnsForm").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+                $("#reportColumnsId").val(response.id);
+                $(this).closest(".modal")
+                    .removeClass("show")
+                    .css("display", "none");
+                console.log(response)
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
 </script>
 
 @endsection

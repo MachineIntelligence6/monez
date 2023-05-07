@@ -9,6 +9,7 @@ use App\Country;
 use App\State;
 use App\City;
 use App\Bank;
+use App\User;
 use Illuminate\Support\Facades\Validator;
 
 class TeamMemberController extends Controller
@@ -20,11 +21,8 @@ class TeamMemberController extends Controller
      */
     public function index()
     {
+        $teamMembers= User::orderBy('created_at', 'desc')->get();
 
-        // $teamMembers = DB::table('team_members')
-        //     ->leftJoin('advertisers', 'team_members.id', '=', 'advertisers.team_member_id')->get();
-        $teamMembers= TeamMember::orderBy('created_at', 'desc')->get();
-        
             // dd($teamMembers);
         return view('teammembers.index',compact('teamMembers'));
     }
@@ -62,7 +60,7 @@ class TeamMemberController extends Controller
             // 'linkedin'=> 'required',
         ]);
         // dd($validatedData);
-        $teamMember = new TeamMember();
+        $teamMember = new User();
         // dd($validatedData);
         $teamMember->name = $request->name;
         $teamMember->email = $request->email;
@@ -85,7 +83,7 @@ class TeamMemberController extends Controller
      */
     public function show($id)
     {
-        $member = TeamMember::query()->where('id',$id)->first();
+        $member = User::query()->where('id',$id)->first();
         return view('teammembers.edit',compact('member'));
     }
 
@@ -95,7 +93,7 @@ class TeamMemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(TeamMember $teamMember)
+    public function edit(User $teamMember)
     {
         $countries = Country::all();
         $banks = Bank::all();
@@ -103,12 +101,12 @@ class TeamMemberController extends Controller
         return view('teammembers.create', compact('teamMember','selectedcountry', 'countries', 'banks'));
     }
 
-    public function view(TeamMember $teamMember)
+    public function view(User $teamMember)
     {
         $currentUrl = url()->current();
         $segments = request()->segments();
         $lastSegment = last($segments);
-        $teamMember = TeamMember::where('id', $lastSegment)->firstOrFail();
+        $teamMember = User::where('id', $lastSegment)->firstOrFail();
         $countries = Country::all();
         $banks = Bank::all();
         $selectedcountry = $teamMember->country_code;
@@ -133,13 +131,13 @@ class TeamMemberController extends Controller
         //         Rule::unique('team_members', 'email')->ignore(Auth::id())
         //     ]
         // ]);
-        
+
         if ($validator->fails()) {
             return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
         }
-        
+
         return response()->json(['status' => 'success']);
-        
+
 
         if ($validator->fails()) {
             return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
@@ -162,7 +160,7 @@ class TeamMemberController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $members = TeamMember::query()->where('id',$id)->first();
+        $members = User::query()->where('id',$id)->first();
         $members->name = $request->name;
         $members->email = $request->email;
         $members->password = $request->password;
@@ -184,12 +182,12 @@ class TeamMemberController extends Controller
      */
     public function destroy($id)
     {
-        $member = TeamMember::findOrFail($id);
+        $member = User::findOrFail($id);
         $member->delete();
         return redirect()->route('team-members.index');
 
 
     }
 
-    
+
 }

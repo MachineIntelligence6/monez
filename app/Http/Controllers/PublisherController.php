@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Publisher;
+use App\Publisher;
 use Illuminate\Http\Request;
 use App\Country;
+use App\State;
+use App\TeamMember;
+use App\User;
+use App\Bank;
+use App\City;
+use Illuminate\Support\Facades\Validator;
+
 class PublisherController extends Controller
 {
     /**
@@ -14,9 +21,10 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        // dd('test index');
-        $publishers = [];
-        return view("publisher.index", compact("publishers"));
+        session()->forget('publisher');
+        session()->forget('activeTab');
+        $publishers = Publisher::orderBy('created_at', 'asc')->get();
+        return view('publisher.index', compact('publishers'));
     }
 
     /**
@@ -26,66 +34,484 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        // dd('test create');
-        
         $countries = Country::all();
-        // dd($countries);
-        return view("publisher.create",compact('countries'));
+        $states = State::all();
+        $cities = City::all();
+        $banks = Bank::all();
+        $teamMembers = User::all();
+
+        $lastId = Publisher::latest()->first() ? Publisher::latest()->first()->id : 0;
+        $counter = $lastId + 1;
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+        $assignedAdvertisers = Publisher::whereIn('user_id', $teamMemberIds)->get();
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
+        $availableTeamMembers = User::all();
+        $activeTab = session()->get('activeTab') ?? 'accountInfoTab';
+        return view('publisher.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'activeTab', 'counter'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreAdvertiserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+
+        $validatedData = $request->validate([
+            'billing_email' => 'required',
+            'payoneer' => 'nullable',
+            'paypal' => 'nullable',
+            'bank_beneficiary_name' => 'nullable',
+            'bank_beneficiary_address' => 'nullable',
+            'bank_name' => 'nullable',
+            'bank_address' => 'nullable',
+            'bank_account_number' => 'nullable',
+            'bank_routing_number' => 'nullable',
+            'bank_iban' => 'nullable',
+            'bank_swift' => 'nullable',
+            'bank_currency' => 'nullable',
+        ]);
+
+        $publisher = $request->session()->get('publisher');
+
+        $publisher->billing_email = $request->billing_email;
+        $publisher->payoneer = $request->payoneer;
+        $publisher->paypal = $request->paypal;
+
+        // $publisher->report_coloumns = $publisher->report_coloumns;
+
+        $publisher->save();
+        $publisher->publisher_id = 'P' . $publisher->id . '_' . $publisher->publisher_id;
+        $publisher->save();
+
+        session()->forget('publisher');
+        session()->forget('activeTab');
+
+        return redirect()->route('publisher.index');
+    }
+
+    public function storeAccountInSession(Request $request)
+    {
+        $validatedData = $request->validate([
+            'publisher_id' => 'required',
+            'company_name' => 'required',
+            'reg_id' => 'nullable',
+            'vat_id' => 'nullable',
+            'website_url' => 'required',
+            'account_email' => 'required',
+            'account_password' => 'required',
+            'address1' => 'required',
+            'address2' => 'nullable',
+            'city' => 'required',
+            'state' => 'nullable',
+            'zipcode' => 'nullable',
+            'country' => 'required',
+            'document_files' => 'nullable',
+            'io_files' => 'nullable',
+        ]);
+
+        $publisher = new Publisher();
+        $publisher->publisher_id = $request->publisher_id;
+        $publisher->company_name = $request->company_name;
+        $publisher->reg_id = $request->reg_id;
+        $publisher->vat_id = $request->vat_id;
+        $publisher->website_url = $request->website_url;
+        $publisher->account_email = $request->account_email;
+        $publisher->account_password = $request->account_password;
+        $publisher->address1 = $request->address1;
+        $publisher->address2 = $request->address2;
+        $publisher->city = $request->city;
+        $publisher->state = $request->state;
+        $publisher->zipcode = $request->zipcode;
+        $publisher->country = $request->country;
+        $publisher->state = $request->state;
+
+        if ($request->hasFile('document_files')) {
+            $documentFilePaths = array();
+            $documentFiles = $request->file('document_files');
+            foreach ($documentFiles as $file) {
+                $path = $file->store('user/files/document');
+                array_push($documentFilePaths, $path);
+            }
+            $publisher->document_path = json_encode($documentFilePaths);
+        }
+        if ($request->hasFile('io_files')) {
+            $ioFilePaths = array();
+            $ioFiles = $request->file('io_files');
+            foreach ($ioFiles as $file) {
+                $path = $file->store('user/files/io');
+                array_push($ioFilePaths, $path);
+            }
+            $publisher->io_path = json_encode($ioFilePaths);
+        }
+
+        session()->put('publisher', $publisher);
+        session()->put('activeTab', 'contactInfoTab');
+    }
+
+    public function storeContactInSession(Request $request)
+    {
+        $validatedData = $request->validate([
+            'acc_mng_first_name' => 'required',
+            'acc_mng_last_name' => 'required',
+            'acc_mng_email' => 'required',
+            'acc_mng_phone' => 'nullable',
+            'acc_mng_skype' => 'nullable',
+            'acc_mng_linkedin' => 'nullable',
+        ]);
+
+        $publisher = $request->session()->get('publisher');
+
+        $publisher->acc_mng_first_name = $request->acc_mng_first_name;
+        $publisher->acc_mng_last_name = $request->acc_mng_last_name;
+        $publisher->acc_mng_email = $request->acc_mng_email;
+        $publisher->acc_mng_phone = $request->acc_mng_phone;
+        $publisher->acc_mng_skype = $request->acc_mng_skype;
+        $publisher->acc_mng_linkedin = $request->acc_mng_linkedin;
+
+        session()->put('publisher', $publisher);
+        session()->put('activeTab', 'operationsInfoTab');
+    }
+
+    public function storeOperationInSession(Request $request)
+    {
+        $validatedData = $request->validate([
+            'revenue_share' => 'required',
+            'payment_terms' => 'required',
+            'reporting_email' => 'required',
+            'user_id' => 'required',
+            'report_type'  => 'nullable',
+            'api_key'  => 'nullable',
+            'dashboard_path'  => 'nullable',
+            'email'  => 'nullable',
+            'password'  => 'nullable',
+            'gdrive_email'  => 'nullable',
+            'gdrive_password'  => 'nullable',
+        ]);
+
+        $publisher = $request->session()->get('publisher');
+
+        $publisher->revenue_share = $request->revenue_share;
+        $publisher->payment_terms = $request->payment_terms;
+        $publisher->reporting_email = $request->reporting_email;
+        $publisher->user_id = $request->user_id;
+        $publisher->report_type = $request->report_type;
+        $publisher->api_key = $request->api_key;
+        $publisher->dashboard_path = $request->dashboard_path;
+        $publisher->email = $request->email;
+        $publisher->password = $request->password;
+        $publisher->gdrive_email = $request->gdrive_email;
+        $publisher->gdrive_password = $request->gdrive_password;
+
+        session()->put('publisher', $publisher);
+        session()->put('activeTab', 'financeInfoTab');
+    }
+
+    public function storeReportInSession(Request $request)
+    {
+        if ($request->has('edit_form')) {
+            $reportColoumns = [
+                'date' => $request->dateColValue,
+                'feed' => $request->feedColValue,
+                'subid' => $request->subidColValue,
+                'country' => $request->countryColValue,
+                'total_searches' => $request->totalSearchesColValue,
+                'monitized_searches' => $request->monitizedSearchesColValue,
+                'paid_clicks' => $request->paidClicksColValue,
+                'revenue' => $request->revenueColValue,
+            ];
+            session()->put('reportColoumns', $reportColoumns);
+        } else {
+            $validatedData = $request->validate([
+                'report_type' => 'nullable',
+                'api_key' => 'nullable',
+                'dashboard_path' => 'nullable',
+                'email' => 'nullable',
+                'password' => 'nullable',
+                'gdrive_email' => 'nullable',
+                'gdrive_password' => 'nullable',
+                'report_coloumns' => 'nullable',
+            ]);
+
+            $publisher = $request->session()->get('publisher');
+
+            $publisher->report_type = $request->report_type;
+            $publisher->api_key = $request->api_key;
+            $publisher->dashboard_path = $request->dashboard_path;
+            $publisher->email = $request->email;
+            $publisher->password = $request->password;
+            $publisher->gdrive_email = $request->gdrive_email;
+            $publisher->gdrive_password = $request->gdrive_password;
+
+            $publisher->report_coloumns = json_encode([
+                'date' => $request->dateColValue,
+                'feed' => $request->feedColValue,
+                'subid' => $request->subidColValue,
+                'country' => $request->countryColValue,
+                'total_searches' => $request->totalSearchesColValue,
+                'monitized_searches' => $request->monitizedSearchesColValue,
+                'paid_clicks' => $request->paidClicksColValue,
+                'revenue' => $request->revenueColValue,
+            ]);
+
+            session()->put('publisher', $publisher);
+        }
+    }
+
+    public function storeBankInSession(Request $request)
+    {
+        $request->validate([
+            'bank_beneficiary_name' => 'nullable',
+            'bank_beneficiary_address' => 'nullable',
+            'bank_name' => 'nullable',
+            'bank_address' => 'nullable',
+            'bank_account_number' => 'nullable',
+            'bank_routing_number' => 'nullable',
+            'bank_iban' => 'nullable',
+            'bank_swift' => 'nullable',
+            'bank_currency' => 'nullable',
+        ]);
+
+        $publisher = $request->session()->get('publisher');
+
+        $publisher->bank_beneficiary_name = $request->bank_beneficiary_name;
+        $publisher->bank_beneficiary_address = $request->bank_beneficiary_address;
+        $publisher->bank_name = $request->bank_name;
+        $publisher->bank_address = $request->bank_address;
+        $publisher->bank_account_number = $request->bank_account_number;
+        $publisher->bank_routing_number = $request->bank_routing_number;
+        $publisher->bank_iban = $request->bank_iban;
+        $publisher->bank_swift = $request->bank_swift;
+        $publisher->bank_currency = $request->bank_currency;
+
+        session()->put('publisher', $publisher);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
     public function show(Publisher $publisher)
     {
-        //
+        // return $publisher;
+        $countries = Country::all();
+        $banks = Bank::all();
+        $teamMembers = User::all();
+        $availableTeamMembers = User::all();
+
+        return view('publisher.edit', compact('publisher', 'countries', 'banks', 'availableTeamMembers'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function edit(Publisher $publisher)
+    public function edit(Request $request, Publisher $publisher, $currentedit)
     {
-        //
+        $countries = Country::all();
+        $banks = Bank::all();
+        $teamMembers = User::all();
+        $selectedteam = $publisher->team_member_id;
+        $teamMemberIds = $teamMembers->pluck('id')->toArray();
+        $assignedAdvertisers = Publisher::whereIn('user_id', $teamMemberIds)
+            ->whereNotIn('user_id', [$selectedteam])
+            ->get();
+        $assignedTeamMemberIds = $assignedAdvertisers->pluck('user_id')->toArray();
+        $availableTeamMembers = User::whereNotIn('id', $assignedTeamMemberIds)->get();
+        $selectedcountry = $publisher->country_id;
+        $selectedcountrycode = $publisher->country_code;
+        return view('publisher.edit', compact('publisher', 'selectedcountry', 'selectedcountrycode', 'availableTeamMembers', 'countries', 'banks'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Http\Requests\UpdateAdvertiserRequest  $request
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Publisher $publisher)
+    public function update(Request $request, Publisher $publisher, $currentedit)
     {
-        //
+        $message = "";
+
+        switch ($currentedit) {
+            case 'accountinfo':
+                $request->validate([
+                    'publisher_id' => 'required',
+                    'company_name' => 'required',
+                    'reg_id' => 'nullable',
+                    'vat_id' => 'nullable',
+                    'website_url' => 'required',
+                    'account_email' => 'required',
+                    'account_password' => 'required',
+                    'address1' => 'required',
+                    'address2' => 'nullable',
+                    'city' => 'required',
+                    'state' => 'nullable',
+                    'zipcode' => 'nullable',
+                    'country' => 'required',
+                    'document_files' => 'nullable',
+                    'io_files' => 'nullable',
+                ]);
+
+                $publisher->publisher_id = $request->publisher_id;
+                $publisher->company_name = $request->company_name;
+                $publisher->reg_id = $request->reg_id;
+                $publisher->vat_id = $request->vat_id;
+                $publisher->website_url = $request->website_url;
+                $publisher->account_email = $request->account_email;
+                $publisher->account_password = $request->account_password;
+                $publisher->address1 = $request->address1;
+                $publisher->address2 = $request->address2;
+                $publisher->city = $request->city;
+                $publisher->state = $request->state;
+                $publisher->zipcode = $request->zipcode;
+                $publisher->country = $request->country;
+                $publisher->state = $request->state;
+
+                if ($request->hasFile('document_files')) {
+                    $documentFilePaths = array();
+                    $documentFiles = $request->file('document_files');
+                    foreach ($documentFiles as $file) {
+                        $path = $file->store('user/files/document');
+                        array_push($documentFilePaths, $path);
+                    }
+                    $publisher->document_path = json_encode($documentFilePaths);
+                }
+                if ($request->hasFile('io_files')) {
+                    $ioFilePaths = array();
+                    $ioFiles = $request->file('io_files');
+                    foreach ($ioFiles as $file) {
+                        $path = $file->store('user/files/io');
+                        array_push($ioFilePaths, $path);
+                    }
+                    $publisher->io_path = json_encode($ioFilePaths);
+                }
+                $message = "Account";
+                break;
+            case 'contactinfo':
+                $request->validate([
+                    'acc_mng_first_name' => 'required',
+                    'acc_mng_last_name' => 'required',
+                    'acc_mng_email' => 'required',
+                    'acc_mng_phone' => 'nullable',
+                    'acc_mng_skype' => 'nullable',
+                    'acc_mng_linkedin' => 'nullable',
+                ]);
+
+                $publisher->acc_mng_first_name = $request->acc_mng_first_name;
+                $publisher->acc_mng_last_name = $request->acc_mng_last_name;
+                $publisher->acc_mng_email = $request->acc_mng_email;
+                $publisher->acc_mng_phone = $request->acc_mng_phone;
+                $publisher->acc_mng_skype = $request->acc_mng_skype;
+                $publisher->acc_mng_linkedin = $request->acc_mng_linkedin;
+
+                $message = "Contact";
+                break;
+            case 'operationinfo':
+                $request->validate([
+                    'revenue_share' => 'required',
+                    'payment_terms' => 'required',
+                    'reporting_email' => 'required',
+                    'user_id' => 'required',
+                    'report_type'  => 'nullable',
+                    'api_key'  => 'nullable',
+                    'dashboard_path'  => 'nullable',
+                    'email'  => 'nullable',
+                    'password'  => 'nullable',
+                    'gdrive_email'  => 'nullable',
+                    'gdrive_password'  => 'nullable',
+                ]);
+
+                $reportsColomns = $request->session()->get('reportsColomns');
+
+                $publisher->revenue_share = $request->revenue_share;
+                $publisher->payment_terms = $request->payment_terms;
+                $publisher->reporting_email = $request->reporting_email;
+                $publisher->user_id = $request->user_id;
+                $publisher->report_type = $request->report_type;
+                // $publisher->api_key = $request->api_key;
+                // $publisher->dashboard_path = $request->dashboard_path;
+                // $publisher->email = $request->email;
+                // $publisher->password = $request->password;
+                // $publisher->gdrive_email = $request->gdrive_email;
+                // $publisher->gdrive_password = $request->gdrive_password;
+                $message = "Operationnal";
+                break;
+            case 'financeinfo':
+                $request->validate([
+                    'billing_email' => 'required',
+                    'payoneer' => 'nullable',
+                    'paypal' => 'nullable',
+                    'bank_beneficiary_name' => 'nullable',
+                    'bank_beneficiary_address' => 'nullable',
+                    'bank_name' => 'nullable',
+                    'bank_address' => 'nullable',
+                    'bank_account_number' => 'nullable',
+                    'bank_routing_number' => 'nullable',
+                    'bank_iban' => 'nullable',
+                    'bank_swift' => 'nullable',
+                    'bank_currency' => 'nullable',
+                ]);
+
+                $publisher->billing_email = $request->billing_email;
+                $publisher->payoneer = $request->payoneer;
+                $publisher->paypal = $request->paypal;
+
+                // $publisher->report_coloumns = $publisher->report_coloumns;
+
+                $message = "Finance";
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $publisher->update();
+
+        return redirect()->route('publisher.show', compact('publisher'))->with('success', 'Publisher ' . $message . ' Info Has Been Updated Successfuly:');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
     public function destroy(Publisher $publisher)
     {
         //
+    }
+
+    public function checkUniqueAdvertiserId(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'input_field' => 'unique:publishers,publisher_id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The value is not unique.']);
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function checkUniqueAccountEmail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'input_field' => 'unique:publishers,account_email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
+        }
+
+        return response()->json(['status' => 'success']);
     }
 }

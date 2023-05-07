@@ -15,36 +15,57 @@ class CreatePublishersTable extends Migration
     {
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
-            $table->string("dbaId");
-            $table->string("companyName");
-            $table->string("regId");
-            $table->string("vat");
-            $table->string("url");
-            $table->string('accEmail')->unique();
-            $table->string('password');
-            $table->string('billEmail');
-            $table->string('reportEmail');
+            $table->string("publisher_id")->unique();
+            $table->string("company_name");
+            $table->string("reg_id")->nullable();
+            $table->string("vat_id")->nullable();
+            $table->string("website_url");
+            $table->string('account_email')->unique();
+            $table->string('account_password');
             $table->string('address1');
-            $table->string('address2');
-            $table->string('city_id');
-            $table->string('state_id');
-            $table->string('country_id');
-            $table->unsignedInteger('zipCode');
-            $table->string('amFirstName');
-            $table->string('amLastName');
-            $table->string('amEmail');
-            $table->string('amPhone');
-            $table->string('amSkype');
-            $table->string('amLinkedIn');
-            $table->string('agreementDoc');
-            $table->unsignedInteger('revSharePer');
-            $table->string('paymentTerms');
-            $table->unsignedInteger('bank_id');
-            $table->string('payoneer');
-            $table->string('paypal');
-            $table->string('document');
-            $table->string('notes');
-            $table->date('startDate');
+            $table->string('address2')->nullable();
+            $table->string('city');
+            $table->string('state')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('country');
+            $table->json('documents_path')->nullable();
+            $table->json('io_path')->nullable();
+
+            $table->string('acc_mng_first_name');
+            $table->string('acc_mng_last_name');
+            $table->string('acc_mng_email');
+            $table->string('acc_mng_phone')->nullable();
+            $table->string('acc_mng_skype')->nullable();
+            $table->string('acc_mng_linkedin')->nullable();
+            $table->string('country_code')->nullable();
+
+            $table->decimal('revenue_share', $precision = 8, $scale = 2);
+            $table->string('payment_terms');
+            $table->string('reporting_email');
+            $table->string('report_type')->nullable();
+            $table->string('api_key')->nullable();
+            $table->string('dashboard_path')->nullable();
+            $table->string('email')->nullable();
+            $table->string('password')->nullable();
+            $table->string('gdrive_email')->nullable();
+            $table->string('gdrive_password')->nullable();
+            $table->json('report_coloumns')->nullable();
+            $table->foreignId('user_id')->nullable(); //success manager
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+
+            $table->string('billing_email');
+            $table->string('payoneer')->nullable();
+            $table->string('paypal')->nullable();
+            $table->string('bank_beneficiary_name')->nullable();
+            $table->string('bank_beneficiary_address')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('bank_address')->nullable();
+            $table->string('bank_account_number')->nullable();
+            $table->string('bank_routing_number')->nullable();
+            $table->string('bank_iban')->nullable();
+            $table->string('bank_swift')->nullable();
+            $table->string('bank_currency')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });

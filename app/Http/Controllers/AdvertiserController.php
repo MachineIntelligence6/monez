@@ -40,14 +40,14 @@ class AdvertiserController extends Controller
         $states = State::all();
         $cities = City::all();
         $banks = Bank::all();
-        $teamMembers = TeamMember::all();
+        $teamMembers = User::all();
 
         $lastId = Advertiser::latest()->first() ? Advertiser::latest()->first()->id : 0;
         $counter = $lastId + 1;
         $teamMemberIds = $teamMembers->pluck('id')->toArray();
         $assignedAdvertisers = Advertiser::whereIn('user_id', $teamMemberIds)->get();
         $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
-        $availableTeamMembers = TeamMember::all();
+        $availableTeamMembers = User::all();
         $activeTab = session()->get('activeTab') ?? 'accountInfoTab';
         return view('advertiser.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'activeTab', 'counter'));
     }
@@ -318,14 +318,14 @@ class AdvertiserController extends Controller
     {
         $countries = Country::all();
         $banks = Bank::all();
-        $teamMembers = TeamMember::all();
+        $teamMembers = User::all();
         $selectedteam = $advertiser->team_member_id;
         $teamMemberIds = $teamMembers->pluck('id')->toArray();
         $assignedAdvertisers = Advertiser::whereIn('user_id', $teamMemberIds)
             ->whereNotIn('user_id', [$selectedteam])
             ->get();
         $assignedTeamMemberIds = $assignedAdvertisers->pluck('user_id')->toArray();
-        $availableTeamMembers = TeamMember::whereNotIn('id', $assignedTeamMemberIds)->get();
+        $availableTeamMembers = User::whereNotIn('id', $assignedTeamMemberIds)->get();
         $selectedcountry = $advertiser->country_id;
         $selectedcountrycode = $advertiser->country_code;
         return view('advertiser.edit', compact('advertiser', 'selectedcountry', 'selectedcountrycode', 'availableTeamMembers', 'countries', 'banks'));

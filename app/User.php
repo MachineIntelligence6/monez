@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function advertisers(){
+        return $this->belongsTo(Advertiser::class,'id','user_id');
+    }
+
+    public function publishers(){
+        return $this->belongsTo(Publisher::class,'id','user_id');
+    }
 }

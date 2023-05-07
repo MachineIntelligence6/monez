@@ -66,7 +66,7 @@
                                     <td>
                                         <span class="d-inline-flex" style="gap: 5px;">
                                             <a class="btn bg-secondary text-white" href="{{route('team-members.view',$teamMember->id)}}">View Info</a>
-                                            @if(isset($teamMember->advertisers))
+                                            @if(isset($teamMember))
                                             @else
                                             <form action="{{ route('team-members.destroy', $teamMember->id )  }}" method="POST">
                                                 @csrf
