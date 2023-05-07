@@ -38,7 +38,7 @@ jobs:
           cd /var/www/school-management-system/monez/
           git pull
           composer install
-          php artisan migrate --force
+          php artisan migrate:fresh
           php artisan db:seed
           php artisan optimize
 
