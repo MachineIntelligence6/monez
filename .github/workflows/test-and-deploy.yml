@@ -28,5 +28,5 @@ jobs:
           composer install
           php artisan migrate:fresh
           php artisan db:seed
-          php artisan optimize
+          php artisan route:clear
 
