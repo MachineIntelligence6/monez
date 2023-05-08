@@ -571,6 +571,25 @@
 
         $('.dropify').dropify();
 
+        $("#bankDetailsForm").submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: (response) => {
+                    // $("#bankId").val(response.id);
+                    $(this).closest(".modal")
+                        .removeClass("show")
+                        .css("display", "none");
+                    console.log(response);
+                },
+                error: (error) => {
+                    console.log(error);
+                }
+            });
+        });
+        
         $("#reportColoumnsForm").submit(function(event) {
             event.preventDefault();
             $.ajax({

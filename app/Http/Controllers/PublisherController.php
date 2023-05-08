@@ -135,7 +135,7 @@ class PublisherController extends Controller
                 $path = $file->store('user/files/document');
                 array_push($documentFilePaths, $path);
             }
-            $publisher->document_path = json_encode($documentFilePaths);
+            $publisher->documents_path = json_encode($documentFilePaths);
         }
         if ($request->hasFile('io_files')) {
             $ioFilePaths = array();
@@ -274,7 +274,11 @@ class PublisherController extends Controller
             'bank_currency' => 'nullable',
         ]);
 
-        $publisher = $request->session()->get('publisher');
+        if(session()->has('advertiser')){
+            $publisher = $request->session()->get('publisher');
+        } else {
+            $publisher = new Publisher();
+        }
 
         $publisher->bank_beneficiary_name = $request->bank_beneficiary_name;
         $publisher->bank_beneficiary_address = $request->bank_beneficiary_address;
@@ -382,7 +386,7 @@ class PublisherController extends Controller
                         $path = $file->store('user/files/document');
                         array_push($documentFilePaths, $path);
                     }
-                    $publisher->document_path = json_encode($documentFilePaths);
+                    $publisher->documents_path = json_encode($documentFilePaths);
                 }
                 if ($request->hasFile('io_files')) {
                     $ioFilePaths = array();
@@ -463,7 +467,27 @@ class PublisherController extends Controller
                 $publisher->billing_email = $request->billing_email;
                 $publisher->payoneer = $request->payoneer;
                 $publisher->paypal = $request->paypal;
-
+                if(session()->has('publisher')){
+                    $publisherInSession = $request->session()->get('publisher');
+                    $publisher->bank_beneficiary_name = $publisherInSession->bank_beneficiary_name;
+                    $publisher->bank_beneficiary_address = $publisherInSession->bank_beneficiary_address;
+                    $publisher->bank_name = $publisherInSession->bank_name;
+                    $publisher->bank_address = $publisherInSession->bank_address;
+                    $publisher->bank_account_number = $publisherInSession->bank_account_number;
+                    $publisher->bank_routing_number = $publisherInSession->bank_routing_number;
+                    $publisher->bank_iban = $publisherInSession->bank_iban;
+                    $publisher->bank_swift = $publisherInSession->bank_swift;
+                    $publisher->bank_currency = $publisherInSession->bank_currency;
+                    session()->forget('publisher.bank_beneficiary_name');
+                    session()->forget('publisher.bank_beneficiary_address');
+                    session()->forget('publisher.bank_name');
+                    session()->forget('publisher.bank_address');
+                    session()->forget('publisher.bank_account_number');
+                    session()->forget('publisher.bank_routing_number');
+                    session()->forget('publisher.bank_iban');
+                    session()->forget('publisher.bank_swift');
+                    session()->forget('publisher.bank_currency');
+                }
                 // $publisher->report_coloumns = $publisher->report_coloumns;
 
                 $message = "Finance";

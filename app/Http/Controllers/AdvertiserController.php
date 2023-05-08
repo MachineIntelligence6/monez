@@ -137,7 +137,7 @@ class AdvertiserController extends Controller
                 $path = $file->store('user/files/document');
                 array_push($documentFilePaths, $path);
             }
-            $advertiser->document_path = json_encode($documentFilePaths);
+            $advertiser->documents_path = json_encode($documentFilePaths);
         }
         if ($request->hasFile('io_files')) {
             $ioFilePaths = array();
@@ -276,7 +276,11 @@ class AdvertiserController extends Controller
             'bank_currency' => 'nullable',
         ]);
 
-        $advertiser = $request->session()->get('advertiser');
+        if(session()->has('advertiser')){
+            $advertiser = $request->session()->get('advertiser');
+        } else {
+            $advertiser = new Advertiser();
+        }
 
         $advertiser->bank_beneficiary_name = $request->bank_beneficiary_name;
         $advertiser->bank_beneficiary_address = $request->bank_beneficiary_address;
@@ -384,7 +388,7 @@ class AdvertiserController extends Controller
                         $path = $file->store('user/files/document');
                         array_push($documentFilePaths, $path);
                     }
-                    $advertiser->document_path = json_encode($documentFilePaths);
+                    $advertiser->documents_path = json_encode($documentFilePaths);
                 }
                 if ($request->hasFile('io_files')) {
                     $ioFilePaths = array();
@@ -465,7 +469,27 @@ class AdvertiserController extends Controller
                 $advertiser->billing_email = $request->billing_email;
                 $advertiser->payoneer = $request->payoneer;
                 $advertiser->paypal = $request->paypal;
-
+                if(session()->has('advertiser')){
+                    $advertiserInSession = $request->session()->get('advertiser');
+                    $advertiser->bank_beneficiary_name = $advertiserInSession->bank_beneficiary_name;
+                    $advertiser->bank_beneficiary_address = $advertiserInSession->bank_beneficiary_address;
+                    $advertiser->bank_name = $advertiserInSession->bank_name;
+                    $advertiser->bank_address = $advertiserInSession->bank_address;
+                    $advertiser->bank_account_number = $advertiserInSession->bank_account_number;
+                    $advertiser->bank_routing_number = $advertiserInSession->bank_routing_number;
+                    $advertiser->bank_iban = $advertiserInSession->bank_iban;
+                    $advertiser->bank_swift = $advertiserInSession->bank_swift;
+                    $advertiser->bank_currency = $advertiserInSession->bank_currency;
+                    session()->forget('advertiser.bank_beneficiary_name');
+                    session()->forget('advertiser.bank_beneficiary_address');
+                    session()->forget('advertiser.bank_name');
+                    session()->forget('advertiser.bank_address');
+                    session()->forget('advertiser.bank_account_number');
+                    session()->forget('advertiser.bank_routing_number');
+                    session()->forget('advertiser.bank_iban');
+                    session()->forget('advertiser.bank_swift');
+                    session()->forget('advertiser.bank_currency');
+                }
                 // $advertiser->report_coloumns = $advertiser->report_coloumns;
 
                 $message = "Finance";
