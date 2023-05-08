@@ -203,7 +203,7 @@ class SettingController extends Controller
 
     public function sendNewsletter(Request $request)
     {
-        return $request;
+        // return $request;
         $subject = $request->subject;
         $body = $request->content;
         $messagerecipient_type = $request->parteners;

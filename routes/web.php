@@ -71,23 +71,23 @@ Route::prefix('publisher')->name('publisher.')->group(function () {
 Route::resource('admin', AdminController::class);
 Route::post('/check-unique-value', [AdvertiserController::class, 'checkUniqueDbId'])->name('check.unique.value');
 Route::post('/check-unique-accEmail', [AdvertiserController::class, 'checkUniqueaccEmail'])->name('check.unique.accEmail');
-Route::post('/advertiser/store/bank_details', [AdvertiserController::class, 'advertiserBankDetails'])->name('store.bank_details');
-Route::post('/advertiser/store/reporttype', [AdvertiserController::class, 'advertiserReportType'])->name('store.reporttype');
-Route::post('/advertiser/store/reportcolumns', [AdvertiserController::class, 'advertiserReportColumns'])->name('store.reportcolumns');
-Route::get('/advertiser/{advertiser}/view', [AdvertiserController::class, 'view'])->name('advertiser.view');
+// Route::post('/advertiser/store/bank_details', [AdvertiserController::class, 'advertiserBankDetails'])->name('store.bank_details');
+// Route::post('/advertiser/store/reporttype', [AdvertiserController::class, 'advertiserReportType'])->name('store.reporttype');
+// Route::post('/advertiser/store/reportcolumns', [AdvertiserController::class, 'advertiserReportColumns'])->name('store.reportcolumns');
+// Route::get('/advertiser/{advertiser}/view', [AdvertiserController::class, 'view'])->name('advertiser.view');
 
-Route::post('/advertiser/store-account-info', [AdvertiserController::class, 'storeAccountInfo'])->name('advertiser.storeAccountInfo');
-Route::post('/advertiser/store-contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
-Route::post('/advertiser/store-operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
-Route::post('/advertiser/store-finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
+// Route::post('/advertiser/store-account-info', [AdvertiserController::class, 'storeAccountInfo'])->name('advertiser.storeAccountInfo');
+// Route::post('/advertiser/store-contact-info', [AdvertiserController::class, 'storeContactInfo'])->name('advertiser.storeContactInfo');
+// Route::post('/advertiser/store-operation-info', [AdvertiserController::class, 'storeOperationInfo'])->name('advertiser.storeOperationInfo');
+// Route::post('/advertiser/store-finance-info', [AdvertiserController::class, 'storeFinanceInfo'])->name('advertiser.storeFinanceInfo');
 
-Route::post('/advertiser/{advertiser}/account-info', [AdvertiserController::class, 'updateAccountInfo'])->name('advertiser.updateAccountInfo');
-Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'updateContactInfo'])->name('advertiser.updateContactInfo');
-Route::post('/advertiser/{advertiser}/operation-info', [AdvertiserController::class, 'updateOperationInfo'])->name('advertiser.updateOperationInfo');
-Route::post('/advertiser/{advertiser}/finance-info', [AdvertiserController::class, 'updateFinanceInfo'])->name('advertiser.updateFinanceInfo');
-Route::get('/advertiser/create/contact', [AdvertiserController::class, 'createContact'])->name('advertiser.create.contact');
-Route::get('/advertiser/create/operation', [AdvertiserController::class, 'createOperation'])->name('advertiser.create.operation');
-Route::get('/advertiser/create/finance', [AdvertiserController::class, 'createFinance'])->name('advertiser.create.finance');
+// Route::post('/advertiser/{advertiser}/account-info', [AdvertiserController::class, 'updateAccountInfo'])->name('advertiser.updateAccountInfo');
+// Route::post('/advertiser/{advertiser}/contact-info', [AdvertiserController::class, 'updateContactInfo'])->name('advertiser.updateContactInfo');
+// Route::post('/advertiser/{advertiser}/operation-info', [AdvertiserController::class, 'updateOperationInfo'])->name('advertiser.updateOperationInfo');
+// Route::post('/advertiser/{advertiser}/finance-info', [AdvertiserController::class, 'updateFinanceInfo'])->name('advertiser.updateFinanceInfo');
+// Route::get('/advertiser/create/contact', [AdvertiserController::class, 'createContact'])->name('advertiser.create.contact');
+// Route::get('/advertiser/create/operation', [AdvertiserController::class, 'createOperation'])->name('advertiser.create.operation');
+// Route::get('/advertiser/create/finance', [AdvertiserController::class, 'createFinance'])->name('advertiser.create.finance');
 // Route::resource('advertiser', AdvertiserController::class);
 Route::resource('publisher', PublisherController::class);
 Route::post('/check-unique-teamemail', [TeamMemberController::class, 'checkUniqueteamEmail'])->name('check.unique.teamEmail');
