@@ -89,7 +89,7 @@ Route::post('/check-unique-accEmail', [AdvertiserController::class, 'checkUnique
 // Route::get('/advertiser/create/operation', [AdvertiserController::class, 'createOperation'])->name('advertiser.create.operation');
 // Route::get('/advertiser/create/finance', [AdvertiserController::class, 'createFinance'])->name('advertiser.create.finance');
 // Route::resource('advertiser', AdvertiserController::class);
-Route::resource('publisher', PublisherController::class);
+// Route::resource('publisher', PublisherController::class);
 Route::post('/check-unique-teamemail', [TeamMemberController::class, 'checkUniqueteamEmail'])->name('check.unique.teamEmail');
 Route::post('/check-unique-teamphone', [TeamMemberController::class, 'checkUniqueteamPhone'])->name('check.unique.teamPhone');
 Route::get('/teammembers/view/{member}', [TeamMemberController::class, 'view'])->name('team-members.view');
