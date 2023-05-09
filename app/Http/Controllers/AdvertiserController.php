@@ -23,8 +23,8 @@ class AdvertiserController extends Controller
      */
     public function index()
     {
-        session()->forget('advertiser');
-        session()->forget('activeTab');
+        // session()->forget('advertiser');
+        // session()->forget('activeTab');
         $advertisers = Advertiser::orderBy('created_at', 'asc')->get();
         return view('advertiser.index', compact('advertisers'));
     }
