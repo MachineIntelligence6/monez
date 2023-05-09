@@ -8,10 +8,12 @@ use App\City;
 use App\Country;
 use App\Http\Requests\StoreAdvertiserRequest;
 use App\Http\Requests\UpdateAdvertiserRequest;
+use App\Notifications\CustomMessage;
 use App\State;
 use App\TeamMember;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdvertiserController extends Controller
@@ -136,8 +138,8 @@ class AdvertiserController extends Controller
             $documentFilePaths = array();
             $documentFiles = $request->file('document_files');
             foreach ($documentFiles as $file) {
-                $path = $file->store('user/files/document');
-                array_push($documentFilePaths, $path);
+                $path = $file->store('user/files');
+                array_push($documentFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
             }
             $advertiser->documents_path = json_encode($documentFilePaths);
         }
@@ -145,8 +147,8 @@ class AdvertiserController extends Controller
             $ioFilePaths = array();
             $ioFiles = $request->file('io_files');
             foreach ($ioFiles as $file) {
-                $path = $file->store('user/files/io');
-                array_push($ioFilePaths, $path);
+                $path = $file->store('user/files');
+                array_push($ioFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
             }
             $advertiser->io_path = json_encode($ioFilePaths);
         }
@@ -391,8 +393,8 @@ class AdvertiserController extends Controller
                     $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $file) {
-                        $path = $file->store('user/files/document');
-                        array_push($documentFilePaths, $path);
+                        $path = $file->store('user/files');
+                        array_push($documentFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
                     }
                     $advertiser->documents_path = json_encode($documentFilePaths);
                 }
@@ -400,8 +402,8 @@ class AdvertiserController extends Controller
                     $ioFilePaths = array();
                     $ioFiles = $request->file('io_files');
                     foreach ($ioFiles as $file) {
-                        $path = $file->store('user/files/io');
-                        array_push($ioFilePaths, $path);
+                        $path = $file->store('user/files');
+                        array_push($ioFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
                     }
                     $advertiser->io_path = json_encode($ioFilePaths);
                 }
@@ -545,5 +547,14 @@ class AdvertiserController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function downloadFile(Advertiser $advertiser, $fileNo, $type){
+        if($type == 'io'){
+            $file = $advertiser->io_path[$fileNo];
+        } else {
+            $file = $advertiser->documents_path[$fileNo];
+        }
+        return Storage::download($file->path, $file->name);
     }
 }

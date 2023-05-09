@@ -4,7 +4,11 @@
 <!-- Start Content-->
 <div class="container-fluid">
 
-
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <div>{{$error}}</div>
+    @endforeach
+@endif
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -73,7 +77,7 @@
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="msg_custom_users[]" @if(in_array($publisher->id, $pub_ids)) checked @endif id="messagePartnerpub{{$publisher->id}}_{{$custommessage->id}}" value="p_{{$publisher->id}}">
-                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}_{{$custommessage->id}}">{{$publisher->companyName}}</label>
+                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}_{{$custommessage->id}}">{{$publisher->publisher_id}}</label>
                                             </div>
                                         </div>
 
@@ -82,7 +86,7 @@
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="msg_custom_users[]" @if(in_array($advertiser->id, $adv_ids)) checked @endif id="messagePartneradv{{$advertiser->id}}_{{$custommessage->id}}" value="a_{{$advertiser->id}}">
-                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}_{{$custommessage->id}}">{{$advertiser->companyName}}</label>
+                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}_{{$custommessage->id}}">{{$advertiser->advertiser_id}}</label>
                                             </div>
                                         </div>
                                         @endforeach
@@ -140,7 +144,7 @@
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartnerpub{{$publisher->id}}" value="p_{{$publisher->id}}">
-                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}">{{$publisher->companyName}}</label>
+                                                <label class="custom-control-label w-100" for="messagePartnerpub{{$publisher->id}}">{{$publisher->publisher_id}}</label>
                                             </div>
                                         </div>
                                         @endforeach
@@ -148,7 +152,7 @@
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="custom_users[]" id="messagePartneradv{{$advertiser->id}}" value="a_{{$advertiser->id}}">
-                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}">{{$advertiser->companyName}}</label>
+                                                <label class="custom-control-label w-100" for="messagePartneradv{{$advertiser->id}}">{{$advertiser->advertiser_id}}</label>
                                             </div>
                                         </div>
                                         @endforeach
@@ -219,12 +223,12 @@
 
 
     <script>
-       
+
         function select2Refresh() {
             $("select[data-toggle='select2']").select2();
         }
 
-       
+
 
 
         let messagesContainer = document.getElementById('customMessagesContainer');
@@ -239,7 +243,7 @@
             // element.id = ""
             // element.querySelectorAll("input").forEach((inp) => inp.value = "");
             // messagesContainer.appendChild(element);
-            // 
+            //
             // console.log(jsonData.publishers);
             // console.log(jsonData.advertisers);
             let element = document.createElement("form");
@@ -300,7 +304,7 @@
                                         <div class="dropdown-item">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" name="msg_custom_users[]"  class="custom-control-input" id="p_${item.id}" value="p_${item.id}"/>
-                                        <label class="custom-control-label w-100" for="p_${item.id}">${item.companyName}</label>
+                                        <label class="custom-control-label w-100" for="p_${item.id}">${item.publisher_id}</label>
                                     </div>
                                 </div>
                                         `
@@ -312,7 +316,7 @@
                                         <div class="dropdown-item">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" name="msg_custom_users[]" class="custom-control-input" id="a_${item.id}" value="a_${item.id}"/>
-                                        <label class="custom-control-label w-100" for="a_${item.id}">${item.companyName}</label>
+                                        <label class="custom-control-label w-100" for="a_${item.id}">${item.advertiser_id}</label>
                                     </div>
                                 </div>
                                         `

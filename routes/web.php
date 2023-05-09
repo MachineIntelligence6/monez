@@ -45,6 +45,7 @@ Route::prefix('advertiser')->name('advertiser.')->group(function () {
     Route::delete('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'destroy'])->name('destroy');
     // Route::get('/{advertiser}/edit', [App\Http\Controllers\AdvertiserController::class, 'edit'])->name('edit');
     Route::get('/{advertiser}/edit/{currentedit}', [App\Http\Controllers\AdvertiserController::class, 'edit'])->name('edit');
+    Route::get('/{advertiser}/download-file/{fileNo}/{type}', [App\Http\Controllers\AdvertiserController::class,'downloadFile'])->name('download-file');
 });
 
 Route::prefix('publisher')->name('publisher.')->group(function () {
@@ -65,6 +66,7 @@ Route::prefix('publisher')->name('publisher.')->group(function () {
     Route::delete('/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy'])->name('destroy');
     // Route::get('/{publisher}/edit', [App\Http\Controllers\PublisherController::class, 'edit'])->name('edit');
     Route::get('/{publisher}/edit/{currentedit}', [App\Http\Controllers\PublisherController::class, 'edit'])->name('edit');
+    Route::get('/{publisher}/download-file/{fileNo}/{type}', [App\Http\Controllers\PublisherController::class,'downloadFile'])->name('download-file');
 });
 
 

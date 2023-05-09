@@ -9,4 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Notification extends Model
 {
     use HasFactory;
+
+    protected $table = 'notifications_files';
+    
 }

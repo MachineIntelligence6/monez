@@ -8,6 +8,7 @@ use App\Drafts;
 use App\Newsletter;
 use App\Mail\Newslettermail;
 use App\Notification;
+use App\Notifications\CustomMessage as NotificationsCustomMessage;
 use App\Publisher;
 use console;
 use App\Setting;
@@ -132,6 +133,31 @@ class SettingController extends Controller
                 // dd($messagerecipient_type);
                 $message->recipient_type = $request->parteners;
                 $message->recipient_ids = $request->parteners;
+
+                switch ($message->recipient_type) {
+                    case 'publishers':
+                        foreach (\App\Publisher::all() as $key => $user) {
+                            $user->notify(new NotificationsCustomMessage($request->message));
+                        }
+                        break;
+                    case 'advertisers':
+                        foreach (\App\Advertiser::all() as $key => $user) {
+                            $user->notify(new NotificationsCustomMessage($request->message));
+                        }
+                        break;
+                    case 'all':
+                        foreach (\App\Advertiser::all() as $key => $user) {
+                            $user->notify(new NotificationsCustomMessage($request->message));
+                        }
+                        foreach (\App\Publisher::all() as $key => $user) {
+                            $user->notify(new NotificationsCustomMessage($request->message));
+                        }
+                        break;
+
+                    default:
+                        # code...
+                        break;
+                }
             } else {
                 // dd($messagerecipient_type,'custom');
                 $message->recipient_type = 'custom';
@@ -141,8 +167,10 @@ class SettingController extends Controller
                     $parts = explode('_', $customUser);
                     if ($parts[0] === 'p') {
                         $ids[] = 'p_' . $parts[1];
+                        Publisher::find($parts[1])->notify(new NotificationsCustomMessage($request->message));
                     } elseif ($parts[0] === 'a') {
                         $ids[] = 'a_' . $parts[1];
+                        Advertiser::find($parts[1])->notify(new NotificationsCustomMessage($request->message));
                     }
                 }
                 $idString = implode(',', $ids);
@@ -150,13 +178,14 @@ class SettingController extends Controller
                 $message->recipient_ids = $idString;
             }
             $message->save();
+
             return redirect()->route('custommessage.view');
         } catch (\Exception $e) {
             // Log the error
             Log::error($e->getMessage());
 
             // Return a redirect response with error message
-            return redirect()->back()->withErrors(['error' => 'An error occurred while saving data!']);
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
@@ -193,7 +222,7 @@ class SettingController extends Controller
         }
         // dd($customMessage);
         $customMessage->update();
-        return redirect()->route('settings.index');
+        return redirect()->back()->withErrors(['success' => 'Message Updated']);
     }
 
     public function newsletters()

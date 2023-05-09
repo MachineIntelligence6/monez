@@ -10,6 +10,7 @@ use App\TeamMember;
 use App\User;
 use App\Bank;
 use App\City;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PublisherController extends Controller
@@ -132,8 +133,8 @@ class PublisherController extends Controller
             $documentFilePaths = array();
             $documentFiles = $request->file('document_files');
             foreach ($documentFiles as $file) {
-                $path = $file->store('user/files/document');
-                array_push($documentFilePaths, $path);
+                $path = $file->store('user/files');
+                array_push($documentFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
             }
             $publisher->documents_path = json_encode($documentFilePaths);
         }
@@ -141,8 +142,8 @@ class PublisherController extends Controller
             $ioFilePaths = array();
             $ioFiles = $request->file('io_files');
             foreach ($ioFiles as $file) {
-                $path = $file->store('user/files/io');
-                array_push($ioFilePaths, $path);
+                $path = $file->store('user/files');
+                array_push($ioFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
             }
             $publisher->io_path = json_encode($ioFilePaths);
         }
@@ -386,8 +387,8 @@ class PublisherController extends Controller
                     $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $file) {
-                        $path = $file->store('user/files/document');
-                        array_push($documentFilePaths, $path);
+                        $path = $file->store('user/files');
+                        array_push($documentFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
                     }
                     $publisher->documents_path = json_encode($documentFilePaths);
                 }
@@ -395,8 +396,8 @@ class PublisherController extends Controller
                     $ioFilePaths = array();
                     $ioFiles = $request->file('io_files');
                     foreach ($ioFiles as $file) {
-                        $path = $file->store('user/files/io');
-                        array_push($ioFilePaths, $path);
+                        $path = $file->store('user/files');
+                        array_push($ioFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
                     }
                     $publisher->io_path = json_encode($ioFilePaths);
                 }
@@ -540,5 +541,14 @@ class PublisherController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function downloadFile(Publisher $publisher, $fileNo, $type){
+        if($type == 'io'){
+            $file = $publisher->io_path[$fileNo];
+        } else {
+            $file = $publisher->documents_path[$fileNo];
+        }
+        return Storage::download($file->path, $file->name);
     }
 }

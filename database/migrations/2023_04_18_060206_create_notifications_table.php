@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('notifications_files', function (Blueprint $table) {
             $table->id();
             $table->enum('recipient_type', ['all', 'publishers', 'advertisers', 'custom'])->default('all');
             $table->string('recipient_ids')->nullable();

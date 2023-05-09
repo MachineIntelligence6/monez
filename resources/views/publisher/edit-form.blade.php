@@ -202,22 +202,16 @@
         @endif
         <div class="row mb-4 display-on-view">
             <div class="col-md-6 mb-3">
-                @php
-                    $names = $publisher->agreementDoc;
-                    $nameArray = explode(",", $names);
-                    $docnames = $publisher->document;
-                    $docnameArray = explode(",", $docnames);
-                @endphp
                 <div class="h-100 mb-3">
                     <label for="">Uploaded IOs</label>
                     <div class="border h-100 rounded-sm p-2">
-                        @foreach ($nameArray as $name)
-                            @if ($name)
-                                <a href="{{ route('downloadpdf',['id'=>$publisher->id,'pdf'=> 'agreementDoc','name'=>$name ]) }}">{{$name}}--{{date('d-m-Y', strtotime($publisher->created_at))}}</a><br><br>
-                            @else
-                                <!-- <p>PDF not available</p> -->
-                            @endif
-                        @endforeach
+                        @if ($publisher->io_path)
+                            @foreach ($publisher->io_path as $key => $file)
+                                <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a><br><br>
+                            @endforeach
+                        @else
+                            <p>No PDF to show</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -225,14 +219,13 @@
                 <div class="h-100">
                     <label for="">Uploaded Documents</label>
                     <div class="border h-100 rounded-sm p-2">
-                        @foreach ($docnameArray as $docnames)
-                            @if ($docnames)
-                                <a href="{{ route('downloadpdf', ['id'=>$publisher->id,'pdf'=> 'document','name'=>$docnames ]) }}">
-                                    {{$docnames}}--{{date('d-m-Y', strtotime($publisher->created_at))}}
-                                </a> <br><br> @else
-                                <!-- <p>PDF not available</p> -->
-                            @endif
-                        @endforeach
+                        @if ($publisher->documents_path)
+                            @foreach ($publisher->documents_path as $key => $file)
+                                <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a><br><br>
+                            @endforeach
+                        @else
+                            <p>No PDF to show</p>
+                        @endif
                     </div>
                 </div>
             </div>
