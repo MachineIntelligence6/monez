@@ -23,8 +23,10 @@ class AdvertiserController extends Controller
      */
     public function index()
     {
+        // return $advertiser = session()->get('advertiser');
+        // return $advertiser->report_coloumns;
         // session()->forget('advertiser');
-        // session()->forget('activeTab');
+        // session()->forget('advActiveTab');
         $advertisers = Advertiser::orderBy('created_at', 'asc')->get();
         return view('advertiser.index', compact('advertisers'));
     }
@@ -48,8 +50,8 @@ class AdvertiserController extends Controller
         $assignedAdvertisers = Advertiser::whereIn('user_id', $teamMemberIds)->get();
         $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
         $availableTeamMembers = User::all();
-        $activeTab = session()->get('activeTab') ?? 'accountInfoTab';
-        return view('advertiser.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'activeTab', 'counter'));
+        $advActiveTab = session()->get('advActiveTab') ?? 'accountInfoTab';
+        return view('advertiser.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'advActiveTab', 'counter'));
     }
 
     /**
@@ -89,7 +91,7 @@ class AdvertiserController extends Controller
         $advertiser->save();
 
         session()->forget('advertiser');
-        session()->forget('activeTab');
+        session()->forget('advActiveTab');
 
         return redirect()->route('advertiser.index');
     }
@@ -150,7 +152,7 @@ class AdvertiserController extends Controller
         }
 
         session()->put('advertiser', $advertiser);
-        session()->put('activeTab', 'contactInfoTab');
+        session()->put('advActiveTab', 'contactInfoTab');
     }
 
     public function storeContactInSession(Request $request)
@@ -174,7 +176,7 @@ class AdvertiserController extends Controller
         $advertiser->acc_mng_linkedin = $request->acc_mng_linkedin;
 
         session()->put('advertiser', $advertiser);
-        session()->put('activeTab', 'operationsInfoTab');
+        session()->put('advActiveTab', 'operationsInfoTab');
     }
 
     public function storeOperationInSession(Request $request)
@@ -208,24 +210,24 @@ class AdvertiserController extends Controller
         $advertiser->gdrive_password = $request->gdrive_password;
 
         session()->put('advertiser', $advertiser);
-        session()->put('activeTab', 'financeInfoTab');
+        session()->put('advActiveTab', 'financeInfoTab');
     }
 
     public function storeReportInSession(Request $request)
     {
-        if ($request->has('edit_form')) {
-            $reportColoumns = [
-                'date' => $request->dateColValue,
-                'feed' => $request->feedColValue,
-                'subid' => $request->subidColValue,
-                'country' => $request->countryColValue,
-                'total_searches' => $request->totalSearchesColValue,
-                'monitized_searches' => $request->monitizedSearchesColValue,
-                'paid_clicks' => $request->paidClicksColValue,
-                'revenue' => $request->revenueColValue,
-            ];
-            session()->put('reportColoumns', $reportColoumns);
-        } else {
+        // if ($request->has('edit_form')) {
+        //     $reportColoumns = [
+        //         'date' => $request->dateColValue,
+        //         'feed' => $request->feedColValue,
+        //         'subid' => $request->subidColValue,
+        //         'country' => $request->countryColValue,
+        //         'total_searches' => $request->totalSearchesColValue,
+        //         'monitized_searches' => $request->monitizedSearchesColValue,
+        //         'paid_clicks' => $request->paidClicksColValue,
+        //         'revenue' => $request->revenueColValue,
+        //     ];
+        //     session()->put('reportColoumns', $reportColoumns);
+        // } else {
             $validatedData = $request->validate([
                 'report_type' => 'nullable',
                 'api_key' => 'nullable',
@@ -237,7 +239,11 @@ class AdvertiserController extends Controller
                 'report_coloumns' => 'nullable',
             ]);
 
-            $advertiser = $request->session()->get('advertiser');
+            if(session()->has('advertiser')){
+                $advertiser = $request->session()->get('advertiser');
+            } else {
+                $advertiser = new Advertiser();
+            }
 
             $advertiser->report_type = $request->report_type;
             $advertiser->api_key = $request->api_key;
@@ -259,7 +265,7 @@ class AdvertiserController extends Controller
             ]);
 
             session()->put('advertiser', $advertiser);
-        }
+        // }
     }
 
     public function storeBankInSession(Request $request)

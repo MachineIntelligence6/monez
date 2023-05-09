@@ -2,25 +2,25 @@
 <div id="btnwizard">
     <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
         <li class="nav-item">
-            <a data-target="#accountInfoTab" data-toggle="tab" id="accountInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $activeTab == 'accountInfoTab' ? 'active' : '' }} pt-2 pb-2">
+            <a data-target="#accountInfoTab" data-toggle="tab" id="accountInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $advActiveTab == 'accountInfoTab' ? 'active' : '' }} pt-2 pb-2">
                 <i class="mdi mdi-office-building mr-2"></i>
                 Account Info
             </a>
         </li>
         <li class="nav-item">
-            <a data-target="#contactInfoTab" data-toggle="tab" id="contactInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $activeTab == 'contactInfoTab' ? 'active' : '' }} pt-2 pb-2">
+            <a data-target="#contactInfoTab" data-toggle="tab" id="contactInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $advActiveTab == 'contactInfoTab' ? 'active' : '' }} pt-2 pb-2">
                 <i class="mdi mdi-account-circle mr-2"></i>
                 Contact Info (Account Manager)
             </a>
         </li>
         <li class="nav-item">
-            <a data-target="#operationsInfoTab" data-toggle="tab" id="operationInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $activeTab == 'operationsInfoTab' ? 'active' : '' }} pt-2 pb-2">
+            <a data-target="#operationsInfoTab" data-toggle="tab" id="operationInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $advActiveTab == 'operationsInfoTab' ? 'active' : '' }} pt-2 pb-2">
                 <i class="mdi mdi-office-building mr-2"></i>
                 Operations Info
             </a>
         </li>
         <li class="nav-item">
-            <a data-target="#financeInfoTab" data-toggle="tab" id="financeInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $activeTab == 'financeInfoTab' ? 'active' : '' }} pt-2 pb-2">
+            <a data-target="#financeInfoTab" data-toggle="tab" id="financeInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $advActiveTab == 'financeInfoTab' ? 'active' : '' }} pt-2 pb-2">
                 <i class="mdi mdi-office-building mr-2"></i>
                 Finance Info
             </a>
@@ -28,9 +28,9 @@
     </ul>
 
     <div class="tab-content mb-0 b-0 pt-0">
-        {{-- {{ \Session::get('activeTab') == 'accountInfoTab' ? 'active show' : '' }} --}}
+        {{-- {{ \Session::get('advActiveTab') == 'accountInfoTab' ? 'active show' : '' }} --}}
         <!-- Account Info Tab Start  -->
-        <div class="tab-pane {{ $activeTab == 'accountInfoTab' ? 'active show' : '' }} fade" id="accountInfoTab">
+        <div class="tab-pane {{ $advActiveTab == 'accountInfoTab' ? 'active show' : '' }} fade" id="accountInfoTab">
             <form class="needs-validation" id="accountInfoform" method="post" action="{{ route('advertiser.store.account') }}" enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="row">
@@ -214,7 +214,7 @@
         <!-- Account Info Tab End  -->
 
         <!-- Contact Info Tab Start  -->
-        <div class="tab-pane {{ $activeTab == 'contactInfoTab' ? 'active show' : '' }} fade" id="contactInfoTab">
+        <div class="tab-pane {{ $advActiveTab == 'contactInfoTab' ? 'active show' : '' }} fade" id="contactInfoTab">
 
             <form class="needs-validation" id="contactInfoform" method="post" action="{{ route('advertiser.store.contact') }}" enctype="multipart/form-data" novalidate>
                 @csrf
@@ -303,7 +303,7 @@
 
 
         <!-- Operations Info Tab Start  -->
-        <div class="tab-pane {{ $activeTab == 'operationsInfoTab' ? 'active show' : '' }} fade" id="operationsInfoTab">
+        <div class="tab-pane {{ $advActiveTab == 'operationsInfoTab' ? 'active show' : '' }} fade" id="operationsInfoTab">
             <form class="needs-validation" id="operationInfoform" method="post" action="{{ route('advertiser.store.operation') }}" enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="row">
@@ -390,7 +390,7 @@
 
 
         <!-- Finance Info Tab Start -->
-        <div class="tab-pane {{ $activeTab == 'financeInfoTab' ? 'active show' : '' }}" id="financeInfoTab">
+        <div class="tab-pane {{ $advActiveTab == 'financeInfoTab' ? 'active show' : '' }}" id="financeInfoTab">
 
             <form class="needs-validation" id="financeInfoform" method="post" action="{{ route('advertiser.store.all') }}" enctype="multipart/form-data" novalidate>
                 @csrf

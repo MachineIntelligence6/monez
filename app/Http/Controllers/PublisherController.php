@@ -22,7 +22,7 @@ class PublisherController extends Controller
     public function index()
     {
         // session()->forget('publisher');
-        // session()->forget('activeTab');
+        // session()->forget('pubActiveTab');
         $publishers = Publisher::orderBy('created_at', 'asc')->get();
         return view('publisher.index', compact('publishers'));
     }
@@ -46,8 +46,8 @@ class PublisherController extends Controller
         $assignedAdvertisers = Publisher::whereIn('user_id', $teamMemberIds)->get();
         $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
         $availableTeamMembers = User::all();
-        $activeTab = session()->get('activeTab') ?? 'accountInfoTab';
-        return view('publisher.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'activeTab', 'counter'));
+        $pubActiveTab = session()->get('pubActiveTab') ?? 'accountInfoTab';
+        return view('publisher.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'pubActiveTab', 'counter'));
     }
 
     /**
@@ -87,7 +87,7 @@ class PublisherController extends Controller
         $publisher->save();
 
         session()->forget('publisher');
-        session()->forget('activeTab');
+        session()->forget('pubActiveTab');
 
         return redirect()->route('publisher.index');
     }
@@ -148,7 +148,7 @@ class PublisherController extends Controller
         }
 
         session()->put('publisher', $publisher);
-        session()->put('activeTab', 'contactInfoTab');
+        session()->put('pubActiveTab', 'contactInfoTab');
     }
 
     public function storeContactInSession(Request $request)
@@ -172,7 +172,7 @@ class PublisherController extends Controller
         $publisher->acc_mng_linkedin = $request->acc_mng_linkedin;
 
         session()->put('publisher', $publisher);
-        session()->put('activeTab', 'operationsInfoTab');
+        session()->put('pubActiveTab', 'operationsInfoTab');
     }
 
     public function storeOperationInSession(Request $request)
@@ -206,7 +206,7 @@ class PublisherController extends Controller
         $publisher->gdrive_password = $request->gdrive_password;
 
         session()->put('publisher', $publisher);
-        session()->put('activeTab', 'financeInfoTab');
+        session()->put('pubActiveTab', 'financeInfoTab');
     }
 
     public function storeReportInSession(Request $request)
@@ -235,8 +235,11 @@ class PublisherController extends Controller
                 'report_coloumns' => 'nullable',
             ]);
 
-            $publisher = $request->session()->get('publisher');
-
+            if(session()->has('advertiser')){
+                $publisher = $request->session()->get('publisher');
+            } else {
+                $publisher = new Publisher();
+            }
             $publisher->report_type = $request->report_type;
             $publisher->api_key = $request->api_key;
             $publisher->dashboard_path = $request->dashboard_path;
