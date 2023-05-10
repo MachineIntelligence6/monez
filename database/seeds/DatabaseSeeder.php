@@ -2,6 +2,8 @@
 
 use App\TeamMember;
 use Illuminate\Database\Seeder;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,28 +16,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(BankSeeder::class);
 		$this->call(CountrySeeder::class);
-		$this->call(UserSeeder::class);
+		// $this->call(UserSeeder::class);
 
-        TeamMember::create([
-            'name'=>'ads',
-            'email'=>'asdas@gmail.com',
-            'password'=>'asdsad',
-            'amPhone'=>'asd'
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('Mi612345@'),
+            'role' => 'Admin'
         ]);
 
-        TeamMember::create([
-            'name'=>'ads',
-            'email'=>'adsdsdsdas@gmail.com',
-            'password'=>'asdsad',
-            'amPhone'=>'asddsad'
-        ]);
-
-        TeamMember::create([
-            'name'=>'ads',
-            'email'=>'sss@gmail.com',
-            'password'=>'asdsad',
-            'amPhone'=>'addsd'
-        ]);
     }
 }
 
