@@ -1,6 +1,9 @@
 <!-- ========== Left Sidebar Start ========== -->
 <div class="left-side-menu">
 
+    @php
+        $role = Auth::user()->role;
+    @endphp
     <div class="h-100" data-simplebar>
 
         <!-- User box -->
@@ -42,11 +45,25 @@
             <ul id="side-menu">
 
                 <li>
+
+                    <a href="#" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+                <i data-feather="airplay"></i>
+                <span> Logout </span>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+                </li>
+
+
+                <li>
                     <a href="{{route('second', ['crm', 'admin'])}}" class="isDisabled">
                         <i data-feather="airplay"></i>
                         <span> Admin </span>
                     </a>
                 </li>
+                @if ($role == 'Admin' || $role == 'Team Member')
 
                 <li>
                     <a href="{{route('team-members.index')}}">
@@ -61,7 +78,9 @@
                         <span> Advertisers </span>
                     </a>
                 </li>
+                @endif
 
+                @if ($role != 'Publisher')
                 <li>
                     <a href="#siderbarFeeds" data-toggle="collapse">
                         <i data-feather="search"></i>
@@ -79,22 +98,25 @@
                         </ul>
                     </div>
                 </li>
+                @endif
 
+                @if ($role == 'Admin' || $role == 'Team Member')
                 <li>
                     <a href="{{route('publisher.index')}}">
                         <i data-feather="package"></i>
                         <span> Publishers </span>
                     </a>
                 </li>
+                @endif
 
-
-
+                @if ($role != 'Advertiser')
                 <li>
                     <a href="{{route('channels.index')}}">
                         <i data-feather="file-text"></i>
                         <span> Channels </span>
                     </a>
                 </li>
+                @endif
 
                 <li>
                     <a href="#sidebarReports" data-toggle="collapse" style="cursor: pointer;">
@@ -122,7 +144,7 @@
                     </a>
                 </li>
 
-
+                @if ($role == 'Admin' || $role == 'Team Member')
                 <li>
                     <a href="#sidebarSettings" data-toggle="collapse" style="cursor: pointer;">
                         <i class="fe-settings"></i>
@@ -152,6 +174,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
                 <!-- <li>
                     <a href="{{route('settings.index')}}">
                         <i class="fe-settings"></i>

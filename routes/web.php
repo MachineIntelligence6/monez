@@ -26,48 +26,50 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
-
-Route::prefix('advertiser')->name('advertiser.')->group(function () {
-    Route::get('/', [App\Http\Controllers\AdvertiserController::class, 'index'])->name('index');
-    Route::prefix('store')->name('store.')->group(function () {
-        Route::post('/account', [App\Http\Controllers\AdvertiserController::class, 'storeAccountInSession'])->name('account');
-        Route::post('/contact', [App\Http\Controllers\AdvertiserController::class, 'storeContactInSession'])->name('contact');
-        Route::post('/operation', [App\Http\Controllers\AdvertiserController::class, 'storeOperationInSession'])->name('operation');
-        Route::post('/report', [App\Http\Controllers\AdvertiserController::class, 'storeReportInSession'])->name('report');
-        Route::post('/bank', [App\Http\Controllers\AdvertiserController::class, 'storeBankInSession'])->name('bank');
-        Route::post('/all', [App\Http\Controllers\AdvertiserController::class, 'store'])->name('all');
+Route::middleware('auth')->group(function (){
+    //advertiser
+    Route::prefix('advertiser')->name('advertiser.')->middleware('admin')->group(function () {
+        Route::get('/', [App\Http\Controllers\AdvertiserController::class, 'index'])->name('index');
+        Route::prefix('store')->name('store.')->group(function () {
+            Route::post('/account', [App\Http\Controllers\AdvertiserController::class, 'storeAccountInSession'])->name('account');
+            Route::post('/contact', [App\Http\Controllers\AdvertiserController::class, 'storeContactInSession'])->name('contact');
+            Route::post('/operation', [App\Http\Controllers\AdvertiserController::class, 'storeOperationInSession'])->name('operation');
+            Route::post('/report', [App\Http\Controllers\AdvertiserController::class, 'storeReportInSession'])->name('report');
+            Route::post('/bank', [App\Http\Controllers\AdvertiserController::class, 'storeBankInSession'])->name('bank');
+            Route::post('/all', [App\Http\Controllers\AdvertiserController::class, 'store'])->name('all');
+        });
+        Route::get('/create', [App\Http\Controllers\AdvertiserController::class, 'create'])->name('create');
+        Route::post('/check-unique-id', [App\Http\Controllers\AdvertiserController::class, 'checkUniqueAdvertiserId'])->name('check-unique-id');
+        Route::post('/check-unique-email', [App\Http\Controllers\AdvertiserController::class, 'checkUniqueAccountEmail'])->name('check-unique-email');
+        Route::get('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'show'])->name('show');
+        Route::put('/{advertiser}/update/{currentedit}', [App\Http\Controllers\AdvertiserController::class, 'update'])->name('update');
+        Route::delete('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'destroy'])->name('destroy');
+        Route::get('/{advertiser}/edit/{currentedit}', [App\Http\Controllers\AdvertiserController::class, 'edit'])->name('edit');
+        Route::get('/{advertiser}/download-file/{fileNo}/{type}', [App\Http\Controllers\AdvertiserController::class,'downloadFile'])->name('download-file');
     });
-    Route::get('/create', [App\Http\Controllers\AdvertiserController::class, 'create'])->name('create');
-    Route::post('/check-unique-id', [App\Http\Controllers\AdvertiserController::class, 'checkUniqueAdvertiserId'])->name('check-unique-id');
-    Route::post('/check-unique-email', [App\Http\Controllers\AdvertiserController::class, 'checkUniqueAccountEmail'])->name('check-unique-email');
-    Route::get('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'show'])->name('show');
-    Route::put('/{advertiser}/update/{currentedit}', [App\Http\Controllers\AdvertiserController::class, 'update'])->name('update');
-    Route::delete('/{advertiser}', [App\Http\Controllers\AdvertiserController::class, 'destroy'])->name('destroy');
-    // Route::get('/{advertiser}/edit', [App\Http\Controllers\AdvertiserController::class, 'edit'])->name('edit');
-    Route::get('/{advertiser}/edit/{currentedit}', [App\Http\Controllers\AdvertiserController::class, 'edit'])->name('edit');
-    Route::get('/{advertiser}/download-file/{fileNo}/{type}', [App\Http\Controllers\AdvertiserController::class,'downloadFile'])->name('download-file');
+
+    //publisher
+    Route::prefix('publisher')->name('publisher.')->middleware('admin')->group(function () {
+        Route::get('/', [App\Http\Controllers\PublisherController::class, 'index'])->name('index');
+        Route::prefix('store')->name('store.')->group(function () {
+            Route::post('/account', [App\Http\Controllers\PublisherController::class, 'storeAccountInSession'])->name('account');
+            Route::post('/contact', [App\Http\Controllers\PublisherController::class, 'storeContactInSession'])->name('contact');
+            Route::post('/operation', [App\Http\Controllers\PublisherController::class, 'storeOperationInSession'])->name('operation');
+            Route::post('/report', [App\Http\Controllers\PublisherController::class, 'storeReportInSession'])->name('report');
+            Route::post('/bank', [App\Http\Controllers\PublisherController::class, 'storeBankInSession'])->name('bank');
+            Route::post('/all', [App\Http\Controllers\PublisherController::class, 'store'])->name('all');
+        });
+        Route::get('/create', [App\Http\Controllers\PublisherController::class, 'create'])->name('create');
+        Route::post('/check-unique-id', [App\Http\Controllers\PublisherController::class, 'checkUniqueAdvertiserId'])->name('check-unique-id');
+        Route::post('/check-unique-email', [App\Http\Controllers\PublisherController::class, 'checkUniqueAccountEmail'])->name('check-unique-email');
+        Route::get('/{publisher}', [App\Http\Controllers\PublisherController::class, 'show'])->name('show');
+        Route::put('/{publisher}/update/{currentedit}', [App\Http\Controllers\PublisherController::class, 'update'])->name('update');
+        Route::delete('/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy'])->name('destroy');
+        Route::get('/{publisher}/edit/{currentedit}', [App\Http\Controllers\PublisherController::class, 'edit'])->name('edit');
+        Route::get('/{publisher}/download-file/{fileNo}/{type}', [App\Http\Controllers\PublisherController::class,'downloadFile'])->name('download-file');
+    });
 });
 
-Route::prefix('publisher')->name('publisher.')->group(function () {
-    Route::get('/', [App\Http\Controllers\PublisherController::class, 'index'])->name('index');
-    Route::prefix('store')->name('store.')->group(function () {
-        Route::post('/account', [App\Http\Controllers\PublisherController::class, 'storeAccountInSession'])->name('account');
-        Route::post('/contact', [App\Http\Controllers\PublisherController::class, 'storeContactInSession'])->name('contact');
-        Route::post('/operation', [App\Http\Controllers\PublisherController::class, 'storeOperationInSession'])->name('operation');
-        Route::post('/report', [App\Http\Controllers\PublisherController::class, 'storeReportInSession'])->name('report');
-        Route::post('/bank', [App\Http\Controllers\PublisherController::class, 'storeBankInSession'])->name('bank');
-        Route::post('/all', [App\Http\Controllers\PublisherController::class, 'store'])->name('all');
-    });
-    Route::get('/create', [App\Http\Controllers\PublisherController::class, 'create'])->name('create');
-    Route::post('/check-unique-id', [App\Http\Controllers\PublisherController::class, 'checkUniqueAdvertiserId'])->name('check-unique-id');
-    Route::post('/check-unique-email', [App\Http\Controllers\PublisherController::class, 'checkUniqueAccountEmail'])->name('check-unique-email');
-    Route::get('/{publisher}', [App\Http\Controllers\PublisherController::class, 'show'])->name('show');
-    Route::put('/{publisher}/update/{currentedit}', [App\Http\Controllers\PublisherController::class, 'update'])->name('update');
-    Route::delete('/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy'])->name('destroy');
-    // Route::get('/{publisher}/edit', [App\Http\Controllers\PublisherController::class, 'edit'])->name('edit');
-    Route::get('/{publisher}/edit/{currentedit}', [App\Http\Controllers\PublisherController::class, 'edit'])->name('edit');
-    Route::get('/{publisher}/download-file/{fileNo}/{type}', [App\Http\Controllers\PublisherController::class,'downloadFile'])->name('download-file');
-});
 
 
 Route::resource('admin', AdminController::class);

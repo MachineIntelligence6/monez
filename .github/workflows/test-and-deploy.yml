@@ -30,4 +30,5 @@ jobs:
           php artisan db:seed
           php artisan db:seed --class=UserSeeder
           php artisan route:clear
+          php artisan queue:restart
 
