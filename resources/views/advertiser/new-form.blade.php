@@ -364,10 +364,10 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-                        <select class="form-control" data-toggle="select2" id="successManager" name="user_id" required>
+                        <select class="form-control" data-toggle="select2" id="successManager" name="team_member_id" required>
                             <option value="" selected disabled>Select Success Manager</option>
                             @foreach ($availableTeamMembers as $key => $teamMember)
-                            <option value="{{ $teamMember->id }}" @if ( session()->get('advertiser.user_id') == $teamMember->id) selected @endif>
+                            <option value="{{ $teamMember->id }}" @if ( session()->get('advertiser.team_member_id') == $teamMember->id) selected @endif>
                                 {{ $teamMember->name }}
                             </option>
                             @endforeach

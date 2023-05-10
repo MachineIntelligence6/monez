@@ -86,6 +86,11 @@ class Advertiser extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function teamMember()
+    {
+        return $this->belongsTo(User::class, 'team_member_id');
     }
 }

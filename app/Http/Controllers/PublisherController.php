@@ -6,12 +6,12 @@ use App\Publisher;
 use Illuminate\Http\Request;
 use App\Country;
 use App\State;
-use App\TeamMember;
 use App\User;
 use App\Bank;
 use App\City;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class PublisherController extends Controller
 {
@@ -39,14 +39,10 @@ class PublisherController extends Controller
         $states = State::all();
         $cities = City::all();
         $banks = Bank::all();
-        $teamMembers = User::all();
 
         $lastId = Publisher::latest()->first() ? Publisher::latest()->first()->id : 0;
         $counter = $lastId + 1;
-        $teamMemberIds = $teamMembers->pluck('id')->toArray();
-        $assignedAdvertisers = Publisher::whereIn('user_id', $teamMemberIds)->get();
-        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
-        $availableTeamMembers = User::all();
+        $availableTeamMembers = User::where('role', 'Team Member')->get();
         $pubActiveTab = session()->get('pubActiveTab') ?? 'accountInfoTab';
         return view('publisher.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'pubActiveTab', 'counter'));
     }
@@ -85,6 +81,13 @@ class PublisherController extends Controller
 
         $publisher->save();
         $publisher->publisher_id = 'P' . $publisher->id . '_' . $publisher->publisher_id;
+        $user = User::create([
+            'name' => $publisher->company_name,
+            'email' => $publisher->account_email,
+            'password' => Hash::make($publisher->account_password),
+            'role' => 'Publisher',
+        ]);
+        $publisher->user_id = $user->id;
         $publisher->save();
 
         session()->forget('publisher');
@@ -182,7 +185,7 @@ class PublisherController extends Controller
             'revenue_share' => 'required',
             'payment_terms' => 'required',
             'reporting_email' => 'required',
-            'user_id' => 'required',
+            'team_member_id' => 'required',
             'report_type'  => 'nullable',
             'api_key'  => 'nullable',
             'dashboard_path'  => 'nullable',
@@ -197,7 +200,7 @@ class PublisherController extends Controller
         $publisher->revenue_share = $request->revenue_share;
         $publisher->payment_terms = $request->payment_terms;
         $publisher->reporting_email = $request->reporting_email;
-        $publisher->user_id = $request->user_id;
+        $publisher->team_member_id = $request->team_member_id;
         $publisher->report_type = $request->report_type;
         $publisher->api_key = $request->api_key;
         $publisher->dashboard_path = $request->dashboard_path;
@@ -308,8 +311,7 @@ class PublisherController extends Controller
         // return $publisher;
         $countries = Country::all();
         $banks = Bank::all();
-        $teamMembers = User::all();
-        $availableTeamMembers = User::all();
+        $availableTeamMembers = User::where('role', 'Team Member')->get();
 
         return view('publisher.edit', compact('publisher', 'countries', 'banks', 'availableTeamMembers'));
     }
@@ -324,14 +326,7 @@ class PublisherController extends Controller
     {
         $countries = Country::all();
         $banks = Bank::all();
-        $teamMembers = User::all();
-        $selectedteam = $publisher->team_member_id;
-        $teamMemberIds = $teamMembers->pluck('id')->toArray();
-        $assignedAdvertisers = Publisher::whereIn('user_id', $teamMemberIds)
-            ->whereNotIn('user_id', [$selectedteam])
-            ->get();
-        $assignedTeamMemberIds = $assignedAdvertisers->pluck('user_id')->toArray();
-        $availableTeamMembers = User::whereNotIn('id', $assignedTeamMemberIds)->get();
+        $availableTeamMembers = User::where('role', 'Team Member')->get();
         $selectedcountry = $publisher->country_id;
         $selectedcountrycode = $publisher->country_code;
         return view('publisher.edit', compact('publisher', 'selectedcountry', 'selectedcountrycode', 'availableTeamMembers', 'countries', 'banks'));
@@ -427,7 +422,7 @@ class PublisherController extends Controller
                     'revenue_share' => 'required',
                     'payment_terms' => 'required',
                     'reporting_email' => 'required',
-                    'user_id' => 'required',
+                    'team_member_id' => 'required',
                     'report_type'  => 'nullable',
                     'api_key'  => 'nullable',
                     'dashboard_path'  => 'nullable',
@@ -442,7 +437,7 @@ class PublisherController extends Controller
                 $publisher->revenue_share = $request->revenue_share;
                 $publisher->payment_terms = $request->payment_terms;
                 $publisher->reporting_email = $request->reporting_email;
-                $publisher->user_id = $request->user_id;
+                $publisher->team_member_id = $request->team_member_id;
                 $publisher->report_type = $request->report_type;
                 // $publisher->api_key = $request->api_key;
                 // $publisher->dashboard_path = $request->dashboard_path;

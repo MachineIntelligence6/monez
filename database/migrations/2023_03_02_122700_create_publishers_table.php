@@ -50,8 +50,10 @@ class CreatePublishersTable extends Migration
             $table->string('gdrive_email')->nullable();
             $table->string('gdrive_password')->nullable();
             $table->json('report_coloumns')->nullable();
-            $table->foreignId('user_id')->nullable(); //success manager
+            $table->foreignId('user_id')->nullable(); //user
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('team_member_id')->nullable(); //success manager
+            $table->foreign('team_member_id')->references('id')->on('users')->onDelete('set null');
 
             $table->string('billing_email');
             $table->string('payoneer')->nullable();

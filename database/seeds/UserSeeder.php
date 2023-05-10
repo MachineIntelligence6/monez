@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -13,13 +14,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-			// 'role_id' => 1,
-            'name' => 'User',
-			'first_name' => '',
-			'last_name' => '',
-			'phone' => '',
+            'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('Mi612345@')
+            'password' => Hash::make('Mi612345@'),
+            'role' => 'Admin'
         ]);
     }
 }

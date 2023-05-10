@@ -21,7 +21,7 @@ class TeamMemberController extends Controller
      */
     public function index()
     {
-        $teamMembers= User::orderBy('created_at', 'desc')->get();
+        $teamMembers= User::whereIn('role', ['Team Member', 'Admin'])->orderBy('created_at', 'desc')->get();
 
             // dd($teamMembers);
         return view('teammembers.index',compact('teamMembers'));
@@ -55,7 +55,7 @@ class TeamMemberController extends Controller
             'name'  => 'required',
             'email' => 'required',
             'password'=> 'required',
-            'amPhone'=>'required',
+            'phone'=>'required',
             // 'skype'=> 'required',
             // 'linkedin'=> 'required',
         ]);
@@ -67,7 +67,7 @@ class TeamMemberController extends Controller
         $teamMember->password = $request->password;
         $teamMember->skype = $request->skype;
         $teamMember->linkedin = $request->linkedin;
-        $teamMember->amPhone = $request->amPhone;
+        $teamMember->phone = $request->phone;
         $teamMember->country_code = $request->country_code;
         // dd($teamMember);
         $teamMember->save();
@@ -146,10 +146,10 @@ class TeamMemberController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function checkUniqueteamPhone(Request $request)
+    public function checkUniquetephone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'input_field' => 'unique:users,amPhone',
+            'input_field' => 'unique:users,phone',
         ]);
 
         if ($validator->fails()) {
@@ -160,13 +160,15 @@ class TeamMemberController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $members = User::query()->where('id',$id)->first();
+        $members = User::find($id);
         $members->name = $request->name;
         $members->email = $request->email;
-        $members->password = $request->password;
+        if($request->has('password')){
+            $members->password = $request->password;
+        }
         $members->skype = $request->skype;
         $members->linkedin = $request->linkedin;
-        $members->amPhone = $request->amPhone;
+        $members->phone = $request->phone;
         $members->country_code = $request->country_code;
         // dd($members);
         $members->update();

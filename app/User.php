@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role', 'phone'
     ];
 
     /**
@@ -37,11 +37,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function advertisers(){
-        return $this->belongsTo(Advertiser::class,'id','user_id');
+    public function advertiser(){
+        return $this->hasOne(Advertiser::class, 'user_id');
     }
 
-    public function publishers(){
-        return $this->belongsTo(Publisher::class,'id','user_id');
+    public function publisher(){
+        return $this->hasOne(Publisher::class, 'user_id');
     }
 }

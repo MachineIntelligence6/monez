@@ -93,7 +93,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <input type="number" class="form-control ml-2" value="{{old('amPhone', $teamMember->amPhone ?? '')}}" data-invalid-message="Phone Number already registered." data-check-unique="oninput" data-unique-path="{{ route('check.unique.teamPhone') }}" id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="amPhone" placeholder="Enter phone number">
+                                            <input type="number" class="form-control ml-2" value="{{old('phone', $teamMember->phone ?? '')}}" data-invalid-message="Phone Number already registered." data-check-unique="oninput" data-unique-path="{{ route('check.unique.teamPhone') }}" id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="phone" placeholder="Enter phone number">
                                         </div>
                                     </div>
                                 </div>

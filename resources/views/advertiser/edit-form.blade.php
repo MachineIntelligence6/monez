@@ -533,7 +533,7 @@
                 <label for="successManager" class="form-label">Success Manager</label><label
                     class="text-danger">*</label>
                 <select class="form-control" @if ($lastSegment != 'operationinfo') disabled @endif data-toggle="select2"
-                    id="successManager" name="user_id">
+                    id="successManager" name="team_member_id">
                     @foreach ($availableTeamMembers as $key => $teamMember)
                         <option value="{{ $teamMember->id }}" @if (isset($selectedteam) && $teamMember->id == $selectedteam) selected @endif>
                             {{ $teamMember->name }}</option>

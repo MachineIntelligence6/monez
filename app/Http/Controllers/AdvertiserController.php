@@ -6,15 +6,12 @@ use App\Advertiser;
 use App\Bank;
 use App\City;
 use App\Country;
-use App\Http\Requests\StoreAdvertiserRequest;
-use App\Http\Requests\UpdateAdvertiserRequest;
-use App\Notifications\CustomMessage;
 use App\State;
-use App\TeamMember;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class AdvertiserController extends Controller
 {
@@ -44,14 +41,10 @@ class AdvertiserController extends Controller
         $states = State::all();
         $cities = City::all();
         $banks = Bank::all();
-        $teamMembers = User::all();
 
         $lastId = Advertiser::latest()->first() ? Advertiser::latest()->first()->id : 0;
         $counter = $lastId + 1;
-        $teamMemberIds = $teamMembers->pluck('id')->toArray();
-        $assignedAdvertisers = Advertiser::whereIn('user_id', $teamMemberIds)->get();
-        $assignedTeamMemberIds = $assignedAdvertisers->pluck('team_member_id')->toArray();
-        $availableTeamMembers = User::all();
+        $availableTeamMembers = User::where('role', 'Team Member')->get();
         $advActiveTab = session()->get('advActiveTab') ?? 'accountInfoTab';
         return view('advertiser.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'advActiveTab', 'counter'));
     }
@@ -90,6 +83,13 @@ class AdvertiserController extends Controller
 
         $advertiser->save();
         $advertiser->advertiser_id = 'A' . $advertiser->id . '_' . $advertiser->advertiser_id;
+        $user = User::create([
+            'name' => $advertiser->company_name,
+            'email' => $advertiser->account_email,
+            'password' => Hash::make($advertiser->account_password),
+            'role' => 'Advertiser',
+        ]);
+        $advertiser->user_id = $user->id;
         $advertiser->save();
 
         session()->forget('advertiser');
@@ -187,7 +187,7 @@ class AdvertiserController extends Controller
             'revenue_share' => 'required',
             'payment_terms' => 'required',
             'reporting_email' => 'required',
-            'user_id' => 'required',
+            'team_member_id' => 'required',
             'report_type'  => 'nullable',
             'api_key'  => 'nullable',
             'dashboard_path'  => 'nullable',
@@ -202,7 +202,7 @@ class AdvertiserController extends Controller
         $advertiser->revenue_share = $request->revenue_share;
         $advertiser->payment_terms = $request->payment_terms;
         $advertiser->reporting_email = $request->reporting_email;
-        $advertiser->user_id = $request->user_id;
+        $advertiser->team_member_id = $request->team_member_id;
         $advertiser->report_type = $request->report_type;
         $advertiser->api_key = $request->api_key;
         $advertiser->dashboard_path = $request->dashboard_path;
@@ -230,43 +230,43 @@ class AdvertiserController extends Controller
         //     ];
         //     session()->put('reportColoumns', $reportColoumns);
         // } else {
-            $validatedData = $request->validate([
-                'report_type' => 'nullable',
-                'api_key' => 'nullable',
-                'dashboard_path' => 'nullable',
-                'email' => 'nullable',
-                'password' => 'nullable',
-                'gdrive_email' => 'nullable',
-                'gdrive_password' => 'nullable',
-                'report_coloumns' => 'nullable',
-            ]);
+        $validatedData = $request->validate([
+            'report_type' => 'nullable',
+            'api_key' => 'nullable',
+            'dashboard_path' => 'nullable',
+            'email' => 'nullable',
+            'password' => 'nullable',
+            'gdrive_email' => 'nullable',
+            'gdrive_password' => 'nullable',
+            'report_coloumns' => 'nullable',
+        ]);
 
-            if(session()->has('advertiser')){
-                $advertiser = $request->session()->get('advertiser');
-            } else {
-                $advertiser = new Advertiser();
-            }
+        if (session()->has('advertiser')) {
+            $advertiser = $request->session()->get('advertiser');
+        } else {
+            $advertiser = new Advertiser();
+        }
 
-            $advertiser->report_type = $request->report_type;
-            $advertiser->api_key = $request->api_key;
-            $advertiser->dashboard_path = $request->dashboard_path;
-            $advertiser->email = $request->email;
-            $advertiser->password = $request->password;
-            $advertiser->gdrive_email = $request->gdrive_email;
-            $advertiser->gdrive_password = $request->gdrive_password;
+        $advertiser->report_type = $request->report_type;
+        $advertiser->api_key = $request->api_key;
+        $advertiser->dashboard_path = $request->dashboard_path;
+        $advertiser->email = $request->email;
+        $advertiser->password = $request->password;
+        $advertiser->gdrive_email = $request->gdrive_email;
+        $advertiser->gdrive_password = $request->gdrive_password;
 
-            $advertiser->report_coloumns = json_encode([
-                'date' => $request->dateColValue,
-                'feed' => $request->feedColValue,
-                'subid' => $request->subidColValue,
-                'country' => $request->countryColValue,
-                'total_searches' => $request->totalSearchesColValue,
-                'monitized_searches' => $request->monitizedSearchesColValue,
-                'paid_clicks' => $request->paidClicksColValue,
-                'revenue' => $request->revenueColValue,
-            ]);
+        $advertiser->report_coloumns = json_encode([
+            'date' => $request->dateColValue,
+            'feed' => $request->feedColValue,
+            'subid' => $request->subidColValue,
+            'country' => $request->countryColValue,
+            'total_searches' => $request->totalSearchesColValue,
+            'monitized_searches' => $request->monitizedSearchesColValue,
+            'paid_clicks' => $request->paidClicksColValue,
+            'revenue' => $request->revenueColValue,
+        ]);
 
-            session()->put('advertiser', $advertiser);
+        session()->put('advertiser', $advertiser);
         // }
     }
 
@@ -284,7 +284,7 @@ class AdvertiserController extends Controller
             'bank_currency' => 'nullable',
         ]);
 
-        if(session()->has('advertiser')){
+        if (session()->has('advertiser')) {
             $advertiser = $request->session()->get('advertiser');
         } else {
             $advertiser = new Advertiser();
@@ -314,8 +314,7 @@ class AdvertiserController extends Controller
         // return $advertiser;
         $countries = Country::all();
         $banks = Bank::all();
-        $teamMembers = User::all();
-        $availableTeamMembers = User::all();
+        $availableTeamMembers = User::where('role', 'Team Member')->get();
 
         return view('advertiser.edit', compact('advertiser', 'countries', 'banks', 'availableTeamMembers'));
     }
@@ -330,14 +329,7 @@ class AdvertiserController extends Controller
     {
         $countries = Country::all();
         $banks = Bank::all();
-        $teamMembers = User::all();
-        $selectedteam = $advertiser->team_member_id;
-        $teamMemberIds = $teamMembers->pluck('id')->toArray();
-        $assignedAdvertisers = Advertiser::whereIn('user_id', $teamMemberIds)
-            ->whereNotIn('user_id', [$selectedteam])
-            ->get();
-        $assignedTeamMemberIds = $assignedAdvertisers->pluck('user_id')->toArray();
-        $availableTeamMembers = User::whereNotIn('id', $assignedTeamMemberIds)->get();
+        $availableTeamMembers = User::where('role', 'Team Member')->get();
         $selectedcountry = $advertiser->country_id;
         $selectedcountrycode = $advertiser->country_code;
         return view('advertiser.edit', compact('advertiser', 'selectedcountry', 'selectedcountrycode', 'availableTeamMembers', 'countries', 'banks'));
@@ -477,7 +469,7 @@ class AdvertiserController extends Controller
                 $advertiser->billing_email = $request->billing_email;
                 $advertiser->payoneer = $request->payoneer;
                 $advertiser->paypal = $request->paypal;
-                if(session()->has('advertiser')){
+                if (session()->has('advertiser')) {
                     $advertiserInSession = $request->session()->get('advertiser');
                     $advertiser->bank_beneficiary_name = $advertiserInSession->bank_beneficiary_name;
                     $advertiser->bank_beneficiary_address = $advertiserInSession->bank_beneficiary_address;
@@ -549,8 +541,9 @@ class AdvertiserController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function downloadFile(Advertiser $advertiser, $fileNo, $type){
-        if($type == 'io'){
+    public function downloadFile(Advertiser $advertiser, $fileNo, $type)
+    {
+        if ($type == 'io') {
             $file = $advertiser->io_path[$fileNo];
         } else {
             $file = $advertiser->documents_path[$fileNo];

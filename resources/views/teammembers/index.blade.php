@@ -48,6 +48,7 @@
                                     </th>
                                     <th>Name</th>
                                     <th style="width: 100%;">Email</th>
+                                    <th>Role</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -63,6 +64,7 @@
                                     </td>
                                     <td>{{ $teamMember->name }}</td>
                                     <td style="width: 100%;">{{ $teamMember->email }}</td>
+                                    <td>{{ $teamMember->role }}</td>
                                     <td>
                                         <span class="d-inline-flex" style="gap: 5px;">
                                             <a class="btn bg-secondary text-white" href="{{route('team-members.view',$teamMember->id)}}">View Info</a>

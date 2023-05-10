@@ -113,7 +113,7 @@
                 <div class="modal-footer border-top">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     @if($lastSegment!='view')
-                    <button type="submit" class="btn btn-primary">Save Details</button>
+                    <button @if ($lastSegment != 'financeinfo') disabled @endif type="submit" class="btn btn-primary">Save Details</button>
                     @endif
                 </div>
             </form>
