@@ -17,7 +17,11 @@ class EnsureItsAdmin
     public function handle(Request $request, Closure $next)
     {
         if ($request->user()->role != 'Admin') {
-            return redirect('/reports/activity');
+            if($request->user()->role == 'Advertiser'){
+                return redirect('/feeds');
+            } else if($request->user()->role == 'Publisher') {
+                return redirect('/channels');
+            }
         }
         return $next($request);
     }
