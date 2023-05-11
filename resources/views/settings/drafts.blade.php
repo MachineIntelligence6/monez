@@ -43,13 +43,18 @@
                             </div>
                         </div>
                         <div class="row justify-content-between">
+                            @if ($draftfile)
                             <div class="col-auto">
                                 @php
-                                $named = str_replace('"', '', $draftfile->io_filenames); 
-                                @endphp 
-                                <a href="{{ route('downloaddraftpdf',['name'=>$named ]) }}">{{$named}}</a><br>
+                                $named = str_replace('"', '', $draftfile->io_filenames);
+                                @endphp
+                                <a href="{{ route('downloaddraftpdf',['name'=>'io.pdf' ]) }}">io.pdf</a><br>
                                 <!-- <a href="#">IO File.pdf</a> -->
                             </div>
+                            @else
+
+                            @endif
+
                             <div class="col-auto">
                                 <button type="submit" class="btn btn-secondary">Save</button>
                             </div>

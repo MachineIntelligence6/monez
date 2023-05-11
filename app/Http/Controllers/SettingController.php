@@ -21,7 +21,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Notifications\NewsletterNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Storage;
 // use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -541,15 +541,16 @@ class SettingController extends Controller
             $updatedraft = Drafts::orderBy('created_at', 'desc')->first();
             if ($request->hasfile('io')) {
                 $file = $request->file('io');
+                $name = $file->storeAs('public/files/drafts','io.pdf');
                 // $named = $file->getClientOriginalName();
-                $name = 'io.' . $file->getClientOriginalExtension();
-                // Check if a file with the same name already exists
-                if (file_exists(public_path('assets/files/uploads/drafts/io/' . $name))) {
-                    // Delete the existing file
-                    // dd('delete');
-                    unlink(public_path('assets/files/uploads/drafts/io/' . $name));
-                }
-                $file->move(public_path('assets/files/uploads/drafts/io/'), $name);
+                // $name = 'io.' . $file->getClientOriginalExtension();
+                // // Check if a file with the same name already exists
+                // if (file_exists(public_path('assets/files/uploads/drafts/io/' . $name))) {
+                //     // Delete the existing file
+                //     // dd('delete');
+                //     unlink(public_path('assets/files/uploads/drafts/io/' . $name));
+                // }
+                // $file->move(public_path('assets/files/uploads/drafts/io/'), $name);
             }
             // dd($name);
             $updatedraft->io_filenames = json_encode($name);
@@ -613,12 +614,8 @@ class SettingController extends Controller
     public function DownloadDraftPdf(Request $request, $name)
     {
         // dd($name);
-        $filePath = public_path('assets/files/uploads/drafts/io/' . $name);
+        $filePath = asset('storage/files/drafts/' . $name);
         // dd($filePath);
-        if (file_exists($filePath)) {
-            return response()->download($filePath);
-        } else {
-            return redirect()->back()->with('error', 'File not found.');
-        }
+        return Storage::download('public/files/drafts/' . $name);
     }
 }
