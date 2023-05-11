@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function (){
     });
 });
 
+Route::get('/mark-message-read/{id}', [App\Http\Controllers\SettingController::class, 'markCustomMessageRead'])->name('mark-message-read');
 
 
 Route::resource('admin', AdminController::class);

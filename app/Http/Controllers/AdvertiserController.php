@@ -425,7 +425,7 @@ class AdvertiserController extends Controller
                     'revenue_share' => 'required',
                     'payment_terms' => 'required',
                     'reporting_email' => 'required',
-                    'user_id' => 'required',
+                    'team_member_id' => 'required',
                     'report_type'  => 'nullable',
                     'api_key'  => 'nullable',
                     'dashboard_path'  => 'nullable',

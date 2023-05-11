@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\NewsletterNotification;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -199,6 +200,30 @@ class SettingController extends Controller
         $customMessage->message = $request->message;
         $messagerecipient_type = $request->parteners;
         $customMessage->message = $request->message;
+        switch ($messagerecipient_type) {
+            case 'publishers':
+                foreach (\App\Publisher::all() as $key => $user) {
+                    $user->notify(new NotificationsCustomMessage($request->message));
+                }
+                break;
+            case 'advertisers':
+                foreach (\App\Advertiser::all() as $key => $user) {
+                    $user->notify(new NotificationsCustomMessage($request->message));
+                }
+                break;
+            case 'all':
+                foreach (\App\Advertiser::all() as $key => $user) {
+                    $user->notify(new NotificationsCustomMessage($request->message));
+                }
+                foreach (\App\Publisher::all() as $key => $user) {
+                    $user->notify(new NotificationsCustomMessage($request->message));
+                }
+                break;
+
+            default:
+                # code...
+                break;
+        }
         if ($messagerecipient_type === 'publishers' || $messagerecipient_type === 'advertisers' || $messagerecipient_type === 'all') {
             // dd($messagerecipient_type);
             $customMessage->recipient_type = $request->parteners;
@@ -212,8 +237,10 @@ class SettingController extends Controller
                 $parts = explode('_', $customUser);
                 if ($parts[0] === 'p') {
                     $ids[] = 'p_' . $parts[1];
+                    Publisher::find($parts[1])->notify(new NotificationsCustomMessage($request->message));
                 } elseif ($parts[0] === 'a') {
                     $ids[] = 'a_' . $parts[1];
+                    Advertiser::find($parts[1])->notify(new NotificationsCustomMessage($request->message));
                 }
             }
             $idString = implode(',', $ids);
@@ -617,5 +644,12 @@ class SettingController extends Controller
         $filePath = asset('storage/files/drafts/' . $name);
         // dd($filePath);
         return Storage::download('public/files/drafts/' . $name);
+    }
+
+    public function markCustomMessageRead($id){
+        $notification = DatabaseNotification::find($id);
+        if($notification) {
+            $notification->markAsRead();
+        }
     }
 }
