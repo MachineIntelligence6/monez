@@ -10,6 +10,11 @@
         $segments = request()->segments();
         $lastSegment = last($segments);
     @endphp
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <div>{{$error}}</div>
+        @endforeach
+    @endif
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -129,6 +134,10 @@
                 },
                 error: (error) => {
                     console.log(error);
+                    var errors = $.parseJSON(error.responseText);
+                    $.each(errors, function (key, value) {
+                        alert(value);
+                    });
                 }
             });
         });
@@ -145,6 +154,10 @@
                 },
                 error: (error) => {
                     console.log(error);
+                    var errors = $.parseJSON(error.responseText);
+                    $.each(errors, function (key, value) {
+                        alert(value);
+                    });
                 }
             });
         });
@@ -161,6 +174,10 @@
                 },
                 error: (error) => {
                     console.log(error);
+                    var errors = $.parseJSON(error.responseText);
+                    $.each(errors, function (key, value) {
+                        alert(value);
+                    });
                 }
             });
         });
@@ -180,6 +197,10 @@
                 },
                 error: (error) => {
                     console.log(error);
+                    var errors = $.parseJSON(error.responseText);
+                    $.each(errors, function (key, value) {
+                        alert(value);
+                    });
                 }
             });
         });
@@ -199,6 +220,10 @@
                 },
                 error: (error) => {
                     console.log(error);
+                    var errors = $.parseJSON(error.responseText);
+                    $.each(errors, function (key, value) {
+                        alert(value);
+                    });
                 }
             });
         });

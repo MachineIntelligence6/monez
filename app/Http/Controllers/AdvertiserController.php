@@ -106,7 +106,8 @@ class AdvertiserController extends Controller
             'reg_id' => 'nullable',
             'vat_id' => 'nullable',
             'website_url' => 'required',
-            'account_email' => 'required',
+            'account_email' => 'required|unique:advertisers,account_email',
+            'account_email' => 'required|unique:users,email',
             'account_password' => 'required',
             'address1' => 'required',
             'address2' => 'nullable',
@@ -114,8 +115,8 @@ class AdvertiserController extends Controller
             'state' => 'nullable',
             'zipcode' => 'nullable',
             'country' => 'required',
-            'document_files' => 'nullable',
-            'io_files' => 'nullable',
+            'document_files' => 'nullable|max:10240',
+            'io_files' => 'nullable|max:10240',
         ]);
 
         $advertiser = new Advertiser;
@@ -354,7 +355,7 @@ class AdvertiserController extends Controller
                     'reg_id' => 'nullable',
                     'vat_id' => 'nullable',
                     'website_url' => 'required',
-                    'account_email' => 'required',
+                    'account_email' => 'nullable',
                     'account_password' => 'required',
                     'address1' => 'required',
                     'address2' => 'nullable',
@@ -536,7 +537,7 @@ class AdvertiserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
+            return response()->json(['status' => 'error', 'message' => 'The email is already used.'])->setStatusCode(400);
         }
 
         return response()->json(['status' => 'success']);

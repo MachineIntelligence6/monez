@@ -90,7 +90,7 @@
                             <input type="email" class="form-control" id="accEmail" name="account_email" placeholder="Enter account email" oninput="confirmEmail()" data-check-unique="oninput" data-invalid-message="Email already registered." data-unique-path="{{ route('advertiser.check-unique-email') }}" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ session()->get('advertiser.account_email') }}">
                             <div class="valid-feedback">Valid.</div>
                             <div id="accEmail-invalid" class="invalid-feedback">
-                                You must enter valid input
+                                You must enter valid or unique input
                             </div>
                         </div>
                     </div>
