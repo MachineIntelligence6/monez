@@ -532,6 +532,7 @@ class AdvertiserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'input_field' => 'unique:advertisers,account_email',
+            'input_field' => 'unique:users,email',
         ]);
 
         if ($validator->fails()) {

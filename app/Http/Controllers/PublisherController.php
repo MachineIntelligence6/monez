@@ -529,6 +529,7 @@ class PublisherController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'input_field' => 'unique:publishers,account_email',
+            'input_field' => 'unique:users,email',
         ]);
 
         if ($validator->fails()) {

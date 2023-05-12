@@ -17,7 +17,7 @@ use App\Bank;
 use App\TeamMember;
 use Illuminate\Support\Facades\Validator;
 
-class AdvertiserController extends Controller
+class AAdvertiserController extends Controller
 {
     protected $countries;
     protected $states;
