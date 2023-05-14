@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [App\Http\Controllers\ChannelsController::class, 'channelSearched']);
 Auth::routes();
 Route::middleware('auth')->group(function (){
     //advertiser
@@ -142,11 +143,11 @@ Route::resource('account', AccountController::class);
 Route::get('downloadpdf/{id}/{pdf}/{name}', 'AdvertiserController@DownloadPdf')->name('downloadpdf');
 
 
-Route::group(['middleware' => 'auth', 'prefix' => '/'], function () {
+Route::group(['middleware' => 'auth','measure_latency', 'prefix' => '/'], function () {
     Route::get('{first}/{second}/{third}', 'RoutingController@thirdLevel')->name('third');
     Route::get('{first}/{second}', 'RoutingController@secondLevel')->name('second');
     Route::get('{any}', 'RoutingController@root')->name('any');
 });
 
 // landing
-Route::get('', 'RoutingController@index')->name('index');
+Route::middleware('measure_latency')->get('', 'RoutingController@index')->name('index');

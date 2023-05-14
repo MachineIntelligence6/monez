@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ChannelSearch;
 use App\Http\Controllers\Controller;
 
 
@@ -9,7 +10,8 @@ class ReportsController extends Controller
 {
     public function activity()
     {
-        return view("reports.activity");
+        $channelSearchs = ChannelSearch::all();
+        return view("reports.activity", compact('channelSearchs'));
     }
 
 

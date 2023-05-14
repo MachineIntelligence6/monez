@@ -105,6 +105,7 @@ class ChannelsController extends Controller
         $channelId = $newId;
         // dd($channelId);
         // dd($channelId,$availablefeeds);
+
         return view('channels.create', compact('availablePublishers', 'channelpaths', 'feeds', 'channelId'));
     }
 
@@ -324,7 +325,7 @@ class ChannelsController extends Controller
     // public function ChannelId()
     // {
     //     $channel = new Channel;
-    //     // $lastId = Channel::orderBy('channelId', 'desc')->first()->id; 
+    //     // $lastId = Channel::orderBy('channelId', 'desc')->first()->id;
     //     $lastId = Channel::orderBy('channelId', 'desc')->first();
     //     if ($lastId !== null) {
     //         $lastId = $lastId->channelId;
@@ -332,7 +333,7 @@ class ChannelsController extends Controller
     //         $numericPart = substr($str, 3);
     //         $numericPart++;
     //         $newId = 'ch_' . $numericPart;
-    //         // echo $newId; 
+    //         // echo $newId;
     //     } else {
     //         $newId = 'ch_1001';
     //     }

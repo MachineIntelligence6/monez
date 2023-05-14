@@ -38,7 +38,7 @@
             <select class="form-control" @if($condition==$lastSegment) disabled @endif name="publisher" data-toggle="select2" required>
                 <option value="" selected>Select Publisher</option>
                 @foreach ($availablePublishers as $key => $publisher)
-                <option value="{{ $publisher->id }}" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>{{ $publisher->companyName }}</option>
+                <option value="{{ $publisher->id }}" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>{{ $publisher->company_name }}</option>
 
                 @endforeach
             </select>

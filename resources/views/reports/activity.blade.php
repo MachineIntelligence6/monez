@@ -204,7 +204,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                @foreach ($channelSearchs as $channelSearch)
+                                    <tr>
+                                        <td>{{$channelSearch->created_at}}</td>
+                                        <td>query</td>
+                                        <td>--</td>
+                                        <td>feed</td>
+                                        <td>{{$channelSearch->channel->publisher->company_name}}</td>
+                                        <td>{{$channelSearch->channel->channelId}}</td>
+                                        <td>subid</td>
+                                        <td>{{$channelSearch->channel->channelpath->channel_path}}</td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>--</td>
+                                        <td>{{$channelSearch->latency}}</td>
+                                        <td>{{$channelSearch->user_agent}}</td>
+                                        <td>--</td>
+                                        <td>{{$channelSearch->device}}</td>
+                                        <td>{{$channelSearch->os}}</td>
+                                        <td>{{$channelSearch->browser}}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
