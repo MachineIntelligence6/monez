@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ChannelSearch;
 use App\Http\Controllers\Controller;
-
+use Carbon\Carbon;
 
 class ReportsController extends Controller
 {

@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\UpdateChannelStatus',
     ];
 
     /**
@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('channel:pause-if-no-search')->dailyAt('23:59');
+        // $schedule->command('channel:pause-if-no-search')->everyMinute();
     }
 
     /**
