@@ -535,7 +535,7 @@
                 <select class="form-control" @if ($lastSegment != 'operationinfo') disabled @endif data-toggle="select2"
                     id="successManager" name="team_member_id">
                     @foreach ($availableTeamMembers as $key => $teamMember)
-                        <option value="{{ $teamMember->id }}" @if (isset($selectedteam) && $teamMember->id == $selectedteam) selected @endif>
+                        <option value="{{ $teamMember->id }}" @if ($teamMember->id == $advertiser->team_member_id) selected @endif>
                             {{ $teamMember->name }}</option>
                     @endforeach
                     <option value="">Select Success Manager</option>

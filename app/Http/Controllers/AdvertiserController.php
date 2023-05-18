@@ -441,7 +441,7 @@ class AdvertiserController extends Controller
                 $advertiser->revenue_share = $request->revenue_share;
                 $advertiser->payment_terms = $request->payment_terms;
                 $advertiser->reporting_email = $request->reporting_email;
-                $advertiser->user_id = $request->user_id;
+                $advertiser->team_member_id = $request->team_member_id;
                 $advertiser->report_type = $request->report_type;
                 // $advertiser->api_key = $request->api_key;
                 // $advertiser->dashboard_path = $request->dashboard_path;
