@@ -44,4 +44,12 @@ class User extends Authenticatable
     public function publisher(){
         return $this->hasOne(Publisher::class, 'user_id');
     }
+
+    public function advertisers(){
+        return $this->hasMany(Advertiser::class, 'team_member_id');
+    }
+
+    public function publishers(){
+        return $this->hasMany(Publisher::class, 'team_member_id');
+    }
 }
