@@ -309,7 +309,7 @@ class ChannelsController extends Controller
     public function enable(Channel $channel)
     {
         // $channel->is_active = true;
-        $channel->status = 'live';
+        $channel->status = 'pause';
         $channel->save();
         return redirect()->back();
     }

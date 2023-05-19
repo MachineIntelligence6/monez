@@ -52,7 +52,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{$channel->channelId ?? '-'}}</td>
-                                    <td>{{$channel->publisher->companyName ?? '-'}}</td>
+                                    <td>{{$channel->publisher->company_name ?? '-'}}</td>
                                     <td><a class="text-blue" href="{{$channel->channelpath->channel_path ?? '-'}}">{{$channel->channelpath->channel_path ?? '-'}}</a></td>
                                     <td>
                                         @if($channel->feeds() !== null)
