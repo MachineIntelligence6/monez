@@ -82,7 +82,7 @@
                                         {{ $publisher->acc_mng_first_name }} {{ $publisher->acc_mng_lirst_name }}
                                     </td>
                                     <td>
-                                        {{ $publisher->user->name ?? ''}}
+                                        {{ $publisher->teamMember ? $publisher->teamMember->name : '--' }}
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->

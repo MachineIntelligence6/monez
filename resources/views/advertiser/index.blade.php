@@ -82,7 +82,7 @@
                                         {{ $advertiser->acc_mng_first_name }} {{ $advertiser->acc_mng_lirst_name }}
                                     </td>
                                     <td>
-                                        {{ $advertiser->user->name ?? ''}}
+                                        {{ $advertiser->teamMember ? $advertiser->teamMember->name : '--' }}
                                     </td>
                                     <td>
                                         <!-- <a class="btn bg-secondary text-white">View Info</a> -->

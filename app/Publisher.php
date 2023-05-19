@@ -89,4 +89,9 @@ class Publisher extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function teamMember()
+    {
+        return $this->belongsTo(User::class, 'team_member_id');
+    }
 }
