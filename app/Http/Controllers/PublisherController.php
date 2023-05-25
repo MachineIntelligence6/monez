@@ -136,18 +136,18 @@ class PublisherController extends Controller
         if ($request->hasFile('document_files')) {
             $documentFilePaths = array();
             $documentFiles = $request->file('document_files');
-            foreach ($documentFiles as $file) {
+            foreach ($documentFiles as $key => $file) {
                 $path = $file->store('user/files');
-                array_push($documentFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
+                array_push($documentFilePaths, array('name' => 'doc' . ($key+1), 'path' => $path));
             }
             $publisher->documents_path = json_encode($documentFilePaths);
         }
         if ($request->hasFile('io_files')) {
             $ioFilePaths = array();
             $ioFiles = $request->file('io_files');
-            foreach ($ioFiles as $file) {
+            foreach ($ioFiles as $key => $file) {
                 $path = $file->store('user/files');
-                array_push($ioFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
+                array_push($ioFilePaths, array('name' => 'io' . ($key+1), 'path' => $path));
             }
             $publisher->io_path = json_encode($ioFilePaths);
         }
@@ -382,18 +382,18 @@ class PublisherController extends Controller
                 if ($request->hasFile('document_files')) {
                     $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
-                    foreach ($documentFiles as $file) {
+                    foreach ($documentFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($documentFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
+                        array_push($documentFilePaths, array('name' => 'doc' . ($key+1), 'path' => $path));
                     }
                     $publisher->documents_path = json_encode($documentFilePaths);
                 }
                 if ($request->hasFile('io_files')) {
                     $ioFilePaths = array();
                     $ioFiles = $request->file('io_files');
-                    foreach ($ioFiles as $file) {
+                    foreach ($ioFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($ioFilePaths, array('name' => $file->getClientOriginalName(), 'path' => $path));
+                        array_push($ioFilePaths, array('name' => 'io' . ($key+1), 'path' => $path));
                     }
                     $publisher->io_path = json_encode($ioFilePaths);
                 }
