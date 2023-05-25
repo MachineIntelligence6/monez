@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string("staticParameters")->nullable();
             $table->string("dynamicParameters")->nullable();
             $table->string("comments")->nullable();
-            $table->enum('status', ['live', 'pause', 'enable', 'disable'])->default('enable');
+            $table->enum('status', ['live', 'pause', 'enable', 'disable'])->default('pause');
             $table->boolean('is_default')->default(0);
             $table->softDeletes();
             $table->timestamps();

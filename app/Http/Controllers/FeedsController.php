@@ -226,7 +226,7 @@ class FeedsController extends Controller
     public function enable(Feed $feed)
     {
         // $feed->is_active = true;
-        $feed->status = 'live';
+        $feed->status = 'pause';
         $feed->save();
         return redirect()->back();
     }
@@ -250,7 +250,7 @@ class FeedsController extends Controller
     public function checkUniqueFeedId(Request $request)
     {
         // $inputfeild = $request->test;
-        // $prefixedValue = 'fd_' . input_field;        
+        // $prefixedValue = 'fd_' . input_field;
         $validator = Validator::make($request->all(), [
 
             'input_field' => 'unique:feeds,feedId',
