@@ -82,7 +82,6 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        $feed->status = 'live';
         $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
