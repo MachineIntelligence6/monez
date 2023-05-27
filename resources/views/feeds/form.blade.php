@@ -35,10 +35,12 @@
                 <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
                     <div class="input-group-append">
+                    @if($lastSegment!='create')
                         <div class="input-group-text">
                             <span id="spanValue">{{$feedId}}</span>
                             <input type="hidden" name="spanValue" value="{{$feedId}}">
                         </div>
+                        @endif
                     </div>
                     <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="feedId" value="{{old('feedId', $feed->feedId ?? '')}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Reports ID" required />
                     <div class="valid-feedback">Valid.</div>
@@ -58,6 +60,7 @@
                             <span id="spanValue">{{$partfirst}}</span>
                             <input type="hidden" name="spanValue" value="{{$partfirst}}">
                         </div>
+
                     </div>
                     <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="feedId" value="{{$partsecond}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required />
                     <div class="valid-feedback">Valid.</div>
@@ -87,7 +90,7 @@
             <select class="form-control" @if($condition==$lastSegment || isset($feed->channel)) disabled @endif name="status" data-toggle="select2" required>
                 <option value="select status">select status</option>
                 <option value="live" @if($feed->status == 'live') selected @endif disabled>Live</option>
-                <option value="pause" disabled>Pause</option>
+                <option value="pause" @if($feed->status == 'pause') selected @endif disabled>Pause</option>
                 <option value="disable" @if($feed->status == 'disable') disabled selected @endif>Disable</option>
                 @if($feed->status == 'disable')
                 <option value="live">Enable</option>

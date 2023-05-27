@@ -28,11 +28,13 @@
     </div>
 
     <div class="row">
-        <div class="col-md-4 mb-3">
+        @if($lastSegment!='create')
+        <div class="col-md-4 mb-3" @if($lastSegment=="create" ) style="display:none" @endif>
             <label for="channelId" class="form-label">Channel Id</label>
             <input type="text" class="form-control" id="channelId" value="{{$channelId}}" name="channelId" readonly>
 
         </div>
+        @endif
         <div class="col-md-4 mb-3">
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
             <select class="form-control" @if($condition==$lastSegment) disabled @endif name="publisher" data-toggle="select2" required>
@@ -54,7 +56,7 @@
             <select class="form-control" name="status" @if($condition==$lastSegment ) disabled @endif name="status" data-toggle="select2" required>
                 <option value="select status">select status</option>
                 <option value="live" @if($channel->status == 'live') selected @endif disabled>Live</option>
-                <option value="pause" disabled>Pause</option>
+                <option value="pause" @if($channel->status == 'pause') selected @endif disabled>Pause</option>
                 <option value="disable" @if($channel->status == 'disable') disabled selected @endif>Disable</option>
                 @if($channel->status == 'disable')
                 <option value="live">Enable</option>
@@ -231,7 +233,7 @@
     }
 
     function generateChannelUrl() {
-        let basePath = $("#channelPath").val();
+        let basePath = $("#channelPath option:selected").text();
         let channelId = $("#channelId").val();
         if (basePath === "") return;
         let staticParams = $(".staticParameter").toArray().map((param) => {
@@ -243,11 +245,12 @@
             let name = $(param).find("input#paramName").val()
             return name !== "" ? (name + "=" + `<${name}>`) : ""
         });
-        var allParams = [("channel=" + channelId), ...staticParams, ...dynamicParams, "q=<query>"]
+        var allParams = [("channel=" + channelId), ...staticParams, ...dynamicParams, "query=<query>"]
             .filter(p => p !== "").join("&");
         // let randomStr = generateRandomStr();
         let url = `${basePath}?${allParams}`;
         $("#guideUrl").val(url);
+        // $("#guide_Url").val(url);
     }
 
 
@@ -259,8 +262,6 @@
         element.id = ""
         element.querySelectorAll("input").forEach((inp) => inp.value = "");
         container.appendChild(element);
-        $('.mySelect2').select2();
-        select2Refresh();
     }
 
 
