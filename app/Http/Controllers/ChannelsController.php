@@ -188,7 +188,7 @@ class ChannelsController extends Controller
         $channel->save();
         $channel_Id = $channel->id;
         //generating url start
-        $url = $request->c_guide_Url;
+        $url = $request->c_guideUrl;
 
         // Get the position of the first "&" after the "channel" parameter
         $start = strpos($url, "channel=") + strlen("channel=");

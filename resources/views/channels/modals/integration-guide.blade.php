@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body modal-scroll">
                 <div class="row">
-              
+
                     <div class="col-12 mb-3" @if($lastSegment=="create" ) style="display:none" @endif>
                         <label for="c_guideUrl" class="form-label">Channel Url</label>
                         <input type="text" class="form-control" id="guideUrl" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_guideUrl', $channel->channelintegration->c_guideUrl ?? '')}}" name="c_guideUrl" placeholder="Channel Url">
@@ -18,7 +18,7 @@
                         <div class="invalid-feedback">
                             You must enter valid input
                         </div>
-                        <input type="hidden" class="form-control" id="guide_Url" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_guideUrl', $channel->channelintegration->c_guideUrl ?? '')}}" name="c_guide_Url" placeholder="Channel Url">
+                        {{-- <input type="hidden" class="form-control" id="guide_Url" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_guideUrl', $channel->channelintegration->c_guideUrl ?? '')}}" name="c_guide_Url" placeholder="Channel Url"> --}}
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_subids" class="form-label">Sub Ids</label>
