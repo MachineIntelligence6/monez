@@ -74,7 +74,7 @@
                                         {{ $feed->feedId ?? '-' }}
                                     </td>
                                     <td>
-                                        {{ $feed->advertisers->companyName ?? '-'}}
+                                        {{ $feed->advertiser ? $feed->advertiser->company_name : '-'}}
                                     </td>
                                     <td style="max-width: 450px; text-overflow: ellipsis; overflow: hidden;">
                                         {{ $feed->feedintegration->guideUrl ?? '-' }}
@@ -86,7 +86,7 @@
                                     <td>
                                         <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
 
-                                       
+
 
 
                                         @if ($feed->is_default)

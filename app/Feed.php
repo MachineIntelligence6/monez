@@ -16,6 +16,11 @@ class Feed extends Model
     {
         return $this->belongsTo(FeedIntegrationGuide::class, 'id', 'feed_id');
     }
+
+    public function advertiser()
+    {
+        return $this->belongsTo(Advertiser::class, 'advertiser_id', 'id');
+    }
     // public function channel()
     // {
 
