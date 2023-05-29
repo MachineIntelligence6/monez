@@ -124,7 +124,7 @@ class PublisherController extends Controller
         $publisher->vat_id = $request->vat_id;
         $publisher->website_url = $request->website_url;
         $publisher->account_email = $request->account_email;
-        $publisher->account_password = $request->account_password;
+        $publisher->account_password = Hash::make($request->password);
         $publisher->address1 = $request->address1;
         $publisher->address2 = $request->address2;
         $publisher->city = $request->city;
@@ -370,7 +370,12 @@ class PublisherController extends Controller
                 $publisher->vat_id = $request->vat_id;
                 $publisher->website_url = $request->website_url;
                 $publisher->account_email = $request->account_email;
-                $publisher->account_password = $request->account_password;
+                if ($request->has('account_password')) {
+                    $publisher->account_password = $request->account_password;
+                    $user = $publisher->user;
+                    $user->password = Hash::make($request->account_password);
+                    $user->save();
+                }
                 $publisher->address1 = $request->address1;
                 $publisher->address2 = $request->address2;
                 $publisher->city = $request->city;
