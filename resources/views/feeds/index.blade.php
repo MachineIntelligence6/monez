@@ -94,10 +94,10 @@
                                         @else
                                             @if(isset($feed->channel))
                                             @else
-                                                @if($feed->status=='live')
-                                                <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
-                                                @else
+                                                @if($feed->status=='disable')
                                                 <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
+                                                @else
+                                                <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
                                                 @endif
                                             @endif
                                             <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
