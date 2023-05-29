@@ -10,6 +10,7 @@ use App\State;
 use App\City;
 use App\Bank;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class TeamMemberController extends Controller
@@ -64,7 +65,7 @@ class TeamMemberController extends Controller
         // dd($validatedData);
         $teamMember->name = $request->name;
         $teamMember->email = $request->email;
-        $teamMember->password = $request->password;
+        $teamMember->password = Hash::make($request->password);
         $teamMember->skype = $request->skype;
         $teamMember->linkedin = $request->linkedin;
         $teamMember->phone = $request->phone;
@@ -164,7 +165,7 @@ class TeamMemberController extends Controller
         $members->name = $request->name;
         $members->email = $request->email;
         if($request->has('password')){
-            $members->password = $request->password;
+            $members->password = Hash::make($request->password);
         }
         $members->skype = $request->skype;
         $members->linkedin = $request->linkedin;
