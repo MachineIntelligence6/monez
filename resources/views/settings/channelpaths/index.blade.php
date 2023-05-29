@@ -56,7 +56,7 @@
                                         @else
                                             @if(isset($channelpath->channel))
                                             @else
-                                                @if($channelpath->status=='true')
+                                                @if($channelpath->status)
                                                 <a class="text-danger mx-2" href="{{ route('channelpaths.disable', ['channelpath' => $channelpath]) }}" value="0">Disable</a>
                                                 @else
                                                 <a class="text-success mx-2" href="{{ route('channelpaths.enable', ['channelpath' => $channelpath]) }}" value="1">Enable</a>
