@@ -193,7 +193,6 @@ class TeamMemberController extends Controller
      */
     public function destroy($id)
     {
-
         $member = User::findOrFail($id);
         $member->delete();
         return redirect()->route('team-members.index')->with(['success'=>'Team Member Deleted Successfully !']);
