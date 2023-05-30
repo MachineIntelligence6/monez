@@ -99,6 +99,7 @@
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
 
 <script type="text/javascript">
+
     $('#products-datatable').DataTable({
         "order": [],
         "lengthMenu": [
@@ -127,6 +128,17 @@
             modal.classList.add("show");
             modal.style.display = "block"
         })
+    }
+</script>
+<script>
+    var Success = `{{\Session::has('success')}}`;
+    var Error = `{{\Session::has('error')}}`;
+
+    if (Success) {
+        alert(`{{\Session::get('success')}}`)
+    }
+    else if(Error){
+        alert(`{{\Session::get('error')}}`)
     }
 </script>
 @endsection

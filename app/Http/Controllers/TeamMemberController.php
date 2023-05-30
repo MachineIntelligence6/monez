@@ -22,7 +22,7 @@ class TeamMemberController extends Controller
      */
     public function index()
     {
-        $teamMembers= User::whereIn('role', ['Team Member', 'Admin'])->orderBy('created_at', 'desc')->get();
+        $teamMembers= User::whereIn('role', ['Team Member'])->orderBy('created_at', 'desc')->get();
 
             // dd($teamMembers);
         return view('teammembers.index',compact('teamMembers'));
@@ -195,9 +195,7 @@ class TeamMemberController extends Controller
     {
         $member = User::findOrFail($id);
         $member->delete();
-        return redirect()->route('team-members.index');
-
-
+        return redirect()->route('team-members.index')->with(['success'=>'Team Member Deleted Successfully !']);
     }
 
 
