@@ -87,10 +87,10 @@
                                                         @if (count($teamMember->advertisers) > 0 || count($teamMember->publishers) > 0)
                                                         @else
                                                             <button type="submit" class="btn btn-danger" data-toggle="modal"
-                                                                data-target="#exampleModal">
+                                                                data-target="#exampleModal-{{$teamMember->id}}">
                                                                 delete
                                                             </button>
-                                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                            <div class="modal fade" id="exampleModal-{{$teamMember->id}}" tabindex="-1"
                                                                 role="dialog" aria-labelledby="exampleModalLabel"
                                                                 aria-hidden="true">
                                                                 <div class="modal-dialog" role="document">
@@ -125,13 +125,7 @@
                                                         @endif
                                                     </span>
                                                 </td>
-                                                <td>
-                                                    <!-- Button trigger modal -->
 
-
-                                                    <!-- Modal -->
-
-                                                </td>
 
 
                                             </tr>
@@ -182,7 +176,7 @@
             })
         }
     </script>
-    <script>
+    {{-- <script>
         var Success = `{{ \Session::has('success') }}`;
         var Error = `{{ \Session::has('error') }}`;
 
@@ -191,5 +185,5 @@
         } else if (Error) {
             alert(`{{ \Session::get('error') }}`)
         }
-    </script>
+    </script> --}}
 @endsection
