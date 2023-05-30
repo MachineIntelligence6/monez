@@ -122,10 +122,18 @@ class TeamMemberController extends Controller
      */
     public function checkUniqueteamEmail(Request $request)
     {
-        $id = $request->teammember_id;
-        $validator = Validator::make($request->all(), [
-            'input_field' => 'unique:users,email',
-        ]);
+        $referer = request()->headers->get('referer');
+        $segments = $pieces = explode("/", $referer);
+        // dd($segments[4]);
+        if(strpos($referer, "/edit")){
+            $validator = Validator::make($request->all(), [
+                'input_field' => 'unique:users,email,' . $segments[4],
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'input_field' => 'unique:users,email',
+            ]);
+        }
         // $validator = Validator::make($request->all(), [
         //     'input_field' => [
         //         'email',
