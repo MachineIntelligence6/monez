@@ -59,7 +59,7 @@
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                                         <div class="input-group input-group-merge">
-                                            <input type="password" id="password-input-field" value="{{old('password', $teamMember->password ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                            <input type="password" id="password-input-field" value="{{old('password')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                                             <div class="input-group-append" data-password="false">
                                                 <div class="input-group-text btn">
                                                     <span class="password-eye"></span>

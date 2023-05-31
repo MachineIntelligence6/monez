@@ -81,12 +81,14 @@ class PublisherController extends Controller
 
         $publisher->save();
         $publisher->publisher_id = 'P' . $publisher->id . '_' . $publisher->publisher_id;
+        $password = Hash::make($publisher->account_password);
         $user = User::create([
             'name' => $publisher->company_name,
             'email' => $publisher->account_email,
-            'password' => Hash::make($publisher->account_password),
+            'password' => $password,
             'role' => 'Publisher',
         ]);
+        $publisher->account_password = $password;
         $publisher->user_id = $user->id;
         $publisher->save();
 
@@ -124,7 +126,7 @@ class PublisherController extends Controller
         $publisher->vat_id = $request->vat_id;
         $publisher->website_url = $request->website_url;
         $publisher->account_email = $request->account_email;
-        $publisher->account_password = Hash::make($request->password);
+        $publisher->account_password = $request->account_password;
         $publisher->address1 = $request->address1;
         $publisher->address2 = $request->address2;
         $publisher->city = $request->city;

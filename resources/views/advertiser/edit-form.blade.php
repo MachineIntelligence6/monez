@@ -121,7 +121,7 @@
                     <div class="input-group input-group-merge">
                         <input type="password" @if ($lastSegment != 'accountinfo') disabled @endif
                             id="password-input-field" class="form-control"
-                            value="{{ $advertiser->account_password ?? old('account_password') }}"
+                            value="{{ old('account_password') }}"
                             name="account_password" placeholder="Enter password"
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                         <div class="input-group-append" data-password="false">

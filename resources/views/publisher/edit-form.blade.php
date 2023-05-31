@@ -98,7 +98,7 @@
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                     <div class="input-group input-group-merge">
-                        <input type="password" @if($lastSegment!='accountinfo' ) disabled @endif id="password-input-field" class="form-control" value="{{ $publisher->account_password ??  old('account_password') }}" name="account_password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                        <input type="password" @if($lastSegment!='accountinfo' ) disabled @endif id="password-input-field" class="form-control" value="{{ old('account_password') }}" name="account_password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                         <div class="input-group-append" data-password="false">
                             <div class="input-group-text btn">
                                 <span class="password-eye"></span>

@@ -83,12 +83,14 @@ class AdvertiserController extends Controller
 
         $advertiser->save();
         $advertiser->advertiser_id = 'A' . $advertiser->id . '_' . $advertiser->advertiser_id;
+        $password = Hash::make($advertiser->account_password);
         $user = User::create([
             'name' => $advertiser->company_name,
             'email' => $advertiser->account_email,
-            'password' => Hash::make($advertiser->account_password),
+            'password' => $password,
             'role' => 'Advertiser',
         ]);
+        $advertiser->account_password = $password;
         $advertiser->user_id = $user->id;
         $advertiser->save();
 
@@ -126,7 +128,7 @@ class AdvertiserController extends Controller
         $advertiser->vat_id = $request->vat_id;
         $advertiser->website_url = $request->website_url;
         $advertiser->account_email = $request->account_email;
-        $advertiser->account_password = Hash::make($request->password);
+        $advertiser->account_password = $request->account_password;
         $advertiser->address1 = $request->address1;
         $advertiser->address2 = $request->address2;
         $advertiser->city = $request->city;
