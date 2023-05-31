@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("c_staticParameters")->nullable();
             $table->string("c_dynamicParameters")->nullable();
             $table->string("feed_ids")->nullable();
+            $table->string("perameters")->nullable();
             $table->string("c_assignedFeeds")->nullable();
             $table->integer("c_priorityScore")->nullable();
             $table->string("c_comments")->nullable();

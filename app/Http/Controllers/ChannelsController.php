@@ -157,14 +157,19 @@ class ChannelsController extends Controller
         $mergedArrayDy = [];
         $mergeArrayFeed = [];
         $ids = [];
+        $perameters = "?channelId=" . $channelId . '&';
         for ($i = 0; $i < count($s_paramName); $i++) {
 
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
+            $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
         }
         // $count = min(count($d_paramName), count($d_paramVal));
-
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
+            $perameters = $perameters . $d_paramName[$i] . '=<' . 'query' . '>';
+            if($i+1 != count($d_paramName)){
+                $perameters = $perameters . '&';
+            }
         }
         // $count = count($d_paramName);
         // for ($i = 0; $i < count($d_paramName); $i++) {
@@ -185,6 +190,7 @@ class ChannelsController extends Controller
         $channel->c_staticParameters = json_encode($mergedArrayStat);
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
+        $channel->perameters = $perameters;
         $channel->save();
         $channel_Id = $channel->id;
         //generating url start
