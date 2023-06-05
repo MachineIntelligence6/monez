@@ -220,13 +220,13 @@
 
                             @foreach ($countries as $key => $country)
                             <option value="{{ $country->id }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
-                                {{ $country->countryCode }} ({{ $country->title }})
+                                {{ $country->title }} ({{ $country->countryCode }})
                             </option>
-                            <!-- <option value="{{$country->countryCode}}">{{$country->countryCode}} ({{$country -> title}})</option> -->
+                            <!-- <option value="{{$country->countryCode}}">{{$country->title}} ({{$country -> countryCode}})</option> -->
                             @endforeach
                         </select>
                     </div>
-                    <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number">
+                    <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                 </div>
             </div>
         </div>

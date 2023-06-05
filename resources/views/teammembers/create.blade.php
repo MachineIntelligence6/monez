@@ -51,7 +51,6 @@ $lastSegment = last($segments);
     })
 
 
-
     $('#email').on('input', function() {
         var inputVal = $(this).val();
         if (inputVal.length > 0) {

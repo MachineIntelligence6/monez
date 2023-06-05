@@ -38,7 +38,7 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label><label class="text-danger">*</label>
-                                        <input type="text" class="form-control" id="name" value="{{old('name', $teamMember->name ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="name" placeholder="name" required>
+                                        <input type="text" textOnly class="form-control" id="name" pattern="[A-Za-z]+" value="{{old('name', $teamMember->name ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="name" placeholder="name" required>
                                         <div class="valid-feedback">Valid.</div>
                                         <div class="invalid-feedback">
                                             You must enter valid input
@@ -89,11 +89,15 @@
                                             <div class="input-group-prepend" style="min-width: 150px;">
                                                 <select name="country_code" class="form-control " @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif id="phone-code-dropdown" data-toggle="select2" required>
                                                     @foreach ($countries as $key => $country)
-                                                    <option value="{{$country->id}}" @if (isset($selectedcountry) && $country->id == $selectedcountry) selected @endif>{{$country->countryCode}} ({{$country -> title}})</option>
+                                                    <option value="{{$country->id}}" @if (isset($selectedcountry) && $country->id == $selectedcountry) selected @endif>{{$country->title}} ({{$country -> countryCode}})</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <input type="number" class="form-control ml-2" value="{{old('phone', $teamMember->phone ?? '')}}" data-invalid-message="Phone Number already registered." data-check-unique="oninput" data-unique-path="{{ route('check.unique.teamPhone') }}" id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="phone" placeholder="Enter phone number">
+                                            <input type="number"
+                                             class="form-control ml-2" value="{{old('phone', $teamMember->phone ?? '')}}" 
+                                             id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif
+                                              name="phone" placeholder="Enter phone number" required
+                                              onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                                         </div>
                                     </div>
                                 </div>
