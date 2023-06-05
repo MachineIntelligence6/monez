@@ -58,14 +58,24 @@
     });
 
 
+    $("input[type=text][textOnly]").on("input", (e) => {
+        const value = $(e.target).val().toString().replace(/[^a-zA-Z]/g, '')
+        console.log(value);
+        $(e.target).val(value);
+        validateInput(e.target);
+    })
+
+
+
     function generateRandomPassword(target, inputFieldId = 'password-input-field') {
-        var inputField;
+        let inputField;
         if (target !== undefined && target !== null) {
             inputField = target.parentNode.parentNode.parentNode.querySelector("input#" + inputFieldId);
         } else {
             inputField = document.getElementById(inputFieldId);
         }
-        var passwordLength = 12;
+        // let passwordLength = 12;
+        let passwordLength = Math.floor(Math.random() * (12 - 8 + 1)) + 8;
         const chars = {
             num: "1234567890",
             specialChar: "!@#$%&<=>?~",
@@ -74,7 +84,7 @@
         };
 
         const shuffleStr = str => str.split('').sort(() => 0.5 - Math.random()).join('')
-        let factor = passwordLength / 4;
+        let factor = Math.floor(passwordLength / 4) + 1;
         let str = ''
         str += shuffleStr(chars.upperCase.repeat(factor)).substr(0, factor)
         str += shuffleStr(chars.lowerCase.repeat(factor)).substr(0, factor)
@@ -82,7 +92,6 @@
         str += shuffleStr(chars.specialChar.repeat(factor)).substr(0, factor)
 
         let password = shuffleStr(str).substr(0, passwordLength)
-        console.log(password);
         inputField.value = password;
         validateInput(inputField);
     }

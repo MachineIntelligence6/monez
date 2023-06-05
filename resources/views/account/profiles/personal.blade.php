@@ -53,7 +53,7 @@
                                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
                                         </select>
                                     </div>
-                                    <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number">
+                                    <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                                 </div>
                             </div>
                         </div>

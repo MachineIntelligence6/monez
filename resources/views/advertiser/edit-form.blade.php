@@ -369,7 +369,7 @@
                                 @foreach ($countries as $key => $country)
                                     <option value="{{ $country->title }}"
                                         @if (isset($advertiser->country_code) && $country->id == $advertiser->country_code) selected @endif>
-                                        {{ $country->countryCode }} ({{ $country->title }})
+                                        {{ $country->title }} ({{ $country->countryCode }})
                                     </option>
                                 @endforeach
                             </select>
@@ -377,7 +377,8 @@
                         <input type="number" @if ($lastSegment != 'contactinfo') disabled @endif
                             class="form-control ml-2" id="amPhone" name="acc_mng_phone"
                             value="{{ $advertiser->acc_mng_phone ?? old('acc_mng_phone') }}"
-                            placeholder="Enter phone number">
+                            placeholder="Enter phone number"
+                            onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                     </div>
                 </div>
             </div>

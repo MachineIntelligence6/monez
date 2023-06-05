@@ -1,5 +1,5 @@
 @section('css')
-    <link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/libs/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 <form class="needs-validation" method="POST" action="{{ route('publisher.update', ['publisher'=>$publisher->id , 'currentedit' => 'accountinfo']) }}" enctype="multipart/form-data">
     @csrf
@@ -11,15 +11,15 @@
                 Account Info
             </h5>
             @if($lastSegment!='accountinfo')
-                <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id , 'currentedit' => 'accountinfo']) }}" class="edit-category-btn btn btn-secondary">
-                    <span class="fas fa-edit mr-1"></span>
-                    Edit Info
-                </a>
+            <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id , 'currentedit' => 'accountinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <span class="fas fa-edit mr-1"></span>
+                Edit Info
+            </a>
             @else
-                <button type="submit" class=" save-category-btn btn btn-primary">
-                    <span class="fas fa-check mr-1"></span>
-                    Save Info
-                </button>
+            <button type="submit" class=" save-category-btn btn btn-primary">
+                <span class="fas fa-check mr-1"></span>
+                Save Info
+            </button>
             @endif
         </div>
         <div class="row">
@@ -175,7 +175,7 @@
                 <select class="form-control" name="country" @if($lastSegment!='accountinfo' ) disabled @endif id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2">
                     <option>Select Country</option>
                     @foreach ($countries as $key => $country)
-                        <option value="{{$country->title}}" @if (isset($publisher) && $country->title == $publisher->country) selected @endif phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
+                    <option value="{{$country->title}}" @if (isset($publisher) && $country->title == $publisher->country) selected @endif phone-code="{{$country -> countryCode}}">{{$country->title}}</option>
                     @endforeach
                 </select>
                 <div class="valid-feedback">Valid.</div>
@@ -185,20 +185,20 @@
             </div>
         </div> <!-- end row -->
         @if($lastSegment=='accountinfo')
-            <div class="row display-on-edit">
-                <div class="col-md-6 h-100">
-                    <div class="mb-3">
-                        <label for="io" class="form-label">IO</label>
-                        <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
-                    </div>
-                </div>
-                <div class="col-md-6 h-100">
-                    <div class="mb-3">
-                        <label for="documents" class="form-label">Documents</label>
-                        <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
-                    </div>
+        <div class="row display-on-edit">
+            <div class="col-md-6 h-100">
+                <div class="mb-3">
+                    <label for="io" class="form-label">IO</label>
+                    <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
                 </div>
             </div>
+            <div class="col-md-6 h-100">
+                <div class="mb-3">
+                    <label for="documents" class="form-label">Documents</label>
+                    <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
+                </div>
+            </div>
+        </div>
         @endif
         <div class="row mb-4 display-on-view">
             <div class="col-md-6 mb-3">
@@ -206,11 +206,11 @@
                     <label for="">Uploaded IOs</label>
                     <div class="border h-100 rounded-sm p-2">
                         @if ($publisher->io_path)
-                            @foreach ($publisher->io_path as $key => $file)
-                                <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a><br><br>
-                            @endforeach
+                        @foreach ($publisher->io_path as $key => $file)
+                        <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a><br><br>
+                        @endforeach
                         @else
-                            <p>No PDF to show</p>
+                        <p>No PDF to show</p>
                         @endif
                     </div>
                 </div>
@@ -220,11 +220,11 @@
                     <label for="">Uploaded Documents</label>
                     <div class="border h-100 rounded-sm p-2">
                         @if ($publisher->documents_path)
-                            @foreach ($publisher->documents_path as $key => $file)
-                                <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a><br><br>
-                            @endforeach
+                        @foreach ($publisher->documents_path as $key => $file)
+                        <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a><br><br>
+                        @endforeach
                         @else
-                            <p>No PDF to show</p>
+                        <p>No PDF to show</p>
                         @endif
                     </div>
                 </div>
@@ -241,15 +241,15 @@
             <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i> Contact Info (Account Manager)</h5>
 
             @if($lastSegment!='contactinfo')
-                <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id ,'currentedit' => 'contactinfo']) }}" class="edit-category-btn btn btn-secondary">
-                    <span class="fas fa-edit mr-1"></span>
-                    Edit Info
-                </a>
+            <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id ,'currentedit' => 'contactinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <span class="fas fa-edit mr-1"></span>
+                Edit Info
+            </a>
             @else
-                <button type="submit" class=" save-category-btn btn btn-primary">
-                    <span class="fas fa-check mr-1"></span>
-                    Save Info
-                </button>
+            <button type="submit" class=" save-category-btn btn btn-primary">
+                <span class="fas fa-check mr-1"></span>
+                Save Info
+            </button>
             @endif
         </div>
         <div class="row">
@@ -308,13 +308,13 @@
                             <select class="form-control " @if($lastSegment!='contactinfo' ) disabled @endif id="phone-code-dropdown" name="country_code" data-toggle="select2">
 
                                 @foreach ($countries as $key => $country)
-                                    <option value="{{ $country->title }}" @if (isset($publisher->country_code) && $country->id == $publisher->country_code) selected @endif>
-                                        {{ $country->countryCode }} ({{ $country->title }})
-                                    </option>
+                                <option value="{{ $country->title }}" @if (isset($publisher->country_code) && $country->id == $publisher->country_code) selected @endif>
+                                    {{ $country->title }} ({{ $country->countryCode }})
+                                </option>
                                 @endforeach
                             </select>
                         </div>
-                        <input type="number" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control ml-2" id="amPhone" name="acc_mng_phone" value="{{ $publisher->acc_mng_phone ??  old('acc_mng_phone') }}" placeholder="Enter phone number">
+                        <input type="number" @if($lastSegment!='contactinfo' ) disabled @endif class="form-control ml-2" id="amPhone" name="acc_mng_phone" value="{{ $publisher->acc_mng_phone ??  old('acc_mng_phone') }}" placeholder="Enter phone number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                     </div>
                 </div>
             </div>
@@ -352,15 +352,15 @@
         <div class="d-flex align-items-center justify-content-between">
             <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Operations Info</h5>
             @if($lastSegment!='operationinfo')
-                <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id ,'currentedit' => 'operationinfo']) }}" class="edit-category-btn btn btn-secondary">
-                    <span class="fas fa-edit mr-1"></span>
-                    Edit Info
-                </a>
+            <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id ,'currentedit' => 'operationinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <span class="fas fa-edit mr-1"></span>
+                Edit Info
+            </a>
             @else
-                <button type="submit" class=" save-category-btn btn btn-primary">
-                    <span class="fas fa-check mr-1"></span>
-                    Save Info
-                </button>
+            <button type="submit" class=" save-category-btn btn btn-primary">
+                <span class="fas fa-check mr-1"></span>
+                Save Info
+            </button>
             @endif
         </div>
         <div class="row">
@@ -406,55 +406,55 @@
                     <label for="reportType" class="form-label">Report Type</label>
                     <div class="input-group input-group-merge">
                         <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif id="reportType" data-toggle="select2" name="report_type" value="{{ $publisher->report_type ??  old('report_type') }}">
-                            <option value="">Report Type</option>
-                            <option @if($publisher->report_type == 'api') selected @endif value="api">API</option>
-                            <option @if($publisher->report_type == 'email') selected @endif value="email">EMAIL</option>
-                            <option @if($publisher->report_type == 'gdrive') selected @endif value="gdrive">Google Drive</option>
-                            <option @if($publisher->report_type == 'dashboard') selected @endif value="dashboard">Dashboard</option>
-                        </select>
-                        <div class="input-group-append">
-                            <button type="button" @if($lastSegment!='operationinfo' ) disabled @endif data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
-                                <span class="dripicons-document-edit"></span>
-                            </button>
-                        </div>
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">
-                            You must enter valid input
-                        </div>
-                    </div>
-                </div>
+            <option value="">Report Type</option>
+            <option @if($publisher->report_type == 'api') selected @endif value="api">API</option>
+            <option @if($publisher->report_type == 'email') selected @endif value="email">EMAIL</option>
+            <option @if($publisher->report_type == 'gdrive') selected @endif value="gdrive">Google Drive</option>
+            <option @if($publisher->report_type == 'dashboard') selected @endif value="dashboard">Dashboard</option>
+            </select>
+            <div class="input-group-append">
+                <button type="button" @if($lastSegment!='operationinfo' ) disabled @endif data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
+                    <span class="dripicons-document-edit"></span>
+                </button>
             </div>
-            <div class="col-md-4 mb-3">
-                <label for="reportColumns" class="form-label">Report Columns</label>
-                <div class="input-group input-group-merge">
-                    <input type="text" @if($lastSegment!='operationinfo' ) disabled @endif class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns">
-                    <div class="input-group-append">
-                        <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
-                            <span class="dripicons-document-edit"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
-                </div>
-            </div> --}}
-            <div class="col-md-4 mb-3">
-                <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-                <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif data-toggle="select2" id="successManager" name="team_member_id">
-                    @foreach ($availableTeamMembers as $key => $teamMember)
-                        <option value="{{$teamMember->id}}" @if ($teamMember->id == $publisher->team_member_id) selected @endif>{{$teamMember->name}}</option>
-                    @endforeach
-                    <option value="">Select Success Manager</option>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                You must enter valid input
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label for="reportColumns" class="form-label">Report Columns</label>
+        <div class="input-group input-group-merge">
+            <input type="text" @if($lastSegment!='operationinfo' ) disabled @endif class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns">
+            <div class="input-group-append">
+                <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
+                    <span class="dripicons-document-edit"></span>
+                </button>
+            </div>
+        </div>
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">
+            You must enter valid input
+        </div>
+    </div> --}}
+    <div class="col-md-4 mb-3">
+        <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
+        <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif data-toggle="select2" id="successManager" name="team_member_id">
+            @foreach ($availableTeamMembers as $key => $teamMember)
+            <option value="{{$teamMember->id}}" @if ($teamMember->id == $publisher->team_member_id) selected @endif>{{$teamMember->name}}</option>
+            @endforeach
+            <option value="">Select Success Manager</option>
 
-                </select>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
-                </div>
-            </div>
-        </div> <!-- end row -->
-    </form>
+        </select>
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">
+            You must enter valid input
+        </div>
+    </div>
+    </div> <!-- end row -->
+</form>
 </div>
 @include('publisher.modals.report-columns')
 {{-- @include('publisher.modals.reports-modal') --}}
@@ -466,15 +466,15 @@
         <div class="d-flex align-items-center justify-content-between">
             <h5 class="mb-3 text-uppercase"><i class="mdi mdi-office-building mr-2"></i>Finance Info</h5>
             @if($lastSegment!='financeinfo')
-                <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id ,'currentedit' => 'financeinfo']) }}" class="edit-category-btn btn btn-secondary">
-                    <span class="fas fa-edit mr-1"></span>
-                    Edit Info
-                </a>
+            <a href="{{ route('publisher.edit', ['publisher'=>$publisher->id ,'currentedit' => 'financeinfo']) }}" class="edit-category-btn btn btn-secondary">
+                <span class="fas fa-edit mr-1"></span>
+                Edit Info
+            </a>
             @else
-                <button type="submit" class=" save-category-btn btn btn-primary">
-                    <span class="fas fa-check mr-1"></span>
-                    Save Info
-                </button>
+            <button type="submit" class=" save-category-btn btn btn-primary">
+                <span class="fas fa-check mr-1"></span>
+                Save Info
+            </button>
             @endif
         </div>
         <div class="row">
@@ -536,192 +536,190 @@
 @include('publisher.modals.bank-details-modal')
 
 @if($lastSegment=='create')
-    <div class="row">
-        <button class="btn btn-primary" type="submit">Submit</button>
-        <a href="{{ route('publisher.index') }}" class="btn btn-secondary ml-1" type="button" disabled>Cancel</a>
-    </div>
+<div class="row">
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <a href="{{ route('publisher.index') }}" class="btn btn-secondary ml-1" type="button" disabled>Cancel</a>
+</div>
 @endif
 
 
 @section('script-bottom')
-    <!-- Plugins js-->
-    <script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
-    <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
-    <script src="{{asset('assets/libs/dropify/dropify.min.js')}}"></script>
+<!-- Plugins js-->
+<script src="{{asset('assets/libs/parsleyjs/parsleyjs.min.js')}}"></script>
+<script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
+<script src="{{asset('assets/libs/dropify/dropify.min.js')}}"></script>
 
-    <!-- Page js-->
-    <script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
-    <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
-    <script src="{{asset('assets/js/modal-init.js')}}"></script>
+<!-- Page js-->
+<script src="{{asset('assets/js/pages/form-validation.init.js')}}"></script>
+<script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+<script src="{{asset('assets/js/modal-init.js')}}"></script>
 
-    <script>
-        function confirmEmail() {
-            if ($("#confemail").val() === "") return;
-            $($("#confemail")).removeClass('is-valid is-invalid')
-                .addClass(($("#accEmail").val() === $("#confemail").val()) ? ($("#confemail")[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');
-        }
+<script>
+    function confirmEmail() {
+        if ($("#confemail").val() === "") return;
+        $($("#confemail")).removeClass('is-valid is-invalid')
+            .addClass(($("#accEmail").val() === $("#confemail").val()) ? ($("#confemail")[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');
+    }
 
 
-        $('.dropify').dropify();
+    $('.dropify').dropify();
 
-        $("#bankDetailsForm").submit(function(event) {
-            event.preventDefault();
+    $("#bankDetailsForm").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+                // $("#bankId").val(response.id);
+                $(this).closest(".modal")
+                    .removeClass("show")
+                    .css("display", "none");
+                console.log(response);
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
+
+    $("#reportColoumnsForm").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: (response) => {
+                // $("#reportColumnsId").val(response.id);
+                $(this).closest(".modal")
+                    .removeClass("show")
+                    .css("display", "none");
+                console.log(response)
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#dbaId').on('input', function() {
+        var inputVal = $(this).val();
+        if (inputVal.length > 0) {
             $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: $(this).serialize(),
-                success: (response) => {
-                    // $("#bankId").val(response.id);
-                    $(this).closest(".modal")
-                        .removeClass("show")
-                        .css("display", "none");
+                url: '{{ route("check.unique.value") }}',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    input_field: inputVal
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'error') {
+                        validateInput("#dbaId", false);
+                        $("#dba-invalid").text('Publisher ID already exists.');
+                    } else {
+                        console.log(response);
+                    }
+                },
+                error: function(response) {
                     console.log(response);
-                },
-                error: (error) => {
-                    console.log(error);
                 }
             });
-        });
-
-        $("#reportColoumnsForm").submit(function(event) {
-            event.preventDefault();
+        } else {
+            $("#dba-invalid").text('You must enter valid input.');
+        }
+    });
+    $('#accEmail').on('input', function() {
+        var inputVal = $(this).val();
+        if (inputVal.length > 0) {
             $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: $(this).serialize(),
-                success: (response) => {
-                    // $("#reportColumnsId").val(response.id);
-                    $(this).closest(".modal")
-                        .removeClass("show")
-                        .css("display", "none");
-                    console.log(response)
+                url: '{{ route("check.unique.accEmail") }}',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    input_field: inputVal
                 },
-                error: (error) => {
-                    console.log(error);
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'error') {
+                        validateInput("#accEmail", false);
+                        $("#accEmail-invalid").text('Email already registered.');
+                    } else {
+                        console.log(response);
+                    }
+                },
+                error: function(response) {
+                    console.log(response);
                 }
             });
-        });
-
-        $('#dbaId').on('input', function() {
-            var inputVal = $(this).val();
-            if (inputVal.length > 0) {
-                $.ajax({
-                    url: '{{ route("check.unique.value") }}',
-                    type: 'POST',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        input_field: inputVal
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'error') {
-                            validateInput("#dbaId", false);
-                            $("#dba-invalid").text('Publisher ID already exists.');
-                        } else {
-                            console.log(response);
-                        }
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
-            } else {
-                $("#dba-invalid").text('You must enter valid input.');
-            }
-        });
-        $('#accEmail').on('input', function() {
-            var inputVal = $(this).val();
-            if (inputVal.length > 0) {
-                $.ajax({
-                    url: '{{ route("check.unique.accEmail") }}',
-                    type: 'POST',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        input_field: inputVal
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'error') {
-                            validateInput("#accEmail", false);
-                            $("#accEmail-invalid").text('Email already registered.');
-                        } else {
-                            console.log(response);
-                        }
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
-            } else {
-                $("#accEmail-invalid").text('You must enter valid input.');
-            }
-        });
-
-
-        function setCountryCodeToPhone(countryCode) {
-            // $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
+        } else {
+            $("#accEmail-invalid").text('You must enter valid input.');
         }
+    });
 
 
-        document.querySelectorAll(".enable-on-valid").forEach((el) => {
-            let input = document.getElementById(el.getAttribute("data-enable-target"));
-            input.addEventListener("change", (e) => {
-                el.disabled = e.target.value === "";
-            })
+    function setCountryCodeToPhone(countryCode) {
+        // $("#phone-code-dropdown").select2().val(countryCode).trigger("change");
+    }
+
+
+    document.querySelectorAll(".enable-on-valid").forEach((el) => {
+        let input = document.getElementById(el.getAttribute("data-enable-target"));
+        input.addEventListener("change", (e) => {
+            el.disabled = e.target.value === "";
         })
-        document.querySelectorAll(".display-on-valid").forEach((el) => {
-            let input = document.getElementById(el.getAttribute("data-enable-target"));
-            input.addEventListener("change", (e) => {
-                if (e.target.value !== "") el.classList.remove("d-none");
-                else el.classList.add("d-none")
-            })
+    })
+    document.querySelectorAll(".display-on-valid").forEach((el) => {
+        let input = document.getElementById(el.getAttribute("data-enable-target"));
+        input.addEventListener("change", (e) => {
+            if (e.target.value !== "") el.classList.remove("d-none");
+            else el.classList.add("d-none")
         })
+    })
 
 
-        //Report Type Popup Script
-        const reportTypeModal = document.getElementById("report-type-modal");
-        const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
+    //Report Type Popup Script
+    const reportTypeModal = document.getElementById("report-type-modal");
+    const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
 
-        function showReportCredsPopup(value) {
-            for (let i = 0; i < reportCredsInputs.length; i++) {
-                reportCredsInputs[i].classList.add("d-none");
-                // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
-            }
-            if (value !== "") {
-                reportTypeModal.getElementsByClassName(value + "-input-group")
-                    .forEach((inpGroup) => {
-                        inpGroup.classList.remove("d-none");
-                        // inpGroup.querySelector("input").setAttribute("required", true);
-                    })
-                reportTypeModal.classList.add("show");
-                reportTypeModal.style.display = "block";
-            }
+    function showReportCredsPopup(value) {
+        for (let i = 0; i < reportCredsInputs.length; i++) {
+            reportCredsInputs[i].classList.add("d-none");
+            // reportCredsInputs[i].querySelector("input").setAttribute("required", false);
         }
-
-        $("#reportType").on("select2:close", function() {
-            showReportCredsPopup($(this).val());
-        })
-
-
-        function onSaveColumnsModal() {
-            let allInpValid = true;
-            $("#define-report-columns-modal").find("input,select").each((i, inp) => {
-                if (inp.value === "") {
-                    allInpValid = false;
-                }
-            })
-            let reportColsInp = $("#reportColumns")
-            reportColsInp.val("Report Columns Set");
-            validateInput(reportColsInp);
+        if (value !== "") {
+            reportTypeModal.getElementsByClassName(value + "-input-group")
+                .forEach((inpGroup) => {
+                    inpGroup.classList.remove("d-none");
+                    // inpGroup.querySelector("input").setAttribute("required", true);
+                })
+            reportTypeModal.classList.add("show");
+            reportTypeModal.style.display = "block";
         }
+    }
 
-        $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
-            $("#bank").val(e.target.value)
-            console.log(e.target.value);
-            validateInput("#bank");
+    $("#reportType").on("select2:close", function() {
+        showReportCredsPopup($(this).val());
+    })
+
+
+    function onSaveColumnsModal() {
+        let allInpValid = true;
+        $("#define-report-columns-modal").find("input,select").each((i, inp) => {
+            if (inp.value === "") {
+                allInpValid = false;
+            }
         })
+        let reportColsInp = $("#reportColumns")
+        reportColsInp.val("Report Columns Set");
+        validateInput(reportColsInp);
+    }
 
-
-    </script>
+    $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
+        $("#bank").val(e.target.value)
+        console.log(e.target.value);
+        validateInput("#bank");
+    })
+</script>
 
 @endsection
