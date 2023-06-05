@@ -59,7 +59,7 @@
 
 
     $("input[type=text][textOnly]").on("input", (e) => {
-        const value = $(e.target).val().toString().replace(/[^a-zA-Z]/g, '')
+        const value = $(e.target).val().toString().replace(/[^a-zA-Z\s]/g, '')
         console.log(value);
         $(e.target).val(value);
         validateInput(e.target);
