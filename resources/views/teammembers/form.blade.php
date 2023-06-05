@@ -38,7 +38,7 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Name</label><label class="text-danger">*</label>
-                                        <input type="text" textOnly class="form-control" id="name" pattern="[A-Za-z]+" value="{{old('name', $teamMember->name ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="name" placeholder="name" required>
+                                        <input type="text" textOnly class="form-control" id="name" value="{{old('name', $teamMember->name ?? '')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="name" placeholder="name" required>
                                         <div class="valid-feedback">Valid.</div>
                                         <div class="invalid-feedback">
                                             You must enter valid input
