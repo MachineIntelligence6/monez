@@ -36,19 +36,31 @@
             </li>
 
             <li class="dropdown d-inline-block">
-                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" href="#">
+                <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" data-target="#notifications-dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="fe-bell noti-icon"></i>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right" id="notifications-dropdown" >
+                    <!-- item-->
+                    <a href="{{route('account.index')}}" class="dropdown-item notify-item">
+                        <span>Notification Item</span>
+                        <p style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex saepe ducimus quis, veniam quae a ipsa consequuntur praesentium distinctio. Distinctio iste nam est nulla delectus ipsa repellendus quas omnis aperiam.</p>
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item notify-item" href="#">
+                        <span>View all notifications</span>
+                    </a>
+                </div>
             </li>
 
             <li class="dropdown notification-list topbar-dropdown">
-                <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" data-target="#profile-dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                     <!-- <img src="{{asset('assets/images/users/user-1.jpg')}}" alt="user-image" class="rounded-circle"> -->
                     <span class="pro-user-name ml-1">
                         {{auth()->user()->name ?? ''}} <i class="mdi mdi-chevron-down"></i>
                     </span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                <div class="dropdown-menu dropdown-menu-right" id="profile-dropdown">
                     <!-- item-->
                     <a href="{{route('account.index')}}" class="dropdown-item notify-item">
                         <i class="fe-user mr-1"></i>
@@ -64,16 +76,12 @@
                         <span>Change Password</span>
                     </a>
 
-
                     <div class="dropdown-divider"></div>
-
                     <a class="dropdown-item notify-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                         <i class="fe-log-out"></i>
                         <span>Logout</span>
-
                     </a>
-
                     <form id="logout-form" action="{{ route('logout') }}" method="POST">
                         @csrf
                     </form>

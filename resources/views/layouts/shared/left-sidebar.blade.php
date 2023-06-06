@@ -44,7 +44,7 @@
 
             <ul id="side-menu">
 
-                <li>
+                <!-- <li>
 
                     <a href="#" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
@@ -70,7 +70,7 @@
                         <i data-feather="users"></i>
                         <span> Team Members </span>
                     </a>
-                </li>
+                </li> -->
 
                 <li>
                     <a href="{{route('advertiser.index')}}">
