@@ -44,12 +44,12 @@ $lastSegment = last($segments);
 <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
+
 <script>
     $('.dropify').dropify();
     window.addEventListener("DOMContentLoaded", () => {
         generateRandomPassword(null)
     })
-
 
     $('#email').on('input', function() {
         var inputVal = $(this).val();
@@ -83,19 +83,19 @@ $lastSegment = last($segments);
     const passwordCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const specialChars = "!$%#^&|?"
 
-    function generateNewPassword() {
-        var passwordLength = Math.floor(Math.random() * 12);
-        if (passwordLength < 8) passwordLength += 8;
-        passwordLength = Math.min(12, passwordLength);
-        var password = "";
-        for (var i = 0, n = passwordCharset.length; i < passwordLength; ++i) {
-            password += passwordCharset.charAt(Math.floor(Math.random() * n));
-        }
-        password += specialChars[Math.floor(Math.random() * specialChars.length)]
-        document.getElementById("password-input-field").value = password;
-    }
+    // function generateNewPassword() {
+    //     var passwordLength = Math.floor(Math.random() * 12);
+    //     if (passwordLength < 8) passwordLength += 8;
+    //     passwordLength = Math.min(12, passwordLength);
+    //     var password = "";
+    //     for (var i = 0, n = passwordCharset.length; i < passwordLength; ++i) {
+    //         password += passwordCharset.charAt(Math.floor(Math.random() * n));
+    //     }
+    //     password += specialChars[Math.floor(Math.random() * specialChars.length)]
+    //     document.getElementById("password-input-field").value = password;
+    // }
 
-    generateNewPassword();
+    // generateNewPassword();
 
     function setCountryCodeToPhone(countryCode) {
         $("#phone-code-dropdown").select2().val(countryCode).trigger("change");

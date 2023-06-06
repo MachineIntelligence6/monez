@@ -33,7 +33,6 @@
                             </div>
                         </div>
                         <div class="col-auto" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif>
-
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
@@ -59,12 +58,14 @@
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Password</label><label class="text-danger">*</label>
                                         <div class="input-group input-group-merge">
-                                            <input type="password" id="password-input-field" value="{{old('password')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                                            <input type="password" @if($lastSegment=='create' ) autoGenerate required @endif id="password-input-field" value="{{old('password')}}" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif class="form-control" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                                            @if($lastSegment == 'create' || $lastSegment=='edit')
                                             <div class="input-group-append" data-password="false">
                                                 <div class="input-group-text btn">
                                                     <span class="password-eye"></span>
                                                 </div>
                                             </div>
+                                            @endif
                                             <div class="pl-2">
                                                 <!-- <div class="btn btn-secondary" onclick="@if($condition==$lastSegment || $condition==$Segmenttwo) disabled  generateRandomPassword(this) @endif">Regenerate</div> -->
                                                 @if($lastSegment == 'create' || $lastSegment=='edit')
@@ -75,10 +76,12 @@
                                                 @endif
 
                                             </div>
-                                        </div>
-                                        <div class="valid-feedback">Valid.</div>
-                                        <div class="invalid-feedback">
-                                            You must enter valid input
+                                            <div class="valid-feedback">Valid.</div>
+                                            <div class="invalid-feedback">
+                                                Your password must contain least 8 characters, at least one number and one uppercase
+                                                and lowercase
+                                                letter.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -93,11 +96,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <input type="number"
-                                             class="form-control ml-2" value="{{old('phone', $teamMember->phone ?? '')}}" 
-                                             id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif
-                                              name="phone" placeholder="Enter phone number" required
-                                              onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+                                            <input type="number" class="form-control ml-2" value="{{old('phone', $teamMember->phone ?? '')}}" id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif name="phone" placeholder="Enter phone number" required onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                                         </div>
                                     </div>
                                 </div>
