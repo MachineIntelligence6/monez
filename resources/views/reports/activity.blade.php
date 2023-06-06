@@ -321,16 +321,6 @@
     })
 
 
-    $("[data-toggle='dropdown']").click(function() {
-        $($(this).attr("data-target")).toggleClass("d-block")
-    })
-    $(document).on('click', (e) => {
-        console.log(e.target)
-        $('.dropdown-menu').each((_, searchDrop) => {
-            if (!searchDrop.parentNode.contains(e.target)) {
-                $(searchDrop).removeClass("d-block");
-            }
-        })
-    })
+    
 </script>
 @endsection

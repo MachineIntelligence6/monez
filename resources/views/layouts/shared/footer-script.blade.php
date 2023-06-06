@@ -46,6 +46,7 @@
 <script src="{{ asset('assets/libs/dropify/js/dropify.min.js') }}"></script>
 
 
+
 <!-- Forms Validation Trigger Script  -->
 <script>
     function validateInput(target, success = true) {
@@ -74,6 +75,8 @@
         } else {
             inputField = document.getElementById(inputFieldId);
         }
+        const autoGenerate = $(inputField).attr("autoGenerate");
+        if (target === null && autoGenerate === undefined) return
         // let passwordLength = 12;
         let passwordLength = Math.floor(Math.random() * (12 - 8 + 1)) + 8;
         const chars = {
@@ -141,6 +144,18 @@
     function select2Refresh() {
         $("select[data-toggle='select2']").select2();
     }
+
+    $("[data-toggle='dropdown']").click(function() {
+        $($(this).attr("data-target")).toggleClass("d-block")
+    })
+    $(document).on('click', (e) => {
+        console.log(e.target)
+        $('.dropdown-menu').each((_, searchDrop) => {
+            if (!searchDrop.parentNode.contains(e.target)) {
+                $(searchDrop).removeClass("d-block");
+            }
+        })
+    })
 </script>
 
 @yield('script-bottom')

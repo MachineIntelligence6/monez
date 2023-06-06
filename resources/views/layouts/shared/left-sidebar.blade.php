@@ -2,7 +2,7 @@
 <div class="left-side-menu">
 
     @php
-        $role = Auth::user()->role;
+    $role = Auth::user()->role;
     @endphp
     <div class="h-100" data-simplebar>
 
@@ -44,7 +44,7 @@
 
             <ul id="side-menu">
 
-                <li>
+                <!-- <li>
 
                     <a href="#" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();">
@@ -62,9 +62,10 @@
                         <i data-feather="airplay"></i>
                         <span> Admin </span>
                     </a>
-                </li>
-                @if ($role == 'Admin' || $role == 'Team Member')
+                </li> -->
 
+
+                @if ($role == 'Admin' || $role == 'Team Member')
                 <li>
                     <a href="{{route('team-members.index')}}">
                         <i data-feather="users"></i>
