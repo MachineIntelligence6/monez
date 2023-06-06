@@ -2,7 +2,7 @@
 <div class="left-side-menu">
 
     @php
-        $role = Auth::user()->role;
+    $role = Auth::user()->role;
     @endphp
     <div class="h-100" data-simplebar>
 
@@ -62,15 +62,16 @@
                         <i data-feather="airplay"></i>
                         <span> Admin </span>
                     </a>
-                </li>
-                @if ($role == 'Admin' || $role == 'Team Member')
+                </li> -->
 
+
+                @if ($role == 'Admin' || $role == 'Team Member')
                 <li>
                     <a href="{{route('team-members.index')}}">
                         <i data-feather="users"></i>
                         <span> Team Members </span>
                     </a>
-                </li> -->
+                </li>
 
                 <li>
                     <a href="{{route('advertiser.index')}}">
