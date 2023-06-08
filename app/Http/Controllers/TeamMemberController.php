@@ -167,7 +167,6 @@ class TeamMemberController extends Controller
     }
     public function update(Request $request, $id)
     {
-        return $request;
         $members = User::find($id);
         $members->name = $request->name;
         $members->email = $request->email;
