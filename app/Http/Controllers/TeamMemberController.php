@@ -167,10 +167,11 @@ class TeamMemberController extends Controller
     }
     public function update(Request $request, $id)
     {
+        return $request;
         $members = User::find($id);
         $members->name = $request->name;
         $members->email = $request->email;
-        if($request->has('password')){
+        if($request->filled('password')){
             $members->password = Hash::make($request->password);
         }
         $members->skype = $request->skype;
