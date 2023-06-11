@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('advertisers', function (Blueprint $table) {
             $table->id();
-            $table->string("advertiser_id")->unique();
+            $table->string("advertiser_id")->unique()->nullable();
             $table->string("company_name");
             $table->string("reg_id")->nullable();
             $table->string("vat_id")->nullable();

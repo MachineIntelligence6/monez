@@ -15,7 +15,7 @@ class CreatePublishersTable extends Migration
     {
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
-            $table->string("publisher_id")->unique();
+            $table->string("publisher_id")->unique()->nullable();
             $table->string("company_name");
             $table->string("reg_id")->nullable();
             $table->string("vat_id")->nullable();

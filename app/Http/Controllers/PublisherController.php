@@ -372,7 +372,7 @@ class PublisherController extends Controller
                 $publisher->vat_id = $request->vat_id;
                 $publisher->website_url = $request->website_url;
                 $publisher->account_email = $request->account_email;
-                if ($request->has('account_password')) {
+                if ($request->filled('account_password')) {
                     $publisher->account_password = $request->account_password;
                     $user = $publisher->user;
                     $user->password = Hash::make($request->account_password);

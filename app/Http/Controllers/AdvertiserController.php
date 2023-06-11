@@ -375,7 +375,7 @@ class AdvertiserController extends Controller
                 $advertiser->vat_id = $request->vat_id;
                 $advertiser->website_url = $request->website_url;
                 $advertiser->account_email = $request->account_email;
-                if ($request->has('account_password')) {
+                if ($request->filled('account_password')) {
                     $advertiser->account_password = $request->account_password;
                     $user = $advertiser->user;
                     $user->password = Hash::make($request->account_password);
