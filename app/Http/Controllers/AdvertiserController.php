@@ -374,6 +374,11 @@ class AdvertiserController extends Controller
                 $advertiser->reg_id = $request->reg_id;
                 $advertiser->vat_id = $request->vat_id;
                 $advertiser->website_url = $request->website_url;
+                if($advertiser->account_email != $request->account_email){
+                    $user = $advertiser->user;
+                    $user->email = $request->account_email;
+                    $user->save();
+                }
                 $advertiser->account_email = $request->account_email;
                 if ($request->filled('account_password')) {
                     $advertiser->account_password = $request->account_password;

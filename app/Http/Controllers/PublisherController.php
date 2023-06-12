@@ -371,6 +371,11 @@ class PublisherController extends Controller
                 $publisher->reg_id = $request->reg_id;
                 $publisher->vat_id = $request->vat_id;
                 $publisher->website_url = $request->website_url;
+                if($publisher->account_email != $request->account_email){
+                    $user = $publisher->user;
+                    $user->email = $request->account_email;
+                    $user->save();
+                }
                 $publisher->account_email = $request->account_email;
                 if ($request->filled('account_password')) {
                     $publisher->account_password = $request->account_password;
