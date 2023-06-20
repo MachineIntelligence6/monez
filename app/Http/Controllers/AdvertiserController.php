@@ -169,6 +169,7 @@ class AdvertiserController extends Controller
             'acc_mng_phone' => 'nullable',
             'acc_mng_skype' => 'nullable',
             'acc_mng_linkedin' => 'nullable',
+            'country_code' => 'nullable',
         ]);
 
         $advertiser = $request->session()->get('advertiser');
@@ -179,6 +180,7 @@ class AdvertiserController extends Controller
         $advertiser->acc_mng_phone = $request->acc_mng_phone;
         $advertiser->acc_mng_skype = $request->acc_mng_skype;
         $advertiser->acc_mng_linkedin = $request->acc_mng_linkedin;
+        $advertiser->country_code = $request->country_code;
 
         session()->put('advertiser', $advertiser);
         session()->put('advActiveTab', 'operationsInfoTab');

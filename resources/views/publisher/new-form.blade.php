@@ -284,7 +284,7 @@
                             <label for="amLinkedIn" class="form-label">Linkedin</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
-                                <input type="url" class="form-control" id="amLinkedIn" name="acc_mng_skype" placeholder="Url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" value="{{ session()->get('publisher.acc_mng_skype') }}">
+                                <input type="url" class="form-control" id="amLinkedIn" name="acc_mng_linkedin" placeholder="Url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" value="{{ session()->get('publisher.acc_mng_linkedin') }}">
                                 <div class="valid-feedback">Valid.</div>
                                 <div class="invalid-feedback">
                                     You must enter valid input

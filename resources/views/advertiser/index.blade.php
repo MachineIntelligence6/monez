@@ -79,7 +79,7 @@
                                         {{ $advertiser->account_email }}
                                     </td>
                                     <td>
-                                        {{ $advertiser->acc_mng_first_name }} {{ $advertiser->acc_mng_lirst_name }}
+                                        {{ $advertiser->acc_mng_first_name }} {{ $advertiser->acc_mng_last_name }}
                                     </td>
                                     <td>
                                         {{ $advertiser->teamMember ? $advertiser->teamMember->name : '--' }}

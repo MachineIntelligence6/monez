@@ -79,7 +79,7 @@
                                         {{ $publisher->account_email }}
                                     </td>
                                     <td>
-                                        {{ $publisher->acc_mng_first_name }} {{ $publisher->acc_mng_lirst_name }}
+                                        {{ $publisher->acc_mng_first_name }} {{ $publisher->acc_mng_last_name }}
                                     </td>
                                     <td>
                                         {{ $publisher->teamMember ? $publisher->teamMember->name : '--' }}
