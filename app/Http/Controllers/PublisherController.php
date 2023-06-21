@@ -421,6 +421,7 @@ class PublisherController extends Controller
                     'acc_mng_phone' => 'nullable',
                     'acc_mng_skype' => 'nullable',
                     'acc_mng_linkedin' => 'nullable',
+                    'country_code' => 'nullable',
                 ]);
 
                 $publisher->acc_mng_first_name = $request->acc_mng_first_name;
@@ -429,6 +430,7 @@ class PublisherController extends Controller
                 $publisher->acc_mng_phone = $request->acc_mng_phone;
                 $publisher->acc_mng_skype = $request->acc_mng_skype;
                 $publisher->acc_mng_linkedin = $request->acc_mng_linkedin;
+                $publisher->country_code = $request->country_code;
 
                 $message = "Contact";
                 break;
