@@ -9,6 +9,7 @@ use App\State;
 use App\User;
 use App\Bank;
 use App\City;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -140,7 +141,7 @@ class PublisherController extends Controller
             $documentFiles = $request->file('document_files');
             foreach ($documentFiles as $key => $file) {
                 $path = $file->store('user/files');
-                array_push($documentFilePaths, array('name' => 'doc' . ($key+1), 'path' => $path));
+                array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
             }
             $publisher->documents_path = json_encode($documentFilePaths);
         }
@@ -149,7 +150,7 @@ class PublisherController extends Controller
             $ioFiles = $request->file('io_files');
             foreach ($ioFiles as $key => $file) {
                 $path = $file->store('user/files');
-                array_push($ioFilePaths, array('name' => 'io' . ($key+1), 'path' => $path));
+                array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
             }
             $publisher->io_path = json_encode($ioFilePaths);
         }
@@ -398,7 +399,7 @@ class PublisherController extends Controller
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($documentFilePaths, array('name' => 'doc' . ($key+1), 'path' => $path));
+                        array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
                     }
                     $publisher->documents_path = json_encode($documentFilePaths);
                 }
@@ -407,7 +408,7 @@ class PublisherController extends Controller
                     $ioFiles = $request->file('io_files');
                     foreach ($ioFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($ioFilePaths, array('name' => 'io' . ($key+1), 'path' => $path));
+                        array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
                     }
                     $publisher->io_path = json_encode($ioFilePaths);
                 }
