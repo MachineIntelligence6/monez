@@ -308,7 +308,7 @@
                             <select class="form-control " @if($lastSegment!='contactinfo' ) disabled @endif id="phone-code-dropdown" name="country_code" data-toggle="select2">
 
                                 @foreach ($countries as $key => $country)
-                                <option value="{{ $country->title }}" @if (isset($publisher->country_code) && $country->id == $publisher->country_code) selected @endif>
+                                <option value="{{ $country->countryCode }}" @if (isset($publisher->country_code) && $country->countryCode == $publisher->country_code) selected @endif>
                                     {{ $country->title }} ({{ $country->countryCode }})
                                 </option>
                                 @endforeach

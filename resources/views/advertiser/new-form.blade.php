@@ -259,7 +259,7 @@
                                     <select class="form-control " name="country_code" id="phone-code-dropdown" data-toggle="select2">
 
                                         @foreach ($countries as $key => $country)
-                                        <option value="{{ $country->id }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
+                                        <option value="{{ $country->countryCode }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
                                             {{ $country->title }} ({{ $country->countryCode }})
                                         </option>
                                         <!-- <option value="{{ $country->countryCode }}">{{ $country->title }} ({{ $country->countryCode }})</option> -->

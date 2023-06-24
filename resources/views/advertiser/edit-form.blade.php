@@ -367,8 +367,8 @@
                                 id="phone-code-dropdown" name="country_code" data-toggle="select2">
 
                                 @foreach ($countries as $key => $country)
-                                    <option value="{{ $country->title }}"
-                                        @if (isset($advertiser->country_code) && $country->id == $advertiser->country_code) selected @endif>
+                                    <option value="{{ $country->countryCode }}"
+                                        @if (isset($advertiser->country_code) && $country->countryCode == $advertiser->country_code) selected @endif>
                                         {{ $country->title }} ({{ $country->countryCode }})
                                     </option>
                                 @endforeach
