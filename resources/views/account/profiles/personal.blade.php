@@ -51,6 +51,7 @@
                                 <div class="input-group input-group-merge">
                                     <div class="input-group-prepend" style="min-width: 150px;">
                                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
+                                            <option value="">Select Country Code</option>
                                         </select>
                                     </div>
                                     <input type="number" class="form-control ml-2" id="amPhone" name="amPhone" placeholder="Enter phone number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">

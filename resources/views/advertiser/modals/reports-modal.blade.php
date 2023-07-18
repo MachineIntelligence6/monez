@@ -17,7 +17,7 @@
                                 <label for="reportType" class="form-label">Report Type</label>
                                 <div class="input-group input-group-merge">
                                     <select class="form-control" id="reportType" data-toggle="select2" name="report_type" required value="{{session()->get('advertiser.report_type')}}">
-                                        <option value="" selected>Report Type</option>
+                                        <option value="" selected>Select Report Type</option>
                                         <option {{(session()->get('advertiser.report_type') == 'api') ? 'selected' : ''}} value="api">API</option>
                                         <option {{(session()->get('advertiser.report_type') == 'email') ? 'selected' : ''}} value="email">EMAIL</option>
                                         <option {{(session()->get('advertiser.report_type') == 'gdrive') ? 'selected' : ''}} value="gdrive">Google Drive</option>

@@ -54,7 +54,7 @@
         <div class="col-md-4 mb-3">
             <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
             <select class="form-control" name="status" @if($condition==$lastSegment ) disabled @endif name="status" data-toggle="select2" required>
-                <option value="select status">select status</option>
+                <option value="">Select Status</option>
                 <option value="live" @if($channel->status == 'live') selected @endif disabled>Live</option>
                 <option value="pause" @if($channel->status == 'pause') selected @endif disabled>Pause</option>
                 <option value="disable" @if($channel->status == 'disable') disabled selected @endif>Disable</option>
@@ -75,6 +75,7 @@
             <div class="mb-3">
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
                 <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channel_path_id" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
+                <option value="">Select Channel Path</option>
                     @foreach ($channelpaths as $key => $channelpath)
                     <option value="{{ $channelpath->id }}" @if($channelpath->is_default) selected @endif>{{ $channelpath->channel_path }}</option>
 
@@ -93,6 +94,7 @@
             <div class="mb-3">
                 <label for="channelPath" class="form-label">Channel Path</label><label class="text-danger">*</label>
                 <select class="form-control" @if($condition==$lastSegment) disabled @endif name="channel_path_id" id="channelPath" onchange="generateChannelUrl()" data-toggle="select2" required>
+                <option value="">Select Channel Path</option>
                     @foreach ($channelpaths as $key => $channelpath)
                     <option value="{{ $channelpath->id }}" @if (isset($selectedchannelpath) && $channelpath->id == $selectedchannelpath) selected @endif>{{ $channelpath->channel_path }}</option>
 

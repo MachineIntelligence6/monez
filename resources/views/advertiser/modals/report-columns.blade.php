@@ -22,8 +22,8 @@
                                </div>
                            </div>
                            <div class="col-md-6 mb-3">
-                               <label for="dateColValue" class="form-label">Value</label>
-                               <input type="text" class="form-control" id="dateColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->date ?? '') : session()->get('advertiser.report_coloumns.date') }}" name="dateColValue">
+                               <label for="dateColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <input type="text" class="form-control" required id="dateColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->date ?? '') : session()->get('advertiser.report_coloumns.date') }}" name="dateColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input
@@ -38,8 +38,8 @@
                                </div>
                            </div>
                            <div class="col-md-6 mb-3">
-                               <label for="feedColValue" class="form-label">Value</label>
-                               <input type="text" class="form-control" id="feedColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->feed ?? '') : session()->get('advertiser.report_coloumns.feed') }}" name="feedColValue">
+                               <label for="feedColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <input type="text" class="form-control" required id="feedColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->feed ?? '') : session()->get('advertiser.report_coloumns.feed') }}" name="feedColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input
@@ -70,8 +70,8 @@
                                </div>
                            </div>
                            <div class="col-md-6 mb-3">
-                               <label for="countryColValue" class="form-label">Value</label>
-                               <input type="text" class="form-control" id="countryColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->country ?? '') : session()->get('advertiser.report_coloumns.country') }}" name="countryColValue">
+                               <label for="countryColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <input type="text" class="form-control" required id="countryColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->country ?? '') : session()->get('advertiser.report_coloumns.country') }}" name="countryColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input
@@ -86,8 +86,8 @@
                                </div>
                            </div>
                            <div class="col-md-6 mb-3">
-                               <label for="totalSearchesColValue" class="form-label">Value</label>
-                               <input type="text" class="form-control" id="totalSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->total_searches ?? '') : session()->get('advertiser.report_coloumns.total_searches') }}" name="totalSearchesColValue">
+                               <label for="totalSearchesColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <input type="text" class="form-control" required id="totalSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->total_searches ?? '') : session()->get('advertiser.report_coloumns.total_searches') }}" name="totalSearchesColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input
@@ -102,8 +102,8 @@
                                </div>
                            </div>
                            <div class="col-md-6 mb-3">
-                               <label for="monitizedSearchesColValue" class="form-label">Value</label>
-                               <input type="text" class="form-control" id="monitizedSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->monitized_searches ?? '') : session()->get('advertiser.report_coloumns.monitized_searches') }}" name="monitizedSearchesColValue">
+                               <label for="monitizedSearchesColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <input type="text" class="form-control" required id="monitizedSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->monitized_searches ?? '') : session()->get('advertiser.report_coloumns.monitized_searches') }}" name="monitizedSearchesColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input
@@ -118,8 +118,8 @@
                                </div>
                            </div>
                            <div class="col-md-6 mb-3">
-                               <label for="paidClicksColValue" class="form-label">Value</label>
-                               <input type="text" class="form-control" id="paidClicksColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->paid_clicks ?? '') : session()->get('advertiser.report_coloumns.paid_clicks') }}" name="paidClicksColValue">
+                               <label for="paidClicksColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <input type="text" class="form-control" required id="paidClicksColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->paid_clicks ?? '') : session()->get('advertiser.report_coloumns.paid_clicks') }}" name="paidClicksColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input
@@ -134,8 +134,8 @@
                                </div>
                            </div>
                            <div class="col-md-6 mb-3">
-                               <label for="revenueColValue" class="form-label">Value</label>
-                               <input type="text" class="form-control" id="revenueColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->revenue ?? '') : session()->get('advertiser.report_coloumns.revenue') }}" name="revenueColValue">
+                               <label for="revenueColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <input type="text" class="form-control" required id="revenueColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->revenue ?? '') : session()->get('advertiser.report_coloumns.revenue') }}" name="revenueColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input

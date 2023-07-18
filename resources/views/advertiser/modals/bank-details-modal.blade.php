@@ -98,7 +98,7 @@
                             <div class="mb-3">
                                 <label for="currency" class="form-label">Currency</label><label class="text-danger">*</label>
                                 <select class="form-control" id="currency" data-toggle="select2" @if($lastSegment!='view' ) @else disabled @endif name="bank_currency" required>
-                                    <option selected>Select Currency</option>
+                                    <option value="" selected>Select Currency</option>
                                     <option @if((isset($advertiser) && !session()->has('advertiser')) ? $advertiser->bank_currency : session()->get('advertiser.bank_currency') == 'usd') selected @endif value="usd">USD</option>
                                     <option @if((isset($advertiser) && !session()->has('advertiser')) ? $advertiser->bank_currency : session()->get('advertiser.bank_currency') == 'eur') selected @endif value="eur">EUR</option>
                                 </select>

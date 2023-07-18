@@ -183,53 +183,21 @@
                     You must enter valid input
                 </div>
             </div>
+            <div class="col-md-4 mb-3">
+                <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
+                <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif data-toggle="select2" id="successManager" name="team_member_id">
+                    @foreach ($availableTeamMembers as $key => $teamMember)
+                    <option value="{{$teamMember->id}}" @if ($teamMember->id == $publisher->team_member_id) selected @endif>{{$teamMember->name}}</option>
+                    @endforeach
+                    <option value="">Select Success Manager</option>
+
+                </select>
+                <div class="valid-feedback">Valid.</div>
+                <div class="invalid-feedback">
+                    You must enter valid input
+                </div>
+            </div>
         </div> <!-- end row -->
-        @if($lastSegment=='accountinfo')
-        <div class="row display-on-edit">
-            <div class="col-md-6 h-100">
-                <div class="mb-3">
-                    <label for="io" class="form-label">IO</label>
-                    <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
-                </div>
-            </div>
-            <div class="col-md-6 h-100">
-                <div class="mb-3">
-                    <label for="documents" class="form-label">Documents</label>
-                    <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
-                </div>
-            </div>
-        </div>
-        @endif
-        <div class="row mb-4 display-on-view">
-            <div class="col-md-6 mb-3">
-                <div class="h-100 mb-3">
-                    <label for="">Uploaded IOs</label>
-                    <div class="border h-100 rounded-sm p-2">
-                        @if ($publisher->io_path)
-                        @foreach ($publisher->io_path as $key => $file)
-                        <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a><br><br>
-                        @endforeach
-                        @else
-                        <p>No PDF to show</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="h-100">
-                    <label for="">Uploaded Documents</label>
-                    <div class="border h-100 rounded-sm p-2">
-                        @if ($publisher->documents_path)
-                        @foreach ($publisher->documents_path as $key => $file)
-                        <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a><br><br>
-                        @endforeach
-                        @else
-                        <p>No PDF to show</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </form>
 
@@ -364,6 +332,52 @@
             @endif
         </div>
         <div class="row">
+            @if($lastSegment=='operationinfo')
+            <div class="row display-on-edit">
+                <div class="col-md-6 h-100">
+                    <div class="mb-3">
+                        <label for="io" class="form-label">IO</label>
+                        <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
+                    </div>
+                </div>
+                <div class="col-md-6 h-100">
+                    <div class="mb-3">
+                        <label for="documents" class="form-label">Documents</label>
+                        <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
+                    </div>
+                </div>
+            </div>
+            @endif
+            <div class="row mb-4 display-on-view">
+                <div class="col-md-6 mb-3">
+                    <div class="h-100 mb-3">
+                        <label for="">Uploaded IOs</label>
+                        <div class="border h-100 rounded-sm p-2">
+                            @if ($publisher->io_path)
+                            @foreach ($publisher->io_path as $key => $file)
+                            <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a><br><br>
+                            @endforeach
+                            @else
+                            <p>No PDF to show</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="h-100">
+                        <label for="">Uploaded Documents</label>
+                        <div class="border h-100 rounded-sm p-2">
+                            @if ($publisher->documents_path)
+                            @foreach ($publisher->documents_path as $key => $file)
+                            <a href="{{ route('publisher.download-file', ['publisher' => $publisher->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a><br><br>
+                            @endforeach
+                            @else
+                            <p>No PDF to show</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-4">
                 <div class="mb-3">
                     <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
@@ -439,20 +453,7 @@
             You must enter valid input
         </div>
     </div> --}}
-    <div class="col-md-4 mb-3">
-        <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-        <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif data-toggle="select2" id="successManager" name="team_member_id">
-            @foreach ($availableTeamMembers as $key => $teamMember)
-            <option value="{{$teamMember->id}}" @if ($teamMember->id == $publisher->team_member_id) selected @endif>{{$teamMember->name}}</option>
-            @endforeach
-            <option value="">Select Success Manager</option>
 
-        </select>
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">
-            You must enter valid input
-        </div>
-    </div>
     </div> <!-- end row -->
 </form>
 </div>

@@ -131,7 +131,7 @@
                         <div class="col-md-4">
                             <label for="country" class="form-label">Country</label>
                             <select disabled class="form-control" name="country_id" id="country-dropdown" onchange="setCountryCodeToPhone(this.options[this.selectedIndex].getAttribute('phone-code'))" data-toggle="select2" required>
-                                <option>Select Country</option>
+                                <option value="">Select Country</option>
                             </select>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">

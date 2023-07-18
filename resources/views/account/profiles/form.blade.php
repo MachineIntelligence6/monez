@@ -46,6 +46,7 @@
                 <div class="input-group input-group-merge">
                     <div class="input-group-prepend" style="min-width: 150px;">
                         <select class="form-control " id="phone-code-dropdown" data-toggle="select2">
+                            <option value="" selected>Select Country</option>
                             @foreach ($countries as $key => $country)
                             <option value="{{$country->countryCode}}">{{$country->title}} ({{$country -> countryCode}})</option>
                             @endforeach
@@ -129,7 +130,7 @@
                 <label for="reportType" class="form-label">Report Type</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
                     <select class="form-control" id="reportType" data-toggle="select2" onchange="showReportCredsPopup(this.value)" name="reportType" required value="{{ $advertiser->reportType ??  old('reportType') }}">
-                        <option value="" selected>Report Type</option>
+                        <option value="" selected>Select Report Type</option>
                         <option value="api">API</option>
                         <option value="email">EMAIL</option>
                         <option value="gdrive">Google Drive</option>

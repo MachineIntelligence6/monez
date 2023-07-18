@@ -96,7 +96,7 @@
                         <div class="mb-3">
                             <label for="currency" class="form-label">Currency</label><label class="text-danger">*</label>
                             <select class="form-control" id="currency" name="currency" required>
-                                <option selected>Select Currency</option>
+                                <option value="" selected>Select Currency</option>
                                 <option value="usd">USD</option>
                                 <option value="eur">EUR</option>
                             </select>
