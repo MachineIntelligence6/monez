@@ -6,6 +6,7 @@ $condition='view';
 $currentUrl = url()->current();
 $segments = request()->segments();
 $lastSegment = last($segments);
+$paymentTermsValues=config('constant.payment_terms_values');
 
 @endphp
 <div class="row">

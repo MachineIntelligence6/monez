@@ -58,9 +58,9 @@ class AdvertiserController extends Controller
      */
     public function store(Request $request)
     {
-        
-       /* $validatedData = $request->validate([
-            //'billing_email' => 'required',
+
+        $validatedData = $request->validate([
+            'billing_email' => 'required',
             'payoneer' => 'nullable',
             'paypal' => 'nullable',
             'bank_beneficiary_name' => 'nullable',
@@ -73,32 +73,12 @@ class AdvertiserController extends Controller
             'bank_swift' => 'nullable',
             'bank_currency' => 'nullable',
         ]);
-        */
-        
-        // as other section removed now we store and validate contact inof here along with putting default values
-        
-        $validatedData = $request->validate([
-            'acc_mng_first_name' => 'required',
-            'acc_mng_last_name' => 'required',
-            'acc_mng_email' => 'required',
-            'acc_mng_phone' => 'nullable',
-            'acc_mng_skype' => 'nullable',
-            'acc_mng_linkedin' => 'nullable',
-            'country_code' => 'nullable',
-        ]);
+
         $advertiser = $request->session()->get('advertiser');
-        $advertiser->acc_mng_first_name=$request->acc_mng_first_name;
-        $advertiser->acc_mng_last_name=$request->acc_mng_last_name;
-        $advertiser->acc_mng_email=$request->acc_mng_email;
-        $advertiser->acc_mng_phone=$request->acc_mng_phone;
-        $advertiser->acc_mng_skype=$request->acc_mng_skype;
-        $advertiser->acc_mng_linkedin=$request->acc_mng_linkedin;
-        $advertiser->country_code=$request->country_code;
-        $advertiser->revenue_share= config('constant.REVENUE_SHARE_DEFAULT_VALUE'); // as discussed for default
-        $advertiser->payment_terms= config('constant.PAYMENT_TERMS_DEFAULT_VALUE'); // as discussed for default
-        $advertiser->reporting_email=$advertiser->account_email;
-        $advertiser->billing_email = $advertiser->account_email;
-       
+
+        $advertiser->billing_email = $request->billing_email;
+        $advertiser->payoneer = $request->payoneer;
+        $advertiser->paypal = $request->paypal;
 
         // $advertiser->report_coloumns = $advertiser->report_coloumns;
 
@@ -126,7 +106,6 @@ class AdvertiserController extends Controller
         $validatedData = $request->validate([
             'advertiser_id' => 'required',
             'company_name' => 'required',
-            'team_member_id' => 'required',
             'reg_id' => 'nullable',
             'vat_id' => 'nullable',
             'website_url' => 'required',
@@ -139,14 +118,13 @@ class AdvertiserController extends Controller
             'state' => 'nullable',
             'zipcode' => 'nullable',
             'country' => 'required',
-            //'document_files' => 'nullable|max:10240',
-            //'io_files' => 'nullable|max:10240',
+            'document_files' => 'nullable|max:10240',
+            'io_files' => 'nullable|max:10240',
         ]);
 
         $advertiser = new Advertiser;
         $advertiser->advertiser_id = $request->advertiser_id;
         $advertiser->company_name = $request->company_name;
-        $advertiser->team_member_id=$request->team_member_id;
         $advertiser->reg_id = $request->reg_id;
         $advertiser->vat_id = $request->vat_id;
         $advertiser->website_url = $request->website_url;
@@ -160,7 +138,7 @@ class AdvertiserController extends Controller
         $advertiser->country = $request->country;
         $advertiser->state = $request->state;
 
-       /* if ($request->hasFile('document_files')) {  //document files has removed in account creation setup
+        if ($request->hasFile('document_files')) {
             $documentFilePaths = array();
             $documentFiles = $request->file('document_files');
             foreach ($documentFiles as $key => $file) {
@@ -168,8 +146,8 @@ class AdvertiserController extends Controller
                 array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
             }
             $advertiser->documents_path = json_encode($documentFilePaths);
-        }*/
-       /* if ($request->hasFile('io_files')) { //document files has removed in account creation setup
+        }
+        if ($request->hasFile('io_files')) {
             $ioFilePaths = array();
             $ioFiles = $request->file('io_files');
             foreach ($ioFiles as $key => $file) {
@@ -177,13 +155,13 @@ class AdvertiserController extends Controller
                 array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
             }
             $advertiser->io_path = json_encode($ioFilePaths);
-        }*/
+        }
 
         session()->put('advertiser', $advertiser);
         session()->put('advActiveTab', 'contactInfoTab');
     }
 
-   /* public function storeContactInSession(Request $request)
+    public function storeContactInSession(Request $request)
     {
         $validatedData = $request->validate([
             'acc_mng_first_name' => 'required',
@@ -207,9 +185,9 @@ class AdvertiserController extends Controller
 
         session()->put('advertiser', $advertiser);
         session()->put('advActiveTab', 'operationsInfoTab');
-    }*/
+    }
 
-    /*public function storeOperationInSession(Request $request)
+    public function storeOperationInSession(Request $request)
     {
         $validatedData = $request->validate([
             'revenue_share' => 'required',
@@ -241,9 +219,9 @@ class AdvertiserController extends Controller
 
         session()->put('advertiser', $advertiser);
         session()->put('advActiveTab', 'financeInfoTab');
-    }*/
+    }
 
-    /*public function storeReportInSession(Request $request)
+    public function storeReportInSession(Request $request)
     {
         // if ($request->has('edit_form')) {
         //     $reportColoumns = [
@@ -296,7 +274,7 @@ class AdvertiserController extends Controller
 
         session()->put('advertiser', $advertiser);
         // }
-    }*/
+    }
 
     public function storeBankInSession(Request $request)
     {
@@ -495,7 +473,7 @@ class AdvertiserController extends Controller
                     'billing_email' => 'required',
                     'payoneer' => 'nullable',
                     'paypal' => 'nullable',
-                    /*'bank_beneficiary_name' => 'nullable',
+                    'bank_beneficiary_name' => 'nullable',
                     'bank_beneficiary_address' => 'nullable',
                     'bank_name' => 'nullable',
                     'bank_address' => 'nullable',
@@ -503,7 +481,7 @@ class AdvertiserController extends Controller
                     'bank_routing_number' => 'nullable',
                     'bank_iban' => 'nullable',
                     'bank_swift' => 'nullable',
-                    'bank_currency' => 'nullable',*/
+                    'bank_currency' => 'nullable',
                 ]);
 
                 $advertiser->billing_email = $request->billing_email;
@@ -592,3 +570,4 @@ class AdvertiserController extends Controller
         return Storage::download($file->path, $file->name);
     }
 }
+

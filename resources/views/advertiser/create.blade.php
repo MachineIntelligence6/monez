@@ -20,8 +20,7 @@ $lastSegment = last($segments);
         <div class="card">
             <div class="card-body">
                 @include('advertiser.create-form')
-                @include('advertiser.modals.bank-details-modal')
-                @include('advertiser.modals.reports-modal')
+                
             </div>
         </div>
     </div>
@@ -50,7 +49,7 @@ $lastSegment = last($segments);
                 'is-valid' : 'is-invalid') : 'is-invalid');
     }
 
-    $('.dropify').dropify();
+    
     window.addEventListener("DOMContentLoaded", () => {
         generateRandomPassword(null)
     })
@@ -80,44 +79,15 @@ $lastSegment = last($segments);
 
 
 
-    //Report Type Script
-    const reportTypeModal = document.getElementById("report-details-modal");
-    const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
-
-    function showReportCredsReleventInputs(value) {
-        for (let i = 0; i < reportCredsInputs.length; i++) {
-            reportCredsInputs[i].classList.add("d-none");
-        }
-        if (value !== "") {
-            reportTypeModal.getElementsByClassName(value + "-input-group")
-                .forEach((inpGroup) => {
-                    inpGroup.classList.remove("d-none");
-                })
-        }
-    }
-
-    $("#reportType").on("select2:close", function() {
-        showReportCredsReleventInputs($(this).val());
-    })
+    
+    
+    
 
 
 
 
-    function onSaveColumnsModal() {
-        let allInpValid = true;
-        $("#define-report-columns-modal").find("input,select").each((i, inp) => {
-            if (inp.value === "") {
-                allInpValid = false;
-            }
-        })
-        let reportColsInp = $("#reportColumns")
-        reportColsInp.val("Report Columns Set");
-        validateInput(reportColsInp);
-    }
-    $("#add-bank-details-modal").find("#bankName").on("input", (e) => {
-        $("#bank").val(e.target.value)
-        validateInput("#bank");
-    })
+    
+    
 
     $("#accountInfoform").submit(function(event) {
         event.preventDefault();
@@ -142,91 +112,12 @@ $lastSegment = last($segments);
         });
     });
 
-    $("#contactInfoform").submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: $(this).serialize(),
-            success: (response) => {
-                $("#operationInfoTabbutton").click()
-                console.log(response);
-            },
-            error: (error) => {
-                console.log(error);
-                var errors = $.parseJSON(error.responseText);
-                $.each(errors, function(key, value) {
-                    alert(value);
-                });
-            }
-        });
-    });
+    
+    
 
-    $("#operationInfoform").submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: $(this).serialize(),
-            success: (response) => {
-                $("#financeInfoTabbutton").click()
-                console.log(response);
-            },
-            error: (error) => {
-                console.log(error);
-                var errors = $.parseJSON(error.responseText);
-                $.each(errors, function(key, value) {
-                    alert(value);
-                });
-            }
-        });
-    });
+    
 
-    $("#bankDetailsForm").submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: $(this).serialize(),
-            success: (response) => {
-                // $("#bankId").val(response.id);
-                $(this).closest(".modal")
-                    .removeClass("show")
-                    .css("display", "none");
-                console.log(response);
-            },
-            error: (error) => {
-                console.log(error);
-                var errors = $.parseJSON(error.responseText);
-                $.each(errors, function(key, value) {
-                    alert(value);
-                });
-            }
-        });
-    });
-
-    $("#reportTypeForm").submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: $(this).serialize(),
-            success: (response) => {
-                // $("#reportColumnsId").val(response.id);
-                $(this).closest(".modal")
-                    .removeClass("show")
-                    .css("display", "none");
-                console.log(response)
-            },
-            error: (error) => {
-                console.log(error);
-                var errors = $.parseJSON(error.responseText);
-                $.each(errors, function(key, value) {
-                    alert(value);
-                });
-            }
-        });
-    });
+    
 
 
     $(".previous-tab-btn").click((e) => {
