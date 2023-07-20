@@ -243,7 +243,7 @@ class AdvertiserController extends Controller
         session()->put('advActiveTab', 'financeInfoTab');
     }*/
 
-    /*public function storeReportInSession(Request $request)
+    public function storeReportInSession(Request $request)
     {
         // if ($request->has('edit_form')) {
         //     $reportColoumns = [
@@ -296,7 +296,7 @@ class AdvertiserController extends Controller
 
         session()->put('advertiser', $advertiser);
         // }
-    }*/
+    }
 
     public function storeBankInSession(Request $request)
     {
@@ -419,7 +419,7 @@ class AdvertiserController extends Controller
                 $advertiser->country = $request->country;
                 $advertiser->state = $request->state;
 
-                if ($request->hasFile('document_files')) {
+               /* if ($request->hasFile('document_files')) {   //moved to operational info
                     $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $key => $file) {
@@ -436,7 +436,7 @@ class AdvertiserController extends Controller
                         array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
                     }
                     $advertiser->io_path = json_encode($ioFilePaths);
-                }
+                }*/
                 $message = "Account";
                 break;
             case 'contactinfo':
@@ -465,7 +465,7 @@ class AdvertiserController extends Controller
                     'revenue_share' => 'required',
                     'payment_terms' => 'required',
                     'reporting_email' => 'required',
-                    'team_member_id' => 'required',
+                   // 'team_member_id' => 'required', //moved in account info
                     'report_type'  => 'nullable',
                     'api_key'  => 'nullable',
                     'dashboard_path'  => 'nullable',
@@ -480,7 +480,7 @@ class AdvertiserController extends Controller
                 $advertiser->revenue_share = $request->revenue_share;
                 $advertiser->payment_terms = $request->payment_terms;
                 $advertiser->reporting_email = $request->reporting_email;
-                $advertiser->team_member_id = $request->team_member_id;
+                //$advertiser->team_member_id = $request->team_member_id;
                 $advertiser->report_type = $request->report_type;
                 // $advertiser->api_key = $request->api_key;
                 // $advertiser->dashboard_path = $request->dashboard_path;
@@ -488,6 +488,26 @@ class AdvertiserController extends Controller
                 // $advertiser->password = $request->password;
                 // $advertiser->gdrive_email = $request->gdrive_email;
                 // $advertiser->gdrive_password = $request->gdrive_password;
+                
+                 if ($request->hasFile('document_files')) {   //moved to operational info
+                    $documentFilePaths = array();
+                    $documentFiles = $request->file('document_files');
+                    foreach ($documentFiles as $key => $file) {
+                        $path = $file->store('user/files');
+                        array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                    }
+                    $advertiser->documents_path = json_encode($documentFilePaths);
+                }
+                if ($request->hasFile('io_files')) {
+                    $ioFilePaths = array();
+                    $ioFiles = $request->file('io_files');
+                    foreach ($ioFiles as $key => $file) {
+                        $path = $file->store('user/files');
+                        array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                    }
+                    $advertiser->io_path = json_encode($ioFilePaths);
+                }
+                
                 $message = "Operationnal";
                 break;
             case 'financeinfo':
@@ -511,15 +531,24 @@ class AdvertiserController extends Controller
                 $advertiser->paypal = $request->paypal;
                 if (session()->has('advertiser')) {
                     $advertiserInSession = $request->session()->get('advertiser');
-                    $advertiser->bank_beneficiary_name = $advertiserInSession->bank_beneficiary_name;
-                    $advertiser->bank_beneficiary_address = $advertiserInSession->bank_beneficiary_address;
-                    $advertiser->bank_name = $advertiserInSession->bank_name;
-                    $advertiser->bank_address = $advertiserInSession->bank_address;
-                    $advertiser->bank_account_number = $advertiserInSession->bank_account_number;
-                    $advertiser->bank_routing_number = $advertiserInSession->bank_routing_number;
-                    $advertiser->bank_iban = $advertiserInSession->bank_iban;
-                    $advertiser->bank_swift = $advertiserInSession->bank_swift;
-                    $advertiser->bank_currency = $advertiserInSession->bank_currency;
+                    //check if bank details exist or not
+                    if(isset($advertiserInSession->bank_beneficiary_name) && isset($advertiserInSession->bank_beneficiary_address)
+                            && isset($advertiserInSession->bank_name) && isset($advertiserInSession->bank_address)
+                            && isset($advertiserInSession->bank_account_number) && isset($advertiserInSession->bank_routing_number)
+                            && isset($advertiserInSession->bank_iban) && isset($advertiserInSession->bank_swift)
+                            && isset($advertiserInSession->bank_currency))
+                    {
+                        $advertiser->bank_beneficiary_name = $advertiserInSession->bank_beneficiary_name;
+                        $advertiser->bank_beneficiary_address = $advertiserInSession->bank_beneficiary_address;
+                        $advertiser->bank_name = $advertiserInSession->bank_name;
+                        $advertiser->bank_address = $advertiserInSession->bank_address;
+                        $advertiser->bank_account_number = $advertiserInSession->bank_account_number;
+                        $advertiser->bank_routing_number = $advertiserInSession->bank_routing_number;
+                        $advertiser->bank_iban = $advertiserInSession->bank_iban;
+                        $advertiser->bank_swift = $advertiserInSession->bank_swift;
+                        $advertiser->bank_currency = $advertiserInSession->bank_currency;
+                    }
+                    
                     session()->forget('advertiser.bank_beneficiary_name');
                     session()->forget('advertiser.bank_beneficiary_address');
                     session()->forget('advertiser.bank_name');

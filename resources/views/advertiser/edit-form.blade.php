@@ -427,12 +427,9 @@
                     <div class="input-group input-group-merge">
                         <select class="form-control" @if ($lastSegment !='operationinfo' ) disabled @endif id="reportType" data-toggle="select2" name="report_type" value="{{ $advertiser->report_type ?? old('report_type') }}">
                             <option value="">Select Report Type</option>
-                            <option @if ($advertiser->report_type == 'api') selected @endif value="api">API</option>
-                            <option @if ($advertiser->report_type == 'email') selected @endif value="email">EMAIL</option>
-                            <option @if ($advertiser->report_type == 'gdrive') selected @endif value="gdrive">Google Drive
-                            </option>
-                            <option @if ($advertiser->report_type == 'dashboard') selected @endif value="dashboard">Dashboard
-                            </option>
+                            @foreach($reportTypes as $rpt)
+                            <option @if ($advertiser->report_type == $rpt) selected @endif value={{$rpt}}>{{__('common.'.$rpt.'')}}</option>
+                           @endforeach
                         </select>
                         <div class="input-group-append">
                             <button type="button" @if ($lastSegment !='operationinfo' ) disabled @endif data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
@@ -465,7 +462,7 @@
 </form>
 </div>
 @include('advertiser.modals.report-columns')
-{{-- @include('advertiser.modals.reports-modal') --}}
+@include('advertiser.modals.reports-modal')
 
 <form class="needs-validation" method="POST" action="{{ route('advertiser.update', ['advertiser' => $advertiser->id, 'currentedit' => 'financeinfo']) }}" enctype="multipart/form-data">
     @csrf
