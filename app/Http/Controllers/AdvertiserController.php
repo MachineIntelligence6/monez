@@ -83,7 +83,7 @@ class AdvertiserController extends Controller
             'acc_mng_email' => 'required',
             'acc_mng_phone' => 'nullable',
             'acc_mng_skype' => 'nullable',
-            'acc_mng_linkedin' => 'nullable',
+            'acc_mng_linkedin' => 'nullable|url',
             'country_code' => 'nullable',
         ]);
         $advertiser = $request->session()->get('advertiser');
@@ -129,7 +129,8 @@ class AdvertiserController extends Controller
             'team_member_id' => 'required',
             'reg_id' => 'nullable',
             'vat_id' => 'nullable',
-            'website_url' => 'required',
+            
+            'website_url' => 'required|url',
             'account_email' => 'required|unique:advertisers,account_email',
             'account_email' => 'required|unique:users,email',
             'account_password' => 'required',
@@ -142,7 +143,7 @@ class AdvertiserController extends Controller
             //'document_files' => 'nullable|max:10240',
             //'io_files' => 'nullable|max:10240',
         ]);
-
+       
         $advertiser = new Advertiser;
         $advertiser->advertiser_id = $request->advertiser_id;
         $advertiser->company_name = $request->company_name;
@@ -258,6 +259,8 @@ class AdvertiserController extends Controller
         //     ];
         //     session()->put('reportColoumns', $reportColoumns);
         // } else {
+        
+        //var_dump($request);die();
         $validatedData = $request->validate([
             'report_type' => 'nullable',
             'api_key' => 'nullable',
@@ -293,7 +296,7 @@ class AdvertiserController extends Controller
             'paid_clicks' => $request->paidClicksColValue,
             'revenue' => $request->revenueColValue,
         ]);
-
+        //var_dump($advertiser->report_coloumns); die();
         session()->put('advertiser', $advertiser);
         // }
     }
@@ -390,8 +393,8 @@ class AdvertiserController extends Controller
                     'state' => 'nullable',
                     'zipcode' => 'nullable',
                     'country' => 'required',
-                    'document_files' => 'nullable',
-                    'io_files' => 'nullable',
+                   // 'document_files' => 'nullable',
+                   // 'io_files' => 'nullable',
                 ]);
 
                 $advertiser->advertiser_id = $request->advertiser_id;
@@ -461,11 +464,12 @@ class AdvertiserController extends Controller
                 $message = "Contact";
                 break;
             case 'operationinfo':
+               
                 $request->validate([
                     'revenue_share' => 'required',
                     'payment_terms' => 'required',
                     'reporting_email' => 'required',
-                   // 'team_member_id' => 'required', //moved in account info
+                   /* 'team_member_id' => 'required', //moved in account info
                     'report_type'  => 'nullable',
                     'api_key'  => 'nullable',
                     'dashboard_path'  => 'nullable',
@@ -473,15 +477,17 @@ class AdvertiserController extends Controller
                     'password'  => 'nullable',
                     'gdrive_email'  => 'nullable',
                     'gdrive_password'  => 'nullable',
+                    * 
+                    */
                 ]);
 
-                $reportsColomns = $request->session()->get('reportsColomns');
+                //$reportsColomns = $request->session()->get('reportsColomns');
 
                 $advertiser->revenue_share = $request->revenue_share;
                 $advertiser->payment_terms = $request->payment_terms;
                 $advertiser->reporting_email = $request->reporting_email;
                 //$advertiser->team_member_id = $request->team_member_id;
-                $advertiser->report_type = $request->report_type;
+                //$advertiser->report_type = $request->report_type;
                 // $advertiser->api_key = $request->api_key;
                 // $advertiser->dashboard_path = $request->dashboard_path;
                 // $advertiser->email = $request->email;
@@ -508,6 +514,30 @@ class AdvertiserController extends Controller
                     $advertiser->io_path = json_encode($ioFilePaths);
                 }
                 
+                if (session()->has('advertiser')){
+                    $advertiserInSession = $request->session()->get('advertiser');
+                    //check if bank details exist or not
+                    if(isset($advertiserInSession->report_type)){
+                        $advertiser->report_type = $advertiserInSession->report_type;
+                        $advertiser->api_key = $advertiserInSession->api_key;
+                        $advertiser->dashboard_path = $advertiserInSession->dashboard_path;
+                        $advertiser->email = $advertiserInSession->email;
+                        $advertiser->password = $advertiserInSession->password;
+                        $advertiser->gdrive_email = $advertiserInSession->gdrive_email;
+                        $advertiser->gdrive_password = $advertiserInSession->gdrive_password;
+                        $advertiser->report_coloumns=$advertiserInSession->report_coloumns;
+                    }
+                    
+                    session()->forget('advertiser.report_type');
+                    session()->forget('advertiser.api_key');
+                    session()->forget('advertiser.dashboard_path');
+                    session()->forget('advertiser.email');
+                    session()->forget('advertiser.password');
+                    session()->forget('advertiser.gdrive_email');
+                    session()->forget('advertiser.gdrive_password');
+                    session()->forget('advertiser.report_coloumns');
+                }
+                //var_dump($advertiser);die();
                 $message = "Operationnal";
                 break;
             case 'financeinfo':

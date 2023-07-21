@@ -6,7 +6,8 @@ $condition='view';
 $currentUrl = url()->current();
 $segments = request()->segments();
 $lastSegment = last($segments);
-
+$paymentTermsValues=config('constant.payment_terms_values');
+$currencyList=config('constant.currency_list');
 @endphp
 <div class="row">
     <div class="col-lg-12">

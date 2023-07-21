@@ -57,7 +57,7 @@ class PublisherController extends Controller
     public function store(Request $request)
     {
 
-        $validatedData = $request->validate([
+        /*$validatedData = $request->validate([
             'billing_email' => 'required',
             'payoneer' => 'nullable',
             'paypal' => 'nullable',
@@ -71,12 +71,33 @@ class PublisherController extends Controller
             'bank_swift' => 'nullable',
             'bank_currency' => 'nullable',
         ]);
-
+         
+         */
+        // as other section removed now we store and validate contact inof here along with putting default values
+        $validatedData = $request->validate([
+            'acc_mng_first_name' => 'required',
+            'acc_mng_last_name' => 'required',
+            'acc_mng_email' => 'required',
+            'acc_mng_phone' => 'nullable',
+            'acc_mng_skype' => 'nullable',
+            'acc_mng_linkedin' => 'nullable|url',
+            'country_code' => 'nullable',
+        ]);
+        
         $publisher = $request->session()->get('publisher');
 
-        $publisher->billing_email = $request->billing_email;
-        $publisher->payoneer = $request->payoneer;
-        $publisher->paypal = $request->paypal;
+        $publisher->acc_mng_first_name = $request->acc_mng_first_name;
+        $publisher->acc_mng_last_name = $request->acc_mng_last_name;
+        $publisher->acc_mng_email = $request->acc_mng_email;
+        $publisher->acc_mng_phone = $request->acc_mng_phone;
+        $publisher->acc_mng_skype = $request->acc_mng_skype;
+        $publisher->acc_mng_linkedin = $request->acc_mng_linkedin;
+        $publisher->country_code = $request->country_code;
+        $publisher->billing_email = $publisher->account_email;
+        $publisher->payment_terms = config('constant.PAYMENT_TERMS_DEFAULT_VALUE');
+        $publisher->revenue_share = config('constant.REVENUE_SHARE_DEFAULT_VALUE'); // as discussed for default
+        $publisher->reporting_email = $publisher->account_email;
+        
 
         // $publisher->report_coloumns = $publisher->report_coloumns;
 
@@ -104,9 +125,10 @@ class PublisherController extends Controller
         $validatedData = $request->validate([
             'publisher_id' => 'required',
             'company_name' => 'required',
+            'team_member_id' => 'required',
             'reg_id' => 'nullable',
             'vat_id' => 'nullable',
-            'website_url' => 'required',
+            'website_url' => 'required|url',
             'account_email' => 'required|unique:publishers,account_email',
             'account_email' => 'required|unique:users,email',
             'account_password' => 'required',
@@ -116,13 +138,14 @@ class PublisherController extends Controller
             'state' => 'nullable',
             'zipcode' => 'nullable',
             'country' => 'required',
-            'document_files' => 'nullable|max:10240',
-            'io_files' => 'nullable|max:10240',
+            //'document_files' => 'nullable|max:10240', move to operation info section
+            //'io_files' => 'nullable|max:10240',
         ]);
 
         $publisher = new Publisher();
         $publisher->publisher_id = $request->publisher_id;
         $publisher->company_name = $request->company_name;
+        $publisher->team_member_id = $request->team_member_id;
         $publisher->reg_id = $request->reg_id;
         $publisher->vat_id = $request->vat_id;
         $publisher->website_url = $request->website_url;
@@ -136,7 +159,7 @@ class PublisherController extends Controller
         $publisher->country = $request->country;
         $publisher->state = $request->state;
 
-        if ($request->hasFile('document_files')) {
+       /* if ($request->hasFile('document_files')) {
             $documentFilePaths = array();
             $documentFiles = $request->file('document_files');
             foreach ($documentFiles as $key => $file) {
@@ -153,13 +176,13 @@ class PublisherController extends Controller
                 array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
             }
             $publisher->io_path = json_encode($ioFilePaths);
-        }
+        }*/
 
         session()->put('publisher', $publisher);
         session()->put('pubActiveTab', 'contactInfoTab');
     }
 
-    public function storeContactInSession(Request $request)
+   /* public function storeContactInSession(Request $request)
     {
         $validatedData = $request->validate([
             'acc_mng_first_name' => 'required',
@@ -184,6 +207,8 @@ class PublisherController extends Controller
         session()->put('publisher', $publisher);
         session()->put('pubActiveTab', 'operationsInfoTab');
     }
+    * 
+    */
 
     public function storeOperationInSession(Request $request)
     {
@@ -365,8 +390,8 @@ class PublisherController extends Controller
                     'state' => 'nullable',
                     'zipcode' => 'nullable',
                     'country' => 'required',
-                    'document_files' => 'nullable',
-                    'io_files' => 'nullable',
+                    //'document_files' => 'nullable',
+                    //'io_files' => 'nullable',
                 ]);
 
                 $publisher->publisher_id = $request->publisher_id;
@@ -394,7 +419,7 @@ class PublisherController extends Controller
                 $publisher->country = $request->country;
                 $publisher->state = $request->state;
 
-                if ($request->hasFile('document_files')) {
+                /*if ($request->hasFile('document_files')) {
                     $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $key => $file) {
@@ -412,6 +437,8 @@ class PublisherController extends Controller
                     }
                     $publisher->io_path = json_encode($ioFilePaths);
                 }
+                 * 
+                 */
                 $message = "Account";
                 break;
             case 'contactinfo':
@@ -440,23 +467,46 @@ class PublisherController extends Controller
                     'revenue_share' => 'required',
                     'payment_terms' => 'required',
                     'reporting_email' => 'required',
-                    'team_member_id' => 'required',
-                    'report_type'  => 'nullable',
+                    //'team_member_id' => 'required', //move to account info section
+                   /* 'report_type'  => 'nullable',
                     'api_key'  => 'nullable',
                     'dashboard_path'  => 'nullable',
                     'email'  => 'nullable',
                     'password'  => 'nullable',
                     'gdrive_email'  => 'nullable',
                     'gdrive_password'  => 'nullable',
+                    * 
+                    */
                 ]);
 
-                $reportsColomns = $request->session()->get('reportsColomns');
+                //$reportsColomns = $request->session()->get('reportsColomns');
 
                 $publisher->revenue_share = $request->revenue_share;
                 $publisher->payment_terms = $request->payment_terms;
                 $publisher->reporting_email = $request->reporting_email;
-                $publisher->team_member_id = $request->team_member_id;
-                $publisher->report_type = $request->report_type;
+                if ($request->hasFile('document_files')) {
+                    $documentFilePaths = array();
+                    $documentFiles = $request->file('document_files');
+                    foreach ($documentFiles as $key => $file) {
+                        $path = $file->store('user/files');
+                        array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                    }
+                    $publisher->documents_path = json_encode($documentFilePaths);
+                }
+                if ($request->hasFile('io_files')) {
+                    $ioFilePaths = array();
+                    $ioFiles = $request->file('io_files');
+                    foreach ($ioFiles as $key => $file) {
+                        $path = $file->store('user/files');
+                        array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                    }
+                    $publisher->io_path = json_encode($ioFilePaths);
+                }
+                
+                
+                
+                //$publisher->team_member_id = $request->team_member_id;
+                //$publisher->report_type = $request->report_type;
                 // $publisher->api_key = $request->api_key;
                 // $publisher->dashboard_path = $request->dashboard_path;
                 // $publisher->email = $request->email;

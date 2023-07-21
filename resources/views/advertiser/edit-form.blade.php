@@ -421,34 +421,13 @@
                     </div>
                 </div>
             </div> <!-- end col -->
-            <div class="col-md-4">
-                <div class="mb-3">
-                    <label for="reportType" class="form-label">Report Type</label>
-                    <div class="input-group input-group-merge">
-                        <select class="form-control" @if ($lastSegment !='operationinfo' ) disabled @endif id="reportType" data-toggle="select2" name="report_type" value="{{ $advertiser->report_type ?? old('report_type') }}">
-                            <option value="">Select Report Type</option>
-                            @foreach($reportTypes as $rpt)
-                            <option @if ($advertiser->report_type == $rpt) selected @endif value={{$rpt}}>{{__('common.'.$rpt.'')}}</option>
-                           @endforeach
-                        </select>
-                        <div class="input-group-append">
-                            <button type="button" @if ($lastSegment !='operationinfo' ) disabled @endif data-trigger="modal" data-target="report-type-modal" data-enable-target="reportType" class="btn btn-secondary d-none display-on-valid">
-                                <span class="dripicons-document-edit"></span>
-                            </button>
-                        </div>
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">
-                            You must enter valid input
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="col-md-4 mb-3">
-                <label for="reportColumns" class="form-label">Report Columns</label>
+                <label for="reportColumns" class="form-label">Report Details</label>
                 <div class="input-group input-group-merge">
-                    <input type="text" @if ($lastSegment !='operationinfo' ) disabled @endif class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report columns">
+                    <input type="text" @if ($lastSegment !='operationinfo' ) disabled @endif class="form-control remote-form-control" data-target-input="" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report details">
                     <div class="input-group-append">
-                        <button type="button" data-trigger="modal" data-target="define-report-columns-modal" class="btn btn-secondary">
+                        <button type="button" data-trigger="modal" data-target="report-type-modal" class="btn btn-secondary">
                             <span class="dripicons-document-edit"></span>
                         </button>
                     </div>
@@ -461,7 +440,7 @@
         </div> <!-- end row -->
 </form>
 </div>
-@include('advertiser.modals.report-columns')
+
 @include('advertiser.modals.reports-modal')
 
 <form class="needs-validation" method="POST" action="{{ route('advertiser.update', ['advertiser' => $advertiser->id, 'currentedit' => 'financeinfo']) }}" enctype="multipart/form-data">
@@ -586,7 +565,7 @@
         });
     });
 
-    $("#reportColoumnsForm").submit(function(event) {
+    $("#reportTypeForm").submit(function(event) {
         event.preventDefault();
         $.ajax({
             url: $(this).attr('action'),
@@ -683,6 +662,7 @@
 
     //Report Type Popup Script
     const reportTypeModal = document.getElementById("report-type-modal");
+    //console.log(reportTypeModal);
     const reportCredsInputs = reportTypeModal.getElementsByClassName("report-creds-input");
 
     function showReportCredsPopup(value) {
@@ -702,6 +682,7 @@
     }
 
     $("#reportType").on("select2:close", function() {
+      
         showReportCredsPopup($(this).val());
     })
 

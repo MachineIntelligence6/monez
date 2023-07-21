@@ -393,10 +393,9 @@
                     <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
                     <select class="form-control" @if($lastSegment!='operationinfo' ) disabled @endif data-toggle="select2" id="paymentTerms" name="payment_terms">
                         <option value="" disabled>Select Payment Term</option>
-                        <option @if($publisher->payment_terms == 'net_15') selected @endif value="net_15">Net 15</option>
-                        <option @if($publisher->payment_terms == 'net_30') selected @endif value="net_30">Net 30</option>
-                        <option @if($publisher->payment_terms == 'net_45') selected @endif value="net_45">Net 45</option>
-                        <option @if($publisher->payment_terms == 'net_60') selected @endif value="net_60">Net 60</option>
+                        @foreach ($paymentTermsValues as $ptv)
+                        <option value='{{$ptv}}' @if (isset($publisher) && $ptv==$publisher->payment_terms) selected @endif>Net {{$ptv}}</option>
+                        @endforeach
                     </select>
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">
@@ -457,7 +456,7 @@
     </div> <!-- end row -->
 </form>
 </div>
-@include('publisher.modals.report-columns')
+{{--@include('publisher.modals.report-columns')--}}
 {{-- @include('publisher.modals.reports-modal') --}}
 
 <form class="needs-validation" method="POST" action="{{ route('publisher.update', ['publisher'=>$publisher->id , 'currentedit' => 'financeinfo']) }}" enctype="multipart/form-data">

@@ -20,8 +20,10 @@ $lastSegment = last($segments);
         <div class="card">
             <div class="card-body">
                 @include('publisher.create-form')
+                {{--}}
                 @include('publisher.modals.bank-details-modal')
                 @include('publisher.modals.reports-modal')
+                {{--}}
             </div>
         </div>
     </div>
