@@ -260,7 +260,7 @@ class AdvertiserController extends Controller
         //     session()->put('reportColoumns', $reportColoumns);
         // } else {
         
-        //var_dump($request);die();
+        
         $validatedData = $request->validate([
             'report_type' => 'nullable',
             'api_key' => 'nullable',
@@ -286,7 +286,7 @@ class AdvertiserController extends Controller
         $advertiser->gdrive_email = $request->gdrive_email;
         $advertiser->gdrive_password = $request->gdrive_password;
 
-        $advertiser->report_coloumns = json_encode([
+        $advertiser->report_coloumns =json_encode([
             'date' => $request->dateColValue,
             'feed' => $request->feedColValue,
             'subid' => $request->subidColValue,
@@ -296,7 +296,7 @@ class AdvertiserController extends Controller
             'paid_clicks' => $request->paidClicksColValue,
             'revenue' => $request->revenueColValue,
         ]);
-        //var_dump($advertiser->report_coloumns); die();
+       
         session()->put('advertiser', $advertiser);
         // }
     }
@@ -537,7 +537,7 @@ class AdvertiserController extends Controller
                     session()->forget('advertiser.gdrive_password');
                     session()->forget('advertiser.report_coloumns');
                 }
-                //var_dump($advertiser);die();
+               
                 $message = "Operationnal";
                 break;
             case 'financeinfo':

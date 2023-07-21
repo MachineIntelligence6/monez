@@ -105,7 +105,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="dateColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="dateColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->date : old('dateColValue')}}" name="dateColValue">
+                            <input type="text" class="form-control" id="dateColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.date') : old('dateColValue')}}" name="dateColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -121,7 +121,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="feedColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="feedColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->feed : old('feedColValue')}}" name="feedColValue">
+                            <input type="text" class="form-control" id="feedColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.feed') : old('feedColValue')}}" name="feedColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -137,7 +137,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="subidColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="subidColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->subid : old('subidColValue')}}" name="subidColValue">
+                            <input type="text" class="form-control" id="subidColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.subid') : old('subidColValue')}}" name="subidColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -153,7 +153,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="countryColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="countryColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->country : old('countryColValue')}}" name="countryColValue">
+                            <input type="text" class="form-control" id="countryColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.country') : old('countryColValue')}}" name="countryColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="totalSearchesColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="totalSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->total_searches : old('totalSearchesColValue')}}" name="totalSearchesColValue">
+                            <input type="text" class="form-control" id="totalSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.total_searches') : old('totalSearchesColValue')}}" name="totalSearchesColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -185,7 +185,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="monitizedSearchesColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="monitizedSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->monitized_searches : old('monitizedSearchesColValue')}}" name="monitizedSearchesColValue">
+                            <input type="text" class="form-control" id="monitizedSearchesColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.monitized_searches') : old('monitizedSearchesColValue')}}" name="monitizedSearchesColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -201,7 +201,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="paidClicksColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="paidClicksColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->paid_clicks : old('paidClicksColValue')}}" name="paidClicksColValue">
+                            <input type="text" class="form-control" id="paidClicksColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.paid_clicks') : old('paidClicksColValue')}}" name="paidClicksColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -217,7 +217,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="revenueColValue" class="form-label">Value</label>
-                            <input type="text" class="form-control" id="revenueColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns')->revenue : old('revenueColValue')}}" name="revenueColValue">
+                            <input type="text" class="form-control" id="revenueColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{session()->get('advertiser.report_coloumns') ? session()->get('advertiser.report_coloumns.revenue') : old('revenueColValue')}}" name="revenueColValue">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input

@@ -66,7 +66,8 @@ class Advertiser extends Model
     public function reportColoumns(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value),
+            get: fn ($value) => json_decode($value, true),
+            set: fn ($value) => json_encode($value),
         );
     }
 
