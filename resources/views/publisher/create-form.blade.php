@@ -1,3 +1,4 @@
+{{--{{dd($pubActiveTab)}}--}}
 <div id="btnwizard">
     <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
         <li class="nav-item">

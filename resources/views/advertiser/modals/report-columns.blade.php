@@ -14,21 +14,14 @@
                    <div class="modal-body modal-scroll">
                        <div class="row">
                            <div class="col-md-6 mb-3">
-                               <label for="dateKey" class="form-label">Key</label>
-                               <input type="text" class="form-control" disabled value="date" id="dateKey" name="dateKey">
-                               <div class="valid-feedback">Valid.</div>
-                               <div class="invalid-feedback">
-                                   You must enter valid input
-                               </div>
-                           </div>
-                           <div class="col-md-6 mb-3">
-                               <label for="dateColValue" class="form-label">Value <span class="text-danger">*</span></label>
+                               <label for="dateColValue" class="form-label">Date <span class="text-danger">*</span></label>
                                <input type="text" class="form-control" required id="dateColValue" @if($lastSegment!='view' ) @else disabled @endif value="{{ (isset($advertiser) && !session()->has('advertiser')) ? ($advertiser->report_coloumns->date ?? '') : session()->get('advertiser.report_coloumns.date') }}" name="dateColValue">
                                <div class="valid-feedback">Valid.</div>
                                <div class="invalid-feedback">
                                    You must enter valid input
                                </div>
                            </div>
+
                            <div class="col-md-6 mb-3">
                                <label for="feedKey" class="form-label">Key</label>
                                <input type="text" class="form-control" disabled value="feed" id="feedKey" name="feedKey">

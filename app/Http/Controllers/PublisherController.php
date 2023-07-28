@@ -71,7 +71,7 @@ class PublisherController extends Controller
             'bank_swift' => 'nullable',
             'bank_currency' => 'nullable',
         ]);
-         
+
          */
         // as other section removed now we store and validate contact inof here along with putting default values
         $validatedData = $request->validate([
@@ -83,7 +83,7 @@ class PublisherController extends Controller
             'acc_mng_linkedin' => 'nullable|url',
             'country_code' => 'nullable',
         ]);
-        
+
         $publisher = $request->session()->get('publisher');
 
         $publisher->acc_mng_first_name = $request->acc_mng_first_name;
@@ -97,7 +97,7 @@ class PublisherController extends Controller
         $publisher->payment_terms = config('constant.PAYMENT_TERMS_DEFAULT_VALUE');
         $publisher->revenue_share = config('constant.REVENUE_SHARE_DEFAULT_VALUE'); // as discussed for default
         $publisher->reporting_email = $publisher->account_email;
-        
+
 
         // $publisher->report_coloumns = $publisher->report_coloumns;
 
@@ -180,6 +180,7 @@ class PublisherController extends Controller
 
         session()->put('publisher', $publisher);
         session()->put('pubActiveTab', 'contactInfoTab');
+        return redirect()->back();
     }
 
    /* public function storeContactInSession(Request $request)
@@ -207,7 +208,7 @@ class PublisherController extends Controller
         session()->put('publisher', $publisher);
         session()->put('pubActiveTab', 'operationsInfoTab');
     }
-    * 
+    *
     */
 
     public function storeOperationInSession(Request $request)
@@ -437,7 +438,7 @@ class PublisherController extends Controller
                     }
                     $publisher->io_path = json_encode($ioFilePaths);
                 }
-                 * 
+                 *
                  */
                 $message = "Account";
                 break;
@@ -475,7 +476,7 @@ class PublisherController extends Controller
                     'password'  => 'nullable',
                     'gdrive_email'  => 'nullable',
                     'gdrive_password'  => 'nullable',
-                    * 
+                    *
                     */
                 ]);
 
@@ -502,9 +503,9 @@ class PublisherController extends Controller
                     }
                     $publisher->io_path = json_encode($ioFilePaths);
                 }
-                
-                
-                
+
+
+
                 //$publisher->team_member_id = $request->team_member_id;
                 //$publisher->report_type = $request->report_type;
                 // $publisher->api_key = $request->api_key;
