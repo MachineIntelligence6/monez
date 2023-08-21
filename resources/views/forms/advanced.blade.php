@@ -2,18 +2,19 @@
 
 @section('css')
     <!-- Plugins css -->
-    <link href="{{asset('assets/libs/mohithg-switchery/mohithg-switchery.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/multiselect/multiselect.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/select2/select2.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/selectize/selectize.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/mohithg-switchery/mohithg-switchery.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/multiselect/multiselect.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/selectize/selectize.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.css') }}" rel="stylesheet"
+        type="text/css" />
 @endsection
 
 @section('content')
     <!-- Start Content-->
     <div class="container-fluid">
-        
+
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -28,8 +29,8 @@
                     <h4 class="page-title">Form Advanced</h4>
                 </div>
             </div>
-        </div>     
-        <!-- end page title -->  
+        </div>
+        <!-- end page title -->
 
         <div class="row">
             <div class="col-12">
@@ -37,7 +38,8 @@
                     <div class="card-body">
                         <h4 class="header-title">Selectize</h4>
                         <p class="sub-header">
-                            Selectize is the hybrid of a textbox and <code>&lt;select&gt;</code> box. It's jQuery-based and it's useful for tagging, contact lists, country selectors, and so on.
+                            Selectize is the hybrid of a textbox and <code>&lt;select&gt;</code> box. It's jQuery-based and
+                            it's useful for tagging, contact lists, country selectors, and so on.
                         </p>
 
                         <div class="row">
@@ -50,7 +52,7 @@
 
                             <div class="col-lg-6">
                                 <div class="form-group mb-3">
-                                    <label>Select</label> <br/>
+                                    <label>Select</label> <br />
                                     <select id="selectize-select">
                                         <option data-display="Select">Nothing</option>
                                         <option value="1">Some option</option>
@@ -188,7 +190,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group mb-0">
                                     <label for="select-code-language">Dropdown Header</label>
-                                    <select id="select-code-language" class="selectize-drop-header" placeholder="Select a language...">
+                                    <select id="select-code-language" class="selectize-drop-header"
+                                        placeholder="Select a language...">
                                         <option value="txt">Text</option>
                                         <option value="md">Markdown</option>
                                         <option value="html">HTML</option>
@@ -227,20 +230,20 @@
                                 <label class="mb-1">Basic</label>
                                 <p class="text-muted font-13">
                                     Add an attribute <code>
-                                    data-plugin="switchery" data-color="@colors"</code>
+                                        data-plugin="switchery" data-color="@colors"</code>
                                     to your input element and it will be converted into switch.
                                 </p>
-    
+
                                 <div class="switchery-demo">
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#039cfd"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#f1b53d"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#1bb99a"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#ff5d48"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#3db9dc"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#2b3d51"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#9261c6"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#ff7aa3"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#98a6ad"/>
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#039cfd" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#f1b53d" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#1bb99a" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#ff5d48" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#3db9dc" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#2b3d51" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#9261c6" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#ff7aa3" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#98a6ad" />
                                 </div>
 
                             </div>
@@ -249,19 +252,23 @@
                                 <label class="mb-1 mt-3 mt-lg-0">Sizes & Secondary color</label>
                                 <p class="text-muted font-13">
                                     Add an attribute <code>
-                                    data-size="small",data-size="large"</code>
+                                        data-size="small",data-size="large"</code>
                                     to your input element and it will be converted into switch.
                                     Add an attribute <code>
-                                    data-color="@color" data-secondary-color="@color"</code>
+                                        data-color="@color" data-secondary-color="@color"</code>
                                     to your input element and it will be converted into switch.
                                 </p>
-    
+
                                 <div class="switchery-demo">
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#64b0f2" data-size="small"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#ff7aa3"/>
-                                    <input type="checkbox" checked data-plugin="switchery" data-color="#2b3d51" data-size="large"/>
-                                    <input type="checkbox" data-plugin="switchery" data-color="#1bb99a" data-secondary-color="#ff5d48" />
-                                    <input type="checkbox" data-plugin="switchery" data-color="#9261c6"  data-secondary-color="#ff7aa3" checked />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#64b0f2"
+                                        data-size="small" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#ff7aa3" />
+                                    <input type="checkbox" checked data-plugin="switchery" data-color="#2b3d51"
+                                        data-size="large" />
+                                    <input type="checkbox" data-plugin="switchery" data-color="#1bb99a"
+                                        data-secondary-color="#ff5d48" />
+                                    <input type="checkbox" data-plugin="switchery" data-color="#9261c6"
+                                        data-secondary-color="#ff7aa3" checked />
                                 </div>
                             </div>
                         </div>
@@ -358,7 +365,8 @@
                                     Select2 can take a regular select box like this...
                                 </p>
 
-                                <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple" data-placeholder="Choose ...">
+                                <select class="form-control select2-multiple" data-toggle="select2" multiple="multiple"
+                                    data-placeholder="Choose ...">
                                     <optgroup label="Alaskan/Hawaiian Time Zone">
                                         <option value="AK">Alaska</option>
                                         <option value="HI">Hawaii</option>
@@ -426,7 +434,7 @@
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
             </div> <!-- end col-->
-        </div> 
+        </div>
         <!-- end row-->
 
         <div class="row">
@@ -442,22 +450,27 @@
                                 <p class="text-muted font-13">
                                     The badge will show up by default when the remaining chars are 10 or less:
                                 </p>
-                                <input type="text" class="form-control" maxlength="25" name="defaultconfig" id="defaultconfig" />
+                                <input type="text" class="form-control" maxlength="25" name="defaultconfig"
+                                    id="defaultconfig" />
 
                                 <div>
                                     <label class="mb-1 mt-4 font-weight-medium text-muted">Threshold value</label>
                                     <p class="text-muted font-13">
-                                        Do you want the badge to show up when there are 20 chars or less? Use the <code>threshold</code> option:
+                                        Do you want the badge to show up when there are 20 chars or less? Use the
+                                        <code>threshold</code> option:
                                     </p>
-                                    <input type="text" maxlength="25" name="thresholdconfig" class="form-control" id="thresholdconfig" />
+                                    <input type="text" maxlength="25" name="thresholdconfig" class="form-control"
+                                        id="thresholdconfig" />
                                 </div>
 
                                 <div>
                                     <label class="mb-1 mt-4 font-weight-medium text-muted">All the options</label>
                                     <p class="text-muted m-b-15 font-13">
-                                        Please note: if the <code>alwaysShow</code> option is enabled, the <code>threshold</code> option is ignored.
+                                        Please note: if the <code>alwaysShow</code> option is enabled, the
+                                        <code>threshold</code> option is ignored.
                                     </p>
-                                    <input type="text" class="form-control" maxlength="25" name="alloptions" id="alloptions" />
+                                    <input type="text" class="form-control" maxlength="25" name="alloptions"
+                                        id="alloptions" />
                                 </div>
                             </div> <!-- end col -->
 
@@ -466,17 +479,20 @@
 
                                     <label class="mb-1 font-weight-medium text-muted">Position</label>
                                     <p class="text-muted font-13">
-                                        All you need to do is specify the <code>placement</code> option, with one of those strings. If none
+                                        All you need to do is specify the <code>placement</code> option, with one of those
+                                        strings. If none
                                         is specified, the positioning will be defauted to 'bottom'.
                                     </p>
-                                    <input type="text" class="form-control" maxlength="25" name="placement" id="placement" />
+                                    <input type="text" class="form-control" maxlength="25" name="placement"
+                                        id="placement" />
 
                                     <div>
                                         <label class="mb-1 mt-4 font-weight-medium text-muted">Textareas</label>
                                         <p class="text-muted font-13">
                                             Bootstrap maxlength supports textarea as well as inputs. Even on old IE.
                                         </p>
-                                        <textarea id="textarea" class="form-control" maxlength="225" rows="3" placeholder="This textarea has a limit of 225 chars."></textarea>
+                                        <textarea id="textarea" class="form-control" maxlength="225" rows="3"
+                                            placeholder="This textarea has a limit of 225 chars."></textarea>
                                     </div>
                                 </div>
                             </div> <!-- end col -->
@@ -502,10 +518,11 @@
                                 <p class="text-muted font-13">
                                     Use a <code>
                                         &lt;select multiple /&gt;</code>
-                                        as your input element for a tags input, to gain true multivalue support.        
+                                    as your input element for a tags input, to gain true multivalue support.
                                 </p>
 
-                                <select multiple="multiple" class="multi-select" id="my_multi_select1" name="my_multi_select1[]" data-plugin="multiselect">
+                                <select multiple="multiple" class="multi-select" id="my_multi_select1"
+                                    name="my_multi_select1[]" data-plugin="multiselect">
                                     <option>Dallas Cowboys</option>
                                     <option>New York Giants</option>
                                     <option selected>Philadelphia Eagles</option>
@@ -531,10 +548,11 @@
                                 <p class="text-muted font-13">
                                     Use a <code>
                                         &lt;select multiple /&gt;</code>
-                                        as your input element for a tags input, to gain true multivalue support.        
+                                    as your input element for a tags input, to gain true multivalue support.
                                 </p>
 
-                                <select multiple="multiple" class="multi-select" id="my_multi_select2" name="my_multi_select2[]" data-plugin="multiselect" data-selectable-optgroup="true">
+                                <select multiple="multiple" class="multi-select" id="my_multi_select2"
+                                    name="my_multi_select2[]" data-plugin="multiselect" data-selectable-optgroup="true">
                                     <optgroup label="NFC EAST">
                                         <option>Dallas Cowboys</option>
                                         <option>New York Giants</option>
@@ -567,7 +585,7 @@
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
             </div> <!-- end col-->
-        </div> 
+        </div>
         <!-- end row-->
 
 
@@ -576,34 +594,33 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title">Auto Complete</h4>
-                        <p class="sub-header">Ajax Autocomplete for jQuery allows you to easily create autocomplete/autosuggest boxes for text input fields</p>
+                        <p class="sub-header">Ajax Autocomplete for jQuery allows you to easily create
+                            autocomplete/autosuggest boxes for text input fields</p>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <label class="mb-1 font-weight-bold text-muted">Ajax Lookup</label>
 
-                                <input type="text" name="country" id="autocomplete-ajax"
-                                            class="form-control"
-                                            style=" z-index: 2; background: transparent;"/>
-                                    <input type="text" name="country" id="autocomplete-ajax-x"
-                                            disabled="disabled" class="form-control"
-                                            style="display: none;"/>
+                                <input type="text" name="country" id="autocomplete-ajax" class="form-control"
+                                    style=" z-index: 2; background: transparent;" />
+                                <input type="text" name="country" id="autocomplete-ajax-x" disabled="disabled"
+                                    class="form-control" style="display: none;" />
 
                             </div> <!-- end col -->
 
                             <div class="col-md-6">
-                                <label class="mb-1 mt-3 mt-md-0 font-weight-bold text-muted">Local Lookup and Grouping</label>
+                                <label class="mb-1 mt-3 mt-md-0 font-weight-bold text-muted">Local Lookup and
+                                    Grouping</label>
 
-                                <input type="text" name="country" id="autocomplete"
-                                            class="form-control"/>
-                                
+                                <input type="text" name="country" id="autocomplete" class="form-control" />
+
                             </div> <!-- end col -->
                         </div> <!-- end row -->
 
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
             </div> <!-- end col-->
-        </div> 
+        </div>
         <!-- end row-->
 
 
@@ -613,7 +630,8 @@
                 <div class="card-box">
                     <h4 class="header-title">Bootstrap-select</h4>
                     <p class="sub-header">
-                        The jQuery plugin that brings select elements into the 21st century with intuitive multiselection, searching, and much more. Now with Bootstrap 4 support.
+                        The jQuery plugin that brings select elements into the 21st century with intuitive multiselection,
+                        searching, and much more. Now with Bootstrap 4 support.
                     </p>
                     <div class="row">
                         <div class="col-md-4">
@@ -643,7 +661,8 @@
                             </select>
 
                             <p class="text-muted mt-3 font-13">
-                                You can also show the tick icon on single <code>select</code> with the <code>show-tick</code> class:
+                                You can also show the tick icon on single <code>select</code> with the
+                                <code>show-tick</code> class:
                             </p>
 
                             <select class="selectpicker show-tick" data-style="btn-light">
@@ -751,7 +770,7 @@
                                 You can add a search input by passing <code>data-live-search="true"</code> attribute:
                             </p>
 
-                            <select class="selectpicker" data-live-search="true"  data-style="btn-light">
+                            <select class="selectpicker" data-live-search="true" data-style="btn-light">
                                 <option>Hot Dog, Fries and a Soda</option>
                                 <option>Burger, Shake and a Smile</option>
                                 <option>Sugar, Spice and all things nice</option>
@@ -759,7 +778,7 @@
 
                             <p class="text-muted mt-3 font-13">
                                 You can also use the <code>
-                                title</code> attribute as an alternative to display when the option is
+                                    title</code> attribute as an alternative to display when the option is
                                 selected:
                             </p>
 
@@ -774,15 +793,17 @@
                                 you can specify how the selection is displayed.
                             </p>
 
-                            <select class="selectpicker" multiple data-selected-text-format="count" data-style="btn-light">
+                            <select class="selectpicker" multiple data-selected-text-format="count"
+                                data-style="btn-light">
                                 <option>Mustard</option>
                                 <option>Ketchup</option>
                                 <option>Relish</option>
                             </select>
 
-                            <br/>
-                            <br/>
-                            <select class="selectpicker" multiple data-selected-text-format="count > 3" data-style="btn-light">
+                            <br />
+                            <br />
+                            <select class="selectpicker" multiple data-selected-text-format="count > 3"
+                                data-style="btn-light">
                                 <option>Mustard</option>
                                 <option>Ketchup</option>
                                 <option>Relish</option>
@@ -790,7 +811,8 @@
                             </select>
 
                             <p class="text-muted mt-3 font-13">
-                                Add the <code>disabled</code> attribute to the select to apply the <code>disabled</code> class.
+                                Add the <code>disabled</code> attribute to the select to apply the <code>disabled</code>
+                                class.
                             </p>
                             <select class="selectpicker m-b-0" data-style="btn-light" disabled>
                                 <option>Mustard</option>
@@ -812,7 +834,8 @@
                         <h4 class="header-title">Bootstrap Touchspin</h4>
                         <p class="text-muted font-14 mb-3">
                             A mobile and touch friendly input spinner component for Bootstrap.
-                            Specify attribute <code>data-toggle="touchspin"</code> and your input would be conveterted into touch friendly spinner. 
+                            Specify attribute <code>data-toggle="touchspin"</code> and your input would be conveterted into
+                            touch friendly spinner.
                         </p>
 
                         <div class="row">
@@ -824,7 +847,8 @@
 
                                 <div class="form-group mb-3">
                                     <label>Example with postfix (large)</label>
-                                    <input data-toggle="touchspin" value="18.20" type="text" data-step="0.1" data-decimals="2" data-bts-postfix="%">
+                                    <input data-toggle="touchspin" value="18.20" type="text" data-step="0.1"
+                                        data-decimals="2" data-bts-postfix="%">
                                 </div>
 
                                 <div class="form-group mb-3">
@@ -834,7 +858,9 @@
 
                                 <div class="form-group mb-0">
                                     <label>Change button class</label>
-                                    <input data-toggle="touchspin" value="77" type="text" data-bts-button-down-class="btn btn-danger" data-bts-button-up-class="btn btn-info">
+                                    <input data-toggle="touchspin" value="77" type="text"
+                                        data-bts-button-down-class="btn btn-danger"
+                                        data-bts-button-up-class="btn btn-info">
                                 </div>
                             </div> <!-- end col -->
 
@@ -846,12 +872,15 @@
 
                                 <div class="form-group mb-3">
                                     <label>Max value - (Default value 100)</label>
-                                    <input data-toggle="touchspin" data-bts-max="500" value="128" data-btn-vertical="true" type="text">
+                                    <input data-toggle="touchspin" data-bts-max="500" value="128"
+                                        data-btn-vertical="true" type="text">
                                 </div>
 
                                 <div class="form-group mb-0">
                                     <label>With prefix and postfix button</label>
-                                    <input data-toggle="touchspin" data-bts-prefix="A Button" data-bts-prefix-extra-class="btn btn-light"  data-bts-postfix="A Button" data-bts-postfix-extra-class="btn btn-light" type="text">
+                                    <input data-toggle="touchspin" data-bts-prefix="A Button"
+                                        data-bts-prefix-extra-class="btn btn-light" data-bts-postfix="A Button"
+                                        data-bts-postfix-extra-class="btn btn-light" type="text">
                                 </div>
                             </div> <!-- end col -->
                         </div>
@@ -864,22 +893,22 @@
         <!-- end row -->
 
 
-        
+
     </div> <!-- container -->
 @endsection
 
 @section('script')
     <!-- Plugins js-->
-    <script src="{{asset('assets/libs/selectize/selectize.min.js')}}"></script>
-    <script src="{{asset('assets/libs/mohithg-switchery/mohithg-switchery.min.js')}}"></script>
-    <script src="{{asset('assets/libs/multiselect/multiselect.min.js')}}"></script>
-    <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
-    <script src="{{asset('assets/libs/bootstrap-select/bootstrap-select.min.js')}}"></script>
-    <script src="{{asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.js')}}"></script>
-    <script src="{{asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
-    <script src="{{asset('assets/libs/devbridge-autocomplete/devbridge-autocomplete.min.js')}}"></script>
-    <script src="{{asset('assets/libs/jquery-mockjax/jquery-mockjax.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/selectize/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/mohithg-switchery/mohithg-switchery.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/multiselect/multiselect.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap-select/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap-touchspin/bootstrap-touchspin.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/devbridge-autocomplete/devbridge-autocomplete.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jquery-mockjax/jquery-mockjax.min.js') }}"></script>
 
     <!-- Page js-->
-    <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
+    <script src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
 @endsection

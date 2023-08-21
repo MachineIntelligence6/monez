@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Publisher;
 use App\Feed;
+use App\Listeners\ChannelStateChanged;
 
 class ChannelsController extends Controller
 {
@@ -110,6 +111,7 @@ class ChannelsController extends Controller
 
     public function store(Request $request)
     {
+       
         $channel = new Channel;
         // dd($channel,$channelId);
         $channel->publisher_id = '1';
@@ -134,17 +136,15 @@ class ChannelsController extends Controller
         } else {
             $newId = 'C1_d1wmd';
         }
-        // dd($channelId,$newId);
+        // dd($channelId,$newId);s
         $channelId = $newId;
-
-
         $channel->channelId = $channelId;
         $channel->channel_path_id = $request->channel_path_id;
         $channel->c_priorityScore = $request->c_priorityScore;
         $channel->c_comments = $request->c_comments;
         $channel->is_active = true;
         $channel->status = 'pause';
-
+    
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
         $d_paramName = $request->input('dy_paramName');
@@ -209,7 +209,8 @@ class ChannelsController extends Controller
 
         // dd($updated_url);
         //end
-
+        //Change Feed Status.
+        
         $channelInegration = new ChannelIntegrationGuide;
         $channelInegration->channel_id = $channel_Id;
         $channelInegration->c_guideUrl = $updated_url;
@@ -371,7 +372,7 @@ class ChannelsController extends Controller
 
     public function enable(Channel $channel)
     {
-        // $channel->is_active = true;
+        $channel->is_active = true;
         $channel->status = 'pause';
         $channel->save();
         return redirect()->back();
@@ -379,8 +380,9 @@ class ChannelsController extends Controller
 
     public function disable(Channel $channel)
     {
-        // $channel->is_active = false;
+        $channel->is_active = false;
         $channel->status = 'disable';
+        event(new ChannelStateUpdated($channel));
         $channel->save();
         return redirect()->back();
     }

@@ -68,7 +68,7 @@ class FeedsController extends Controller
         $latestFeed = Feed::latest()->first();
         if ($latestFeed) {
             $feedId = $latestFeed->feedId;
-             $numericPart = (int) substr($feedId, 1);
+            $numericPart = (int) substr($feedId, 1);
             $numericPart++;
             $newId = "F" . $numericPart . "_";
         } else {
@@ -76,7 +76,7 @@ class FeedsController extends Controller
         }
         $feedId = $newId;
 
-        $feed_id = $feedId.$request->feedId;
+        $feed_id = $feedId . $request->feedId;
         $feed = new Feed;
         $feed->advertiser_id = $request->advertiser;
         $feed->feedId =   $spanValue . $feed_id;
@@ -84,7 +84,8 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        $feed->status = 'pause';
+        $feed->status = 'available';
+        $feed->state = 'enabled';
         $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -159,8 +160,11 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        if($request->status==null){
-            $feed->status =$feed->status;
+        if ($request->status == null) {
+            $feed->status = $feed->status;
+        }
+        if ($request->state == null) {
+            $feed->state = $feed->state;
         }
         // $feed->is_default = false;
         $s_paramName = $request->input('paramName');
@@ -227,17 +231,26 @@ class FeedsController extends Controller
 
     public function enable(Feed $feed)
     {
-        // $feed->is_active = true;
-        $feed->status = 'pause';
-        $feed->save();
+        if (auth()->user()->role === 'Admin') {
+            $feed->state = 'enabled';
+            $feed->status = 'available';
+            $feed->save();
+        }
         return redirect()->back();
     }
 
     public function disable(Feed $feed)
     {
-        // $feed->is_active = false;
-        $feed->status = 'disable';
-        $feed->save();
+        
+        if (auth()->user()->role === 'Admin') {
+            $feed->state = 'disabled';
+            $feed->status = 'disabled';
+            $feed->save();
+            $channel = $feed->channel()->first();
+            $channel->feed_ids = Null;
+            $channel->save();
+        }
+   
         return redirect()->back();
     }
 

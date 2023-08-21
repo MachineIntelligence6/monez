@@ -20,7 +20,6 @@
         </div>
     </div>
     <!-- end page title -->
-
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -41,7 +40,7 @@
                                     <!-- <th>#</th> -->
                                     <th>Feed Id</th>
                                     <th>Advertiser</th>
-                                    <th style="width: 100%;">Feed Url</th>
+                                    <th style="width: 100%;">Feed Path</th>
                                     <th>Status</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
@@ -69,7 +68,7 @@
                                     </td>
                                 </tr> -->
                                 @foreach($feeds as $feed)
-                                <tr>
+                                    <tr>
                                     <td>
                                         {{ $feed->feedId ?? '-' }}
                                     </td>
@@ -77,7 +76,7 @@
                                         {{ $feed->advertiser ? $feed->advertiser->company_name : '-'}}
                                     </td>
                                     <td style="max-width: 450px; text-overflow: ellipsis; overflow: hidden;">
-                                        {{ $feed->feedintegration->guideUrl ?? '-' }}
+                                        {{ $feed->feedPath ?? '-' }}
                                     </td>
                                     <td>
                                     {{$feed->status}}
@@ -86,15 +85,12 @@
                                     <td>
                                         <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
 
-
-
-
                                         @if ($feed->is_default)
                                         <a class="btn bg-yellow text-white">Default Feed</a>
                                         @else
-                                            @if(isset($feed->channel))
+                                            @if(isset($feed->channel) && auth()->user()->role !== 'Admin')
                                             @else
-                                                @if($feed->status=='disable')
+                                                @if($feed->state=='disabled')
                                                 <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
                                                 @else
                                                 <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>

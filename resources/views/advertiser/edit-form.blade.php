@@ -385,6 +385,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="mb-3">
+
                     <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
                     <input type="number" @if ($lastSegment !='operationinfo' ) disabled @endif class="form-control" onchange="this.value = Math.min(this.value, 100)" id="revSharePer" name="revenue_share" placeholder="Enter Revenue Share (%)" value="{{ $advertiser->revenue_share ?? old('revenue_share') }}">
                     <div class="valid-feedback">Valid.</div>
@@ -395,14 +396,14 @@
             </div> <!-- end col -->
             <div class="col-md-4">
                 <div class="mb-3">
-                    
+
                     <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
                     <select class="form-control" @if ($lastSegment !='operationinfo' ) disabled @endif data-toggle="select2" id="paymentTerms" name="payment_terms">
                         <option value="">Select Payment Term</option>
                         @foreach ($paymentTermsValues as $ptv)
                         <option value='{{$ptv}}' @if (isset($advertiser) && $ptv==$advertiser->payment_terms) selected @endif>Net {{$ptv}}</option>
                         @endforeach
-                        
+
                     </select>
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">
@@ -421,7 +422,7 @@
                     </div>
                 </div>
             </div> <!-- end col -->
-            
+
             <div class="col-md-4 mb-3">
                 <label for="reportColumns" class="form-label">Report Details</label>
                 <div class="input-group input-group-merge">
@@ -682,7 +683,7 @@
     }
 
     $("#reportType").on("select2:close", function() {
-      
+
         showReportCredsPopup($(this).val());
     })
 
