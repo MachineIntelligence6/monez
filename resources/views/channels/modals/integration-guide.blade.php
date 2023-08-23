@@ -29,16 +29,24 @@
                         </div>
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="c_dailyCap" class="form-label">Daily Cap</label>
-                        <input type="text" class="form-control" id="dailyCap" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_dailyCap', $channel->channelintegration->c_dailyCap ?? '')}}" name="c_dailyCap" placeholder="Daily Cap">
+                        <label for="c_dailyCap" class="form-label">Daily Searches Cap</label>
+                        <input type="text" class="form-control" id="dailyCap" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_dailyCap', $channel->channelintegration->c_dailyCap ?? '')}}" name="c_dailyCap" placeholder="Daily Searches Cap">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
                         </div>
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="c_acceptedGeos" class="form-label">Accepted Geos</label>
-                        <input type="text" class="form-control" id="acceptedGeos" @if($condition == $lastSegment) disabled @endif  value="{{old('c_acceptedGeos', $channel->channelintegration->c_acceptedGeos ?? '')}}" name="c_acceptedGeos" placeholder="Accepted Geos">
+                        <label for="c_dailyIpCap" class="form-label">Daily IP Cap</label>
+                        <input type="text" class="form-control" id="dailyIpCap" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_dailyIpCap', $channel->channelintegration->c_dailyIpCap ?? '')}}" name="c_dailyIpCap" placeholder="Daily IP Cap">
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="c_acceptedGeos" class="form-label">Geos</label>
+                        <input type="text" class="form-control" id="acceptedGeos" @if($condition == $lastSegment) disabled @endif  value="{{old('c_acceptedGeos', $channel->channelintegration->c_acceptedGeos ?? '')}}" name="c_acceptedGeos" placeholder="Geos">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input

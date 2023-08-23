@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Publisher;
 use App\Feed;
 use App\Listeners\ChannelStateChanged;
+use Illuminate\Support\Facades\DB;
 
 class ChannelsController extends Controller
 {
@@ -111,11 +112,11 @@ class ChannelsController extends Controller
 
     public function store(Request $request)
     {
-       
+
         $channel = new Channel;
         // dd($channel,$channelId);
-        $channel->publisher_id = '1';
-        // $channel->publisher_id = $request->publisher;
+//        $channel->publisher_id = '1';
+         $channel->publisher_id = $request->publisher;
 
         $latestChannel = Channel::latest()->first();
 
@@ -144,7 +145,7 @@ class ChannelsController extends Controller
         $channel->c_comments = $request->c_comments;
         $channel->is_active = true;
         $channel->status = 'pause';
-    
+
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
         $d_paramName = $request->input('dy_paramName');
@@ -185,6 +186,7 @@ class ChannelsController extends Controller
             $ids[] = (string) $assign_feed[$i];
         }
         $feedIds = $ids; // Array of feed IDs
+
         $channel->feed_ids = implode(',', $feedIds);
         // $channel->feed_ids = json_encode($ids);
         $channel->c_staticParameters = json_encode($mergedArrayStat);
@@ -192,6 +194,12 @@ class ChannelsController extends Controller
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
         $channel->perameters = $perameters;
         $channel->save();
+        foreach ($feedIds as $feedId)
+        {
+            $feed = Feed::where('id',$feedId)->first();
+            $feed->status = 'paused';
+            $feed->save();
+        }
         $channel_Id = $channel->id;
         //generating url start
         $url = $request->c_guideUrl;
@@ -210,12 +218,13 @@ class ChannelsController extends Controller
         // dd($updated_url);
         //end
         //Change Feed Status.
-        
+
         $channelInegration = new ChannelIntegrationGuide;
         $channelInegration->channel_id = $channel_Id;
         $channelInegration->c_guideUrl = $updated_url;
         $channelInegration->c_subids = $request->c_subids;
         $channelInegration->c_dailyCap = $request->c_dailyCap;
+        $channelInegration->c_dailyIpCap = $request->c_dailyIpCap;
         $channelInegration->c_acceptedGeos = $request->c_acceptedGeos;
         $channelInegration->c_searchEngine = $request->c_searchEngine;
         $channelInegration->c_feedType = $request->c_feedType;
@@ -300,7 +309,6 @@ class ChannelsController extends Controller
         // $validatedData = $request->validate([
 
         // ]);
-
         $channel->publisher_id = $request->publisher;
         $channel->channel_path_id = $request->channel_path_id;
         $channel->c_priorityScore = $request->c_priorityScore;
@@ -314,7 +322,6 @@ class ChannelsController extends Controller
         // } else {
         //     $channel->status = $request->status;
         // };
-
 
         // dd($request->status);
         $s_paramName = $request->input('paramName');
@@ -343,13 +350,49 @@ class ChannelsController extends Controller
             $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
             $ids[] = (string) $assign_feed[$i];
         }
-        // $channel->feed_ids = json_encode($ids);
+
+        $removedFeeds = [];
+        foreach ($assign_feed as $feed)
+        {
+            foreach (explode(', ',$channel->feed_ids) as $channelFeed)
+            {
+                if((int)$channelFeed !== (int)$feed)
+                {
+                    $removedFeeds [] = $channelFeed;
+                }
+            }
+        }
+
         $channel->feed_ids = implode(', ', $ids);
 
         $channel->c_staticParameters = json_encode($mergedArrayStat);
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
         $channel->update();
+
+
+        $allChannels = Channel::all();
+
+        $feedInChannelCount = 0;
+        foreach ($allChannels as $singleChannel)
+        {
+            if (explode(', ',$singleChannel->feed_ids) == $removedFeeds)
+            {
+                $feedInChannelCount = 1;
+            }else {
+                $feedInChannelCount = 0;
+            }
+        }
+
+        if(!empty($removedFeeds) && $feedInChannelCount == 0)
+        {
+            foreach ($removedFeeds as $removedFeed)
+            {
+                $feed = Feed::where('id',$removedFeed)->first();
+                $feed->status = 'available';
+                $feed->save();
+            }
+        }
         $channelId = $channel->id;
 
         $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channelId)->firstOrFail();
@@ -357,6 +400,7 @@ class ChannelsController extends Controller
         $channelIntegration->c_guideUrl = $request->c_guideUrl;
         $channelIntegration->c_subids = $request->c_subids;
         $channelIntegration->c_dailyCap = $request->c_dailyCap;
+        $channelInegration->c_dailyIpCap = $request->c_dailyIpCap;
         $channelIntegration->c_acceptedGeos = $request->c_acceptedGeos;
         $channelIntegration->c_searchEngine = $request->c_searchEngine;
         $channelIntegration->c_feedType = $request->c_feedType;
@@ -382,8 +426,9 @@ class ChannelsController extends Controller
     {
         $channel->is_active = false;
         $channel->status = 'disable';
-        event(new ChannelStateUpdated($channel));
         $channel->save();
+        $channel->makeFeedAvailable();
+
         return redirect()->back();
     }
 

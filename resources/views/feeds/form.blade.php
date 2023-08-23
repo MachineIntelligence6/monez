@@ -32,7 +32,7 @@
         @if($lastSegment=='create')
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
+                <label for="feedId" class="form-label">Report ID</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
                     <div class="input-group-append">
                     @if($lastSegment!='create')
@@ -53,7 +53,7 @@
         @else
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
+                <label for="feedId" class="form-label">Report ID</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
                     <div class="input-group-append">
                         <div class="input-group-text">

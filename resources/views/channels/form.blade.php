@@ -293,7 +293,6 @@
     `
 
     function appendAsssignFeedComponent() {
-        console.log("dsldls")
         let element = document.createElement("div");
         element.style = "max-width: 100%; overflow-x: hidden;"
         element.classList = "d-flex w-100 assignedFeed mb-3"
@@ -303,8 +302,9 @@
     }
 
     function removeElementFromContainer(target, sampleId) {
+
         let parameter = target.parentNode.parentNode;
-        if (parameter.id === sampleId) return;
+        // if (parameter.id === sampleId) return;
         parameter.remove();
     }
 </script>

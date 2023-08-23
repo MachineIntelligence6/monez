@@ -23,10 +23,17 @@ class Channel extends Model
         $feedIds = explode(',', $this->feed_ids);
         $feeds = DB::table('feeds')->whereIn('id', $feedIds)->get();
         return $feeds;
-
-
     }
-    
+
+    public function makeFeedAvailable()
+    {
+        foreach ($this->feeds() as $feed) {
+            if (!Channel::where('feed_ids',$feed->id)->where('is_active', true)->exists()) {
+                DB::table('feeds')->where('id', $feed->id)->update(['status' => 'available']);
+            }
+        }
+    }
+
     public function channelintegration()
     {
         return $this->belongsTo(ChannelIntegrationGuide::class, 'id', 'channel_id');

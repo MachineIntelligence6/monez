@@ -86,7 +86,7 @@
                                         <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
 
                                         @if ($feed->is_default)
-                                        <a class="btn bg-yellow text-white">Default Feed</a>
+                                        <a class="btn bg-yellow text-white">Fallback Feed</a>
                                         @else
                                             @if(isset($feed->channel) && auth()->user()->role !== 'Admin')
                                             @else
@@ -96,7 +96,7 @@
                                                 <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
                                                 @endif
                                             @endif
-                                            <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>
+{{--                                            <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>--}}
                                         @endif
                                     </td>
                                 </tr>
