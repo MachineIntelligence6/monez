@@ -27,6 +27,7 @@ class FeedsController extends Controller
 
     public function redirectsTest()
     {
+
         return view("feeds.redirect-test");
     }
 
@@ -241,7 +242,7 @@ class FeedsController extends Controller
 
     public function disable(Feed $feed)
     {
-        
+
         if (auth()->user()->role === 'Admin') {
             $feed->state = 'disabled';
             $feed->status = 'disabled';
@@ -250,7 +251,7 @@ class FeedsController extends Controller
             $channel->feed_ids = Null;
             $channel->save();
         }
-   
+
         return redirect()->back();
     }
 
