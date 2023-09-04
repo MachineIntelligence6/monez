@@ -98,7 +98,11 @@ class RedirectTestController extends Controller
      */
     public function search(Request $request)
     {
-        $url = 'https://fastsearch.link/1082?q=23423';
+        // $url = 'https://fastsearch.link/1082?q=23423';
+        $url = 'https://fastsearch.link/1082/?q=23423';
+
+        // $url = 'https://bing.com/?q=23423';
+        // $url='https://navigate.984pzuwjq9s8f4yag.online?q=23423&pid=4db30a61471254012c02e9808100c02d&n=2026';
         // $url = 'https://www.customboxesus.com/product/custom-apparel-boxes';
         $response = Http::withHeaders([
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
@@ -114,7 +118,7 @@ class RedirectTestController extends Controller
         dd($response->headers());
 
         $ch = curl_init($url);
-            
+
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
@@ -123,7 +127,7 @@ class RedirectTestController extends Controller
   dd(curl_getinfo($ch));
             // dd($response);
   return curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-  
+
         // $curl = curl_init($url);
 // curl_setopt($curl, CURLOPT_POSTFIELDS, "foo");
 // curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -133,9 +137,9 @@ class RedirectTestController extends Controller
         // $response = Http::withResponseMiddleware(
         //     function (ResponseInterface $response) {
         //         $header = $response->getHeader('X-Example');
-         
+
         //         dd($response->getHeaders());
-         
+
         //         return $response;
         //     }
         // )->get($url);
