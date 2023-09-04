@@ -209,20 +209,20 @@
                                         <td>{{$channelSearch->created_at}}</td>
                                         <td>query</td>
                                         <td>--</td>
-                                        <td>feed</td>
+                                        <td>{{$channelSearch->feed}}</td>
                                         <td>{{$channelSearch->channel->publisher->company_name}}</td>
                                         <td>{{$channelSearch->channel->channelId}}</td>
-                                        <td>subid</td>
+                                        <td>{{$channelSearch->query}}</td>
                                         <td>{{$channelSearch->channel->channelpath->channel_path}}</td>
-                                        <td>--</td>
-                                        <td>--</td>
-                                        <td>--</td>
-                                        <td>--</td>
-                                        <td>--</td>
-                                        <td>--</td>
+                                        <td>{{$channelSearch->ip_address}}</td>
+                                        <td>{{$channelSearch->no_of_redirects}}</td>
+                                        <td>{{$channelSearch->alert}}</td>
+                                        <td>{{$channelSearch->ip_address}}</td>
+                                        <td>{{$channelSearch->location}}</td>
+                                        <td>{{$channelSearch->geo}}</td>
                                         <td>{{$channelSearch->latency}}</td>
                                         <td>{{$channelSearch->user_agent}}</td>
-                                        <td>--</td>
+                                        <td>{{$channelSearch->screen_resolution}}</td>
                                         <td>{{$channelSearch->device}}</td>
                                         <td>{{$channelSearch->os}}</td>
                                         <td>{{$channelSearch->browser}}</td>
@@ -321,6 +321,6 @@
     })
 
 
-    
+
 </script>
 @endsection

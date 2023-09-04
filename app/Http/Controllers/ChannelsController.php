@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\ChannelIntegrationGuide;
 use App\ChannelPath;
+use App\ChannelSearch;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Publisher;
 use App\Feed;
 use App\Listeners\ChannelStateChanged;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Agent\Facades\Agent;
 
 class ChannelsController extends Controller
 {
@@ -158,7 +160,7 @@ class ChannelsController extends Controller
         $mergedArrayDy = [];
         $mergeArrayFeed = [];
         $ids = [];
-        $perameters = "?channelId=" . $channelId . '&';
+        $perameters = "search_results?channelId=" . $channelId . '&';
         for ($i = 0; $i < count($s_paramName); $i++) {
 
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
@@ -432,6 +434,55 @@ class ChannelsController extends Controller
         return redirect()->back();
     }
 
+    public function channelSearched(Request $request){
+        // return $request->userAgent();
+        $startTime = microtime(true);
+        $cahnnel = Channel::where('channelId', $request->channelId)->get()->first();
+        $feed = Feed::find($cahnnel->feed_ids);
+        // return $cahnnel->feed;
+        if(config('app.env') == 'local'){
+            $ip =  '39.62.29.27';
+        } else {
+            $ip =  $request->ip();
+
+        }
+        $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
+		$location = $details->city . ' ' . $details->region . ' ' .$details->country;
+
+        // return 1;
+        $width = "<script>var windowWidth = screen.width;
+        document.writeln(windowWidth); </script>";
+        $height = "<script>var windowHeight = screen.height; document.writeln(windowHeight); </script>";
+        $screenResolution = $width . ' x ' . $height;
+        $channelSearch = ChannelSearch::create([
+            'channel_id' => $cahnnel->id,
+            'ip_address' => $ip,
+            'browser' => Agent::browser(),
+            'device' => Agent::device(),
+            'os' => Agent::platform(),
+            'user_agent'=>$request->userAgent(),
+            'feed_id'=>$feed->id,
+            'feed' =>$feed->feedId,
+            'publisher' =>$cahnnel->publisher ? $cahnnel->publisher->name : '',
+            'location' => $location,
+            'subid' => null,
+            'referer' => $request->header('referer'),
+            'query' => null,
+            'no_of_redirects' => 0,
+            'alert' => '--',
+            'geo' => $location,
+            'screen_resolution' => $screenResolution,
+        ]);
+
+        $cahnnel->status = 'live';
+        $cahnnel->save();
+        $channelSearch->latency = microtime(true) - $startTime;
+        $channelSearch->save();
+// return 1;
+        $channelSearchId = $channelSearch->id;
+        return view('save-screen-resolution', compact('channelSearchId'));
+    }
+
     // public function ChannelId()
     // {
     //     $channel = new Channel;
@@ -452,4 +503,16 @@ class ChannelsController extends Controller
     //     $channel->save();
     //     return $newId;
     // }
+
+    public function saveScreenResolution(Request $request)
+    {
+        // $screenResolutionData = $request->width;
+
+        $channelSearch = ChannelSearch::find($request->channelSearchId);
+        $channelSearch->screen_resolution = $request->width . ' x ' . $request->height;
+        $channelSearch->save();
+        // You can now work with $screenResolutionData, which contains the width and height of the screen resolution
+
+        return response()->json(['message' => 'Screen resolution saved successfully']);
+    }
 }

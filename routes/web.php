@@ -25,7 +25,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\ChannelsController::class, 'channelSearched']);
+Route::get('/search_results', [App\Http\Controllers\ChannelsController::class, 'channelSearched']);
+Route::post('/api/save-screen-resolution',  [App\Http\Controllers\ChannelsController::class, 'saveScreenResolution']);
 Auth::routes();
 Route::middleware('auth')->group(function (){
     //advertiser
