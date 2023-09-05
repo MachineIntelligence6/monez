@@ -20,10 +20,26 @@ class ChannelSearch extends Model
         'browser',
         'advertiser_id',
         'publisher_id',
+        'feed_id',
+        'feed',
+        'publisher',
+        'location',
+        'subid',
+        'referer',
+        'query',
+        'no_of_redirects',
+        'alert',
+        'geo',
+        'screen_resolution',
     ];
 
     public function channel()
     {
         return $this->belongsTo(Channel::class, 'channel_id');
+    }
+
+    public function feed()
+    {
+        return $this->belongsTo(Feed::class, 'feed_id');
     }
 }

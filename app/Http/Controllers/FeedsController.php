@@ -9,6 +9,7 @@ use App\FeedIntegrationGuide;
 use App\Country;
 use App\Bank;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class FeedsController extends Controller
@@ -27,7 +28,6 @@ class FeedsController extends Controller
 
     public function redirectsTest()
     {
-
         return view("feeds.redirect-test");
     }
 
@@ -278,4 +278,6 @@ class FeedsController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+    
 }

@@ -21,7 +21,7 @@
         </div>
     </div>
     <!-- end page title -->
-    <form class="needs-validation" id="" method="post" action="{{ route('advertiser.store.account') }}" enctype="multipart/form-data" novalidate>
+    <form class="needs-validation" id="" method="post" action="{{ route('redirects-test.search') }}" enctype="multipart/form-data" novalidate>
         @csrf
     <div class="row">
         <div class="col-12">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary">Test</button>
+                            <button type="submit" class="btn btn-primary">Test</button>
                         </div>
                     </div>
                     <div class="row justify-content-between">

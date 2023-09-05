@@ -25,7 +25,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\ChannelsController::class, 'channelSearched']);
+Route::get('/search_results', [App\Http\Controllers\ChannelsController::class, 'channelSearched']);
+Route::post('/api/save-screen-resolution',  [App\Http\Controllers\ChannelsController::class, 'saveScreenResolution']);
 Auth::routes();
 Route::middleware('auth')->group(function (){
     //advertiser
@@ -68,6 +69,11 @@ Route::middleware('auth')->group(function (){
         Route::delete('/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy'])->name('destroy');
         Route::get('/{publisher}/edit/{currentedit}', [App\Http\Controllers\PublisherController::class, 'edit'])->name('edit');
         Route::get('/{publisher}/download-file/{fileNo}/{type}', [App\Http\Controllers\PublisherController::class,'downloadFile'])->name('download-file');
+    });
+
+    Route::prefix('redirects-test')->name('redirects-test.')->group(function () {
+        Route::get('/', [App\Http\Controllers\RedirectTestController::class, 'show'])->name('show');
+        Route::post('/search', [App\Http\Controllers\RedirectTestController::class, 'search'])->name('search');
     });
 
     Route::get('/mark-message-read/{id}', [App\Http\Controllers\SettingController::class, 'markCustomMessageRead'])->name('mark-message-read');
