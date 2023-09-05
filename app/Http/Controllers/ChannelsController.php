@@ -348,24 +348,32 @@ class ChannelsController extends Controller
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
         }
-        for ($i = 0; $i < count($assign_feed); $i++) {
-            $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
-            $ids[] = (string) $assign_feed[$i];
-        }
 
         $removedFeeds = [];
-        foreach ($assign_feed as $feed)
-        {
-            foreach (explode(', ',$channel->feed_ids) as $channelFeed)
-            {
-                if((int)$channelFeed !== (int)$feed)
-                {
-                    $removedFeeds [] = $channelFeed;
-                }
+        if ($request->has('feed')) {
+            for ($i = 0; $i < count($assign_feed); $i++) {
+                $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
+                $ids[] = (string) $assign_feed[$i];
             }
+            # code...
+            foreach (explode(',' ,$channel->feed_ids) as $channelFeed)
+            {
+
+                foreach ($assign_feed as $feed)
+                {
+                    if((int)$channelFeed !== (int)$feed)
+                    {
+                        $removedFeeds [] = $channelFeed;
+                    }
+                }
+
+            }
+            $channel->feed_ids = implode(',' , $ids);
+        } else {
+            $removedFeeds = explode(',' , $channel->feed_ids);
+            $channel->feed_ids = null;
         }
 
-        $channel->feed_ids = implode(', ', $ids);
 
         $channel->c_staticParameters = json_encode($mergedArrayStat);
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
@@ -378,7 +386,7 @@ class ChannelsController extends Controller
         $feedInChannelCount = 0;
         foreach ($allChannels as $singleChannel)
         {
-            if (explode(', ',$singleChannel->feed_ids) == $removedFeeds)
+            if (explode(',' ,$singleChannel->feed_ids) == $removedFeeds)
             {
                 $feedInChannelCount = 1;
             }else {
@@ -402,7 +410,7 @@ class ChannelsController extends Controller
         $channelIntegration->c_guideUrl = $request->c_guideUrl;
         $channelIntegration->c_subids = $request->c_subids;
         $channelIntegration->c_dailyCap = $request->c_dailyCap;
-        $channelInegration->c_dailyIpCap = $request->c_dailyIpCap;
+        $channelIntegration->c_dailyIpCap = $request->c_dailyIpCap;
         $channelIntegration->c_acceptedGeos = $request->c_acceptedGeos;
         $channelIntegration->c_searchEngine = $request->c_searchEngine;
         $channelIntegration->c_feedType = $request->c_feedType;
