@@ -436,24 +436,38 @@ class ChannelsController extends Controller
 
     public function channelSearched(Request $request){
         // return $request->userAgent();
+        return $request->header('referer');
+        if($request->has('query')){
+            $query =  $request->all()['query'];
+        } else {
+            $query = null;
+        }
         $startTime = microtime(true);
         $cahnnel = Channel::where('channelId', $request->channelId)->get()->first();
-        $feed = Feed::find($cahnnel->feed_ids);
+        $feeds = $cahnnel->feeds();
+        if(isset($feeds[0])){
+            $advertiser = $feeds[0]->advertiser_id;
+            $feed = $feeds[0];
+        } else {
+            $advertiser = null;
+            $feed = null;
+        }
+
+        // $channelInegration = ChannelIntegrationGuide::find($cahnnel->feed_ids);
         // return $cahnnel->feed;
         if(config('app.env') == 'local'){
             $ip =  '39.62.29.27';
         } else {
             $ip =  $request->ip();
-
         }
         $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
 		$location = $details->city . ' ' . $details->region . ' ' .$details->country;
 
         // return 1;
-        $width = "<script>var windowWidth = screen.width;
-        document.writeln(windowWidth); </script>";
-        $height = "<script>var windowHeight = screen.height; document.writeln(windowHeight); </script>";
-        $screenResolution = $width . ' x ' . $height;
+        // $width = "<script>var windowWidth = screen.width;
+        // document.writeln(windowWidth); </script>";
+        // $height = "<script>var windowHeight = screen.height; document.writeln(windowHeight); </script>";
+        $screenResolution = null;
         $channelSearch = ChannelSearch::create([
             'channel_id' => $cahnnel->id,
             'ip_address' => $ip,
@@ -465,20 +479,20 @@ class ChannelsController extends Controller
             'feed' =>$feed->feedId,
             'publisher' =>$cahnnel->publisher ? $cahnnel->publisher->name : '',
             'location' => $location,
-            'subid' => null,
+            'subid' => $cahnnel->channelintegration->c_subids,
             'referer' => $request->header('referer'),
-            'query' => null,
             'no_of_redirects' => 0,
             'alert' => '--',
             'geo' => $location,
-            'screen_resolution' => $screenResolution,
+            'query' => $query,
+            'advertiser_id'=> $advertiser,
+            'screen_resolution' => $screenResolution
         ]);
 
         $cahnnel->status = 'live';
         $cahnnel->save();
         $channelSearch->latency = microtime(true) - $startTime;
         $channelSearch->save();
-// return 1;
         $channelSearchId = $channelSearch->id;
         return view('save-screen-resolution', compact('channelSearchId'));
     }

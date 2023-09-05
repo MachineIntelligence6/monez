@@ -207,14 +207,14 @@
                                 @foreach ($channelSearchs as $channelSearch)
                                     <tr>
                                         <td>{{$channelSearch->created_at}}</td>
-                                        <td>query</td>
-                                        <td>--</td>
+                                        <td>{{$channelSearch->query}}</td>
+                                        <td>{{$channelSearch->advertiser ? $channelSearch->advertiser->company_name : '--'}}</td>
                                         <td>{{$channelSearch->feed}}</td>
                                         <td>{{$channelSearch->channel->publisher->company_name}}</td>
                                         <td>{{$channelSearch->channel->channelId}}</td>
-                                        <td>{{$channelSearch->query}}</td>
+                                        <td>{{$channelSearch->subid}}</td>
                                         <td>{{$channelSearch->channel->channelpath->channel_path}}</td>
-                                        <td>{{$channelSearch->ip_address}}</td>
+                                        <td>{{$channelSearch->referer}}</td>
                                         <td>{{$channelSearch->no_of_redirects}}</td>
                                         <td>{{$channelSearch->alert}}</td>
                                         <td>{{$channelSearch->ip_address}}</td>
