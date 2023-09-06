@@ -348,24 +348,32 @@ class ChannelsController extends Controller
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
         }
-        for ($i = 0; $i < count($assign_feed); $i++) {
-            $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
-            $ids[] = (string) $assign_feed[$i];
-        }
 
         $removedFeeds = [];
-        foreach ($assign_feed as $feed)
-        {
-            foreach (explode(', ',$channel->feed_ids) as $channelFeed)
-            {
-                if((int)$channelFeed !== (int)$feed)
-                {
-                    $removedFeeds [] = $channelFeed;
-                }
+        if ($request->has('feed')) {
+            for ($i = 0; $i < count($assign_feed); $i++) {
+                $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
+                $ids[] = (string) $assign_feed[$i];
             }
+            # code...
+            foreach (explode(',' ,$channel->feed_ids) as $channelFeed)
+            {
+
+                foreach ($assign_feed as $feed)
+                {
+                    if((int)$channelFeed !== (int)$feed)
+                    {
+                        $removedFeeds [] = $channelFeed;
+                    }
+                }
+
+            }
+            $channel->feed_ids = implode(',' , $ids);
+        } else {
+            $removedFeeds = explode(',' , $channel->feed_ids);
+            $channel->feed_ids = null;
         }
 
-        $channel->feed_ids = implode(', ', $ids);
 
         $channel->c_staticParameters = json_encode($mergedArrayStat);
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
@@ -378,7 +386,7 @@ class ChannelsController extends Controller
         $feedInChannelCount = 0;
         foreach ($allChannels as $singleChannel)
         {
-            if (explode(', ',$singleChannel->feed_ids) == $removedFeeds)
+            if (explode(',' ,$singleChannel->feed_ids) == $removedFeeds)
             {
                 $feedInChannelCount = 1;
             }else {
@@ -402,7 +410,7 @@ class ChannelsController extends Controller
         $channelIntegration->c_guideUrl = $request->c_guideUrl;
         $channelIntegration->c_subids = $request->c_subids;
         $channelIntegration->c_dailyCap = $request->c_dailyCap;
-        $channelInegration->c_dailyIpCap = $request->c_dailyIpCap;
+        $channelIntegration->c_dailyIpCap = $request->c_dailyIpCap;
         $channelIntegration->c_acceptedGeos = $request->c_acceptedGeos;
         $channelIntegration->c_searchEngine = $request->c_searchEngine;
         $channelIntegration->c_feedType = $request->c_feedType;
@@ -436,24 +444,38 @@ class ChannelsController extends Controller
 
     public function channelSearched(Request $request){
         // return $request->userAgent();
+        return $request->header('referer');
+        if($request->has('query')){
+            $query =  $request->all()['query'];
+        } else {
+            $query = null;
+        }
         $startTime = microtime(true);
         $cahnnel = Channel::where('channelId', $request->channelId)->get()->first();
-        $feed = Feed::find($cahnnel->feed_ids);
+        $feeds = $cahnnel->feeds();
+        if(isset($feeds[0])){
+            $advertiser = $feeds[0]->advertiser_id;
+            $feed = $feeds[0];
+        } else {
+            $advertiser = null;
+            $feed = null;
+        }
+
+        // $channelInegration = ChannelIntegrationGuide::find($cahnnel->feed_ids);
         // return $cahnnel->feed;
         if(config('app.env') == 'local'){
             $ip =  '39.62.29.27';
         } else {
             $ip =  $request->ip();
-
         }
         $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
 		$location = $details->city . ' ' . $details->region . ' ' .$details->country;
 
         // return 1;
-        $width = "<script>var windowWidth = screen.width;
-        document.writeln(windowWidth); </script>";
-        $height = "<script>var windowHeight = screen.height; document.writeln(windowHeight); </script>";
-        $screenResolution = $width . ' x ' . $height;
+        // $width = "<script>var windowWidth = screen.width;
+        // document.writeln(windowWidth); </script>";
+        // $height = "<script>var windowHeight = screen.height; document.writeln(windowHeight); </script>";
+        $screenResolution = null;
         $channelSearch = ChannelSearch::create([
             'channel_id' => $cahnnel->id,
             'ip_address' => $ip,
@@ -465,20 +487,20 @@ class ChannelsController extends Controller
             'feed' =>$feed->feedId,
             'publisher' =>$cahnnel->publisher ? $cahnnel->publisher->name : '',
             'location' => $location,
-            'subid' => null,
+            'subid' => $cahnnel->channelintegration->c_subids,
             'referer' => $request->header('referer'),
-            'query' => null,
             'no_of_redirects' => 0,
             'alert' => '--',
             'geo' => $location,
-            'screen_resolution' => $screenResolution,
+            'query' => $query,
+            'advertiser_id'=> $advertiser,
+            'screen_resolution' => $screenResolution
         ]);
 
         $cahnnel->status = 'live';
         $cahnnel->save();
         $channelSearch->latency = microtime(true) - $startTime;
         $channelSearch->save();
-// return 1;
         $channelSearchId = $channelSearch->id;
         return view('save-screen-resolution', compact('channelSearchId'));
     }

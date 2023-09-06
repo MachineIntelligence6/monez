@@ -42,4 +42,9 @@ class ChannelSearch extends Model
     {
         return $this->belongsTo(Feed::class, 'feed_id');
     }
+
+    public function advertiser()
+    {
+        return $this->belongsTo(Advertiser::class, 'advertiser_id');
+    }
 }
