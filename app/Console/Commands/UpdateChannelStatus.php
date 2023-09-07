@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Channel;
 use App\ChannelSearch;
+use App\Feed;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -30,14 +31,23 @@ class UpdateChannelStatus extends Command
      */
     public function handle()
     {
-        foreach (Channel::all() as $key => $channel) {
+        $startOfDay = Carbon::now()->startOfDay();
+        $endOfDay = Carbon::now()->endOfDay();
 
-            $channelSearch = ChannelSearch::where('channel_id', $channel->id)
+        foreach (Channel::all() as $key => $channel) {
+            $channelSearches = ChannelSearch::where('channel_id', $channel->id)
             ->whereBetween('created_at', [Carbon::now()->subDay(), Carbon::now()])->get();
-            if($channelSearch){
+            if($channelSearches){
                 $channel->status = 'pause';
                 $channel->save();
             }
+        }
+
+        $feeds = Feed::where('last_activity_at', '=<', $startOfDay)->get();
+
+        foreach ($feeds as $key => $feed) {
+            $feed->status = 'pause';
+            $feed->save();
         }
         return Command::SUCCESS;
     }
