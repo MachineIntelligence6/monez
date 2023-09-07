@@ -6,11 +6,13 @@ use App\Channel;
 use App\ChannelIntegrationGuide;
 use App\ChannelPath;
 use App\ChannelSearch;
+use App\Events\ChannelSearched;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Publisher;
 use App\Feed;
 use App\Listeners\ChannelStateChanged;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Agent\Facades\Agent;
 
@@ -444,7 +446,7 @@ class ChannelsController extends Controller
 
     public function channelSearched(Request $request){
         // return $request->userAgent();
-        return $request->header('referer');
+        // return $request->header('referer');
         if($request->has('query')){
             $query =  $request->all()['query'];
         } else {
@@ -497,7 +499,10 @@ class ChannelsController extends Controller
             'screen_resolution' => $screenResolution
         ]);
 
+        ChannelSearched::dispatch($feeds);
+
         $cahnnel->status = 'live';
+        $cahnnel->last_activity_at = Carbon::now();
         $cahnnel->save();
         $channelSearch->latency = microtime(true) - $startTime;
         $channelSearch->save();
