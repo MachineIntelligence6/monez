@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Feed;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,6 +27,14 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('channel:pause-if-no-search')->dailyAt('23:59');
+        $schedule->call(function () {
+            foreach (Feed::all() as $key => $feed) {
+                $feed->daily_search_cap_count = 0;
+                $feed->daily_ip_cap_count = 0;
+                $feed->save();
+            }
+
+        })->dailyAt('23:59');
         // $schedule->command('channel:pause-if-no-search')->everyMinute();
     }
 

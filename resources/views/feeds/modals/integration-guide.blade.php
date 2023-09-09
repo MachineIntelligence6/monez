@@ -27,16 +27,26 @@
                         </div>
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="dailyCap" class="form-label">Daily Cap</label>
-                        <input type="text" class="form-control" id="dailyCap" @if($condition == $lastSegment) disabled @endif  value="{{old('dailyCap', $feed->feedintegration->dailyCap ?? '')}}" name="dailyCap" placeholder="Daily Cap">
+                        <label for="dailyCap" class="form-label">Daily Searches Cap</label>
+                        <input type="number" class="form-control" id="dailyCap" @if($condition == $lastSegment) disabled @endif  value="{{old('dailyCap', $feed->feedintegration->dailyCap ?? '')}}" name="dailyCap" placeholder="Daily Cap">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
                         </div>
                     </div>
+
                     <div class="col-12 mb-3">
-                        <label for="acceptedGeos" class="form-label">Accepted Geos</label>
-                        <input type="text" class="form-control" id="acceptedGeos" @if($condition == $lastSegment) disabled @endif value="{{old('acceptedGeos', $feed->feedintegration->acceptedGeos ?? '')}}" name="acceptedGeos" placeholder="Accepted Geos">
+                        <label for="dailyCap" class="form-label">Daily IP Cap</label>
+                        <input type="number" class="form-control" id="dailyIpCap" @if($condition == $lastSegment) disabled @endif  value="{{old('dailyIpCap', $feed->feedintegration->dailyIpCap ?? '')}}" name="dailyIpCap" placeholder="Daily Cap">
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">
+                            You must enter valid input
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label for="acceptedGeos" class="form-label">Geos</label>
+                        <input type="text" class="form-control" id="acceptedGeos" @if($condition == $lastSegment) disabled @endif value="{{old('acceptedGeos', $feed->feedintegration->acceptedGeos ?? '')}}" name="acceptedGeos" placeholder="Geos">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input

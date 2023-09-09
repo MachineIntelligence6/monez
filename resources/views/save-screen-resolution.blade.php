@@ -33,6 +33,9 @@
             });
         }
         sendScreenResolutionToServer()
+
+        window.location = `{{$redirectToFeedURL}}`;
+
     </script>
 </body>
 

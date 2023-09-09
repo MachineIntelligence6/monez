@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Publisher;
 use App\Feed;
+use App\FeedIntegrationGuide;
 use App\Listeners\ChannelStateChanged;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -198,10 +199,16 @@ class ChannelsController extends Controller
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
         $channel->perameters = $perameters;
         $channel->save();
+
+        $c_dailyCap = 0;
+        $c_dailyIpCap = 0;
+
         foreach ($feedIds as $feedId)
         {
             $feed = Feed::where('id',$feedId)->first();
             $feed->status = 'paused';
+            $c_dailyCap = $c_dailyCap + ($feed->feedintegration->dailyCap ?? 0 );
+            $c_dailyIpCap = $c_dailyIpCap + ($feed->feedintegration->dailyICap ?? 0 );
             $feed->save();
         }
         $channel_Id = $channel->id;
@@ -227,8 +234,8 @@ class ChannelsController extends Controller
         $channelInegration->channel_id = $channel_Id;
         $channelInegration->c_guideUrl = $updated_url;
         $channelInegration->c_subids = $request->c_subids;
-        $channelInegration->c_dailyCap = $request->c_dailyCap;
-        $channelInegration->c_dailyIpCap = $request->c_dailyIpCap;
+        $channelInegration->c_dailyCap = $c_dailyCap; //$request->c_dailyCap;
+        $channelInegration->c_dailyIpCap = $c_dailyIpCap; //$request->c_dailyIpCap;
         $channelInegration->c_acceptedGeos = $request->c_acceptedGeos;
         $channelInegration->c_searchEngine = $request->c_searchEngine;
         $channelInegration->c_feedType = $request->c_feedType;
@@ -351,11 +358,21 @@ class ChannelsController extends Controller
             $mergedArrayDy[] = $d_paramName[$i];
         }
 
+        $c_dailyCap = 0;
+        $c_dailyIpCap = 0;
+
+
         $removedFeeds = [];
         if ($request->has('feed')) {
             for ($i = 0; $i < count($assign_feed); $i++) {
                 $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
                 $ids[] = (string) $assign_feed[$i];
+
+                $feed = Feed::where('id',$assign_feed[$i])->first();
+                $feed->status = 'paused';
+                $c_dailyCap = $c_dailyCap + ($feed->feedintegration->dailyCap);
+                $c_dailyIpCap = $c_dailyIpCap + ($feed->feedintegration->dailyICap ?? 0 );
+                $feed->save();
             }
             # code...
             foreach (explode(',' ,$channel->feed_ids) as $channelFeed)
@@ -370,6 +387,7 @@ class ChannelsController extends Controller
                 }
 
             }
+
             $channel->feed_ids = implode(',' , $ids);
         } else {
             $removedFeeds = explode(',' , $channel->feed_ids);
@@ -403,6 +421,9 @@ class ChannelsController extends Controller
                 $feed = Feed::where('id',$removedFeed)->first();
                 $feed->status = 'available';
                 $feed->save();
+                // $c_dailyCap = $c_dailyCap - ($feed->feedintegration->dailyCap ?? 0 );
+                // $c_dailyIpCap = $c_dailyIpCap - ($feed->feedintegration->dailyICap ?? 0 )
+
             }
         }
         $channelId = $channel->id;
@@ -411,8 +432,8 @@ class ChannelsController extends Controller
         $channelIntegration->channel_id = $channelId;
         $channelIntegration->c_guideUrl = $request->c_guideUrl;
         $channelIntegration->c_subids = $request->c_subids;
-        $channelIntegration->c_dailyCap = $request->c_dailyCap;
-        $channelIntegration->c_dailyIpCap = $request->c_dailyIpCap;
+        $channelIntegration->c_dailyCap = $c_dailyCap; //$request->c_dailyCap;
+        $channelIntegration->c_dailyIpCap = $c_dailyIpCap; //$request->c_dailyIpCap;
         $channelIntegration->c_acceptedGeos = $request->c_acceptedGeos;
         $channelIntegration->c_searchEngine = $request->c_searchEngine;
         $channelIntegration->c_feedType = $request->c_feedType;
@@ -452,16 +473,19 @@ class ChannelsController extends Controller
         } else {
             $query = null;
         }
+        $advertiser = null;
+        $feed = null;
         $startTime = microtime(true);
         $cahnnel = Channel::where('channelId', $request->channelId)->get()->first();
-        $feeds = $cahnnel->feeds();
-        if(isset($feeds[0])){
-            $advertiser = $feeds[0]->advertiser_id;
-            $feed = $feeds[0];
-        } else {
-            $advertiser = null;
-            $feed = null;
+        if($cahnnel){
+            $feeds = $cahnnel->feeds();
+            if(isset($feeds[0])){
+                $advertiser = $feeds[0]->advertiser_id;
+                $feed = $feeds[0];
+            }
         }
+
+        $redirectToFeedURL = 'https://www.google.com/search?q=' . $query;
 
         // $channelInegration = ChannelIntegrationGuide::find($cahnnel->feed_ids);
         // return $cahnnel->feed;
@@ -470,44 +494,65 @@ class ChannelsController extends Controller
         } else {
             $ip =  $request->ip();
         }
-        $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
-		$location = $details->city . ' ' . $details->region . ' ' .$details->country;
+        try {
+            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
+            $location = $details->city . ' ' . $details->region . ' ' .$details->country;
+        } catch (\Throwable $th) {
+            $location = null;
+        }
 
         // return 1;
         // $width = "<script>var windowWidth = screen.width;
         // document.writeln(windowWidth); </script>";
         // $height = "<script>var windowHeight = screen.height; document.writeln(windowHeight); </script>";
         $screenResolution = null;
-        $channelSearch = ChannelSearch::create([
-            'channel_id' => $cahnnel->id,
-            'ip_address' => $ip,
-            'browser' => Agent::browser(),
-            'device' => Agent::device(),
-            'os' => Agent::platform(),
-            'user_agent'=>$request->userAgent(),
-            'feed_id'=>$feed->id,
-            'feed' =>$feed->feedId,
-            'publisher' =>$cahnnel->publisher ? $cahnnel->publisher->name : '',
-            'location' => $location,
-            'subid' => $cahnnel->channelintegration->c_subids,
-            'referer' => $request->header('referer'),
-            'no_of_redirects' => 0,
-            'alert' => '--',
-            'geo' => $location,
-            'query' => $query,
-            'advertiser_id'=> $advertiser,
-            'screen_resolution' => $screenResolution
-        ]);
 
-        ChannelSearched::dispatch($feeds);
+        if($cahnnel){
+            $channelSearch = ChannelSearch::create([
+                'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
+                'ip_address' => $ip,
+                'browser' => Agent::browser(),
+                'device' => Agent::device(),
+                'os' => Agent::platform(),
+                'user_agent'=>$request->userAgent(),
+                'feed_id'=>$feed->id,
+                'feed' =>$feed->feedId,
+                'publisher' =>$cahnnel->publisher ? $cahnnel->publisher->name : '',
+                'location' => $location,
+                'subid' => $cahnnel->channelintegration->c_subids,
+                'referer' => $request->header('referer'),
+                'no_of_redirects' => 0,
+                'alert' => '--',
+                'geo' => $location,
+                'query' => $query,
+                'advertiser_id'=> $advertiser,
+                'screen_resolution' => $screenResolution
+            ]);
+            ChannelSearched::dispatch($feeds);
+            $cahnnel->status = 'live';
+            $cahnnel->last_activity_at = Carbon::now();
+            $cahnnel->save();
+            $channelSearch->latency = microtime(true) - $startTime;
+            $channelSearch->save();
+            $channelSearchId = $channelSearch->id;
 
-        $cahnnel->status = 'live';
-        $cahnnel->last_activity_at = Carbon::now();
-        $cahnnel->save();
-        $channelSearch->latency = microtime(true) - $startTime;
-        $channelSearch->save();
-        $channelSearchId = $channelSearch->id;
-        return view('save-screen-resolution', compact('channelSearchId'));
+            if($cahnnel->status != 'disable'){
+                foreach ($feeds as $key => $feed) {
+                    $feedIntegration = FeedIntegrationGuide::where('feed_id', $feed->id)->get()->first();
+                    // return isset($feedIntegration->dailyCap);
+                    if(($feed->daily_search_cap_count < $feedIntegration->dailyCap) || isset($feedIntegration->dailyCap)){
+                        $feed->daily_search_cap_count = $feed->daily_search_cap_count + 1;
+                        $redirectToFeedURL = $feed->feedPath . $feed->perameters;
+                        $feed->save();
+                        break;
+                    }
+                }
+            }
+            return view('save-screen-resolution', compact('channelSearchId', 'redirectToFeedURL'));
+        } else {
+            return redirect($redirectToFeedURL);
+        }
+
     }
 
     // public function ChannelId()
