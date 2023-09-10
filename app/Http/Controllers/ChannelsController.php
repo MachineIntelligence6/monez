@@ -84,7 +84,7 @@ class ChannelsController extends Controller
             }
         }
 
-        $feeds = Feed::all();
+        $feeds = Feed::where('status', 'available')->get();
         $feedsIds = $feeds->pluck('id')->toArray();
         $assignedfeeds = Feed::whereIn('id', $ids)->get();
         $assignedfeedsIds = $assignedfeeds->pluck('id')->toArray();
@@ -468,7 +468,8 @@ class ChannelsController extends Controller
     public function channelSearched(Request $request){
         // return $request->userAgent();
         // return $request->header('referer');
-        if($request->has('query')){
+        // return $request->all();
+        if($request->filled('query')){
             $query =  $request->all()['query'];
         } else {
             $query = null;
@@ -548,7 +549,7 @@ class ChannelsController extends Controller
                     }
                 }
             }
-            return view('save-screen-resolution', compact('channelSearchId', 'redirectToFeedURL'));
+            return view('save-screen-resolution', compact('channelSearchId', 'query', 'redirectToFeedURL'));
         } else {
             return redirect($redirectToFeedURL);
         }
