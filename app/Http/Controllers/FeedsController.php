@@ -8,8 +8,11 @@ use App\Feed;
 use App\FeedIntegrationGuide;
 use App\Country;
 use App\Bank;
+use App\Channel;
+use App\ChannelIntegrationGuide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class FeedsController extends Controller
@@ -63,6 +66,7 @@ class FeedsController extends Controller
             'feedId'  => 'required',
             'feedPath' => 'required',
             'keywordParameter' => 'required',
+            'priorityScore' => 'numeric|min:1|max:10',
         ]);
         $spanValue = $request->input('spanValue');
         //feedid auto incr
@@ -81,6 +85,7 @@ class FeedsController extends Controller
         $feed = new Feed;
         $feed->advertiser_id = $request->advertiser;
         $feed->feedId =   $spanValue . $feed_id;
+        $feed->reportId =  $request->feedId;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
@@ -101,9 +106,26 @@ class FeedsController extends Controller
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
         }
+
+        $perameters = "/?";
+        for ($i = 0; $i < count($s_paramName); $i++) {
+
+            $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
+            $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
+        }
+        // $count = min(count($d_paramName), count($d_paramVal));
+        for ($i = 0; $i < count($d_paramName); $i++) {
+            $mergedArrayDy[] = $d_paramName[$i];
+            $perameters = $perameters . $d_paramName[$i] . '=<' . 'query' . '>';
+            if($i+1 != count($d_paramName)){
+                $perameters = $perameters . '&';
+            }
+        }
+
         $feed->staticParameters = json_encode($mergedArrayStat);
         $feed->dynamicParameters = json_encode($mergedArrayDy);
         // dd($feed);
+        $feed->perameters = $perameters;
         $feed->save();
         $feedId = $feed->id;
         $FeedInegration = new FeedIntegrationGuide;
@@ -111,6 +133,7 @@ class FeedsController extends Controller
         $FeedInegration->guideUrl = $request->feedUrl;
         $FeedInegration->subids = $request->subids;
         $FeedInegration->dailyCap = $request->dailyCap;
+        $FeedInegration->dailyIpCap = $request->dailyIpCap;
         $FeedInegration->acceptedGeos = $request->acceptedGeos;
         $FeedInegration->searchEngine = $request->searchEngine;
         $FeedInegration->feedType = $request->feedType;
@@ -154,7 +177,8 @@ class FeedsController extends Controller
     {
         $spanValue = $request->input('spanValue');
         $feed_id = $request->feedId;
-        $feed->feedId =   $spanValue . $feed_id;
+        // $feed->feedId =   $spanValue . $feed_id;
+        $feed->reportId =   $request->reportId;
         $feed->advertiser_id = $request->advertiser;
         $feed->advertiser_id = $request->advertiser;
         $feed->feedPath = $request->feedPath;
@@ -181,17 +205,35 @@ class FeedsController extends Controller
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
         }
+        $perameters = "/?";
+        for ($i = 0; $i < count($s_paramName); $i++) {
+
+            $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
+            $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
+        }
+        // $count = min(count($d_paramName), count($d_paramVal));
+        for ($i = 0; $i < count($d_paramName); $i++) {
+            $mergedArrayDy[] = $d_paramName[$i];
+            $perameters = $perameters . $d_paramName[$i] . '=<' . 'query' . '>';
+            if($i+1 != count($d_paramName)){
+                $perameters = $perameters . '&';
+            }
+        }
         $feed->staticParameters = json_encode($mergedArrayStat);
         $feed->dynamicParameters = json_encode($mergedArrayDy);
+
+        $feed->perameters = $perameters;
 
         $feed->update();
         $feedId = $feed->id;
 
         $feedIntegration = FeedIntegrationGuide::where('feed_id', $feedId)->firstOrFail();
-
         $feedIntegration->guideUrl = $request->guideUrl;
         $feedIntegration->subids = $request->subids;
+        $oldDailyCap = $feedIntegration->dailyCap;
+        $oldDailyIpCap = $feedIntegration->dailyIpCap;
         $feedIntegration->dailyCap = $request->dailyCap;
+        $feedIntegration->dailyIpCap = $request->dailyIpCap;
         $feedIntegration->acceptedGeos = $request->acceptedGeos;
         $feedIntegration->searchEngine = $request->searchEngine;
         $feedIntegration->feedType = $request->feedType;
@@ -202,6 +244,21 @@ class FeedsController extends Controller
         $feedIntegration->otherRequirements = $request->otherRequirements;
 
         $feedIntegration->update();
+
+        foreach (Channel::all() as $key => $channel) {
+            # code..
+            foreach (explode(',' ,$channel->feed_ids) as $channelFeedId)
+            {
+                if ((int)$channelFeedId == $feed->id) {
+                    // return $feedIntegration->dailyCap;
+                    $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channel->id)->firstOrFail();
+                    Log::info('channelIntegration = ' . $channelIntegration->c_dailyCap . ' - ' . $feedIntegration->dailyCap . ' + '.$request->dailyCap);
+                    $channelIntegration->c_dailyCap = ($channelIntegration->c_dailyCap - $oldDailyCap) + $request->dailyCap; //$request->c_dailyCap;
+                    $channelIntegration->c_dailyIpCap = ($channelIntegration->c_dailyIpCap - $oldDailyIpCap) + $request->dailyIpCap;
+                    $channelIntegration->save();
+                }
+            }
+        }
         return redirect()->route('feeds.index')->with('success', 'Feed Form Data Has Been Updated Successfuly:');
     }
 
@@ -279,5 +336,5 @@ class FeedsController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    
+
 }

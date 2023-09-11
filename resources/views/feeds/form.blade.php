@@ -53,7 +53,7 @@
         @else
         <div class="col-md-4">
             <div class="mb-3">
-                <label for="feedId" class="form-label">Report ID</label><label class="text-danger">*</label>
+                <label for="feedId" class="form-label">Feed ID</label><label class="text-danger">*</label>
                 <div class="input-group input-group-merge">
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -62,7 +62,27 @@
                         </div>
 
                     </div>
-                    <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="feedId" value="{{$partsecond}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required />
+                    <input type="text" disabled class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="feedId" value="{{$partsecond}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required />
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">
+                        You must enter valid input
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label for="reportId" class="form-label">Report ID</label><label class="text-danger">*</label>
+                <div class="input-group input-group-merge">
+                    {{-- <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span id="spanValue">{{$partfirst}}</span>
+                            <input type="hidden" name="spanValue" value="{{$partfirst}}">
+                        </div>
+
+                    </div> --}}
+                    <input type="text" class="form-control" @if($condition==$lastSegment) disabled @endif id="feedId" name="reportId" value="{{$feed->reportId}}" data-check-unique="oninput" data-invalid-message="Feed ID already registered." data-unique-path="{{ route('check.unique.feedid') }}" placeholder="Enter Feed ID" required />
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">
                         You must enter valid input
@@ -172,7 +192,7 @@
         <div class="col-md-4 mb-3">
             <label for="priorityScore" class="form-label">Feed Priority Score</label>
 
-            <input type="number" class="form-control" id="priorityScore" @if($condition==$lastSegment) disabled @endif value="{{old('priorityScore', $feed->priorityScore ?? '')}}" name="priorityScore" placeholder="Enter Priority Score">
+            <input type="number" min="1" max="10" class="form-control" id="priorityScore" @if($condition==$lastSegment) disabled @endif value="{{old('priorityScore', $feed->priorityScore ?? '')}}" name="priorityScore" placeholder="Enter Priority Score">
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input
