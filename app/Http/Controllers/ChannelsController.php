@@ -538,10 +538,11 @@ class ChannelsController extends Controller
             $channelSearchId = $channelSearch->id;
 
             if($cahnnel->status != 'disable'){
-                foreach ($feeds as $key => $feed) {
-                    $feedIntegration = FeedIntegrationGuide::where('feed_id', $feed->id)->get()->first();
+                foreach ($feeds as $key => $feedTemp) {
+                    $feedIntegration = FeedIntegrationGuide::where('feed_id', $feedTemp->id)->get()->first();
                     // return isset($feedIntegration->dailyCap);
-                    if(($feed->daily_search_cap_count < $feedIntegration->dailyCap) || isset($feedIntegration->dailyCap)){
+                    if(($feedTemp->daily_search_cap_count < $feedIntegration->dailyCap) || isset($feedIntegration->dailyCap)){
+                        $feed = Feed::find($feedTemp->id);
                         $feed->daily_search_cap_count = $feed->daily_search_cap_count + 1;
                         $redirectToFeedURL = $feed->feedPath . $feed->perameters;
                         $feed->save();
@@ -549,6 +550,7 @@ class ChannelsController extends Controller
                     }
                 }
             }
+            // return $redirectToFeedURL;
             return view('save-screen-resolution', compact('channelSearchId', 'query', 'redirectToFeedURL'));
         } else {
             return redirect($redirectToFeedURL);
