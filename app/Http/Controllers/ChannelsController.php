@@ -419,8 +419,11 @@ class ChannelsController extends Controller
             foreach ($removedFeeds as $removedFeed)
             {
                 $feed = Feed::where('id',$removedFeed)->first();
-                $feed->status = 'available';
-                $feed->save();
+                if($feed){
+
+                    $feed->status = 'available';
+                    $feed->save();
+                }
                 // $c_dailyCap = $c_dailyCap - ($feed->feedintegration->dailyCap ?? 0 );
                 // $c_dailyIpCap = $c_dailyIpCap - ($feed->feedintegration->dailyICap ?? 0 )
 
@@ -466,11 +469,12 @@ class ChannelsController extends Controller
     }
 
     public function channelSearched(Request $request){
-        // return $request->userAgent();
-        // return $request->header('referer');
-        // return $request->all();
+        // dd($request->getUri());
         if($request->filled('query')){
             $query =  $request->all()['query'];
+            if(strpos($request->getUri(), "<query>") !== false){
+                $query = null;
+            }
         } else {
             $query = null;
         }
@@ -550,7 +554,6 @@ class ChannelsController extends Controller
                     }
                 }
             }
-            // return $redirectToFeedURL;
             return view('save-screen-resolution', compact('channelSearchId', 'query', 'redirectToFeedURL'));
         } else {
             return redirect($redirectToFeedURL);

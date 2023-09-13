@@ -2,6 +2,7 @@
 
 use App\Channel;
 use App\ChannelPath;
+use App\Feed;
 use App\TeamMember;
 use Illuminate\Database\Seeder;
 use App\User;
@@ -44,6 +45,20 @@ class DatabaseSeeder extends Seeder
             $teamMember->save();
 
         }
+
+        $feed = new Feed();
+        // $feed->advertiser_id = $request->advertiser;
+        $feed->feedId =   'F1_fallback';
+        $feed->reportId =   'F1_fallback';
+        // $feed->reportId =  $request->feedId;
+        $feed->feedPath = 'https://www.google.com';
+        // $feed->keywordParameter = $request->keywordParameter;
+        // $feed->priorityScore = $request->priorityScore;
+        // $feed->comments = $request->comments;
+        $feed->status = 'disabled';
+        $feed->state = 'enabled';
+        $feed->is_default = true;
+        $feed->save();
 
     }
 }

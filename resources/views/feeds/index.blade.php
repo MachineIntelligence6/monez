@@ -83,11 +83,11 @@
                                     </td>
 
                                     <td>
-                                        <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
 
                                         @if ($feed->is_default)
                                         <a class="btn bg-yellow text-white">Fallback Feed</a>
                                         @else
+                                        <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
                                             @if(isset($feed->channel) && auth()->user()->role !== 'Admin')
                                             @else
                                                 @if($feed->state=='disabled')
