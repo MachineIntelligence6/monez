@@ -69,25 +69,7 @@
                     </div>
                     @endforeach
                     @else
-                    <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="paramName" name="dy_paramName[]" placeholder="Enter Parameter Name" />
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" style="border: none;" id="paramValue" name="dy_paramValue[]" disabled placeholder="User entered value" />
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div>
-                        <div class="col-1">
-                            <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
-                        </div>
-                    </div>
+                   
                     @endif
                 </div>
             </div>
