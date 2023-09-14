@@ -299,14 +299,16 @@ class FeedsController extends Controller
 
     public function disable(Feed $feed)
     {
-
         if (auth()->user()->role === 'Admin') {
             $feed->state = 'disabled';
             $feed->status = 'disabled';
             $feed->save();
             $channel = $feed->channel()->first();
-            $channel->feed_ids = Null;
-            $channel->save();
+            if($channel!= Null)
+            {
+                $channel->feed_ids = NULL;
+                $channel->save();
+            }
         }
 
         return redirect()->back();
