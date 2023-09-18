@@ -12,6 +12,25 @@ use Laravel\Dusk\Browser;
 
 class RedirectTestController extends Controller
 {
+    public function performTest(Request $request){
+        $url = $request->input('feedUrl');
+
+        $response = Http::post(config('services.redirect-app.base_url') . "/redirect-history", [
+            'url'=>$url,
+        ]);
+        $request->flash();
+        $redirects = $response->json();
+        $count = count($redirects);
+        $splitedString = explode('/', $redirects[count($redirects)-1]['url']);
+        $result = $splitedString[0] . '//' . $splitedString[2];
+        return view('feeds.redirect-test', compact('count', 'result', 'redirects'));
+        // redirect()->back()->with([
+        //     'count'=>count($redirects),
+        //     'result'=>$redirects[count($redirects)-1]['url']
+        // ]);
+        // dd($response->json());
+    }
+
     public function search1(Request $request)
     {
         $url = $request->input('feedUrl');
