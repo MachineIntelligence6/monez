@@ -31,7 +31,8 @@ class FeedsController extends Controller
 
     public function redirectsTest()
     {
-        return view("feeds.redirect-test");
+        $redirects = [];
+        return view("feeds.redirect-test", compact('redirects'));
     }
 
     /**
