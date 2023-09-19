@@ -173,7 +173,8 @@ class RedirectTestController extends Controller
      */
     public function show()
     {
-        return view("feeds.redirect-test");
+        $redirects = [];
+        return view("feeds.redirect-test", compact('redirects'));
     }
 
     /**
