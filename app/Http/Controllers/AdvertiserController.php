@@ -58,7 +58,7 @@ class AdvertiserController extends Controller
      */
     public function store(Request $request)
     {
-        
+
        /* $validatedData = $request->validate([
             //'billing_email' => 'required',
             'payoneer' => 'nullable',
@@ -74,9 +74,9 @@ class AdvertiserController extends Controller
             'bank_currency' => 'nullable',
         ]);
         */
-        
+
         // as other section removed now we store and validate contact inof here along with putting default values
-        
+
         $validatedData = $request->validate([
             'acc_mng_first_name' => 'required',
             'acc_mng_last_name' => 'required',
@@ -98,7 +98,7 @@ class AdvertiserController extends Controller
         $advertiser->payment_terms= config('constant.PAYMENT_TERMS_DEFAULT_VALUE'); // as discussed for default
         $advertiser->reporting_email=$advertiser->account_email;
         $advertiser->billing_email = $advertiser->account_email;
-       
+
 
         // $advertiser->report_coloumns = $advertiser->report_coloumns;
 
@@ -129,7 +129,7 @@ class AdvertiserController extends Controller
             'team_member_id' => 'required',
             'reg_id' => 'nullable',
             'vat_id' => 'nullable',
-            
+
             'website_url' => 'required|url',
             'account_email' => 'required|unique:advertisers,account_email',
             'account_email' => 'required|unique:users,email',
@@ -143,7 +143,7 @@ class AdvertiserController extends Controller
             //'document_files' => 'nullable|max:10240',
             //'io_files' => 'nullable|max:10240',
         ]);
-       
+
         $advertiser = new Advertiser;
         $advertiser->advertiser_id = $request->advertiser_id;
         $advertiser->company_name = $request->company_name;
@@ -259,8 +259,8 @@ class AdvertiserController extends Controller
         //     ];
         //     session()->put('reportColoumns', $reportColoumns);
         // } else {
-        
-        
+
+
         $validatedData = $request->validate([
             'report_type' => 'nullable',
             'api_key' => 'nullable',
@@ -296,7 +296,7 @@ class AdvertiserController extends Controller
             'paid_clicks' => $request->paidClicksColValue,
             'revenue' => $request->revenueColValue,
         ]);
-       
+
         session()->put('advertiser', $advertiser);
         // }
     }
@@ -464,7 +464,7 @@ class AdvertiserController extends Controller
                 $message = "Contact";
                 break;
             case 'operationinfo':
-               
+
                 $request->validate([
                     'revenue_share' => 'required',
                     'payment_terms' => 'required',
@@ -477,7 +477,7 @@ class AdvertiserController extends Controller
                     'password'  => 'nullable',
                     'gdrive_email'  => 'nullable',
                     'gdrive_password'  => 'nullable',
-                    * 
+                    *
                     */
                 ]);
 
@@ -494,7 +494,7 @@ class AdvertiserController extends Controller
                 // $advertiser->password = $request->password;
                 // $advertiser->gdrive_email = $request->gdrive_email;
                 // $advertiser->gdrive_password = $request->gdrive_password;
-                
+
                  if ($request->hasFile('document_files')) {   //moved to operational info
                     $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
@@ -513,7 +513,7 @@ class AdvertiserController extends Controller
                     }
                     $advertiser->io_path = json_encode($ioFilePaths);
                 }
-                
+
                 if (session()->has('advertiser')){
                     $advertiserInSession = $request->session()->get('advertiser');
                     //check if bank details exist or not
@@ -527,7 +527,7 @@ class AdvertiserController extends Controller
                         $advertiser->gdrive_password = $advertiserInSession->gdrive_password;
                         $advertiser->report_coloumns=$advertiserInSession->report_coloumns;
                     }
-                    
+
                     session()->forget('advertiser.report_type');
                     session()->forget('advertiser.api_key');
                     session()->forget('advertiser.dashboard_path');
@@ -537,7 +537,7 @@ class AdvertiserController extends Controller
                     session()->forget('advertiser.gdrive_password');
                     session()->forget('advertiser.report_coloumns');
                 }
-               
+
                 $message = "Operationnal";
                 break;
             case 'financeinfo':
@@ -578,7 +578,7 @@ class AdvertiserController extends Controller
                         $advertiser->bank_swift = $advertiserInSession->bank_swift;
                         $advertiser->bank_currency = $advertiserInSession->bank_currency;
                     }
-                    
+
                     session()->forget('advertiser.bank_beneficiary_name');
                     session()->forget('advertiser.bank_beneficiary_address');
                     session()->forget('advertiser.bank_name');

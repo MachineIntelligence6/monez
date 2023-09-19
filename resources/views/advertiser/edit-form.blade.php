@@ -341,13 +341,13 @@
             <div class="col-md-6 h-100">
                 <div class="mb-3">
                     <label for="io" class="form-label">IO</label>
-                    <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
+                    <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple/><br>
                 </div>
             </div>
             <div class="col-md-6 h-100">
                 <div class="mb-3">
                     <label for="documents" class="form-label">Documents</label>
-                    <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" /><br>
+                    <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple /><br>
                 </div>
             </div>
         </div>

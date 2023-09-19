@@ -48,7 +48,7 @@
                                     </th>
                                     <th>Name</th>
                                     <th style="width: 100%;">Email</th>
-                                    <th>Role</th>
+{{--                                    <th>Role</th>--}}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -64,10 +64,10 @@
                                     </td>
                                     <td>{{ $teamMember->name }}</td>
                                     <td style="width: 100%;">{{ $teamMember->email }}</td>
-                                    <td>{{ $teamMember->role }}</td>
+{{--                                    <td>{{ $teamMember->role }}</td>--}}
                                     <td>
                                         <span class="d-inline-flex" style="gap: 5px;">
-                                            <a class="btn bg-secondary text-white" href="{{ route('team-members.view', $teamMember->id) }}">View
+                                            <a class="mx-2" href="{{ route('team-members.view', $teamMember->id) }}">View
                                                 Info</a>
                                             {{-- @if (count($teamMember->advertisers) > 0 || count($teamMember->publishers) > 0)
                                                         @else
@@ -82,8 +82,8 @@
                                             @endif --}}
                                             @if (count($teamMember->advertisers) > 0 || count($teamMember->publishers) > 0)
                                             @else
-                                            <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal-{{$teamMember->id}}">
-                                                delete
+                                            <button type="submit" class="text-danger mx-2" data-toggle="modal" data-target="#exampleModal-{{$teamMember->id}}" style="border: none; background: inherit;">
+                                                Delete
                                             </button>
                                             <div class="modal fade" id="exampleModal-{{$teamMember->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
