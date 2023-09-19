@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function (){
 
     Route::prefix('redirects-test')->name('redirects-test.')->group(function () {
         Route::get('/', [App\Http\Controllers\RedirectTestController::class, 'show'])->name('show');
-        Route::post('/search', [App\Http\Controllers\RedirectTestController::class, 'search'])->name('search');
+        Route::post('/search', [App\Http\Controllers\RedirectTestController::class, 'performTest'])->name('search');
     });
 
     Route::get('/mark-message-read/{id}', [App\Http\Controllers\SettingController::class, 'markCustomMessageRead'])->name('mark-message-read');
