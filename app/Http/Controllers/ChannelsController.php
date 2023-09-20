@@ -499,11 +499,14 @@ class ChannelsController extends Controller
         } else {
             $ip =  $request->ip();
         }
+
         try {
             $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
             $location = $details->city . ' ' . $details->region . ' ' .$details->country;
+            $geo = $details->country;
         } catch (\Throwable $th) {
             $location = null;
+            $geo = '--';
         }
 
         // return 1;
@@ -528,7 +531,7 @@ class ChannelsController extends Controller
                 'referer' => $request->header('referer'),
                 'no_of_redirects' => 0,
                 'alert' => '--',
-                'geo' => $location,
+                'geo' => $geo,
                 'query' => $query,
                 'advertiser_id'=> $advertiser,
                 'screen_resolution' => $screenResolution
@@ -551,9 +554,12 @@ class ChannelsController extends Controller
                         $redirectToFeedURL = $feed->feedPath . $feed->perameters;
                         $feed->save();
                         break;
+
                     }
                 }
             }
+
+            $redirectToFeedURL = str_replace("<query>", $query, $redirectToFeedURL);
             return view('save-screen-resolution', compact('channelSearchId', 'query', 'redirectToFeedURL'));
         } else {
             return redirect($redirectToFeedURL);
