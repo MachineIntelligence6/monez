@@ -10,7 +10,7 @@ class ReportsController extends Controller
 {
     public function activity()
     {
-        $channelSearchs = ChannelSearch::all();
+        $channelSearchs = ChannelSearch::orderBy('created_at', 'DESC')->get();
         return view("reports.activity", compact('channelSearchs'));
     }
 

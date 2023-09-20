@@ -33,9 +33,10 @@
             });
         }
         sendScreenResolutionToServer()
-        var query = `{{$query}}`
+        var query = @json($query);
+        var redirectToFeedURL = @json($redirectToFeedURL);
         if(query){
-            window.location = `{{$redirectToFeedURL}}`;
+            window.location = redirectToFeedURL;
         } else {
             alert('Enter Keywords !')
         }
