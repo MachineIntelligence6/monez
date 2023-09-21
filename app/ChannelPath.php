@@ -14,4 +14,9 @@ class ChannelPath extends Model
         'is_default',
         'status',
     ];
+
+    public function channels()
+    {
+        return $this->hasMany(Channel::class);
+    }
 }

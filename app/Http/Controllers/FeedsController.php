@@ -43,10 +43,12 @@ class FeedsController extends Controller
     public function create()
     {
         $advertisers = Advertiser::all();
-        $advertiserIds = $advertisers->pluck('id')->toArray();
-        $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
-        $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
-        $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
+
+//        $advertiserIds = $advertisers->pluck('id')->toArray();
+//        $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)->get();
+//        $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
+//        $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
+
         // $latestFeed = Feed::latest()->first();
         // if ($latestFeed) {
         //     $feedId = $latestFeed->feedId;
@@ -57,7 +59,7 @@ class FeedsController extends Controller
         //     $newId = 'F1_';
         // }
         // $feedId = $newId;
-        return view('feeds.create', compact('availableAdvertisers'));
+        return view('feeds.create', compact('advertisers'));
     }
 
     public function store(Request $request)
@@ -164,14 +166,14 @@ class FeedsController extends Controller
         $banks = Bank::all();
         $selectedAdv = $feed->advertiser_id;
         $advertisers = Advertiser::all();
-        $advertiserIds = $advertisers->pluck('id')->toArray();
-        $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)
-            ->whereNotIn('advertiser_id', [$selectedAdv])
-            ->get();
+//        $advertiserIds = $advertisers->pluck('id')->toArray();
+//        $assignedAdvertisers = Feed::whereIn('advertiser_id', $advertiserIds)
+//            ->whereNotIn('advertiser_id', [$selectedAdv])
+//            ->get();
         // dd($assignedAdvertisers);
-        $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
-        $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
-        return view('feeds.create', compact('feed', 'availableAdvertisers', 'advertisers', 'selectedAdv', 'countries', 'banks', 'partfirst', 'partsecond'));
+//        $assignedAdvertiserIds = $assignedAdvertisers->pluck('advertiser_id')->toArray();
+//        $availableAdvertisers = Advertiser::whereNotIn('id', $assignedAdvertiserIds)->get();
+        return view('feeds.create', compact('feed', 'advertisers', 'selectedAdv', 'countries', 'banks', 'partfirst', 'partsecond'));
     }
 
     public function update(Request $request, Feed $feed)

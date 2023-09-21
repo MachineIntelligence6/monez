@@ -60,10 +60,10 @@ class ChannelsController extends Controller
     public function create()
     {
         $publishers = Publisher::all();
-        $publisherIds = $publishers->pluck('id')->toArray();
-        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
-        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
-        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
+//        $publisherIds = $publishers->pluck('id')->toArray();
+//        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
+//        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
+//        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
         $channelpaths = ChannelPath::all();
         // $channelpathIds = $channelpaths->pluck('id')->toArray();
         // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)->get();
@@ -112,7 +112,7 @@ class ChannelsController extends Controller
         // $channelId = $newId;
         // dd($channelId);
         // dd($channelId,$availablefeeds);
-        return view('channels.create', compact('availablePublishers', 'channelpaths', 'feeds'));
+        return view('channels.create', compact('publishers', 'channelpaths', 'feeds'));
     }
 
     public function store(Request $request)
@@ -262,13 +262,13 @@ class ChannelsController extends Controller
 
         $selectedpublisher = $channel->publisher_id;
         $selectedchannelpath = $channel->channel_path_id;
-        $publisherIds = $publishers->pluck('id')->toArray();
+//        $publisherIds = $publishers->pluck('id')->toArray();
         // $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
-        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)
-            ->whereNotIn('publisher_id', [$selectedpublisher])
-            ->get();
-        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
-        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
+//        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)
+//            ->whereNotIn('publisher_id', [$selectedpublisher])
+//            ->get();
+//        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
+//        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
         $feedids = $channel->feed_ids;
         $feed_ids_array = json_decode($feedids, true);
         $feeds = Feed::all();
@@ -279,7 +279,7 @@ class ChannelsController extends Controller
         //     ->get();
         // $assignedchannelpathIds = $assignedchannelpaths->pluck('channel_path_id')->toArray();
         // $availablechannelpaths = ChannelPath::whereNotIn('id', $assignedchannelpathIds)->get();
-        return view('channels.create', compact('channel', 'selectedpublisher', 'selectedchannelpath', 'channelpaths', 'availablePublishers', 'feeds', 'channelId'));
+        return view('channels.create', compact('channel', 'selectedpublisher', 'selectedchannelpath', 'channelpaths', 'publishers', 'feeds', 'channelId'));
     }
 
     public function edit(Channel $channel)
@@ -290,13 +290,13 @@ class ChannelsController extends Controller
 
         $selectedpublisher = $channel->publisher_id;
         $selectedchannelpath = $channel->channel_path_id;
-        $publisherIds = $publishers->pluck('id')->toArray();
+//        $publisherIds = $publishers->pluck('id')->toArray();
         // $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
-        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)
-            ->whereNotIn('publisher_id', [$selectedpublisher])
-            ->get();
-        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
-        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
+//        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)
+//            ->whereNotIn('publisher_id', [$selectedpublisher])
+//            ->get();
+//        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
+//        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
         $feedids = $channel->feed_ids;
         $feed_ids_array = json_decode($feedids, true);
         $feeds = Feed::all();
@@ -311,7 +311,7 @@ class ChannelsController extends Controller
         // $assignedchannelpathIds = $assignedchannelpaths->pluck('channel_path_id')->toArray();
         // $availablechannelpaths = ChannelPath::whereNotIn('id', $assignedchannelpathIds)->get();
         // dd($availablechannelpaths);
-        return view('channels.create', compact('channel', 'channelpaths', 'selectedchannelpath', 'selectedpublisher', 'availablePublishers', 'feeds', 'channelId'));
+        return view('channels.create', compact('channel', 'channelpaths', 'selectedchannelpath', 'selectedpublisher', 'publishers', 'feeds', 'channelId'));
     }
 
 

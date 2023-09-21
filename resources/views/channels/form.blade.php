@@ -39,7 +39,7 @@
             <label for="publisher" class="form-label">Publisher</label><label class="text-danger">*</label>
             <select class="form-control" @if($condition==$lastSegment) disabled @endif name="publisher" data-toggle="select2" required>
                 <option value="" selected>Select Publisher</option>
-                @foreach ($availablePublishers as $key => $publisher)
+                @foreach ($publishers as $key => $publisher)
                 <option value="{{ $publisher->id }}" @if (isset($selectedpublisher) && $publisher->id == $selectedpublisher) selected @endif>{{ $publisher->company_name }}</option>
 
                 @endforeach
@@ -173,7 +173,7 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="c_priorityScore" class="form-label">Channel Performance Score</label>
-            <input type="number" @if($condition==$lastSegment) disabled @endif class="form-control" id="priorityScore" value="{{old('c_priorityScore', $channel->c_priorityScore ?? '')}}" name="c_priorityScore" placeholder="Enter Channel Performance Score">
+            <input type="number" min="1" max="10" @if($condition==$lastSegment) disabled @endif class="form-control" id="priorityScore" value="{{old('c_priorityScore', $channel->c_priorityScore ?? '')}}" name="c_priorityScore" placeholder="Enter Channel Performance Score">
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">
                 You must enter valid input

@@ -54,8 +54,7 @@
                                             <label class="custom-control-label" for="customCheck1">&nbsp;</label>
                                         </div>
                                     </th> -->
-                                    <th>Publisher ID</th>
-                                    <th>Company / Legal Name</th>
+                                    <th>Publisher</th>
                                     <th>Website</th>
                                     <th>Account Email</th>
                                     <th>Account Manager</th>
@@ -67,11 +66,9 @@
                                 @foreach($publishers as $publisher)
                                 <tr>
                                     <td>
-                                        {{ $publisher->publisher_id }}
+                                        {{ $publisher->company_name}} {{ $publisher->publisher_id }}
                                     </td>
-                                    <td>
-                                        {{ $publisher->company_name}}
-                                    </td>
+
                                     <td>
                                         {{ $publisher->website_url }}
                                     </td>

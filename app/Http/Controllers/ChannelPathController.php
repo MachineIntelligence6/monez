@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 
 class ChannelPathController extends Controller
 {
-    
+
     public function index()
     {
-        $channelpaths = ChannelPath::orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC")->get();
+        $channelpaths = ChannelPath::with('channels')->orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC")->get();
         return view('settings.channelpaths.index',compact('channelpaths'));
     }
 

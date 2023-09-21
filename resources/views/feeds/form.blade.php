@@ -95,7 +95,7 @@
             <label for="advertiser" class="form-label">Advertiser</label><label class="text-danger">*</label>
             <select name="advertiser" class="form-control" @if($condition==$lastSegment) disabled @endif id="advertiserZ-dropdown" data-toggle="select2" required>
                 <option value="" selected>Select Advertiser</option>
-                @foreach ($availableAdvertisers as $key => $advertiser)
+                @foreach ($advertisers as $key => $advertiser)
                 <option value="{{ $advertiser->id }}" @if (isset($selectedAdv) && $advertiser->id == $selectedAdv) selected @endif>{{ $advertiser->company_name }}</option>
                 @endforeach
             </select>

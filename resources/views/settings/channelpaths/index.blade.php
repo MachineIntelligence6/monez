@@ -54,7 +54,7 @@
                                 @if ($channelpath->is_default)
                                         <a class="btn bg-yellow text-white">Default</a>
                                         @else
-                                            @if(isset($channelpath->channel))
+                                            @if($channelpath->channels->count() > 0)
                                             @else
 {{--                                                @if($channelpath->status)--}}
 {{--                                                <a class="text-danger mx-2" href="{{ route('channelpaths.disable', ['channelpath' => $channelpath]) }}" value="0">Disable</a>--}}
