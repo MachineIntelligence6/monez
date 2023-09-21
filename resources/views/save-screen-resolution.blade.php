@@ -11,34 +11,38 @@
 <body>
     @csrf
     <script>
-        // JavaScript code in your web page
-        function sendScreenResolutionToServer() {
-            var screenWidth = window.screen.width;
-            var screenHeight = window.screen.height;
-            var channelSearchId = `{{$channelSearchId}}`
-            // Send the resolution data to your Laravel backend using an AJAX request
-            // You can use jQuery.ajax or the Fetch API
-            // Example using Fetch API:
-            fetch('/api/save-screen-resolution', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('input[type="hidden"]').value
-                },
-                body: JSON.stringify({
-                    width: screenWidth,
-                    height: screenHeight,
-                    channelSearchId: parseInt(channelSearchId),
-                }),
-            });
+        var channelSearchId = @json($channelSearchId);
+        if(channelSearchId){
+            // JavaScript code in your web page
+            function sendScreenResolutionToServer() {
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.height;
+                var channelSearchId = `{{$channelSearchId}}`
+                // Send the resolution data to your Laravel backend using an AJAX request
+                // You can use jQuery.ajax or the Fetch API
+                // Example using Fetch API:
+                fetch('/api/save-screen-resolution', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[type="hidden"]').value
+                    },
+                    body: JSON.stringify({
+                        width: screenWidth,
+                        height: screenHeight,
+                        channelSearchId: parseInt(channelSearchId),
+                    }),
+                });
+            }
+            sendScreenResolutionToServer()
         }
-        sendScreenResolutionToServer()
         var query = @json($query);
+        var isQueriesValid = @json($isQueriesValid);
         var redirectToFeedURL = @json($redirectToFeedURL);
-        if(query){
+        if(isQueriesValid){
             window.location = redirectToFeedURL;
         } else {
-            alert('Enter Keywords !')
+            alert('Enter Valid Keywords !')
         }
 
     </script>
