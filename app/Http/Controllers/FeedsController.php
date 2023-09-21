@@ -200,12 +200,12 @@ class FeedsController extends Controller
         // dd($s_paramName,$s_paramVal,$d_paramName,$d_paramVal);
         $mergedArrayStat = [];
         $mergedArrayDy = [];
-        for ($i = 0; $i < count($s_paramName); $i++) {
-            $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
-        }
-        for ($i = 0; $i < count($d_paramName); $i++) {
-            $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
-        }
+        // for ($i = 0; $i < count($s_paramName); $i++) {
+        //     $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
+        // }
+        // for ($i = 0; $i < count($d_paramName); $i++) {
+        //     $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
+        // }
         $perameters = "/?";
         for ($i = 0; $i < count($s_paramName); $i++) {
 

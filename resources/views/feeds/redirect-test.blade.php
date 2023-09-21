@@ -20,6 +20,11 @@
             </div>
         </div>
     </div>
+    @if(\Session::has('error'))
+        <div class="alert " style="background-color: #db1515;">
+            <h4 style="color: white">{!! \Session::get('error') !!}</h4>
+        </div>
+    @endif
     <!-- end page title -->
     <form class="needs-validation" id="" method="post" action="{{ route('redirects-test.search') }}" enctype="multipart/form-data" novalidate>
         @csrf
