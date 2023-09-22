@@ -32,7 +32,7 @@ class RedirectTestController extends Controller
             return view('feeds.redirect-test', compact('count', 'result', 'redirects'));
         } else {
             return redirect()->back()->with([
-                'error'=>'Something went wrong, try again !'
+                'error'=>'Time-out , try again !'
             ]);
         }
     }
