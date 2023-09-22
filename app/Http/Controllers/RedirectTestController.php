@@ -14,21 +14,27 @@ class RedirectTestController extends Controller
 {
     public function performTest(Request $request){
         $url = $request->input('feedUrl');
-
-        $response = Http::post(config('services.redirect-app.base_url') . "/redirect-history", [
-            'url'=>$url,
-        ]);
+        try {
+            $response = Http::post(config('services.redirect-app.base_url') . "/redirect-history", [
+                'url'=>$url,
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with([
+                'error'=>'Something went wrong, try again !'
+            ]);
+        }
         $request->flash();
-        $redirects = $response->json();
-        $count = count($redirects);
-        $splitedString = explode('/', $redirects[count($redirects)-1]['url']);
-        $result = $splitedString[0] . '//' . $splitedString[2];
-        return view('feeds.redirect-test', compact('count', 'result', 'redirects'));
-        // redirect()->back()->with([
-        //     'count'=>count($redirects),
-        //     'result'=>$redirects[count($redirects)-1]['url']
-        // ]);
-        // dd($response->json());
+        if($response->successful()){
+            $redirects = $response->json();
+            $count = count($redirects);
+            $splitedString = explode('/', $redirects[count($redirects)-1]['url']);
+            $result = $splitedString[0] . '//' . $splitedString[2];
+            return view('feeds.redirect-test', compact('count', 'result', 'redirects'));
+        } else {
+            return redirect()->back()->with([
+                'error'=>'Something went wrong, try again !'
+            ]);
+        }
     }
 
     public function search1(Request $request)
