@@ -247,10 +247,10 @@
             let name = $(param).find("input#paramName").val()
             return name !== "" ? (name + "=" + `<${name}>`) : ""
         });
-        var allParams = [("channel=" + channelId), ...staticParams, ...dynamicParams, "query=<query>"]
+        var allParams = [("channel=" + channelId), ...staticParams, ...dynamicParams]
             .filter(p => p !== "").join("&");
         // let randomStr = generateRandomStr();
-        let url = `${basePath}?${allParams}`;
+        let url = `${basePath}search_results?${allParams}`;
         $("#guideUrl").val(url);
         // $("#guide_Url").val(url);
     }
