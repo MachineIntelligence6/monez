@@ -172,7 +172,7 @@ class ChannelsController extends Controller
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
-            $perameters = $perameters . $d_paramName[$i] . '=<' . 'query' . '>';
+            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramName[$i] . '>';
             if($i+1 != count($d_paramName)){
                 $perameters = $perameters . '&';
             }
@@ -482,7 +482,7 @@ class ChannelsController extends Controller
         $advertiser = null;
         $feed = null;
         $startTime = microtime(true);
-        $cahnnel = Channel::where('channelId', $request->channelId)->get()->first();
+        $cahnnel = Channel::where('channelId', $request->channel)->get()->first();
         if($cahnnel){
             $feeds = $cahnnel->feeds();
             if(isset($feeds[0])){
@@ -564,9 +564,10 @@ class ChannelsController extends Controller
 
                 if($cahnnel->status != 'disable'){
                     foreach ($feeds as $key => $feedTemp) {
+                        // return $feedTemp;
                         $feedIntegration = FeedIntegrationGuide::where('feed_id', $feedTemp->id)->get()->first();
                         // return isset($feedIntegration->dailyCap);
-                        if(($feedTemp->daily_search_cap_count < $feedIntegration->dailyCap) || isset($feedIntegration->dailyCap)){
+                        if(($feedTemp->daily_search_cap_count < intval($feedIntegration->dailyCap)) || isset($feedIntegration->dailyCap)){
                             $feed = Feed::find($feedTemp->id);
                             $feed->daily_search_cap_count = $feed->daily_search_cap_count + 1;
                             $redirectToFeedURL = $feed->feedPath . $feed->perameters;
@@ -581,7 +582,6 @@ class ChannelsController extends Controller
                     $redirectToFeedURL = str_replace("<" . $dPerameter . ">", $value, $redirectToFeedURL);
                 }
             }
-
             return view('save-screen-resolution', compact('channelSearchId', 'query', 'redirectToFeedURL', 'isQueriesValid'));
         } else {
             return redirect($redirectToFeedURL);
