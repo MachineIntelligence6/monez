@@ -260,8 +260,30 @@
     function appendElementToContainer(containerId, sampleId) {
         let container = document.getElementById(containerId);
         let sample = container.querySelector("#" + sampleId);
-        let element = sample.cloneNode(true);
+        let element = document.createElement('div')
         element.id = ""
+        element.style = "max-width: 100%; overflow-x: hidden;"
+        element.classList.add("d-flex");
+        element.classList.add("w-100");
+        element.classList.add("dynamicParameter");
+        element.classList.add("mb-3");
+        element.innerHTML = `<div class="col-md-6">
+                            <input type="text" class="form-control" id="paramName" name="dy_paramName[]" placeholder="Enter Parameter Name" />
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" style="border: none;" id="paramValue" name="dy_paramValue[]" disabled placeholder="User entered value" />
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                        </div>`
         element.querySelectorAll("input").forEach((inp) => inp.value = "");
         container.appendChild(element);
     }
