@@ -163,7 +163,7 @@ class ChannelsController extends Controller
         $mergedArrayDy = [];
         $mergeArrayFeed = [];
         $ids = [];
-        $perameters = "search_results?channelId=" . $channelId . '&';
+        $perameters = "search_results?channel=" . $channelId . '&';
         for ($i = 0; $i < count($s_paramName); $i++) {
 
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
@@ -172,7 +172,7 @@ class ChannelsController extends Controller
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
-            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramName[$i] . '>';
+            $perameters = $perameters . $d_paramName[$i] . '=<query>';
             if($i+1 != count($d_paramName)){
                 $perameters = $perameters . '&';
             }
