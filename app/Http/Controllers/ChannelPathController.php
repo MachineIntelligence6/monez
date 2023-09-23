@@ -30,10 +30,9 @@ class ChannelPathController extends Controller
         $channelPath = new ChannelPath;
         $channelPath->status = '1';
         if(substr($request->channel_path, -1) == "/" ){
-
-        } else {
-
             $channelPath->channel_path = $request->channel_path;
+        } else {
+            $channelPath->channel_path = $request->channel_path . '/';
         }
 
         $channelPath->save();
@@ -48,9 +47,11 @@ class ChannelPathController extends Controller
 
     public function update(Request $request, ChannelPath $channelpath)
     {
-        // $channelpath->channel_name = $request->channel_name;
-        $channelpath->channel_path = $request->channel_path;
-
+        if(substr($request->channel_path, -1) == "/" ){
+            $channelpath->channel_path = $request->channel_path;
+        } else {
+            $channelpath->channel_path = $request->channel_path . '/';
+        }
 
         $channelpath->update();
         return redirect()->route('settings.channelpaths.index')->with('success', 'channelPath Form Data Has Been Updated Successfuly:');
