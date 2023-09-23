@@ -26,9 +26,15 @@ class ChannelPathController extends Controller
         $validatedData = $request->validate([
             'channel_path'  => 'required',
         ]);
+
         $channelPath = new ChannelPath;
         $channelPath->status = '1';
-        $channelPath->channel_path = $request->channel_path;
+        if(substr($request->channel_path, -1) == "/" ){
+
+        } else {
+
+            $channelPath->channel_path = $request->channel_path;
+        }
 
         $channelPath->save();
         return redirect()->route('channelpaths.index')->with('success', 'channelPath Form Data Has Been Inserted Successfuly');
