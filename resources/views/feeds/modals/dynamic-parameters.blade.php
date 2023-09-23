@@ -18,21 +18,21 @@
                     $data =$feed->dynamicParameters;
                     $array = json_decode($data, true);
                     @endphp
-                    @foreach ($array as $key => $value) 
-               
+                    @foreach ($array as $key => $value)
+
                     @php
                     $parts = explode(' , ', $value);
                     @endphp
                     <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" @if($condition == $lastSegment) disabled @endif id="paramName" value="{{old('dy_paramName', $parts[1] ?? '')}}" name="dy_paramName[]" placeholder="Enter Parameter Name" />
+                            <input type="text" class="form-control" @if($condition == $lastSegment) disabled @endif id="paramName" value="{{old('dy_paramName', $parts[0] ?? '')}}" name="dy_paramName[]" placeholder="Enter Parameter Name" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control"id="paramValue"  @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramValue', $parts[1] ?? '')}}" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
+                            <input type="text" class="form-control"id="paramValue"  @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramValue', $parts[0] ?? '')}}" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
