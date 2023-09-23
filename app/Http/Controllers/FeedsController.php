@@ -103,12 +103,6 @@ class FeedsController extends Controller
         // dd($s_paramName,$s_paramVal,$d_paramName,$d_paramVal);
         $mergedArrayStat = [];
         $mergedArrayDy = [];
-        for ($i = 0; $i < count($s_paramName); $i++) {
-            $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
-        }
-        for ($i = 0; $i < count($d_paramName); $i++) {
-            $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
-        }
 
         $perameters = "/?";
         for ($i = 0; $i < count($s_paramName); $i++) {
@@ -119,7 +113,7 @@ class FeedsController extends Controller
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
-            $perameters = $perameters . $d_paramName[$i] . '=<' . 'query' . '>';
+            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramName[$i] . '>';
             if($i+1 != count($d_paramName)){
                 $perameters = $perameters . '&';
             }
@@ -217,7 +211,7 @@ class FeedsController extends Controller
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
-            $perameters = $perameters . $d_paramName[$i] . '=<' . 'query' . '>';
+            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramName[$i] . '>';
             if($i+1 != count($d_paramName)){
                 $perameters = $perameters . '&';
             }
