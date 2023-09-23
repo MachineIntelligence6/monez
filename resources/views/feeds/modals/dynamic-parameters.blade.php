@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control"id="paramValue"  @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramValue', $parts[0] ?? '')}}" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
+                            <input type="text" class="form-control"id="paramValue"  @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramValue', $parts[1] ?? '')}}" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input

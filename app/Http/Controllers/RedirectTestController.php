@@ -25,11 +25,21 @@ class RedirectTestController extends Controller
         }
         $request->flash();
         if($response->successful()){
+            $alert = "Our domain not found.";
             $redirects = $response->json();
+            foreach ($redirects as $key => $redirect) {
+                $url = $redirect['url'];
+                if(strpos($url, env('ALERT_URL'))){
+                    $alert = "Our domain found.";
+                }
+                if(substr($url, -4) == ".png" || substr($url, -4) == ".ico" || substr($url, -4) == ".jpg" || substr($url, -5) == ".jpeg"){
+                    unset($redirects[$key]);
+                }
+            }
             $count = count($redirects);
             $splitedString = explode('/', $redirects[count($redirects)-1]['url']);
             $result = $splitedString[0] . '//' . $splitedString[2];
-            return view('feeds.redirect-test', compact('count', 'result', 'redirects'));
+            return view('feeds.redirect-test', compact('count', 'result', 'redirects', 'alert'));
         } else {
             return redirect()->back()->with([
                 'error'=>'Something went wrong, try again !'
