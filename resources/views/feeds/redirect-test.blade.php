@@ -49,20 +49,20 @@
                     <div class="row justify-content-between">
                         <div class="col-auto px-5">
                             <h4>Redirects</h4>
-                            <p>{{isset($count) ? $count : 0 }}</p>
+                            <p>{{isset($count) ? $count : '--' }}</p>
                         </div>
                         <div class="col-auto px-5">
                             <h4>Domains</h4>
-                            <p>{{isset($count) ? $count : 0 }}</p>
+                            <p>{{isset($count) ? $count : '--' }}</p>
                         </div>
                         <div class="col-auto px-5">
                             <h4>Result</h4>
 
-                            <p>{{isset($result) ? $result : 0 }}</p>
+                            <p>{{isset($result) ? $result : '--' }}</p>
                         </div>
                         <div class="col-auto px-5">
                             <h4>Alert</h4>
-                            <p>--</p>
+                            <p>{{isset($alert) ? $alert : '--' }}</p>
                         </div>
                     </div>
                     <div class="row mt-3 justify-content-center">
