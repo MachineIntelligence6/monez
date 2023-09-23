@@ -29,7 +29,7 @@ class RedirectTestController extends Controller
             $redirects = $response->json();
             foreach ($redirects as $key => $redirect) {
                 $url = $redirect['url'];
-                if(strpos($url, env('ALERT_URL'))){
+                if(strpos($url, env('ALERT_URL') && ($key > 0))){
                     $alert = "Our domain found.";
                 }
                 if(substr($url, -4) == ".png" || substr($url, -4) == ".ico" || substr($url, -4) == ".jpg" || substr($url, -5) == ".jpeg"){
@@ -37,8 +37,12 @@ class RedirectTestController extends Controller
                 }
             }
             $count = count($redirects);
-            $splitedString = explode('/', $redirects[count($redirects)-1]['url']);
-            $result = $splitedString[0] . '//' . $splitedString[2];
+            $result = null;
+            if ($count > 0) {
+                # code...
+                $splitedString = explode('/', $redirects[count($redirects)-1]['url']);
+                $result = $splitedString[0] . '//' . $splitedString[2];
+            }
             return view('feeds.redirect-test', compact('count', 'result', 'redirects', 'alert'));
         } else {
             return redirect()->back()->with([
