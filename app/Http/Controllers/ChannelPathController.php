@@ -30,11 +30,10 @@ class ChannelPathController extends Controller
         $channelPath = new ChannelPath;
         $channelPath->status = '1';
         if(substr($request->channel_path, -1) == "/" ){
-            $channelPath->channel_path = $request->channel_path;
+            $channelPath->channel_path = rtrim($request->channel_path, '/');
         } else {
-            $channelPath->channel_path = $request->channel_path . '/';
+            $channelPath->channel_path = $request->channel_path;
         }
-
         $channelPath->save();
         return redirect()->route('channelpaths.index')->with('success', 'channelPath Form Data Has Been Inserted Successfuly');
     }

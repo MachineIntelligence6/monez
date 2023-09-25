@@ -1,41 +1,41 @@
 @extends('layouts.vertical', ['title' => 'Feeds'])
 
 @section('content')
-<!-- Start Content-->
-<div class="container-fluid">
+    <!-- Start Content-->
+    <div class="container-fluid">
 
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
-                        <li class="breadcrumb-item active">Feeds</li>
-                    </ol>
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Monez</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Admin</a></li>
+                            <li class="breadcrumb-item active">Feeds</li>
+                        </ol>
+                    </div>
+                    <h4 class="page-title">Feeds</h4>
                 </div>
-                <h4 class="page-title">Feeds</h4>
             </div>
         </div>
-    </div>
-    <!-- end page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-sm-4">
-                            <a href="{{route('feeds.create')}}" class="btn btn-danger waves-effect waves-light">
-                                <i class="mdi mdi-plus-circle mr-1"></i>
-                                Add New
-                            </a>
+        <!-- end page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-4">
+                                <a href="{{route('feeds.create')}}" class="btn btn-danger waves-effect waves-light">
+                                    <i class="mdi mdi-plus-circle mr-1"></i>
+                                    Add New
+                                </a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-centered table-nowrap table-striped" id="products-datatable">
-                            <thead>
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap table-striped" id="products-datatable">
+                                <thead>
                                 <tr>
                                     <!-- <th>#</th> -->
                                     <th>Feed Id</th>
@@ -44,8 +44,8 @@
                                     <th>Status</th>
                                     <th style="width: 85px;">Action</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 <!-- <tr>
                                     <td>1</td>
                                     <td>msearch</td>
@@ -69,64 +69,71 @@
                                 </tr> -->
                                 @foreach($feeds as $feed)
                                     <tr>
-                                    <td>
-                                        {{ $feed->feedId ?? '-' }}
-                                    </td>
-                                    <td>
-                                        {{ $feed->advertiser ? $feed->advertiser->company_name : '-'}}
-                                    </td>
-                                    <td style="max-width: 450px; text-overflow: ellipsis; overflow: hidden;">
-                                        {{ $feed->feedPath ?? '-' }}
-                                    </td>
-                                    <td>
-                                    {{$feed->status}}
-                                    </td>
-
-                                    <td>
-
-                                        @if ($feed->is_default)
-                                        <a class="btn bg-yellow text-white">Fallback Feed</a>
-                                        @else
-                                        <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View Info</a>
-                                            @if(isset($feed->channel) && auth()->user()->role !== 'Admin')
+                                        <td>
+                                            {{ $feed->feedId ?? '-' }}
+                                        </td>
+                                        <td>
+                                            {{ $feed->advertiser ? $feed->advertiser->company_name : '-'}}
+                                        </td>
+                                        <td style="max-width: 450px; text-overflow: ellipsis; overflow: hidden;">
+                                            {{ $feed->feedPath ?? '-' }}
+                                        </td>
+                                        <td>
+                                            @if ($feed->is_default)
+                                                <span class="badge badge-primary">Fallback Feed</span>
                                             @else
-                                                @if($feed->state=='disabled')
-                                                <a class="text-success mx-2" href="{{ route('feeds.enable', ['feed' => $feed]) }}" value="1">Enable</a>
-                                                @else
-                                                <a class="text-danger mx-2" href="{{ route('feeds.disable', ['feed' => $feed]) }}" value="0">Disable</a>
-                                                @endif
+                                                <span class="badge badge-light">{{$feed->status}}</span>
                                             @endif
-{{--                                            <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>--}}
-                                        @endif
-                                    </td>
-                                </tr>
+                                        </td>
+
+                                        <td>
+
+                                            @if ($feed->is_default)
+                                                -
+                                            @else
+                                                <a class="mx-2" href="{{route('feeds.view',['feed'=>$feed->id])}}">View
+                                                    Info</a>
+                                                @if(isset($feed->channel) && auth()->user()->role !== 'Admin')
+                                                @else
+                                                    @if($feed->state=='disabled')
+                                                        <a class="text-success mx-2"
+                                                           href="{{ route('feeds.enable', ['feed' => $feed]) }}"
+                                                           value="1">Enable</a>
+                                                    @else
+                                                        <a class="text-danger mx-2"
+                                                           href="{{ route('feeds.disable', ['feed' => $feed]) }}"
+                                                           value="0">Disable</a>
+                                                    @endif
+                                                @endif
+                                                {{--                                            <a class="text-blue mx-2" href="{{ route('feeds.make-default', ['feed' => $feed]) }}">Make Default</a>--}}
+                                            @endif
+                                        </td>
+                                    </tr>
                                 @endforeach
 
 
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
-        </div> <!-- end col -->
-    </div>
-    <!-- end row -->
-</div> <!-- container -->
-
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div> <!-- container -->
 
 @endsection
 @section('script')
-<script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
-<script type="text/javascript">
-    $('#products-datatable').DataTable({
-        "order": [],
-        "lengthMenu": [
-            [50, 100, 250, 500],
-            [50, 100, 250, 500]
-        ],
-    });
-</script>
-<script>
-</script>
+    <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
+    <script type="text/javascript">
+        $('#products-datatable').DataTable({
+            "order": [],
+            "lengthMenu": [
+                [50, 100, 250, 500],
+                [50, 100, 250, 500]
+            ],
+        });
+    </script>
+    <script>
+    </script>
 @endsection

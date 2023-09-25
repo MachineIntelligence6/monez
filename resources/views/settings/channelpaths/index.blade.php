@@ -30,7 +30,7 @@
                         <div class="row mb-2 align-items-center">
                             <div class="col-9">
                                 <div class="">
-                                    <input type="url" class="form-control" id="channelpath" value="{{old('channel_path', $channelpath->channel_path ?? '')}}" name="channel_path" placeholder="Enter Channel Path" required pattern="^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/)?$">
+                                    <input type="url" class="form-control" id="channelpath" value="{{old('channel_path', $channelpath->channel_path ?? '')}}" name="channel_path" placeholder="Enter Channel Path" required pattern="^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}?$">
                                 </div>
                             </div>
                             <div class="col-auto">

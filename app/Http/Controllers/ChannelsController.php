@@ -163,6 +163,7 @@ class ChannelsController extends Controller
         $mergedArrayDy = [];
         $mergeArrayFeed = [];
         $ids = [];
+        if($channel->channelId)
         $perameters = "search_results?channel=" . $channelId . '&';
         for ($i = 0; $i < count($s_paramName); $i++) {
 

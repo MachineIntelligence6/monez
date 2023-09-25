@@ -235,7 +235,7 @@
     }
 
     function generateChannelUrl() {
-        let basePath = $("#channelPath option:selected").text();
+        let basePath = $("#channelPath option:selected").text() + '/';
         let channelId = $("#channelId").val();
         if (basePath === "") return;
         let staticParams = $(".staticParameter").toArray().map((param) => {
