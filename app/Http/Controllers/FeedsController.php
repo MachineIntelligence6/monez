@@ -11,6 +11,7 @@ use App\Bank;
 use App\Channel;
 use App\ChannelIntegrationGuide;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +21,7 @@ class FeedsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -38,7 +39,7 @@ class FeedsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -66,7 +67,7 @@ class FeedsController extends Controller
     {
         $validatedData = $request->validate([
             'advertiser' => 'required',
-            'feedId'  => 'required',
+            'feedId' => 'required',
             'feedPath' => 'required',
             'keywordParameter' => 'required',
             'priorityScore' => 'numeric|min:1|max:10',
@@ -76,7 +77,7 @@ class FeedsController extends Controller
         $latestFeed = Feed::latest()->first();
         if ($latestFeed) {
             $feedId = $latestFeed->feedId;
-            $numericPart = (int) substr($feedId, 1);
+            $numericPart = (int)substr($feedId, 1);
             $numericPart++;
             $newId = "F" . $numericPart . "_";
         } else {
@@ -87,8 +88,8 @@ class FeedsController extends Controller
         $feed_id = $feedId . $request->feedId;
         $feed = new Feed;
         $feed->advertiser_id = $request->advertiser;
-        $feed->feedId =   $spanValue . $feed_id;
-        $feed->reportId =  $request->feedId;
+        $feed->feedId = $spanValue . $feed_id;
+        $feed->reportId = $request->feedId;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
@@ -112,16 +113,15 @@ class FeedsController extends Controller
         }
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
-            $mergedArrayDy[] = $d_paramName[$i]. ' , ' . $d_paramVal[$i];
+            $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
             $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramVal[$i] . '>';
-            if($i+1 != count($d_paramName)){
+            if ($i + 1 != count($d_paramName)) {
                 $perameters = $perameters . '&';
             }
         }
 
         $feed->staticParameters = json_encode($mergedArrayStat);
         $feed->dynamicParameters = json_encode($mergedArrayDy);
-        // dd($feed);
         $feed->perameters = $perameters;
         $feed->save();
         $feedId = $feed->id;
@@ -170,95 +170,6 @@ class FeedsController extends Controller
         return view('feeds.create', compact('feed', 'advertisers', 'selectedAdv', 'countries', 'banks', 'partfirst', 'partsecond'));
     }
 
-    public function update(Request $request, Feed $feed)
-    {
-        $spanValue = $request->input('spanValue');
-        $feed_id = $request->feedId;
-        // $feed->feedId =   $spanValue . $feed_id;
-        $feed->reportId =   $request->reportId;
-        $feed->advertiser_id = $request->advertiser;
-        $feed->advertiser_id = $request->advertiser;
-        $feed->feedPath = $request->feedPath;
-        $feed->keywordParameter = $request->keywordParameter;
-        $feed->priorityScore = $request->priorityScore;
-        $feed->comments = $request->comments;
-        if ($request->status == null) {
-            $feed->status = $feed->status;
-        }
-        if ($request->state == null) {
-            $feed->state = $feed->state;
-        }
-        // $feed->is_default = false;
-        $s_paramName = $request->input('paramName');
-        $s_paramVal = $request->input('paramValue');
-        $d_paramName = $request->input('dy_paramName');
-        $d_paramVal = $request->input('dy_paramValue');
-        // dd($s_paramName,$s_paramVal,$d_paramName,$d_paramVal);
-        $mergedArrayStat = [];
-        $mergedArrayDy = [];
-        // for ($i = 0; $i < count($s_paramName); $i++) {
-        //     $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
-        // }
-        // for ($i = 0; $i < count($d_paramName); $i++) {
-        //     $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
-        // }
-        $perameters = "/?";
-        for ($i = 0; $i < count($s_paramName); $i++) {
-
-            $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
-            $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
-        }
-        // $count = min(count($d_paramName), count($d_paramVal));
-        for ($i = 0; $i < count($d_paramName); $i++) {
-            $mergedArrayDy[] = $d_paramName[$i]. ' , ' . $d_paramVal[$i];
-            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramVal[$i] . '>';
-            if($i+1 != count($d_paramName)){
-                $perameters = $perameters . '&';
-            }
-        }
-        $feed->staticParameters = json_encode($mergedArrayStat);
-        $feed->dynamicParameters = json_encode($mergedArrayDy);
-
-        $feed->perameters = $perameters;
-
-        $feed->update();
-        $feedId = $feed->id;
-
-        $feedIntegration = FeedIntegrationGuide::where('feed_id', $feedId)->firstOrFail();
-        $feedIntegration->guideUrl = $request->guideUrl;
-        $feedIntegration->subids = $request->subids;
-        $oldDailyCap = $feedIntegration->dailyCap;
-        $oldDailyIpCap = $feedIntegration->dailyIpCap;
-        $feedIntegration->dailyCap = $request->dailyCap;
-        $feedIntegration->dailyIpCap = $request->dailyIpCap;
-        $feedIntegration->acceptedGeos = $request->acceptedGeos;
-        $feedIntegration->searchEngine = $request->searchEngine;
-        $feedIntegration->feedType = $request->feedType;
-        $feedIntegration->trafficType = $request->trafficType;
-        $feedIntegration->trafficSources = $request->trafficSources;
-        $feedIntegration->platform = $request->platform;
-        $feedIntegration->browsers = $request->browsers;
-        $feedIntegration->otherRequirements = $request->otherRequirements;
-
-        $feedIntegration->update();
-
-        foreach (Channel::all() as $key => $channel) {
-            # code..
-            foreach (explode(',' ,$channel->feed_ids) as $channelFeedId)
-            {
-                if ((int)$channelFeedId == $feed->id) {
-                    // return $feedIntegration->dailyCap;
-                    $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channel->id)->firstOrFail();
-                    Log::info('channelIntegration = ' . $channelIntegration->c_dailyCap . ' - ' . $feedIntegration->dailyCap . ' + '.$request->dailyCap);
-                    $channelIntegration->c_dailyCap = ($channelIntegration->c_dailyCap - $oldDailyCap) + $request->dailyCap; //$request->c_dailyCap;
-                    $channelIntegration->c_dailyIpCap = ($channelIntegration->c_dailyIpCap - $oldDailyIpCap) + $request->dailyIpCap;
-                    $channelIntegration->save();
-                }
-            }
-        }
-        return redirect()->route('feeds.index')->with('success', 'Feed Form Data Has Been Updated Successfuly:');
-    }
-
     public function view(Feed $feed)
     {
         // dd($feed);
@@ -300,12 +211,30 @@ class FeedsController extends Controller
             $feed->state = 'disabled';
             $feed->status = 'disabled';
             $feed->save();
-            $channel = $feed->channel()->first();
-            if($channel!= Null)
-            {
-                $channel->feed_ids = NULL;
+            $channels = $feed->findChannelsWithFeedId();
+
+            foreach ($channels as $channel) {
+                $assignedFeeds = json_decode($channel->c_assignedFeeds, true);
+                foreach ($assignedFeeds as $key => $value) {
+                    if (strpos($value, $feed->id) !== false) {
+                        // Remove the element with "2"
+                        unset($assignedFeeds[$key]);
+                        // Encode the modified array back to JSON
+                        $updatedColumnValue = json_encode(array_values($assignedFeeds));
+                        // Update the record in the database
+                        $channel->c_assignedFeeds = $updatedColumnValue;
+                    }
+                }
+
+                $assignedFeedIds = explode(',', $channel->feed_ids);
+                $values = array_filter($assignedFeedIds, function ($item) use ($feed) {
+
+                    return (int)$item !== $feed->id;
+                });
+                $channel->feed_ids = implode(',', $values);
                 $channel->save();
             }
+
         }
 
         return redirect()->back();
@@ -317,6 +246,94 @@ class FeedsController extends Controller
         $feed->is_default = true;
         $feed->save();
         return redirect()->back();
+    }
+
+    public function update(Request $request, Feed $feed)
+    {
+        $spanValue = $request->input('spanValue');
+        $feed_id = $request->feedId;
+        // $feed->feedId =   $spanValue . $feed_id;
+        $feed->reportId = $request->reportId;
+        $feed->advertiser_id = $request->advertiser;
+        $feed->advertiser_id = $request->advertiser;
+        $feed->feedPath = $request->feedPath;
+        $feed->keywordParameter = $request->keywordParameter;
+        $feed->priorityScore = $request->priorityScore;
+        $feed->comments = $request->comments;
+        if ($request->status == null) {
+            $feed->status = $feed->status;
+        }
+        if ($request->state == null) {
+            $feed->state = $feed->state;
+        }
+        // $feed->is_default = false;
+        $s_paramName = $request->input('paramName');
+        $s_paramVal = $request->input('paramValue');
+        $d_paramName = $request->input('dy_paramName');
+        $d_paramVal = $request->input('dy_paramValue');
+        // dd($s_paramName,$s_paramVal,$d_paramName,$d_paramVal);
+        $mergedArrayStat = [];
+        $mergedArrayDy = [];
+        // for ($i = 0; $i < count($s_paramName); $i++) {
+        //     $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
+        // }
+        // for ($i = 0; $i < count($d_paramName); $i++) {
+        //     $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
+        // }
+        $perameters = "/?";
+        for ($i = 0; $i < count($s_paramName); $i++) {
+
+            $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
+            $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
+        }
+        // $count = min(count($d_paramName), count($d_paramVal));
+        for ($i = 0; $i < count($d_paramName); $i++) {
+            $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
+            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramVal[$i] . '>';
+            if ($i + 1 != count($d_paramName)) {
+                $perameters = $perameters . '&';
+            }
+        }
+        $feed->staticParameters = json_encode($mergedArrayStat);
+        $feed->dynamicParameters = json_encode($mergedArrayDy);
+
+        $feed->perameters = $perameters;
+
+        $feed->update();
+        $feedId = $feed->id;
+
+        $feedIntegration = FeedIntegrationGuide::where('feed_id', $feedId)->firstOrFail();
+        $feedIntegration->guideUrl = $request->guideUrl;
+        $feedIntegration->subids = $request->subids;
+        $oldDailyCap = $feedIntegration->dailyCap;
+        $oldDailyIpCap = $feedIntegration->dailyIpCap;
+        $feedIntegration->dailyCap = $request->dailyCap;
+        $feedIntegration->dailyIpCap = $request->dailyIpCap;
+        $feedIntegration->acceptedGeos = $request->acceptedGeos;
+        $feedIntegration->searchEngine = $request->searchEngine;
+        $feedIntegration->feedType = $request->feedType;
+        $feedIntegration->trafficType = $request->trafficType;
+        $feedIntegration->trafficSources = $request->trafficSources;
+        $feedIntegration->platform = $request->platform;
+        $feedIntegration->browsers = $request->browsers;
+        $feedIntegration->otherRequirements = $request->otherRequirements;
+
+        $feedIntegration->update();
+
+        foreach (Channel::all() as $key => $channel) {
+            # code..
+            foreach (explode(',', $channel->feed_ids) as $channelFeedId) {
+                if ((int)$channelFeedId == $feed->id) {
+                    // return $feedIntegration->dailyCap;
+                    $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channel->id)->firstOrFail();
+                    Log::info('channelIntegration = ' . $channelIntegration->c_dailyCap . ' - ' . $feedIntegration->dailyCap . ' + ' . $request->dailyCap);
+                    $channelIntegration->c_dailyCap = ($channelIntegration->c_dailyCap - $oldDailyCap) + $request->dailyCap; //$request->c_dailyCap;
+                    $channelIntegration->c_dailyIpCap = ($channelIntegration->c_dailyIpCap - $oldDailyIpCap) + $request->dailyIpCap;
+                    $channelIntegration->save();
+                }
+            }
+        }
+        return redirect()->route('feeds.index')->with('success', 'Feed Form Data Has Been Updated Successfuly:');
     }
 
     public function checkUniqueFeedId(Request $request)

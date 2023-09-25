@@ -132,16 +132,16 @@
                 </div>
             </div>
         </div> <!-- end col -->
-        <div class="col-md-4">
-            <div class="mb-3">
-                <label for="keywordParameter" class="form-label">Keyword Parameter</label><label class="text-danger">*</label>
-                <input type="text" class="form-control" id="keywordParameter" @if($condition==$lastSegment) disabled @endif value="{{old('keywordParameter', $feed->keywordParameter ?? '')}}" onblur="generateFeedUrl()" name="keywordParameter" placeholder="Enter Keyword Parameter" required>
-                <div class="valid-feedback">Valid.</div>
-                <div class="invalid-feedback">
-                    You must enter valid input
-                </div>
-            </div>
-        </div>
+{{--        <div class="col-md-4">--}}
+{{--            <div class="mb-3">--}}
+{{--                <label for="keywordParameter" class="form-label">Keyword Parameter</label><label class="text-danger">*</label>--}}
+{{--                <input type="text" class="form-control" id="keywordParameter" @if($condition==$lastSegment) disabled @endif value="{{old('keywordParameter', $feed->keywordParameter ?? '')}}" onblur="generateFeedUrl()" name="keywordParameter" placeholder="Enter Keyword Parameter" required>--}}
+{{--                <div class="valid-feedback">Valid.</div>--}}
+{{--                <div class="invalid-feedback">--}}
+{{--                    You must enter valid input--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
         <div class="col-md-4 mb-3">
             <label for="staticParameters" class="form-label">Static Parameters<span class="text-danger"></span></label>
             <div class="input-group input-group-merge">
@@ -255,7 +255,8 @@
         });
         let dynamicParams = $(".dynamicParameter").toArray().map((param) => {
             let name = $(param).find("input#paramName").val()
-            return name !== "" ? (name + "=" + `<${name}>`) : ""
+            let value = $(param).find("input#paramValue").val()
+            return name !== "" ? (name + "=" + `<${value}>`) : ""
         });
         var allParams = [...staticParams, ...dynamicParams, searchParam]
             .filter(p => p !== "").join("&");

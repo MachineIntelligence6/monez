@@ -39,6 +39,7 @@ class ChannelsController extends Controller
                 }
             }
         }
+
         $assignedfeeds = Feed::whereIn('id', $ids)->get();
         $channels = Channel::all();
 
@@ -85,10 +86,10 @@ class ChannelsController extends Controller
         }
 
         $feeds = Feed::where('status', 'available')->get();
-        $feedsIds = $feeds->pluck('id')->toArray();
-        $assignedfeeds = Feed::whereIn('id', $ids)->get();
-        $assignedfeedsIds = $assignedfeeds->pluck('id')->toArray();
-        $availablefeeds = Feed::whereNotIn('id', $assignedfeedsIds)->get();
+//        $feedsIds = $feeds->pluck('id')->toArray();
+//        $assignedfeeds = Feed::whereIn('id', $ids)->get();
+//        $assignedfeedsIds = $assignedfeeds->pluck('id')->toArray();
+//        $availablefeeds = Feed::whereNotIn('id', $assignedfeedsIds)->get();
         // $latestChannel = Channel::latest()->first();
 
         // if ($latestChannel) {
@@ -158,7 +159,6 @@ class ChannelsController extends Controller
         $assign_feed = $request->input('feed');
         $daily_cap = $request->input('dailyCap');
 
-        // dd($s_paramName,$s_paramVal,$d_paramName,$d_paramVal,$assign_feed,$daily_cap);
         $mergedArrayStat = [];
         $mergedArrayDy = [];
         $mergeArrayFeed = [];
@@ -198,6 +198,7 @@ class ChannelsController extends Controller
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
         $channel->perameters = $perameters;
+
         $channel->save();
 
         $c_dailyCap = 0;
@@ -226,7 +227,6 @@ class ChannelsController extends Controller
         // Concatenate the two parts to form the updated URL
         $updated_url = $url1 . $url2;
 
-        // dd($updated_url);
         //end
         //Change Feed Status.
 
@@ -247,7 +247,6 @@ class ChannelsController extends Controller
 
         $channelInegration->save();
 
-        // dd($channel,$channelInegration);
         return redirect()->route('channels.index')->with('success', 'Channel Form Data Has Been Inserted Successfuly');
 
         // return redirect()->back()->with('success', 'Channel Form Data Has Been Inserted Successfuly:');
@@ -257,7 +256,7 @@ class ChannelsController extends Controller
     {
 
         $channelId = $channel->channelId;
-        // dd('test',$channel);
+
         $publishers = Publisher::all();
 
         $selectedpublisher = $channel->publisher_id;
@@ -285,7 +284,6 @@ class ChannelsController extends Controller
     public function edit(Channel $channel)
     {
         $channelId = $channel->channelId;
-        // dd('test',$channel);
         $publishers = Publisher::all();
 
         $selectedpublisher = $channel->publisher_id;
@@ -310,7 +308,7 @@ class ChannelsController extends Controller
         // // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)->get();
         // $assignedchannelpathIds = $assignedchannelpaths->pluck('channel_path_id')->toArray();
         // $availablechannelpaths = ChannelPath::whereNotIn('id', $assignedchannelpathIds)->get();
-        // dd($availablechannelpaths);
+
         return view('channels.create', compact('channel', 'channelpaths', 'selectedchannelpath', 'selectedpublisher', 'publishers', 'feeds', 'channelId'));
     }
 
@@ -320,6 +318,7 @@ class ChannelsController extends Controller
         // $validatedData = $request->validate([
 
         // ]);
+
         $channel->publisher_id = $request->publisher;
         $channel->channel_path_id = $request->channel_path_id;
         $channel->c_priorityScore = $request->c_priorityScore;
@@ -334,7 +333,6 @@ class ChannelsController extends Controller
         //     $channel->status = $request->status;
         // };
 
-        // dd($request->status);
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
         $d_paramName = $request->input('dy_paramName');
@@ -342,7 +340,7 @@ class ChannelsController extends Controller
         $assign_feed = $request->input('feed');
         $daily_cap = $request->input('dailyCap');
 
-        // dd($s_paramName,$s_paramVal,$d_paramName,$d_paramVal,$assign_feed,$daily_cap);
+
         $mergedArrayStat = [];
         $mergedArrayDy = [];
         $mergeArrayFeed = [];
@@ -361,7 +359,6 @@ class ChannelsController extends Controller
         $c_dailyCap = 0;
         $c_dailyIpCap = 0;
 
-
         $removedFeeds = [];
         if ($request->has('feed')) {
             for ($i = 0; $i < count($assign_feed); $i++) {
@@ -374,10 +371,10 @@ class ChannelsController extends Controller
                 $c_dailyIpCap = $c_dailyIpCap + ($feed->feedintegration->dailyICap ?? 0 );
                 $feed->save();
             }
+
             # code...
             foreach (explode(',' ,$channel->feed_ids) as $channelFeed)
             {
-
                 foreach ($assign_feed as $feed)
                 {
                     if((int)$channelFeed !== (int)$feed)
@@ -385,9 +382,7 @@ class ChannelsController extends Controller
                         $removedFeeds [] = $channelFeed;
                     }
                 }
-
             }
-
             $channel->feed_ids = implode(',' , $ids);
         } else {
             $removedFeeds = explode(',' , $channel->feed_ids);
@@ -469,7 +464,6 @@ class ChannelsController extends Controller
     }
 
     public function channelSearched(Request $request){
-        // dd($request->getUri());
         $isQueriesValid = true;
         if($request->filled('query')){
             $query =  $request->all()['query'];

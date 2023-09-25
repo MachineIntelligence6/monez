@@ -30,4 +30,9 @@ class Feed extends Model
     public function channel(){
         return $this->belongsTo(Channel::class,'id','feed_ids');
     }
+
+    public function findChannelsWithFeedId()
+    {
+        return Channel::whereRaw("FIND_IN_SET(?, feed_ids) > 0", [$this->id])->get();
+    }
 }

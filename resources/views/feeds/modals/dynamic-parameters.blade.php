@@ -23,16 +23,26 @@
                     @php
                     $parts = explode(' , ', $value);
                     @endphp
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="keywordParameter" class="form-label">Dynamic Parameter</label><label class="text-danger">*</label>
+                            <input type="text" class="form-control" id="keywordParameter" @if($condition==$lastSegment) disabled @endif value="{{old('keywordParameter', $feed->keywordParameter ?? '')}}" onblur="generateFeedUrl()" name="keywordParameter" placeholder="Enter Keyword Parameter" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                 You must enter valid input
+                            </div>
+                        </div>
+                    </div>
                     <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" @if($condition == $lastSegment) disabled @endif id="paramName" value="{{old('dy_paramName', $parts[0] ?? '')}}" name="dy_paramName[]" placeholder="Enter Parameter Name" />
+                            <input type="text" class="form-control" @if($condition == $lastSegment) disabled @endif  id="paramName" value="{{old('dy_paramName', $parts[0] ?? '')}}" name="dy_paramName[]" placeholder="Enter Parameter Name" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control"id="paramValue"  @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramValue', $parts[1] ?? '')}}" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
+                            <input type="text" class="form-control" id="paramValue"  @if($condition == $lastSegment) disabled @endif value="{{old('dy_paramValue', $parts[1] ?? '')}}" name="dy_paramValue[]" placeholder="Enter Channel Parameter" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -44,9 +54,19 @@
                     </div>
                     @endforeach
                     @else
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="keywordParameter" class="form-label">Dynamic Parameter</label><label class="text-danger">*</label>
+                                <input type="text" class="form-control" id="keywordParameter" @if($condition==$lastSegment) disabled @endif value="{{old('keywordParameter', $feed->keywordParameter ?? '')}}" onblur="generateFeedUrl()" name="keywordParameter" placeholder="Enter Keyword Parameter" required>
+                                <div class="valid-feedback">Valid.</div>
+                                <div class="invalid-feedback">
+                                    You must enter valid input
+                                </div>
+                            </div>
+                        </div>
                     <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="paramName"  name="dy_paramName[]" placeholder="Enter Parameter Name" />
+                            <input type="text" class="form-control" id="paramName" name="dy_paramName[]" placeholder="Enter Parameter Name" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
