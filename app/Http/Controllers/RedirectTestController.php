@@ -36,6 +36,7 @@ class RedirectTestController extends Controller
                     unset($redirects[$key]);
                 }
             }
+            $redirects = array_values($redirects);
             $count = count($redirects);
             $result = null;
             if ($count > 0) {
