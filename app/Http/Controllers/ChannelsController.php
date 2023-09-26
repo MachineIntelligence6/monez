@@ -118,7 +118,6 @@ class ChannelsController extends Controller
 
     public function store(Request $request)
     {
-
         $channel = new Channel;
         // dd($channel,$channelId);
 //        $channel->publisher_id = '1';
@@ -298,7 +297,8 @@ class ChannelsController extends Controller
 //        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
         $feedids = $channel->feed_ids;
         $feed_ids_array = json_decode($feedids, true);
-        $feeds = Feed::all();
+        $feeds = Feed::where("id",$feed_ids_array)->orWhere('status','available')->get();
+
         // $feedsIds = $feeds->pluck('id')->toArray();
 
         $channelpaths = ChannelPath::all();

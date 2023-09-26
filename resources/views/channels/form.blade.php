@@ -255,7 +255,14 @@
         // $("#guide_Url").val(url);
     }
 
-
+    function updateDailyCap(selectElement) {
+        // Get the selected feed value (feed ID)
+        const dailyCapValue = selectElement.options[selectElement.selectedIndex].getAttribute('data-daily-cap');
+        // Find the corresponding dailyCap input element
+        const dailyCapInput = selectElement.parentElement.nextElementSibling.querySelector('#dailyCap');
+        // Set the value of the dailyCap input to the custom attribute value
+        dailyCapInput.value = dailyCapValue;
+    }
 
     function appendElementToContainer(containerId, sampleId) {
         let container = document.getElementById(containerId);
@@ -291,10 +298,10 @@
 
     let assignFeedInnerHtml = `
     <div class="col-md-6">
-        <select class="form-control" @if($condition==$lastSegment) disabled @endif name="feed[]" data-toggle="select2">
+        <select class="form-control" @if($condition==$lastSegment) disabled @endif name="feed[]" data-toggle="select2" onchange="updateDailyCap(this)">
             <option value="">Select Feed</option>
             @foreach ($feeds as $feed)
-            <option value="{{ $feed->id }}" @if(isset($parts[0]) && $feed->id == $parts[0]) selected @endif>{{ $feed->feedId }}</option>
+            <option value="{{ $feed->id }}" @if(isset($parts[0]) && $feed->id == $parts[0]) selected " @endif  @if($feed->feedintegration) data-daily-cap="{{ $feed->feedintegration->dailyCap }}" @endif >{{ $feed->feedId }}</option>
             @endforeach
         </select>
         <div class="valid-feedback">Valid.</div>
@@ -303,7 +310,7 @@
         </div>
     </div>
     <div class="col-md-5">
-        <input type="number" class="form-control" @if($condition==$lastSegment) disabled @endif value="{{old('dailyCap', $parts[1] ?? '')}}" id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap" />
+        <input type="number" class="form-control" @if($condition==$lastSegment) disabled @endif value="{{old('dailyCap', $parts[1] ?? '')}}" id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap" disabled />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">
             You must enter valid input

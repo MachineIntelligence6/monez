@@ -53,10 +53,10 @@
                     @else
                     <div class="d-flex w-100 assignedFeed mb-3" id="assignedFeedSample" style="max-width: 100%; overflow-x: hidden;">
                         <div class="col-md-6">
-                            <select class="form-control" name="feed[]" id="country-dropdown" data-toggle="select2" required>
+                            <select class="form-control" name="feed[]" id="country-dropdown" data-toggle="select2" required onchange="updateDailyCap(this)">
                                 <option value="">Select Feed</option>
                                 @foreach ($feeds as $key => $feed)
-                                <option value="{{ $feed->id }}" @if($feed->is_default) selected @endif>{{ $feed->feedId }}</option>
+                                <option value="{{ $feed->id }}" @if($feed->is_default) selected @endif data-daily-cap="{{ $feed->feedintegration->dailyCap }}">{{ $feed->feedId }}</option>
                                 @endforeach
                             </select>
                             <div class="valid-feedback">Valid.</div>
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="number" class="form-control" id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap" />
+                            <input type="number" class="form-control" id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap" readonly/>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
