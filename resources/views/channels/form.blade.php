@@ -310,7 +310,7 @@
         </div>
     </div>
     <div class="col-md-5">
-        <input type="number" class="form-control" @if($condition==$lastSegment) disabled @endif value="{{old('dailyCap', $parts[1] ?? '')}}" id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap" disabled />
+        <input type="number" class="form-control" @if($condition==$lastSegment) disabled @endif value="{{old('dailyCap', $parts[1] ?? '')}}" id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap" readonly />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">
             You must enter valid input
