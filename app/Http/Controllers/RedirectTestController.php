@@ -32,10 +32,11 @@ class RedirectTestController extends Controller
                 if(strpos($url, env('ALERT_URL') && ($key > 0))){
                     $alert = "Our domain found.";
                 }
-                if(substr($url, -4) == ".png" || substr($url, -4) == ".ico" || substr($url, -4) == ".jpg" || substr($url, -5) == ".jpeg"){
+                if(substr($url, -4) == ".png" || substr($url, -4) == ".ico" || substr($url, -4) == ".jpg" || substr($url, -5) == ".jpeg" || substr($url, -3) == ".js" || substr($url, -4) == ".css"){
                     unset($redirects[$key]);
                 }
             }
+            $redirects = array_values($redirects);
             $count = count($redirects);
             $result = null;
             if ($count > 0) {
