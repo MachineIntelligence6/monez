@@ -101,7 +101,6 @@ class FeedsController extends Controller
         $s_paramVal = $request->input('paramValue');
         $d_paramName = $request->input('dy_paramName');
         $d_paramVal = $request->input('dy_paramValue');
-        // dd($s_paramName,$s_paramVal,$d_paramName,$d_paramVal);
         $mergedArrayStat = [];
         $mergedArrayDy = [];
 
@@ -114,15 +113,21 @@ class FeedsController extends Controller
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
-            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramVal[$i] . '>';
+            if ($d_paramName[$i] != Null) {
+                $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramVal[$i] . '>';
+            }
             if ($i + 1 != count($d_paramName)) {
                 $perameters = $perameters . '&';
+            } else {
+                $perameters = $perameters . $request->keywordParameter . '=<query>';
             }
         }
 
         $feed->staticParameters = json_encode($mergedArrayStat);
         $feed->dynamicParameters = json_encode($mergedArrayDy);
+
         $feed->perameters = $perameters;
+
         $feed->save();
         $feedId = $feed->id;
         $FeedInegration = new FeedIntegrationGuide;
@@ -289,9 +294,13 @@ class FeedsController extends Controller
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
-            $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramVal[$i] . '>';
+            if ($d_paramName[$i] != Null) {
+                $perameters = $perameters . $d_paramName[$i] . '=<' . $d_paramVal[$i] . '>';
+            }
             if ($i + 1 != count($d_paramName)) {
                 $perameters = $perameters . '&';
+            } else {
+                $perameters = $perameters . $request->keywordParameter . '=<query>';
             }
         }
         $feed->staticParameters = json_encode($mergedArrayStat);

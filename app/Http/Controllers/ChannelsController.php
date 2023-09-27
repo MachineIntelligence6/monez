@@ -443,6 +443,7 @@ class ChannelsController extends Controller
         $feed = null;
         $startTime = microtime(true);
         $cahnnel = Channel::where('channelId', $request->channel)->get()->first();
+
         if ($cahnnel) {
             $feeds = $cahnnel->feeds();
             if (isset($feeds[0])) {
@@ -469,7 +470,6 @@ class ChannelsController extends Controller
             $location = null;
             $geo = '--';
         }
-
         // return 1;
         // $width = "<script>var windowWidth = screen.width;
         // document.writeln(windowWidth); </script>";
@@ -479,10 +479,12 @@ class ChannelsController extends Controller
         if ($cahnnel) {
             $channelSearchId = null;
             $dPerameters = json_decode($cahnnel->c_dynamicParameters);
+
             foreach ($dPerameters as $key => $dPerameter) {
                 // return $dPerameter;
                 // return $request->getUri();
                 // return strpos($request->getUri(), "<query>");
+
                 if (strpos($request->getUri(), "%3C" . $dPerameter . "%3E")) {
                     $isQueriesValid = false;
                     // return 1;
@@ -493,6 +495,7 @@ class ChannelsController extends Controller
                     $isQueriesValid = false;
                 }
             }
+
             if ($isQueriesValid) {
                 $channelSearch = ChannelSearch::create([
                     'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
@@ -514,6 +517,7 @@ class ChannelsController extends Controller
                     'advertiser_id' => $advertiser,
                     'screen_resolution' => $screenResolution
                 ]);
+
                 ChannelSearched::dispatch($feeds);
                 $cahnnel->status = 'live';
                 $cahnnel->last_activity_at = Carbon::now();
@@ -537,10 +541,12 @@ class ChannelsController extends Controller
                         }
                     }
                 }
+
                 foreach ($dPerameters as $key => $dPerameter) {
                     $value = $request->all()[$dPerameter];
                     $redirectToFeedURL = str_replace("<" . $dPerameter . ">", $value, $redirectToFeedURL);
                 }
+
             }
             return view('save-screen-resolution', compact('channelSearchId', 'query', 'redirectToFeedURL', 'isQueriesValid'));
         } else {
