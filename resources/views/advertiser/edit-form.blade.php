@@ -359,7 +359,9 @@
                     <div class="border h-100 rounded-sm p-2">
                         @if ($advertiser->io_path)
                         @foreach ($advertiser->io_path as $key => $file)
-                        <a href="{{ route('advertiser.download-file', ['advertiser' => $advertiser->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a><br><br>
+                        <a href="{{ route('advertiser.download-file', ['advertiser' => $advertiser->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a>
+                        <span>Uploaded On: {{ \Carbon\Carbon::parse($file->time)->format('d-m-Y') }}</span>
+                        <br><br>
                         @endforeach
                         @else
                         <p>No PDF to show</p>
@@ -373,7 +375,9 @@
                     <div class="border h-100 rounded-sm p-2">
                         @if ($advertiser->documents_path)
                         @foreach ($advertiser->documents_path as $key => $file)
-                        <a href="{{ route('advertiser.download-file', ['advertiser' => $advertiser->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a><br><br>
+                        <a href="{{ route('advertiser.download-file', ['advertiser' => $advertiser->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a>
+                                <span>Uploaded On: {{ \Carbon\Carbon::parse($file->time)->format('d-m-Y') }}</span>
+                                <br><br>
                         @endforeach
                         @else
                         <p>No PDF to show</p>

@@ -6,10 +6,13 @@ use App\Advertiser;
 use App\Bank;
 use App\City;
 use App\Country;
+use App\Http\Requests\StoreAdvertiserRequest;
+use App\Http\Requests\UpdateAdvertiserRequest;
 use App\State;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +22,7 @@ class AdvertiserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,96 +32,6 @@ class AdvertiserController extends Controller
         // session()->forget('advActiveTab');
         $advertisers = Advertiser::orderBy('created_at', 'asc')->get();
         return view('advertiser.index', compact('advertisers'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $countries = Country::all();
-        $states = State::all();
-        $cities = City::all();
-        $banks = Bank::all();
-
-        $lastId = Advertiser::latest()->first() ? Advertiser::latest()->first()->id : 0;
-        $counter = $lastId + 1;
-        $availableTeamMembers = User::where('role', 'Team Member')->get();
-        $advActiveTab = session()->get('advActiveTab') ?? 'accountInfoTab';
-        return view('advertiser.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'advActiveTab', 'counter'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreAdvertiserRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-       /* $validatedData = $request->validate([
-            //'billing_email' => 'required',
-            'payoneer' => 'nullable',
-            'paypal' => 'nullable',
-            'bank_beneficiary_name' => 'nullable',
-            'bank_beneficiary_address' => 'nullable',
-            'bank_name' => 'nullable',
-            'bank_address' => 'nullable',
-            'bank_account_number' => 'nullable',
-            'bank_routing_number' => 'nullable',
-            'bank_iban' => 'nullable',
-            'bank_swift' => 'nullable',
-            'bank_currency' => 'nullable',
-        ]);
-        */
-
-        // as other section removed now we store and validate contact inof here along with putting default values
-
-        $validatedData = $request->validate([
-            'acc_mng_first_name' => 'required',
-            'acc_mng_last_name' => 'required',
-            'acc_mng_email' => 'required',
-            'acc_mng_phone' => 'nullable',
-            'acc_mng_skype' => 'nullable',
-            'acc_mng_linkedin' => 'nullable|url',
-            'country_code' => 'nullable',
-        ]);
-        $advertiser = $request->session()->get('advertiser');
-        $advertiser->acc_mng_first_name=$request->acc_mng_first_name;
-        $advertiser->acc_mng_last_name=$request->acc_mng_last_name;
-        $advertiser->acc_mng_email=$request->acc_mng_email;
-        $advertiser->acc_mng_phone=$request->acc_mng_phone;
-        $advertiser->acc_mng_skype=$request->acc_mng_skype;
-        $advertiser->acc_mng_linkedin=$request->acc_mng_linkedin;
-        $advertiser->country_code=$request->country_code;
-        $advertiser->revenue_share= config('constant.REVENUE_SHARE_DEFAULT_VALUE'); // as discussed for default
-        $advertiser->payment_terms= config('constant.PAYMENT_TERMS_DEFAULT_VALUE'); // as discussed for default
-        $advertiser->reporting_email=$advertiser->account_email;
-        $advertiser->billing_email = $advertiser->account_email;
-
-
-        // $advertiser->report_coloumns = $advertiser->report_coloumns;
-
-        $advertiser->save();
-        $advertiser->advertiser_id = 'A' . $advertiser->id . '_' . $advertiser->advertiser_id;
-        $password = Hash::make($advertiser->account_password);
-        $user = User::create([
-            'name' => $advertiser->company_name,
-            'email' => $advertiser->account_email,
-            'password' => $password,
-            'role' => 'Advertiser',
-        ]);
-        $advertiser->account_password = $password;
-        $advertiser->user_id = $user->id;
-        $advertiser->save();
-
-        session()->forget('advertiser');
-        session()->forget('advActiveTab');
-
-        return redirect()->route('advertiser.index');
     }
 
     public function storeAccountInSession(Request $request)
@@ -147,7 +60,7 @@ class AdvertiserController extends Controller
         $advertiser = new Advertiser;
         $advertiser->advertiser_id = $request->advertiser_id;
         $advertiser->company_name = $request->company_name;
-        $advertiser->team_member_id=$request->team_member_id;
+        $advertiser->team_member_id = $request->team_member_id;
         $advertiser->reg_id = $request->reg_id;
         $advertiser->vat_id = $request->vat_id;
         $advertiser->website_url = $request->website_url;
@@ -161,88 +74,28 @@ class AdvertiserController extends Controller
         $advertiser->country = $request->country;
         $advertiser->state = $request->state;
 
-       /* if ($request->hasFile('document_files')) {  //document files has removed in account creation setup
-            $documentFilePaths = array();
-            $documentFiles = $request->file('document_files');
-            foreach ($documentFiles as $key => $file) {
-                $path = $file->store('user/files');
-                array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
-            }
-            $advertiser->documents_path = json_encode($documentFilePaths);
-        }*/
-       /* if ($request->hasFile('io_files')) { //document files has removed in account creation setup
-            $ioFilePaths = array();
-            $ioFiles = $request->file('io_files');
-            foreach ($ioFiles as $key => $file) {
-                $path = $file->store('user/files');
-                array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
-            }
-            $advertiser->io_path = json_encode($ioFilePaths);
-        }*/
+        /* if ($request->hasFile('document_files')) {  //document files has removed in account creation setup
+             $documentFilePaths = array();
+             $documentFiles = $request->file('document_files');
+             foreach ($documentFiles as $key => $file) {
+                 $path = $file->store('user/files');
+                 array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+             }
+             $advertiser->documents_path = json_encode($documentFilePaths);
+         }*/
+        /* if ($request->hasFile('io_files')) { //document files has removed in account creation setup
+             $ioFilePaths = array();
+             $ioFiles = $request->file('io_files');
+             foreach ($ioFiles as $key => $file) {
+                 $path = $file->store('user/files');
+                 array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+             }
+             $advertiser->io_path = json_encode($ioFilePaths);
+         }*/
 
         session()->put('advertiser', $advertiser);
         session()->put('advActiveTab', 'contactInfoTab');
     }
-
-   /* public function storeContactInSession(Request $request)
-    {
-        $validatedData = $request->validate([
-            'acc_mng_first_name' => 'required',
-            'acc_mng_last_name' => 'required',
-            'acc_mng_email' => 'required',
-            'acc_mng_phone' => 'nullable',
-            'acc_mng_skype' => 'nullable',
-            'acc_mng_linkedin' => 'nullable',
-            'country_code' => 'nullable',
-        ]);
-
-        $advertiser = $request->session()->get('advertiser');
-
-        $advertiser->acc_mng_first_name = $request->acc_mng_first_name;
-        $advertiser->acc_mng_last_name = $request->acc_mng_last_name;
-        $advertiser->acc_mng_email = $request->acc_mng_email;
-        $advertiser->acc_mng_phone = $request->acc_mng_phone;
-        $advertiser->acc_mng_skype = $request->acc_mng_skype;
-        $advertiser->acc_mng_linkedin = $request->acc_mng_linkedin;
-        $advertiser->country_code = $request->country_code;
-
-        session()->put('advertiser', $advertiser);
-        session()->put('advActiveTab', 'operationsInfoTab');
-    }*/
-
-    /*public function storeOperationInSession(Request $request)
-    {
-        $validatedData = $request->validate([
-            'revenue_share' => 'required',
-            'payment_terms' => 'required',
-            'reporting_email' => 'required',
-            'team_member_id' => 'required',
-            'report_type'  => 'nullable',
-            'api_key'  => 'nullable',
-            'dashboard_path'  => 'nullable',
-            'email'  => 'nullable',
-            'password'  => 'nullable',
-            'gdrive_email'  => 'nullable',
-            'gdrive_password'  => 'nullable',
-        ]);
-
-        $advertiser = $request->session()->get('advertiser');
-
-        $advertiser->revenue_share = $request->revenue_share;
-        $advertiser->payment_terms = $request->payment_terms;
-        $advertiser->reporting_email = $request->reporting_email;
-        $advertiser->team_member_id = $request->team_member_id;
-        $advertiser->report_type = $request->report_type;
-        $advertiser->api_key = $request->api_key;
-        $advertiser->dashboard_path = $request->dashboard_path;
-        $advertiser->email = $request->email;
-        $advertiser->password = $request->password;
-        $advertiser->gdrive_email = $request->gdrive_email;
-        $advertiser->gdrive_password = $request->gdrive_password;
-
-        session()->put('advertiser', $advertiser);
-        session()->put('advActiveTab', 'financeInfoTab');
-    }*/
 
     public function storeReportInSession(Request $request)
     {
@@ -286,7 +139,7 @@ class AdvertiserController extends Controller
         $advertiser->gdrive_email = $request->gdrive_email;
         $advertiser->gdrive_password = $request->gdrive_password;
 
-        $advertiser->report_coloumns =json_encode([
+        $advertiser->report_coloumns = json_encode([
             'date' => $request->dateColValue,
             'feed' => $request->feedColValue,
             'subid' => $request->subidColValue,
@@ -334,11 +187,71 @@ class AdvertiserController extends Controller
         session()->put('advertiser', $advertiser);
     }
 
+    /* public function storeContactInSession(Request $request)
+     {
+         $validatedData = $request->validate([
+             'acc_mng_first_name' => 'required',
+             'acc_mng_last_name' => 'required',
+             'acc_mng_email' => 'required',
+             'acc_mng_phone' => 'nullable',
+             'acc_mng_skype' => 'nullable',
+             'acc_mng_linkedin' => 'nullable',
+             'country_code' => 'nullable',
+         ]);
+
+         $advertiser = $request->session()->get('advertiser');
+
+         $advertiser->acc_mng_first_name = $request->acc_mng_first_name;
+         $advertiser->acc_mng_last_name = $request->acc_mng_last_name;
+         $advertiser->acc_mng_email = $request->acc_mng_email;
+         $advertiser->acc_mng_phone = $request->acc_mng_phone;
+         $advertiser->acc_mng_skype = $request->acc_mng_skype;
+         $advertiser->acc_mng_linkedin = $request->acc_mng_linkedin;
+         $advertiser->country_code = $request->country_code;
+
+         session()->put('advertiser', $advertiser);
+         session()->put('advActiveTab', 'operationsInfoTab');
+     }*/
+
+    /*public function storeOperationInSession(Request $request)
+    {
+        $validatedData = $request->validate([
+            'revenue_share' => 'required',
+            'payment_terms' => 'required',
+            'reporting_email' => 'required',
+            'team_member_id' => 'required',
+            'report_type'  => 'nullable',
+            'api_key'  => 'nullable',
+            'dashboard_path'  => 'nullable',
+            'email'  => 'nullable',
+            'password'  => 'nullable',
+            'gdrive_email'  => 'nullable',
+            'gdrive_password'  => 'nullable',
+        ]);
+
+        $advertiser = $request->session()->get('advertiser');
+
+        $advertiser->revenue_share = $request->revenue_share;
+        $advertiser->payment_terms = $request->payment_terms;
+        $advertiser->reporting_email = $request->reporting_email;
+        $advertiser->team_member_id = $request->team_member_id;
+        $advertiser->report_type = $request->report_type;
+        $advertiser->api_key = $request->api_key;
+        $advertiser->dashboard_path = $request->dashboard_path;
+        $advertiser->email = $request->email;
+        $advertiser->password = $request->password;
+        $advertiser->gdrive_email = $request->gdrive_email;
+        $advertiser->gdrive_password = $request->gdrive_password;
+
+        session()->put('advertiser', $advertiser);
+        session()->put('advActiveTab', 'financeInfoTab');
+    }*/
+
     /**
      * Display the specified resource.
      *
-     * @param  \App\Advertiser  $advertiser
-     * @return \Illuminate\Http\Response
+     * @param Advertiser $advertiser
+     * @return Response
      */
     public function show(Advertiser $advertiser)
     {
@@ -353,8 +266,8 @@ class AdvertiserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Advertiser  $advertiser
-     * @return \Illuminate\Http\Response
+     * @param Advertiser $advertiser
+     * @return Response
      */
     public function edit(Request $request, Advertiser $advertiser, $currentedit)
     {
@@ -369,9 +282,9 @@ class AdvertiserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAdvertiserRequest  $request
-     * @param  \App\Advertiser  $advertiser
-     * @return \Illuminate\Http\Response
+     * @param UpdateAdvertiserRequest $request
+     * @param Advertiser $advertiser
+     * @return Response
      */
     public function update(Request $request, Advertiser $advertiser, $currentedit)
     {
@@ -393,8 +306,8 @@ class AdvertiserController extends Controller
                     'state' => 'nullable',
                     'zipcode' => 'nullable',
                     'country' => 'required',
-                   // 'document_files' => 'nullable',
-                   // 'io_files' => 'nullable',
+                    // 'document_files' => 'nullable',
+                    // 'io_files' => 'nullable',
                 ]);
 
                 $advertiser->advertiser_id = $request->advertiser_id;
@@ -402,7 +315,7 @@ class AdvertiserController extends Controller
                 $advertiser->reg_id = $request->reg_id;
                 $advertiser->vat_id = $request->vat_id;
                 $advertiser->website_url = $request->website_url;
-                if($advertiser->account_email != $request->account_email){
+                if ($advertiser->account_email != $request->account_email) {
                     $user = $advertiser->user;
                     $user->email = $request->account_email;
                     $user->save();
@@ -422,24 +335,24 @@ class AdvertiserController extends Controller
                 $advertiser->country = $request->country;
                 $advertiser->state = $request->state;
 
-               /* if ($request->hasFile('document_files')) {   //moved to operational info
-                    $documentFilePaths = array();
-                    $documentFiles = $request->file('document_files');
-                    foreach ($documentFiles as $key => $file) {
-                        $path = $file->store('user/files');
-                        array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
-                    }
-                    $advertiser->documents_path = json_encode($documentFilePaths);
-                }
-                if ($request->hasFile('io_files')) {
-                    $ioFilePaths = array();
-                    $ioFiles = $request->file('io_files');
-                    foreach ($ioFiles as $key => $file) {
-                        $path = $file->store('user/files');
-                        array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
-                    }
-                    $advertiser->io_path = json_encode($ioFilePaths);
-                }*/
+                /* if ($request->hasFile('document_files')) {   //moved to operational info
+                     $documentFilePaths = array();
+                     $documentFiles = $request->file('document_files');
+                     foreach ($documentFiles as $key => $file) {
+                         $path = $file->store('user/files');
+                         array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                     }
+                     $advertiser->documents_path = json_encode($documentFilePaths);
+                 }
+                 if ($request->hasFile('io_files')) {
+                     $ioFilePaths = array();
+                     $ioFiles = $request->file('io_files');
+                     foreach ($ioFiles as $key => $file) {
+                         $path = $file->store('user/files');
+                         array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                     }
+                     $advertiser->io_path = json_encode($ioFilePaths);
+                 }*/
                 $message = "Account";
                 break;
             case 'contactinfo':
@@ -469,16 +382,16 @@ class AdvertiserController extends Controller
                     'revenue_share' => 'required',
                     'payment_terms' => 'required',
                     'reporting_email' => 'required',
-                   /* 'team_member_id' => 'required', //moved in account info
-                    'report_type'  => 'nullable',
-                    'api_key'  => 'nullable',
-                    'dashboard_path'  => 'nullable',
-                    'email'  => 'nullable',
-                    'password'  => 'nullable',
-                    'gdrive_email'  => 'nullable',
-                    'gdrive_password'  => 'nullable',
-                    *
-                    */
+                    /* 'team_member_id' => 'required', //moved in account info
+                     'report_type'  => 'nullable',
+                     'api_key'  => 'nullable',
+                     'dashboard_path'  => 'nullable',
+                     'email'  => 'nullable',
+                     'password'  => 'nullable',
+                     'gdrive_email'  => 'nullable',
+                     'gdrive_password'  => 'nullable',
+                     *
+                     */
                 ]);
 
                 //$reportsColomns = $request->session()->get('reportsColomns');
@@ -495,29 +408,38 @@ class AdvertiserController extends Controller
                 // $advertiser->gdrive_email = $request->gdrive_email;
                 // $advertiser->gdrive_password = $request->gdrive_password;
 
-                 if ($request->hasFile('document_files')) {   //moved to operational info
-                    $documentFilePaths = array();
+                if ($request->hasFile('document_files')) {   //moved to operational info
+                    if ($advertiser->documents_path == Null) {
+                        $documentFilePaths = array();
+                    } else {
+                        $documentFilePaths = $advertiser->documents_path;
+                    }
+
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($documentFilePaths, array('name' => 'doc' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                        array_push($documentFilePaths, array('name' => 'doc' . ($key + 1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
                     }
                     $advertiser->documents_path = json_encode($documentFilePaths);
                 }
                 if ($request->hasFile('io_files')) {
-                    $ioFilePaths = array();
+                    if ($advertiser->io_path == Null) {
+                        $ioFilePaths = array();
+                    } else {
+                        $ioFilePaths = $advertiser->io_path;
+                    }
                     $ioFiles = $request->file('io_files');
                     foreach ($ioFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($ioFilePaths, array('name' => 'io' . ($key+1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' .Carbon::now() . '.' . $file->getClientOriginalExtension(), 'path' => $path));
+                        array_push($ioFilePaths, array('name' => 'io' . ($key + 1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
                     }
                     $advertiser->io_path = json_encode($ioFilePaths);
                 }
 
-                if (session()->has('advertiser')){
+                if (session()->has('advertiser')) {
                     $advertiserInSession = $request->session()->get('advertiser');
                     //check if bank details exist or not
-                    if(isset($advertiserInSession->report_type)){
+                    if (isset($advertiserInSession->report_type)) {
                         $advertiser->report_type = $advertiserInSession->report_type;
                         $advertiser->api_key = $advertiserInSession->api_key;
                         $advertiser->dashboard_path = $advertiserInSession->dashboard_path;
@@ -525,7 +447,7 @@ class AdvertiserController extends Controller
                         $advertiser->password = $advertiserInSession->password;
                         $advertiser->gdrive_email = $advertiserInSession->gdrive_email;
                         $advertiser->gdrive_password = $advertiserInSession->gdrive_password;
-                        $advertiser->report_coloumns=$advertiserInSession->report_coloumns;
+                        $advertiser->report_coloumns = $advertiserInSession->report_coloumns;
                     }
 
                     session()->forget('advertiser.report_type');
@@ -562,12 +484,11 @@ class AdvertiserController extends Controller
                 if (session()->has('advertiser')) {
                     $advertiserInSession = $request->session()->get('advertiser');
                     //check if bank details exist or not
-                    if(isset($advertiserInSession->bank_beneficiary_name) && isset($advertiserInSession->bank_beneficiary_address)
-                            && isset($advertiserInSession->bank_name) && isset($advertiserInSession->bank_address)
-                            && isset($advertiserInSession->bank_account_number) && isset($advertiserInSession->bank_routing_number)
-                            && isset($advertiserInSession->bank_iban) && isset($advertiserInSession->bank_swift)
-                            && isset($advertiserInSession->bank_currency))
-                    {
+                    if (isset($advertiserInSession->bank_beneficiary_name) && isset($advertiserInSession->bank_beneficiary_address)
+                        && isset($advertiserInSession->bank_name) && isset($advertiserInSession->bank_address)
+                        && isset($advertiserInSession->bank_account_number) && isset($advertiserInSession->bank_routing_number)
+                        && isset($advertiserInSession->bank_iban) && isset($advertiserInSession->bank_swift)
+                        && isset($advertiserInSession->bank_currency)) {
                         $advertiser->bank_beneficiary_name = $advertiserInSession->bank_beneficiary_name;
                         $advertiser->bank_beneficiary_address = $advertiserInSession->bank_beneficiary_address;
                         $advertiser->bank_name = $advertiserInSession->bank_name;
@@ -604,10 +525,100 @@ class AdvertiserController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreAdvertiserRequest $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+
+        /* $validatedData = $request->validate([
+             //'billing_email' => 'required',
+             'payoneer' => 'nullable',
+             'paypal' => 'nullable',
+             'bank_beneficiary_name' => 'nullable',
+             'bank_beneficiary_address' => 'nullable',
+             'bank_name' => 'nullable',
+             'bank_address' => 'nullable',
+             'bank_account_number' => 'nullable',
+             'bank_routing_number' => 'nullable',
+             'bank_iban' => 'nullable',
+             'bank_swift' => 'nullable',
+             'bank_currency' => 'nullable',
+         ]);
+         */
+
+        // as other section removed now we store and validate contact inof here along with putting default values
+
+        $validatedData = $request->validate([
+            'acc_mng_first_name' => 'required',
+            'acc_mng_last_name' => 'required',
+            'acc_mng_email' => 'required',
+            'acc_mng_phone' => 'nullable',
+            'acc_mng_skype' => 'nullable',
+            'acc_mng_linkedin' => 'nullable|url',
+            'country_code' => 'nullable',
+        ]);
+        $advertiser = $request->session()->get('advertiser');
+        $advertiser->acc_mng_first_name = $request->acc_mng_first_name;
+        $advertiser->acc_mng_last_name = $request->acc_mng_last_name;
+        $advertiser->acc_mng_email = $request->acc_mng_email;
+        $advertiser->acc_mng_phone = $request->acc_mng_phone;
+        $advertiser->acc_mng_skype = $request->acc_mng_skype;
+        $advertiser->acc_mng_linkedin = $request->acc_mng_linkedin;
+        $advertiser->country_code = $request->country_code;
+        $advertiser->revenue_share = config('constant.REVENUE_SHARE_DEFAULT_VALUE'); // as discussed for default
+        $advertiser->payment_terms = config('constant.PAYMENT_TERMS_DEFAULT_VALUE'); // as discussed for default
+        $advertiser->reporting_email = $advertiser->account_email;
+        $advertiser->billing_email = $advertiser->account_email;
+
+
+        // $advertiser->report_coloumns = $advertiser->report_coloumns;
+
+        $advertiser->save();
+        $advertiser->advertiser_id = 'A' . $advertiser->id . '_' . $advertiser->advertiser_id;
+        $password = Hash::make($advertiser->account_password);
+        $user = User::create([
+            'name' => $advertiser->company_name,
+            'email' => $advertiser->account_email,
+            'password' => $password,
+            'role' => 'Advertiser',
+        ]);
+        $advertiser->account_password = $password;
+        $advertiser->user_id = $user->id;
+        $advertiser->save();
+
+        session()->forget('advertiser');
+        session()->forget('advActiveTab');
+
+        return redirect()->route('advertiser.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $countries = Country::all();
+        $states = State::all();
+        $cities = City::all();
+        $banks = Bank::all();
+
+        $lastId = Advertiser::latest()->first() ? Advertiser::latest()->first()->id : 0;
+        $counter = $lastId + 1;
+        $availableTeamMembers = User::where('role', 'Team Member')->get();
+        $advActiveTab = session()->get('advActiveTab') ?? 'accountInfoTab';
+        return view('advertiser.create', compact('countries', 'availableTeamMembers', 'states', 'cities', 'banks', 'advActiveTab', 'counter'));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Advertiser  $advertiser
-     * @return \Illuminate\Http\Response
+     * @param Advertiser $advertiser
+     * @return Response
      */
     public function destroy(Advertiser $advertiser)
     {
