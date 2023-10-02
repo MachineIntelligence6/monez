@@ -256,8 +256,8 @@ class FeedsController extends Controller
     public function update(Request $request, Feed $feed)
     {
         $spanValue = $request->input('spanValue');
-        $feed_id = $request->feedId;
-        // $feed->feedId =   $spanValue . $feed_id;
+        $feed_id =  $request->feedId;
+        $feed->feedId =   $spanValue . $request->reportId;
         $feed->reportId = $request->reportId;
         $feed->advertiser_id = $request->advertiser;
         $feed->advertiser_id = $request->advertiser;
