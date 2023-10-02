@@ -252,7 +252,7 @@ class ChannelsController extends Controller
 
         // $feedsIds = $feeds->pluck('id')->toArray();
 
-        $channelpaths = ChannelPath::all();
+        $channelpaths = ChannelPath::where('status', 1)->get();
         // $channelpathIds = $channelpaths->pluck('id')->toArray();
         // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)
         //     ->whereNotIn('publisher_id', [$selectedpublisher])
@@ -567,7 +567,8 @@ class ChannelsController extends Controller
 //        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
 //        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
 //        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
-        $channelpaths = ChannelPath::all();
+        $channelpaths = ChannelPath::where('status', 1)->get();
+
         // $channelpathIds = $channelpaths->pluck('id')->toArray();
         // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)->get();
         // $assignedchannelpathIds = $assignedchannelpaths->pluck('channel_path_id')->toArray();
