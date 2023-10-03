@@ -70,7 +70,7 @@
                                 @foreach($feeds as $feed)
                                     <tr>
                                         <td>
-                                            {{ $feed->feedId ?? '-' }}
+                                            {{ $feed->feedId }}({{ $feed->reportId }})
                                         </td>
                                         <td>
                                             {{ $feed->advertiser ? $feed->advertiser->company_name : '-'}}

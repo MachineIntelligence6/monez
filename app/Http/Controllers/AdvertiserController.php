@@ -306,6 +306,7 @@ class AdvertiserController extends Controller
                     'state' => 'nullable',
                     'zipcode' => 'nullable',
                     'country' => 'required',
+                    'team_member_id' => 'required',
                     // 'document_files' => 'nullable',
                     // 'io_files' => 'nullable',
                 ]);
@@ -334,6 +335,7 @@ class AdvertiserController extends Controller
                 $advertiser->zipcode = $request->zipcode;
                 $advertiser->country = $request->country;
                 $advertiser->state = $request->state;
+                $advertiser->team_member_id  = $request->team_member_id;
 
                 /* if ($request->hasFile('document_files')) {   //moved to operational info
                      $documentFilePaths = array();
@@ -418,7 +420,7 @@ class AdvertiserController extends Controller
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($documentFilePaths, array('name' => 'doc' . ($key + 1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
+                        array_push($documentFilePaths, array('name' => 'doc' . (count($documentFilePaths) + 1) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
                     }
                     $advertiser->documents_path = json_encode($documentFilePaths);
                 }
@@ -429,10 +431,12 @@ class AdvertiserController extends Controller
                         $ioFilePaths = $advertiser->io_path;
                     }
                     $ioFiles = $request->file('io_files');
+
                     foreach ($ioFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($ioFilePaths, array('name' => 'io' . ($key + 1) . '_' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
+                        array_push($ioFilePaths, array('name' => 'io' . (count($ioFilePaths) + 1) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
                     }
+
                     $advertiser->io_path = json_encode($ioFilePaths);
                 }
 

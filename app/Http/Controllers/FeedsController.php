@@ -79,16 +79,15 @@ class FeedsController extends Controller
             $feedId = $latestFeed->feedId;
             $numericPart = (int)substr($feedId, 1);
             $numericPart++;
-            $newId = "F" . $numericPart . "_";
+            $newId = "F" . $numericPart;
         } else {
-            $newId = 'F1_';
+            $newId = 'F1';
         }
         $feedId = $newId;
 
-        $feed_id = $feedId . $request->feedId;
         $feed = new Feed;
         $feed->advertiser_id = $request->advertiser;
-        $feed->feedId = $spanValue . $feed_id;
+        $feed->feedId = $feedId;
         $feed->reportId = $request->feedId;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;
@@ -106,7 +105,6 @@ class FeedsController extends Controller
 
         $perameters = "/?";
         for ($i = 0; $i < count($s_paramName); $i++) {
-
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
             $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
         }
@@ -256,10 +254,9 @@ class FeedsController extends Controller
     public function update(Request $request, Feed $feed)
     {
         $spanValue = $request->input('spanValue');
-        $feed_id =  $request->feedId;
-        $feed->feedId =   $spanValue . $request->reportId;
+        $feed_id =  $spanValue . $request->input('feedId');
+        $feed->feedId =   $feed_id;
         $feed->reportId = $request->reportId;
-        $feed->advertiser_id = $request->advertiser;
         $feed->advertiser_id = $request->advertiser;
         $feed->feedPath = $request->feedPath;
         $feed->keywordParameter = $request->keywordParameter;
@@ -287,7 +284,6 @@ class FeedsController extends Controller
         // }
         $perameters = "/?";
         for ($i = 0; $i < count($s_paramName); $i++) {
-
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
             $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
         }

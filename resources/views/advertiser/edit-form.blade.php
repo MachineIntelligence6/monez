@@ -187,7 +187,7 @@
             </div>
             <div class="col-md-4 mb-3">
                 <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-                <select class="form-control" @if ($lastSegment !='operationinfo' ) disabled @endif data-toggle="select2" id="successManager" name="team_member_id">
+                <select class="form-control" @if ($lastSegment !='accountinfo' ) disabled @endif data-toggle="select2" id="successManager" name="team_member_id">
                     <option value="">Select Success Manager</option>
                     @foreach ($availableTeamMembers as $key => $teamMember)
                     <option value="{{ $teamMember->id }}" @if ($teamMember->id == $advertiser->team_member_id) selected @endif>
@@ -360,7 +360,7 @@
                         @if ($advertiser->io_path)
                         @foreach ($advertiser->io_path as $key => $file)
                         <a href="{{ route('advertiser.download-file', ['advertiser' => $advertiser->id, 'fileNo' => $key, 'type'=>'io']) }}">{{ $file->name }}</a>
-                        <span>Uploaded On: {{ \Carbon\Carbon::parse($file->time)->format('d-m-Y') }}</span>
+                        <span>Uploaded On: {{ \Carbon\Carbon::parse($file->time)->format('d-m-Y H:i:s') }}</span>
                         <br><br>
                         @endforeach
                         @else
@@ -376,7 +376,7 @@
                         @if ($advertiser->documents_path)
                         @foreach ($advertiser->documents_path as $key => $file)
                         <a href="{{ route('advertiser.download-file', ['advertiser' => $advertiser->id, 'fileNo' => $key, 'type'=>'document']) }}">{{ $file->name}}</a>
-                                <span>Uploaded On: {{ \Carbon\Carbon::parse($file->time)->format('d-m-Y') }}</span>
+                                <span>Uploaded On: {{ \Carbon\Carbon::parse($file->time)->format('d-m-Y H:i:s') }}</span>
                                 <br><br>
                         @endforeach
                         @else
