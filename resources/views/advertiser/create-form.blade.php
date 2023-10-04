@@ -75,7 +75,7 @@
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label for="url" class="form-label">Website</label><label class="text-danger">*</label>
-                        <input type="text" class="form-control" id="website-url-input" name="website_url" placeholder="Enter website url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" required value="{{ session()->get('advertiser.website_url') }}">
+                        <input type="url" class="form-control" id="website-url-input" name="website_url" placeholder="Enter website url" pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})" required value="{{ session()->get('advertiser.website_url') }}">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -308,7 +308,7 @@
                 </div> <!-- end col -->
             </div>
             <div class="row px-2 justify-content-between">
-                <button class="btn btn-secondary ml-1 previous-tab-btn" type="button">Previous</button>
+                <button class="btn btn-secondary ml-1 previous-tab-btn" id="previous-tab" type="button">Previous</button>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </form>

@@ -26,7 +26,7 @@
             <div class="col-md-4">
                 <div class="mb-3">
                     <label for="dbaId" class="form-label">Advertiser ID</label><label class="text-danger">*</label>
-                    <input type="text" @if ($lastSegment !='accountinfo' ) disabled @endif class="form-control" id="dbaId" name="advertiser_id" placeholder="Enter Advertiser ID" value="{{ $advertiser->advertiser_id ?? old('advertiser_id') }}" />
+                    <input type="text" readonly @if ($lastSegment !='accountinfo' ) disabled @endif class="form-control" id="dbaId" name="advertiser_id" placeholder="Enter Advertiser ID" value="{{ $advertiser->advertiser_id ?? old('advertiser_id') }}" />
                     <div class="valid-feedback">Valid.</div>
                     <div id="dba-invalid" class="invalid-feedback">
                         You must enter valid input

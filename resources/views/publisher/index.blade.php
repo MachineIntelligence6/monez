@@ -66,7 +66,7 @@
                                 @foreach($publishers as $publisher)
                                 <tr>
                                     <td>
-                                        {{ $publisher->company_name}} {{ $publisher->publisher_id }}
+                                        {{ $publisher->company_name}} ({{ $publisher->publisher_id }})
                                     </td>
 
                                     <td>

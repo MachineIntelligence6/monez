@@ -61,7 +61,6 @@
 
     $("input[type=text][textOnly]").on("input", (e) => {
         const value = $(e.target).val().toString().replace(/[^a-zA-Z\s]/g, '')
-        console.log(value);
         $(e.target).val(value);
         validateInput(e.target);
     })
@@ -149,7 +148,6 @@
         $($(this).attr("data-target")).toggleClass("d-block")
     })
     $(document).on('click', (e) => {
-        console.log(e.target)
         $('.dropdown-menu').each((_, searchDrop) => {
             if (!searchDrop.parentNode.contains(e.target)) {
                 $(searchDrop).removeClass("d-block");

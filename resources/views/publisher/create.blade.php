@@ -57,6 +57,13 @@ $lastSegment = last($segments);
         generateRandomPassword(null)
     })
 
+    document.addEventListener("DOMContentLoaded", function () {
+        // Add an event listener to the button
+        document.getElementById("previous-tab").addEventListener("click", function () {
+            // Activate Tab 2
+            document.getElementById("accountInfoTab").click();
+        });
+    });
 
     $("#country-dropdown").on("change", (e) => {
         console.log(e.target);

@@ -20,7 +20,7 @@ $lastSegment = last($segments);
         <div class="card">
             <div class="card-body">
                 @include('advertiser.create-form')
-                
+
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@ $lastSegment = last($segments);
                 'is-valid' : 'is-invalid') : 'is-invalid');
     }
 
-    
+
     window.addEventListener("DOMContentLoaded", () => {
         generateRandomPassword(null)
     })
@@ -77,17 +77,25 @@ $lastSegment = last($segments);
         })
     })
 
+    document.addEventListener("DOMContentLoaded", function () {
+        // Add an event listener to the button
+        document.getElementById("previous-tab").addEventListener("click", function () {
+            // Activate Tab 2
+            document.getElementById("accountInfoTab").click();
+        });
+    });
 
 
-    
-    
-    
 
 
 
 
-    
-    
+
+
+
+
+
+
 
     $("#accountInfoform").submit(function(event) {
         event.preventDefault();
@@ -112,12 +120,12 @@ $lastSegment = last($segments);
         });
     });
 
-    
-    
 
-    
 
-    
+
+
+
+
 
 
     $(".previous-tab-btn").click((e) => {

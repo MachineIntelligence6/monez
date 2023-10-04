@@ -66,7 +66,7 @@
                                 @foreach($advertisers as $advertiser)
                                 <tr>
                                     <td>
-                                        {{ $advertiser->company_name}} {{ $advertiser->advertiser_id }}
+                                        {{ $advertiser->company_name}} ({{ $advertiser->advertiser_id }})
                                     </td>
 
                                     <td>

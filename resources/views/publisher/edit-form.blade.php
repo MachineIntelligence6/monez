@@ -29,7 +29,7 @@
             <div class="col-md-4">
                 <div class="mb-3">
                     <label for="dbaId" class="form-label">Publisher ID</label><label class="text-danger">*</label>
-                    <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="dbaId"
+                    <input type="text" readonly @if($lastSegment!='accountinfo' ) disabled @endif class="form-control" id="dbaId"
                            name="publisher_id" placeholder="Enter Publisher ID"
                            value="{{ $publisher->publisher_id ??  old('publisher_id') }}"/>
                     <div class="valid-feedback">Valid.</div>
@@ -68,8 +68,8 @@
             </div> <!-- end col -->
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="url" class="form-label">Website</label><label class="text-danger">*</label>
-                    <input type="text" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control"
+                    <label for="website_url" class="form-label">Website</label><label class="text-danger">*</label>
+                    <input type="url" @if($lastSegment!='accountinfo' ) disabled @endif class="form-control"
                            id="website-url-input" name="website_url" placeholder="Enter website url"
                            pattern="(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"
                            value="{{ $publisher->website_url ??  old('website_url') }}">
