@@ -16,8 +16,10 @@ use App\Listeners\ChannelStateChanged;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 use Throwable;
+use function PHPUnit\TestFixture\func;
 
 class ChannelsController extends Controller
 {
@@ -41,29 +43,20 @@ class ChannelsController extends Controller
                 }
             }
         }
-
         $assignedfeeds = Feed::whereIn('id', $ids)->get();
         $channels = Channel::all();
-
-        // Get feeds for each channel
-        // foreach ($channels as $channel) {
-        //     $feedIds = explode(',', $channel->feed_ids);
-        //     $channel->feeds = Feed::whereIn('id', $feedIds)->get();
-        // }
-
 
         return view('channels.index', compact('channels', 'assignedfeeds'));
     }
 
     public function store(Request $request)
     {
+
         $channel = new Channel;
-        // dd($channel,$channelId);
-//        $channel->publisher_id = '1';
         $channel->publisher_id = $request->publisher;
+        $latestChannel = Channel::latest()->first('channelId');
 
-        $latestChannel = Channel::latest()->first();
-
+        //Generate New Channel ID
         if ($latestChannel) {
             $channelId = $latestChannel->channelId;
             $numericPart = (int)substr($channelId, 1);
@@ -81,7 +74,7 @@ class ChannelsController extends Controller
         } else {
             $newId = 'C1_d1wmd';
         }
-        // dd($channelId,$newId);s
+
         $channelId = $newId;
         $channel->channelId = $channelId;
         $channel->channel_path_id = $request->channel_path_id;
@@ -108,7 +101,7 @@ class ChannelsController extends Controller
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
             $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
         }
-        // $count = min(count($d_paramName), count($d_paramVal));
+
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
             $perameters = $perameters . $d_paramName[$i] . '=<query>';
@@ -116,15 +109,6 @@ class ChannelsController extends Controller
                 $perameters = $perameters . '&';
             }
         }
-        // $count = count($d_paramName);
-        // for ($i = 0; $i < count($d_paramName); $i++) {
-        //     if (isset($d_paramVal[$i])) {
-        //         $mergedArrayStat[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
-        //     } else {
-        //         // If $s_paramVal[$i] is null, add a null value to the merged array
-        //         $mergedArrayStat[] = $d_paramName[$i] . ' , ' . 'null';
-        //     }
-        // }
 
         for ($i = 0; $i < count($assign_feed); $i++) {
             $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
@@ -133,51 +117,58 @@ class ChannelsController extends Controller
         $feedIds = $ids; // Array of feed IDs
 
         $channel->feed_ids = implode(',', $feedIds);
-        // $channel->feed_ids = json_encode($ids);
         $channel->c_staticParameters = json_encode($mergedArrayStat);
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
         $channel->perameters = $perameters;
-
         $channel->save();
 
         $c_dailyCap = 0;
         $c_dailyIpCap = 0;
 
-        foreach ($feedIds as $key => $feedId) {
-            $feed = Feed::where('id', $feedId)->first();
-            $feed->status = 'paused';
-            $c_dailyCap = $c_dailyCap + ($feed->feedintegration->dailyCap ?? 0);
-            if ($key == 0) {
-                $c_dailyIpCap = $feed->feedintegration->dailyIpCap;
-                $c_subids = $feed->feedintegration->subids;
-                $c_acceptedGeos = $feed->feedintegration->acceptedGeos;
-                $c_searchEngine = $feed->feedintegration->searchEngine;
-                $c_feedType = $feed->feedintegration->feedType;
-                $c_trafficType = $feed->feedintegration->trafficType;
-                $c_trafficSources = $feed->feedintegration->trafficSources;
-                $c_platform = $feed->feedintegration->platform;
-                $c_browsers = $feed->feedintegration->browsers;
-                $c_otherRequirements = $feed->feedintegration->otherRequirements;
+        $highestDailyCapFeed = null;
+        $highestDailyCapValue = -1;
+
+        foreach ($feedIds as $feedId) {
+            $feed = Feed::where('id', $feedId)->with('feedintegration')->first(); // Eager load the 'feedintegration' relationship
+
+            if ($feed != null) {
+                $feed->status = 'paused';
+                $feed->save();
+
+                $dailyCap = $feed->feedintegration->dailyCap ?? 0;
+
+                if ($dailyCap > $highestDailyCapValue) {
+                    $highestDailyCapFeed = $feed;
+                    $highestDailyCapValue = $dailyCap;
+                }
             }
-            $feed->save();
+        }
+
+        if ($highestDailyCapFeed != null) {
+            $c_dailyIpCap = $highestDailyCapFeed->feedintegration->dailyIpCap;
+            $c_subids = $highestDailyCapFeed->feedintegration->subids;
+            $c_acceptedGeos = $highestDailyCapFeed->feedintegration->acceptedGeos;
+            $c_searchEngine = $highestDailyCapFeed->feedintegration->searchEngine;
+            $c_feedType = $highestDailyCapFeed->feedintegration->feedType;
+            $c_trafficType = $highestDailyCapFeed->feedintegration->trafficType;
+            $c_trafficSources = $highestDailyCapFeed->feedintegration->trafficSources;
+            $c_platform = $highestDailyCapFeed->feedintegration->platform;
+            $c_browsers = $highestDailyCapFeed->feedintegration->browsers;
+            $c_otherRequirements = $highestDailyCapFeed->feedintegration->otherRequirements;
         }
 
         $channel_Id = $channel->id;
         //generating url start
         $url = $request->c_guideUrl;
-
         // Get the position of the first "&" after the "channel" parameter
         $start = strpos($url, "channel=") + strlen("channel=");
         $end = strpos($url, "&", $start);
-
         // Split the URL into two parts
         $url1 = substr($url, 0, $start) . $channelId;
         $url2 = substr($url, $end);
-
         // Concatenate the two parts to form the updated URL
         $updated_url = $url1 . $url2;
-
         //end
         //Change Feed Status.
 
@@ -185,7 +176,7 @@ class ChannelsController extends Controller
         $channelInegration->channel_id = $channel_Id;
         $channelInegration->c_guideUrl = $updated_url;
         $channelInegration->c_subids = $c_subids;
-        $channelInegration->c_dailyCap = $c_dailyCap; //$request->c_dailyCap;
+        $channelInegration->c_dailyCap = $highestDailyCapValue; //$request->c_dailyCap;
         $channelInegration->c_dailyIpCap = $c_dailyIpCap; //$request->c_dailyIpCap;
         $channelInegration->c_acceptedGeos = $c_acceptedGeos;
         $channelInegration->c_searchEngine = $c_searchEngine;
@@ -205,31 +196,20 @@ class ChannelsController extends Controller
 
     public function view(Channel $channel)
     {
-
         $channelId = $channel->channelId;
-
         $publishers = Publisher::all();
-
         $selectedpublisher = $channel->publisher_id;
         $selectedchannelpath = $channel->channel_path_id;
-//        $publisherIds = $publishers->pluck('id')->toArray();
-        // $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
-//        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)
-//            ->whereNotIn('publisher_id', [$selectedpublisher])
-//            ->get();
-//        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
-//        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
+
         $feedids = $channel->feed_ids;
-        $feed_ids_array = json_decode($feedids, true);
-        $feeds = Feed::all();
+        $feed_ids_array = array_map('intval', explode(',', $feedids));
+        $feeds = Feed::whereIn("feeds.id", $feed_ids_array)
+            ->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
+            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get();
+
         $channelpaths = ChannelPath::all();
-        // $channelpathIds = $channelpaths->pluck('id')->toArray();
-        // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)
-        //     ->whereNotIn('publisher_id', [$selectedpublisher])
-        //     ->get();
-        // $assignedchannelpathIds = $assignedchannelpaths->pluck('channel_path_id')->toArray();
-        // $availablechannelpaths = ChannelPath::whereNotIn('id', $assignedchannelpathIds)->get();
-        return view('channels.create', compact('channel', 'selectedpublisher', 'selectedchannelpath', 'channelpaths', 'publishers', 'feeds', 'channelId'));
+        $maxDailyCap = $feeds->max('dailyCap');
+        return view('channels.create', compact('channel', 'selectedpublisher', 'selectedchannelpath', 'channelpaths', 'publishers', 'feeds', 'channelId', 'maxDailyCap'));
     }
 
     public function edit(Channel $channel)
@@ -239,50 +219,26 @@ class ChannelsController extends Controller
 
         $selectedpublisher = $channel->publisher_id;
         $selectedchannelpath = $channel->channel_path_id;
-//        $publisherIds = $publishers->pluck('id')->toArray();
-//         $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
-//        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)
-//            ->whereNotIn('publisher_id', [$selectedpublisher])
-//            ->get();
-//        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
-//        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
         $feedids = $channel->feed_ids;
-        $feed_ids_array = json_decode($feedids, true);
-        $feeds = Feed::where("id", $feed_ids_array)->orWhere('status', 'available')->get();
-
-        // $feedsIds = $feeds->pluck('id')->toArray();
-
+        $feed_ids_array = array_map('intval', explode(',', $feedids));
+        $feeds = Feed::whereIn("feeds.id", $feed_ids_array)->orWhere('status', 'available')
+            ->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
+            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get();
         $channelpaths = ChannelPath::where('status', 1)->get();
-        // $channelpathIds = $channelpaths->pluck('id')->toArray();
-        // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)
-        //     ->whereNotIn('publisher_id', [$selectedpublisher])
-        //     ->get();
-        // // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)->get();
-        // $assignedchannelpathIds = $assignedchannelpaths->pluck('channel_path_id')->toArray();
-        // $availablechannelpaths = ChannelPath::whereNotIn('id', $assignedchannelpathIds)->get();
-
-        return view('channels.create', compact('channel', 'channelpaths', 'selectedchannelpath', 'selectedpublisher', 'publishers', 'feeds', 'channelId'));
+        $maxDailyCap = $feeds->max('dailyCap');
+        return view('channels.create', compact('channel', 'channelpaths', 'selectedchannelpath', 'selectedpublisher', 'publishers', 'feeds', 'channelId', 'maxDailyCap'));
     }
 
     public function update(Request $request, Channel $channel)
     {
-        // $validatedData = $request->validate([
-
-        // ]);
-
         $channel->publisher_id = $request->publisher;
         $channel->channel_path_id = $request->channel_path_id;
         $channel->c_priorityScore = $request->c_priorityScore;
         $channel->c_comments = $request->c_comments;
-        // $channel->is_active = true;
+
         if ($request->status == null) {
             $channel->status = $channel->status;
         }
-        // if ($channel->status == 'disable') {
-        //     $channel->status = 'disable';
-        // } else {
-        //     $channel->status = $request->status;
-        // };
 
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');
@@ -290,7 +246,6 @@ class ChannelsController extends Controller
         $d_paramVal = $request->input('dy_paramValue');
         $assign_feed = $request->input('feed');
         $daily_cap = $request->input('dailyCap');
-
 
         $mergedArrayStat = [];
         $mergedArrayDy = [];
@@ -300,9 +255,7 @@ class ChannelsController extends Controller
         for ($i = 0; $i < count($s_paramName); $i++) {
             $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
         }
-        // for ($i = 0; $i < count($d_paramName); $i++) {
-        //     $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
-        // }
+
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i];
         }
@@ -317,18 +270,28 @@ class ChannelsController extends Controller
                 $ids[] = (string)$assign_feed[$i];
 
                 $feed = Feed::where('id', $assign_feed[$i])->first();
-                $feed->status = 'paused';
-                $c_dailyCap = $c_dailyCap + ($feed->feedintegration->dailyCap);
-                $c_dailyIpCap = $c_dailyIpCap + ($feed->feedintegration->dailyICap ?? 0);
-                $feed->save();
+
+                if ($feed != null) {
+                    $feed->status = 'paused';
+                    $c_dailyCap = $c_dailyCap + ($feed->feedintegration->dailyCap);
+                    $c_dailyIpCap = $c_dailyIpCap + ($feed->feedintegration->dailyIpCap ?? 0);
+                    $feed->save();
+                }
             }
 
             # code...
-            foreach (explode(',', $channel->feed_ids) as $channelFeed) {
-                foreach ($assign_feed as $feed) {
-                    if ((int)$channelFeed !== (int)$feed) {
-                        $removedFeeds [] = $channelFeed;
-                    }
+//            foreach (explode(',', $channel->feed_ids) as $channelFeed) {
+//                foreach ($assign_feed as $feed) {
+//                    if ((int)$channelFeed !== (int)$feed) {
+//                        $removedFeeds [] = $channelFeed;
+//                    }
+//                }
+//            }
+            $channelFeedIds = explode(',', $channel->feed_ids);
+            $assignFeedIds = $assign_feed;
+            foreach ($channelFeedIds as $channelFeed) {
+                if (!in_array((int)$channelFeed, $assignFeedIds)) {
+                    $removedFeeds[] = (int)$channelFeed;
                 }
             }
             $channel->feed_ids = implode(',', $ids);
@@ -337,15 +300,11 @@ class ChannelsController extends Controller
             $channel->feed_ids = null;
         }
 
-
         $channel->c_staticParameters = json_encode($mergedArrayStat);
         $channel->c_dynamicParameters = json_encode($mergedArrayDy);
         $channel->c_assignedFeeds = json_encode($mergeArrayFeed);
         $channel->update();
-
-
         $allChannels = Channel::all();
-
         $feedInChannelCount = 0;
         foreach ($allChannels as $singleChannel) {
             if (explode(',', $singleChannel->feed_ids) == $removedFeeds) {
@@ -359,34 +318,43 @@ class ChannelsController extends Controller
             foreach ($removedFeeds as $removedFeed) {
                 $feed = Feed::where('id', $removedFeed)->first();
                 if ($feed) {
-
                     $feed->status = 'available';
                     $feed->save();
                 }
-                // $c_dailyCap = $c_dailyCap - ($feed->feedintegration->dailyCap ?? 0 );
-                // $c_dailyIpCap = $c_dailyIpCap - ($feed->feedintegration->dailyICap ?? 0 )
-
             }
         }
 
-        $c_dailyCap = 0;
-
         $newFeeds = explode(',', $channel->feed_ids);
-        foreach ($newFeeds as $key => $feedId) {
-            $feed = Feed::where('id', $feedId)->first();
-            $c_dailyCap = $c_dailyCap + ($feed->feedintegration->dailyCap ?? 0);
-            if ($key == 0) {
-                $c_dailyIpCap = $feed->feedintegration->dailyIpCap;
-                $c_subids = $feed->feedintegration->subids;
-                $c_acceptedGeos = $feed->feedintegration->acceptedGeos;
-                $c_searchEngine = $feed->feedintegration->searchEngine;
-                $c_feedType = $feed->feedintegration->feedType;
-                $c_trafficType = $feed->feedintegration->trafficType;
-                $c_trafficSources = $feed->feedintegration->trafficSources;
-                $c_platform = $feed->feedintegration->platform;
-                $c_browsers = $feed->feedintegration->browsers;
-                $c_otherRequirements = $feed->feedintegration->otherRequirements;
+
+        $highestDailyCapFeed = null;
+        $highestDailyCapValue = -1;
+
+        foreach ($newFeeds as $feedId) {
+            $feed = Feed::where('id', $feedId)->with('feedintegration')->first(); // Eager load the 'feedintegration' relationship
+
+            if ($feed != null) {
+                // Calculate $c_dailyCap
+                $c_dailyCap += $feed->feedintegration->dailyCap ?? 0;
+                // Check if the current feed has a higher dailyCap value
+                if (($feed->feedintegration->dailyCap ?? 0) > $highestDailyCapValue) {
+                    $highestDailyCapFeed = $feed;
+                    $highestDailyCapValue = $feed->feedintegration->dailyCap ?? 0;
+                }
             }
+        }
+
+        if ($highestDailyCapFeed != null) {
+            // Assign other values based on the feed with the highest dailyCap
+            $c_dailyIpCap = $highestDailyCapFeed->feedintegration->dailyIpCap;
+            $c_subids = $highestDailyCapFeed->feedintegration->subids;
+            $c_acceptedGeos = $highestDailyCapFeed->feedintegration->acceptedGeos;
+            $c_searchEngine = $highestDailyCapFeed->feedintegration->searchEngine;
+            $c_feedType = $highestDailyCapFeed->feedintegration->feedType;
+            $c_trafficType = $highestDailyCapFeed->feedintegration->trafficType;
+            $c_trafficSources = $highestDailyCapFeed->feedintegration->trafficSources;
+            $c_platform = $highestDailyCapFeed->feedintegration->platform;
+            $c_browsers = $highestDailyCapFeed->feedintegration->browsers;
+            $c_otherRequirements = $highestDailyCapFeed->feedintegration->otherRequirements;
         }
 
         $channelId = $channel->id;
@@ -395,7 +363,7 @@ class ChannelsController extends Controller
         $channelIntegration->channel_id = $channelId;
         $channelIntegration->c_guideUrl = $request->c_guideUrl;
         $channelIntegration->c_subids = $c_subids;
-        $channelIntegration->c_dailyCap = $c_dailyCap; //$request->c_dailyCap;
+        $channelIntegration->c_dailyCap = $highestDailyCapValue; //$request->c_dailyCap;
         $channelIntegration->c_dailyIpCap = $c_dailyIpCap; //$request->c_dailyIpCap;
         $channelIntegration->c_acceptedGeos = $c_acceptedGeos;
         $channelIntegration->c_searchEngine = $c_searchEngine;
@@ -420,11 +388,12 @@ class ChannelsController extends Controller
 
     public function disable(Channel $channel)
     {
+        $channel->makeFeedAvailable();
         $channel->is_active = false;
         $channel->status = 'disable';
+        $channel->feed_ids = Null;
+        $channel->c_assignedFeeds = '[","]';
         $channel->save();
-        $channel->makeFeedAvailable();
-
         return redirect()->back();
     }
 
@@ -454,8 +423,6 @@ class ChannelsController extends Controller
 
         $redirectToFeedURL = 'https://www.google.com/search?q=' . $query;
 
-        // $channelInegration = ChannelIntegrationGuide::find($cahnnel->feed_ids);
-        // return $cahnnel->feed;
         if (config('app.env') == 'local') {
             $ip = '39.62.29.27';
         } else {
@@ -470,10 +437,7 @@ class ChannelsController extends Controller
             $location = null;
             $geo = '--';
         }
-        // return 1;
-        // $width = "<script>var windowWidth = screen.width;
-        // document.writeln(windowWidth); </script>";
-        // $height = "<script>var windowHeight = screen.height; document.writeln(windowHeight); </script>";
+
         $screenResolution = null;
 
         if ($cahnnel) {
@@ -481,9 +445,6 @@ class ChannelsController extends Controller
             $dPerameters = json_decode($cahnnel->c_dynamicParameters);
 
             foreach ($dPerameters as $key => $dPerameter) {
-                // return $dPerameter;
-                // return $request->getUri();
-                // return strpos($request->getUri(), "<query>");
 
                 if (strpos($request->getUri(), "%3C" . $dPerameter . "%3E")) {
                     $isQueriesValid = false;
@@ -528,16 +489,13 @@ class ChannelsController extends Controller
 
                 if ($cahnnel->status != 'disable') {
                     foreach ($feeds as $key => $feedTemp) {
-                        // return $feedTemp;
                         $feedIntegration = FeedIntegrationGuide::where('feed_id', $feedTemp->id)->get()->first();
-                        // return isset($feedIntegration->dailyCap);
                         if (($feedTemp->daily_search_cap_count < intval($feedIntegration->dailyCap)) || isset($feedIntegration->dailyCap)) {
                             $feed = Feed::find($feedTemp->id);
                             $feed->daily_search_cap_count = $feed->daily_search_cap_count + 1;
                             $redirectToFeedURL = $feed->feedPath . $feed->perameters;
                             $feed->save();
                             break;
-
                         }
                     }
                 }
@@ -563,19 +521,11 @@ class ChannelsController extends Controller
     public function create()
     {
         $publishers = Publisher::all();
-//        $publisherIds = $publishers->pluck('id')->toArray();
-//        $assignedPublishers = Channel::whereIn('publisher_id', $publisherIds)->get();
-//        $assignedPublisherIds = $assignedPublishers->pluck('publisher_id')->toArray();
-//        $availablePublishers = Publisher::whereNotIn('id', $assignedPublisherIds)->get();
+
         $channelpaths = ChannelPath::where('status', 1)->get();
 
-        // $channelpathIds = $channelpaths->pluck('id')->toArray();
-        // $assignedchannelpaths = Channel::whereIn('channel_path_id', $channelpathIds)->get();
-        // $assignedchannelpathIds = $assignedchannelpaths->pluck('channel_path_id')->toArray();
-        // $availablechannelpaths = ChannelPath::whereNotIn('id', $assignedchannelpathIds)->get();
-
         $channels = Channel::all();
-        // dd($availablechannelpaths,$assignedchannelpaths);
+
         $ids = [];
         foreach ($channels as $channel) {
             $data = $channel->c_assignedFeeds;
@@ -589,66 +539,32 @@ class ChannelsController extends Controller
         }
 
         $feeds = Feed::where('status', 'available')->get();
-//        $feedsIds = $feeds->pluck('id')->toArray();
-//        $assignedfeeds = Feed::whereIn('id', $ids)->get();
-//        $assignedfeedsIds = $assignedfeeds->pluck('id')->toArray();
-//        $availablefeeds = Feed::whereNotIn('id', $assignedfeedsIds)->get();
-        // $latestChannel = Channel::latest()->first();
 
-        // if ($latestChannel) {
-        //     $channelId = $latestChannel->channelId;
-        //     $numericPart = (int) substr($channelId, 1);
-        //     // Increment the numeric part
-        //     $numericPart++;
-        //     // Generate a new underscore part with alphabetic and numeric characters
-        //     $newUnderscorePart = "";
-        //     $characters = "0123456789abcdefghijklmnopqrstuvwxyz";
-        //     $length = 5; // desired length of the new underscore part
-        //     for ($i = 0; $i < $length; $i++) {
-        //         $newUnderscorePart .= $characters[rand(0, strlen($characters) - 1)];
-        //     }
-        //     // Update the id with the incremented numeric part and new underscore part
-        //     $newId = "C" . $numericPart . "_" . $newUnderscorePart;
-        // } else {
-        //     $newId = 'C1_d1wmd';
-        // }
-        // // dd($channelId,$newId);
-        // $channelId = $newId;
-        // dd($channelId);
-        // dd($channelId,$availablefeeds);
         return view('channels.create', compact('publishers', 'channelpaths', 'feeds'));
     }
 
-    // public function ChannelId()
-    // {
-    //     $channel = new Channel;
-    //     // $lastId = Channel::orderBy('channelId', 'desc')->first()->id;
-    //     $lastId = Channel::orderBy('channelId', 'desc')->first();
-    //     if ($lastId !== null) {
-    //         $lastId = $lastId->channelId;
-    //         $str = $lastId;
-    //         $numericPart = substr($str, 3);
-    //         $numericPart++;
-    //         $newId = 'ch_' . $numericPart;
-    //         // echo $newId;
-    //     } else {
-    //         $newId = 'ch_1001';
-    //     }
-    //     $channel->channelId = $newId;
-
-    //     $channel->save();
-    //     return $newId;
-    // }
-
     public function saveScreenResolution(Request $request)
     {
-        // $screenResolutionData = $request->width;
 
         $channelSearch = ChannelSearch::find($request->channelSearchId);
         $channelSearch->screen_resolution = $request->width . ' x ' . $request->height;
         $channelSearch->save();
         // You can now work with $screenResolutionData, which contains the width and height of the screen resolution
-
         return response()->json(['message' => 'Screen resolution saved successfully']);
+    }
+
+    public function checkUniqueAccountEmail(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'input_field' => 'unique:publishers,account_email',
+            'input_field' => 'unique:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
+        }
+
+        return response()->json(['status' => 'success']);
     }
 }

@@ -10,8 +10,17 @@ $currentUrl = url()->current();
 $Segmenttwo = request()->segment(2);
 $segments = request()->segments();
 $lastSegment = last($segments);
-
 @endphp
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <div class="mt-2 alert alert-danger alert-dismissible fade show" role="alert">
+            {{$error}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endforeach
+@endif
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -68,7 +77,7 @@ $lastSegment = last($segments);
                         validateInput("#email", false);
                         $("#email-invalid").text('Email already registered.');
                     } else {
-                        console.log(response);
+
                     }
                 },
                 error: function(response) {

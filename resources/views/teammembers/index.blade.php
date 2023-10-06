@@ -27,8 +27,6 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-4">
-                            <!-- <button type="button" class="btn btn-danger waves-effect waves-light" data-trigger="modal" data-target="add-member-modal"><i class="mdi mdi-plus-circle mr-1"></i></i>Add Member
-                                        </button> -->
                             <a href="{{ route('second', ['team-members', 'create']) }}" class="btn btn-danger waves-effect waves-light">
                                 <i class="mdi mdi-plus-circle mr-1"></i>
                                 Add New

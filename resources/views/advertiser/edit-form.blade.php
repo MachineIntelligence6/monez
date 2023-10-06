@@ -620,7 +620,7 @@
         var inputVal = $(this).val();
         if (inputVal.length > 0) {
             $.ajax({
-                url: "{{route('check.unique.accEmail')}}",
+                url: "{{route('advertiser.check-unique-email')}}",
                 type: 'POST',
                 data: {
                     "_token": "{{ csrf_token() }}",
@@ -628,15 +628,14 @@
                 },
                 dataType: 'json',
                 success: function(response) {
+                    console.log(response);
                     if (response.status === 'error') {
                         validateInput("#accEmail", false);
                         $("#accEmail-invalid").text('Email already registered.');
                     } else {
-                        console.log(response);
                     }
                 },
                 error: function(response) {
-                    console.log(response);
                 }
             });
         } else {

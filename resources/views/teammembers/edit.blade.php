@@ -1,6 +1,15 @@
 @extends('layouts.vertical', ['title' => 'Team Member Profile'])
-
 @section('content')
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <div class="mt-2 alert alert-danger alert-dismissible fade show" role="alert">
+                {{$error}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endforeach
+    @endif
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -21,6 +30,6 @@
 
 @section("script")
 <script>
-    
+
 </script>
 @endsection

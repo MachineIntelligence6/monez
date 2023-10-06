@@ -3,9 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="form-category">
-
                     <div>
-
                         <div class="row justify-content-between">
                             <div class="col-auto">
                                 <h5 class="mb-3 text-uppercase"><i class="mdi mdi-account-circle mr-2"></i>
@@ -129,18 +127,13 @@
 
                             </div> <!-- end row -->
                         </div>
-
                         @if($lastSegment=='create')
                         <div class="row pl-2">
-
                             <button class="btn btn-primary" type="submit">
                                 Add </button>
-
                             <a href="{{ route('team-members.index') }}" class="btn btn-secondary ml-1" type="button">Cancel</a>
                         </div>
-
                         @endif
-
                     </div>
                 </div>
             </div>

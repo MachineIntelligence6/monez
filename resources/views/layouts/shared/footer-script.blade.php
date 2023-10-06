@@ -49,6 +49,8 @@
 
 <!-- Forms Validation Trigger Script  -->
 <script>
+    $('.alert').alert();
+
     function validateInput(target, success = true) {
         $(target).removeClass('is-valid is-invalid')
             .addClass(success ? ($(target)[0].checkValidity() ? 'is-valid' : 'is-invalid') : 'is-invalid');

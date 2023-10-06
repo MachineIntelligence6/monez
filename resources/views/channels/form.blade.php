@@ -268,6 +268,7 @@
         let container = document.getElementById(containerId);
         let sample = container.querySelector("#" + sampleId);
         let element = document.createElement('div')
+
         element.id = ""
         element.style = "max-width: 100%; overflow-x: hidden;"
         element.classList.add("d-flex");
@@ -282,7 +283,7 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" class="form-control" style="border: none;" id="paramValue" name="dy_paramValue[]" disabled placeholder="User entered value" />
+                            <input type="text" class="form-control"  ${containerId === 'dynamicParametersContainer' ? `style="border: none;"` : ''} ${containerId === 'dynamicParametersContainer' ? disabled="disabled" : ''} id="paramValue" name="dy_paramValue[]"  placeholder="User entered value" />
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
@@ -301,7 +302,7 @@
         <select class="form-control" @if($condition==$lastSegment) disabled @endif name="feed[]" data-toggle="select2" onchange="updateDailyCap(this)">
             <option value="">Select Feed</option>
             @foreach ($feeds as $feed)
-            <option value="{{ $feed->id }}" @if(isset($parts[0]) && $feed->id == $parts[0]) selected " @endif  @if($feed->feedintegration) data-daily-cap="{{ $feed->feedintegration->dailyCap }}" @endif >{{ $feed->feedId }}</option>
+            <option value="{{ $feed->feed_id }}" @if(isset($parts[0]) && $feed->feed_id == $parts[0]) selected " @endif  @if($feed->dailyCap) data-daily-cap="{{ $feed->dailyCap }}" @endif >{{ $feed->feedId }}</option>
             @endforeach
         </select>
         <div class="valid-feedback">Valid.</div>

@@ -65,9 +65,11 @@
                                 You must enter valid input
                             </div>
                         </div>
+                        @if($condition!=$lastSegment)
                         <div class="col-1">
                             <button type="button" onclick="removeElementFromContainer(this, 'staticParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
                         </div>
+                        @endif
                     </div>
                     @endforeach
 

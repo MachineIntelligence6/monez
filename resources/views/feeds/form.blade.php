@@ -105,22 +105,23 @@
             </div>
         </div>
         @if($lastSegment!='create')
-{{--        <div class="col-md-4 mb-3">--}}
-{{--            <label for="status" class="form-label">Status</label><label class="text-danger">*</label>--}}
-{{--            <select class="form-control" @if($condition==$lastSegment || isset($feed->channel)) disabled @endif name="status" data-toggle="select2" required>--}}
-{{--                <option value="select status">select status</option>--}}
-{{--                <option value="live" @if($feed->status == 'live') selected @endif disabled>Live</option>--}}
-{{--                <option value="pause" @if($feed->status == 'pause') selected @endif disabled>Pause</option>--}}
-{{--                <option value="disable" @if($feed->status == 'disable') disabled selected @endif>Disable</option>--}}
-{{--                @if($feed->status == 'disable')--}}
-{{--                <option value="live">Enable</option>--}}
-{{--                @endif--}}
-{{--            </select>--}}
-{{--            <div class="valid-feedback">Valid.</div>--}}
-{{--            <div class="invalid-feedback">--}}
-{{--                Select a Status to continue.--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        <div class="col-md-4 mb-3">
+            <label for="status" class="form-label">Status</label><label class="text-danger">*</label>
+            <select class="form-control" @if($condition==$lastSegment) disabled @endif name="status" data-toggle="select2" required>
+                <option value="select status" disabled>select status</option>
+                <option value="available" @if($feed->status == 'available') selected @endif disabled>Available</option>
+                <option value="live" @if($feed->status == 'live') selected @endif disabled>Live</option>
+                <option value="pause" @if($feed->status == 'pause') selected @endif disabled>Pause</option>
+                <option value="disabled" @if($feed->status == 'disabled') disabled selected @endif>Disable</option>
+                @if($feed->status == 'disabled')
+                <option value="enabled">Enable</option>
+                @endif
+            </select>
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">
+                Select a Status to continue.
+            </div>
+        </div>
         @endif
         <div class="col-md-4">
             <div class="mb-3">
@@ -276,7 +277,7 @@
 
     function removeElementFromContainer(target, sampleId) {
         let parameter = target.parentNode.parentNode;
-        if (parameter.id === sampleId) return;
+        // if (parameter.id === sampleId) return;
         parameter.remove();
     }
 </script>

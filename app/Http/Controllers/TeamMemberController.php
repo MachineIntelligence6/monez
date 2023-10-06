@@ -52,13 +52,13 @@ class TeamMemberController extends Controller
         // dd('test');
         $validatedData = $request->validate([
             'name'  => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'password'=> 'required',
             'phone'=>'required',
             // 'skype'=> 'required',
             // 'linkedin'=> 'required',
         ]);
-        // dd($validatedData);
+
         $teamMember = new User();
         // dd($validatedData);
         $teamMember->name = $request->name;
@@ -145,12 +145,6 @@ class TeamMemberController extends Controller
 
         return response()->json(['status' => 'success']);
 
-
-        if ($validator->fails()) {
-            return response()->json(['status' => 'error', 'message' => 'The email is already used.']);
-        }
-
-        return response()->json(['status' => 'success']);
     }
 
     public function checkUniquetephone(Request $request)

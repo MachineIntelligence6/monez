@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_subids" class="form-label">Sub Ids</label>
-                        <input type="text" class="form-control" id="c_subids" @if($condition == $lastSegment) disabled @endif  value="{{old('c_subids', $channel->channelintegration->c_subids ?? '')}}" name="c_subids" placeholder="Sub Ids">
+                        <input type="text" class="form-control" id="c_subids" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_subids', $channel->channelintegration->c_subids ?? '')}}" name="c_subids" placeholder="Sub Ids">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_acceptedGeos" class="form-label">Geos</label>
-                        <input type="text" class="form-control" id="acceptedGeos" @if($condition == $lastSegment) disabled @endif  value="{{old('c_acceptedGeos', $channel->channelintegration->c_acceptedGeos ?? '')}}" name="c_acceptedGeos" placeholder="Geos">
+                        <input type="text" class="form-control" id="acceptedGeos" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_acceptedGeos', $channel->channelintegration->c_acceptedGeos ?? '')}}" name="c_acceptedGeos" placeholder="Geos">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_searchEngine" class="form-label">Search Engine / Ads</label>
-                        <input type="text" class="form-control" id="searchEngine" @if($condition == $lastSegment) disabled @endif  value="{{old('c_searchEngine', $channel->channelintegration->c_searchEngine ?? '')}}" name="c_searchEngine" placeholder="Search Engine / Ads">
+                        <input type="text" class="form-control" id="searchEngine" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_searchEngine', $channel->channelintegration->c_searchEngine ?? '')}}" name="c_searchEngine" placeholder="Search Engine / Ads">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_feedType" class="form-label">Feed Type</label>
-                        <input type="text" class="form-control" @if($condition == $lastSegment) disabled @endif  value="{{old('c_feedType', $channel->channelintegration->c_feedType ?? '')}}" id="feedType" name="c_feedType" placeholder="Feed Type">
+                        <input type="text" class="form-control" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_feedType', $channel->channelintegration->c_feedType ?? '')}}" id="feedType" name="c_feedType" placeholder="Feed Type">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_trafficType" class="form-label">Traffic Type</label>
-                        <input type="text" class="form-control" @if($condition == $lastSegment) disabled @endif  value="{{old('c_trafficType', $channel->channelintegration->c_trafficType ?? '')}}" id="trafficType" name="c_trafficType" placeholder="Traffic Type">
+                        <input type="text" class="form-control" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_trafficType', $channel->channelintegration->c_trafficType ?? '')}}" id="trafficType" name="c_trafficType" placeholder="Traffic Type">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -78,7 +78,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_trafficSources" class="form-label">Traffic Sources</label>
-                        <input type="text" class="form-control" id="trafficSources" @if($condition == $lastSegment) disabled @endif  value="{{old('c_trafficSources', $channel->channelintegration->c_trafficSources ?? '')}}" name="c_trafficSources" placeholder="Traffic Sources">
+                        <input type="text" class="form-control" id="trafficSources" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_trafficSources', $channel->channelintegration->c_trafficSources ?? '')}}" name="c_trafficSources" placeholder="Traffic Sources">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -86,7 +86,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_platform" class="form-label">Platform</label>
-                        <input type="text" class="form-control" @if($condition == $lastSegment) disabled @endif  value="{{old('c_platform', $channel->channelintegration->c_platform ?? '')}}" id="platform" name="c_platform" placeholder="Platform">
+                        <input type="text" class="form-control" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_platform', $channel->channelintegration->c_platform ?? '')}}" id="platform" name="c_platform" placeholder="Platform">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -94,7 +94,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_browsers" class="form-label">Browsers</label>
-                        <input type="text" class="form-control" id="browsers" @if($condition == $lastSegment) disabled @endif  value="{{old('c_browsers', $channel->channelintegration->c_browsers ?? '')}}" name="c_browsers" placeholder="Browsers">
+                        <input type="text" class="form-control" id="browsers" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_browsers', $channel->channelintegration->c_browsers ?? '')}}" name="c_browsers" placeholder="Browsers">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input
@@ -102,7 +102,7 @@
                     </div>
                     <div class="col-12 mb-3">
                         <label for="c_otherRequirements" class="form-label">Other Requirements Like TQ, RPM, CPC, CTR etc</label>
-                        <input type="text" class="form-control" id="otherRequirements" @if($condition == $lastSegment) disabled @endif  value="{{old('c_otherRequirements', $channel->channelintegration->c_otherRequirements ?? '')}}" name="c_otherRequirements" placeholder="Other Requirements Like TQ, RPM, CPC, CTR etc">
+                        <input type="text" class="form-control" id="otherRequirements" readonly @if($condition == $lastSegment) disabled @endif  value="{{old('c_otherRequirements', $channel->channelintegration->c_otherRequirements ?? '')}}" name="c_otherRequirements" placeholder="Other Requirements Like TQ, RPM, CPC, CTR etc">
                         <div class="valid-feedback">Valid.</div>
                         <div class="invalid-feedback">
                             You must enter valid input

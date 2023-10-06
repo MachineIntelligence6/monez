@@ -262,12 +262,22 @@ class FeedsController extends Controller
         $feed->keywordParameter = $request->keywordParameter;
         $feed->priorityScore = $request->priorityScore;
         $feed->comments = $request->comments;
-        if ($request->status == null) {
-            $feed->status = $feed->status;
+
+        if ($request->status != null) {
+            if($request->status == "disabled")
+            {
+                $this->disable($feed);
+            }
+            if($request->status == 'enabled')
+            {
+                $this->enable($feed);
+            }
         }
+
         if ($request->state == null) {
             $feed->state = $feed->state;
         }
+
         // $feed->is_default = false;
         $s_paramName = $request->input('paramName');
         $s_paramVal = $request->input('paramValue');

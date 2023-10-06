@@ -1,4 +1,3 @@
-{{-- {{dd($pubActiveTab)}} --}}
 <div id="btnwizard">
     <ul class="nav nav-pills bg-light nav-justified form-wizard-header mb-4">
         <li class="nav-item">
@@ -17,22 +16,9 @@
                 Contact Info (Account Manager)
             </a>
         </li>
-        <!-- <li class="nav-item">
-            <a data-target="#operationsInfoTab" data-toggle="tab" id="operationInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $pubActiveTab == 'operationsInfoTab' ? 'active' : '' }} pt-2 pb-2">
-                <i class="mdi mdi-office-building mr-2"></i>
-                Operations Info
-            </a>
-        </li>
-        <li class="nav-item">
-            <a data-target="#financeInfoTab" data-toggle="tab" id="financeInfoTabbutton" style="pointer-events: none; user-select: none;" class="nav-link rounded-0 {{ $pubActiveTab == 'financeInfoTab' ? 'active' : '' }} pt-2 pb-2">
-                <i class="mdi mdi-office-building mr-2"></i>
-                Finance Info
-            </a>
-        </li> -->
     </ul>
 
     <div class="tab-content mb-0 b-0 pt-0">
-        {{-- {{ \Session::get('pubActiveTab') == 'accountInfoTab' ? 'active show' : '' }} --}}
         <!-- Account Info Tab Start  -->
         <div class="tab-pane {{ $pubActiveTab == 'accountInfoTab' ? 'active show' : '' }} fade" id="accountInfoTab">
             <form class="needs-validation" id="accountInfoform" method="post"
@@ -45,9 +31,6 @@
                                 class="text-danger">*</label>
                             <div class="input-group input-group-merge">
                                 <div class="input-group-append">
-                                    {{-- <div class="input-group-text">
-                                        <span>A{{$counter}}_</span>
-                                </div> --}}
                                 </div>
                                 <input type="text" class="form-control" id="dbaId" name="publisher_id"
                                     data-check-unique="oninput" data-invalid-message="publisher ID already registered."
@@ -257,16 +240,6 @@
                             You must enter valid input
                         </div>
                     </div>
-                    <!-- <div class="row mb-3">
-                <div class="col-md-6 h-100 mb-3">
-                    <label for="io" class="form-label">IO</label>
-                    <input type="file" name="io_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple />
-                </div>
-                <div class="col-md-6 h-100 mb-3">
-                    <label for="documents" class="form-label">Documents</label>
-                    <input type="file" name="document_files[]" class="dropify" data-height="200" data-allowed-file-extensions="pdf" accept="application/pdf" data-max-file-size="5M" multiple />
-                </div>
-            </div> -->
                     <div class="row px-2 justify-content-between" style="width: 100%;">
                         <a href="{{ route('publisher.index') }}" class="btn btn-secondary ml-1"
                             type="button">Cancel</a>
@@ -383,156 +356,4 @@
         </form>
     </div>
     <!-- Contact Info Tab End  -->
-
-
-    <!-- Operations Info Tab Start  -->
-    <!-- <div class="tab-pane {{ $pubActiveTab == 'operationsInfoTab' ? 'active show' : '' }} fade" id="operationsInfoTab">
-            <form class="needs-validation" id="operationInfoform" method="post" action="{{ route('publisher.store.operation') }}" enctype="multipart/form-data" novalidate>
-                @csrf
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="revSharePer" class="form-label">Revenue Share (%)</label><label class="text-danger">*</label>
-                            <input type="number" class="form-control" onchange="this.value = Math.min(this.value, 100)" id="revSharePer" name="revenue_share" placeholder="Enter Revenue Share (%)" required value="{{ session()->get('publisher.revenue_share') }}">
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="paymentTerms" class="form-label">Payment Terms </label><label class="text-danger">*</label>
-                            <div class="input-group">
-                                <select class="form-control" data-toggle="select2" id="paymentTerms" name="payment_terms" required>
-                                    <option value="" selected>Select Payment Term</option>
-                                    <option {{ session()->get('publisher.payment_terms') == 'SH1' ? 'selected' : '' }} value="SH1">Net 15</option>
-                                    <option {{ session()->get('publisher.payment_terms') == 'SH2' ? 'selected' : '' }} value="SH2">Net 30</option>
-                                    <option {{ session()->get('publisher.payment_terms') == 'SH3' ? 'selected' : '' }} value="SH3">Net 45</option>
-                                    <option {{ session()->get('publisher.payment_terms') == 'SH4' ? 'selected' : '' }} value="SH4">Net 60</option>
-                                </select>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="reportEmail" class="form-label">Reporting Email</label><label class="text-danger">*</label>
-                            <input type="email" class="form-control" id="reportEmail" name="reporting_email" placeholder="Enter reporting email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ session()->get('publisher.reporting_email') }}">
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div>
-                    </div>
-                    {{-- <div class="col-md-4 mb-3">
-                        <label for="reportColumns" class="form-label">Report Details</label>
-                        <div class="input-group input-group-merge">
-                            <input type="text" class="form-control" style="pointer-events: none;" id="reportColumns" name="reportColumns" placeholder="Define report details">
-                            <input type="text" class="form-control d-none" id="reportColumnsId" name="report_columns_id" value="{{ session()->get('publisher.report_columns_id') }}">
-                            <div class="input-group-append">
-                                <button type="button" data-trigger="modal" data-target="report-details-modal" class="btn btn-secondary">
-                                    <span class="dripicons-document-edit"></span>
-                                </button>
-                            </div>
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div>
-                    </div> --}}
-                    <div class="col-md-4 mb-3">
-                        <label for="successManager" class="form-label">Success Manager</label><label class="text-danger">*</label>
-                        <select class="form-control" data-toggle="select2" id="successManager" name="team_member_id" required>
-                            <option value="" selected disabled>Select Success Manager</option>
-                            @foreach ($availableTeamMembers as $key => $teamMember)
-<option value="{{ $teamMember->id }}" @if (session()->get('publisher.team_member_id') == $teamMember->id) selected @endif>
-                                {{ $teamMember->name }}
-                            </option>
-@endforeach
-                        </select>
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">
-                            You must enter valid input
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row px-2 justify-content-between">
-                    <button class="btn btn-secondary ml-1 previous-tab-btn" type="button">Previous</button>
-                    <button class="btn btn-primary" type="submit">Next</button>
-                </div>
-            </form>
-        </div> -->
-    <!-- Operations Info Tab End  -->
-
-
-    <!-- Finance Info Tab Start -->
-    <!-- <div class="tab-pane {{ $pubActiveTab == 'financeInfoTab' ? 'active show' : '' }}" id="financeInfoTab">
-
-            <form class="needs-validation" id="financeInfoform" method="post" action="{{ route('publisher.store.all') }}" enctype="multipart/form-data" novalidate>
-                @csrf
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="billEmail" class="form-label">Billing / Finance Email</label><label class="text-danger">*</label>
-                            <input type="email" class="form-control" id="billEmail" name="billing_email" placeholder="Enter billing / financial email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required value="{{ session()->get('publisher.billing_email') }}">
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid input
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="bank" class="form-label">Bank <span class="text-danger"></span></label>
-                            <div class="input-group input-group-merge">
-                                <input type="text" style="pointer-events: none;" tabindex="-1" class="form-control" id="bank" name="bank" placeholder="Enter Bank account" value="{{ session()->get('publisher.bank') }}">
-                                <input type="text" class="form-control d-none" id="bankId" name="bank_id">
-                                <div class="input-group-append">
-                                    <button type="button" data-trigger="modal" data-target="add-bank-details-modal" class="btn btn-secondary">
-                                        <span class="mdi mdi-bank-plus"></span>
-                                    </button>
-                                </div>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="paypal" class="form-label">Paypal</label>
-                            <input type="text" class="form-control" id="paypal" name="paypal" placeholder="Enter Paypal account" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" value="{{ session()->get('publisher.paypal') }}">
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid email format
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="payoneer" class="form-label">Payoneer</label>
-                            <input type="text" class="form-control" id="payoneer" name="payoneer" placeholder="Enter payoneer account" value="{{ session()->get('publisher.payoneer') }}">
-                            <div class="valid-feedback">Valid.</div>
-                            <div class="invalid-feedback">
-                                You must enter valid email format
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row px-2 justify-content-between">
-                    <button class="btn btn-secondary ml-1 previous-tab-btn" type="button">Previous</button>
-                    <button class="btn btn-primary" type="submit">Submit</button>
-                </div>
-            </form>
-        </div> -->
-    <!-- Finance Info Tab End -->
-
-
-    <!-- tab-content -->
 </div>

@@ -270,9 +270,6 @@
         ],
     });
 
-
-
-
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
         if (value === "custom-range") {
@@ -288,7 +285,6 @@
             });
         }
     })
-
 
     //Filters Flow
     $("#partner-type").on("change", (e) => {
@@ -319,8 +315,5 @@
                 .removeProp("disabled");
         }
     })
-
-
-
 </script>
 @endsection
