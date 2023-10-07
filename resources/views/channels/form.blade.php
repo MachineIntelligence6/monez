@@ -258,6 +258,7 @@
     function updateDailyCap(selectElement) {
         // Get the selected feed value (feed ID)
         const dailyCapValue = selectElement.options[selectElement.selectedIndex].getAttribute('data-daily-cap');
+        console.log(dailyCapValue);
         // Find the corresponding dailyCap input element
         const dailyCapInput = selectElement.parentElement.nextElementSibling.querySelector('#dailyCap');
         // Set the value of the dailyCap input to the custom attribute value

@@ -328,6 +328,15 @@ class ChannelsController extends Controller
 
         $highestDailyCapFeed = null;
         $highestDailyCapValue = -1;
+        $c_subids = null;
+        $c_acceptedGeos = null;
+        $c_searchEngine = null;
+        $c_feedType = null;
+        $c_trafficType = null;
+        $c_trafficSources = null;
+        $c_platform = null;
+        $c_browsers = null;
+        $c_otherRequirements = null;
 
         foreach ($newFeeds as $feedId) {
             $feed = Feed::where('id', $feedId)->with('feedintegration')->first(); // Eager load the 'feedintegration' relationship
@@ -538,7 +547,8 @@ class ChannelsController extends Controller
             }
         }
 
-        $feeds = Feed::where('status', 'available')->get();
+        $feeds = Feed::where('status', 'available')->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
+            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get();
 
         return view('channels.create', compact('publishers', 'channelpaths', 'feeds'));
     }

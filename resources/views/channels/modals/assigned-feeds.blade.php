@@ -25,6 +25,7 @@
                         @endphp
 
                         @if($array != null)
+
                             @foreach ($array as $key => $value)
                                 @php
                                     $parts = explode(' , ', $value);
@@ -33,15 +34,17 @@
                                      style="max-width: 100%; overflow-x: hidden;">
                                     <div class="col-md-6">
                                         <select class="form-control" @if($condition==$lastSegment) disabled
-                                            @endif name="feed[]" id="country-dropdown" data-toggle="select2">
+                                                @endif name="feed[]" id="country-dropdown" data-toggle="select2"
+                                                onchange="updateDailyCap(this)">
                                             <option value="">Select Feed</option>
                                             @foreach ($feeds as $key => $feed)
                                                 <option value="{{ $feed->feed_id }}"
-                                                    @if(isset($parts[0]) && $feed->feed_id == $parts[0])
-                                                        selected
-                                                    @endif>{{ $feed->feedId }}
-                                                    @if($maxDailyCap == $feed->dailyCap) Primary @endif
-
+                                                        @if(isset($parts[0]) && $feed->feed_id == $parts[0])
+                                                            selected
+                                                        @endif data-daily-cap="{{ $feed->dailyCap }}">{{ $feed->feedId }}
+                                                    @if($maxDailyCap == $feed->dailyCap)
+                                                        Primary
+                                                    @endif
                                                 </option>
                                             @endforeach
                                         </select>
@@ -55,8 +58,7 @@
                                         @foreach($feeds as $feed)
                                             @if(isset($parts[0]) && $feed->feed_id == $parts[0])
                                                 <input type="number" class="form-control"
-                                                       @if($condition==$lastSegment) disabled
-                                                       @endif value="{{ $feed->dailyCap}}"
+                                                       value="{{$feed->dailyCap? $feed->dailyCap:''}}"
                                                        id="dailyCap" name="dailyCap[]" placeholder="Enter Daily Cap"
                                                        readonly/>
                                                 <div class="valid-feedback">Valid.</div>
@@ -75,6 +77,7 @@
                             @endforeach
                         @endif
                     @else
+
                         <div class="d-flex w-100 assignedFeed mb-3" id="assignedFeedSample"
                              style="max-width: 100%; overflow-x: hidden;">
                             <div class="col-md-6">
@@ -94,12 +97,14 @@
                             <div class="col-md-5">
                                 @foreach($feeds as $feed)
                                     @if(isset($parts[0]) && $feed->feed_id == $parts[0])
-                                <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
-                                       placeholder="Enter Daily Cap" value="{{ $feed->dailyCap}}" readonly/>
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">
-                                    You must enter valid input
-                                </div>
+                                        <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
+                                               placeholder="Enter Daily Cap"
+                                               value="{{$feed->dailyCap? $feed->dailyCap:''}}" readonly/>
+                                        <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">
+                                            You must enter valid input
+                                        </div>
+
                                     @endif
                                 @endforeach
                             </div>
