@@ -7,19 +7,16 @@ use App\ChannelIntegrationGuide;
 use App\ChannelPath;
 use App\ChannelSearch;
 use App\Events\ChannelSearched;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Publisher;
 use App\Feed;
 use App\FeedIntegrationGuide;
 use App\Listeners\ChannelStateChanged;
+use App\Publisher;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 use Throwable;
-use function PHPUnit\TestFixture\func;
 
 class ChannelsController extends Controller
 {
@@ -266,7 +263,7 @@ class ChannelsController extends Controller
         $removedFeeds = [];
         if ($request->has('feed')) {
             for ($i = 0; $i < count($assign_feed); $i++) {
-                $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
+                $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . ($daily_cap[$i] ?? 0);
                 $ids[] = (string)$assign_feed[$i];
 
                 $feed = Feed::where('id', $assign_feed[$i])->first();
