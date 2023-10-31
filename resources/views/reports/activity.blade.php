@@ -1,6 +1,13 @@
 @extends('layouts.vertical', ['title' => 'Activity Reports'])
 
 @section('content')
+
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<style>
+div.dt-buttons {
+    float: right;
+}    
+</style>
 <!-- Start Content-->
 <div class="container-fluid">
 
@@ -26,7 +33,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row mb-3 justify-content-end">
+                    <!-- <div class="row mb-3 justify-content-end">
                         <div class="col-auto">
                             <div class="row align-items-center">
                                 <div class="col-auto">
@@ -39,41 +46,42 @@
                                     <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" data-target="#show-columns-dropdown" aria-haspopup="true" aria-expanded="false">
                                         Show Columns
                                     </button>
+                                                                       
                                     <div id="show-columns-dropdown" class="dropdown-menu">
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="channel-path">
-                                                <label class="custom-control-label w-100" for="channel-path">Channel Path</label>
+                                                <label class="custom-control-label w-100" for="channel-path" data-column="0">Channel Path</label>
                                             </div>
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="referer">
-                                                <label class="custom-control-label w-100" for="referer">Referer</label>
+                                                <label class="custom-control-label w-100" for="referer" data-column="1">Referer</label>
                                             </div>
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="location">
-                                                <label class="custom-control-label w-100" for="location">Location</label>
+                                                <label class="custom-control-label w-100" for="location" data-column="2">Location</label>
                                             </div>
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="latency">
-                                                <label class="custom-control-label w-100" for="latency">Latency (seconds)</label>
+                                                <label class="custom-control-label w-100" for="latency" data-column="3">Latency (seconds)</label>
                                             </div>
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="useragent">
-                                                <label class="custom-control-label w-100" for="useragent">UserAgent</label>
+                                                <label class="custom-control-label w-100" for="useragent" data-column="4">UserAgent</label>
                                             </div>
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="screen-resolution">
-                                                <label class="custom-control-label w-100" for="screen-resolution">Screen Resolution</label>
+                                                <label class="custom-control-label w-100" for="screen-resolution" data-column="5">Screen Resolution</label>
                                             </div>
                                         </div>
                                         <div class="dropdown-item">
@@ -99,7 +107,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row mb-2 align-items-center justify-content-between">
                         <div class="col-9">
                             <div class="row">
@@ -256,19 +264,49 @@
 
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
+<script src="{{asset('assets/js/modal-init.js')}}"></script>
+
+<!-- dataTables scripts -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> -->
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
 
 <script type="text/javascript">
     let table = $('#products-datatable').DataTable({
+        dom: 'Bfrtip',  
+        buttons: [
+            {
+                extend: 'colvis',
+                columns: ':not(.noVis)',
+                text: 'Show Columns'            
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                text:'Export CSV'
+            }
+            ],
+
         searching: false,
         filter: true,
         paging: true,
         info: true,
         order: [],
+       
         "lengthMenu": [
             [50, 100, 250, 500],
             [50, 100, 250, 500]
         ],
     });
+    $('#partner-type').click(function(){alert('1')})
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
@@ -287,9 +325,11 @@
     })
 
     //Filters Flow
+
     $("#partner-type").on("change", (e) => {
         if ($(e.target).val() !== "") {
             let selectedText = $("#partner-type option:selected").text();
+            
             let partnersRenderContainer = $("#partners")
                 .removeProp("disabled")
                 .siblings(".select2-container")
@@ -308,12 +348,25 @@
             $("#feeds-channels")
                 .removeProp("disabled")
         }
-    })
+    });
     $("#feeds-channels").change((e) => {
         if ($(e.target).val() !== "") {
             $("#select-period")
                 .removeProp("disabled");
         }
+    });
+
+    $("[data-toggle='dropdown']").click(function() {
+        $($(this).attr("data-target")).toggleClass("d-block");
+    })
+
+    $(document).on('click', (e) => {
+        console.log(e.target)
+        $('.dropdown-menu').each((_, searchDrop) => {
+            if (!searchDrop.parentNode.contains(e.target)) {
+                $(searchDrop).removeClass("d-block");
+            }
+        })
     })
 </script>
 @endsection
