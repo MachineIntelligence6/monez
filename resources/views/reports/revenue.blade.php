@@ -2,7 +2,12 @@
 
 @section('content')
 <!-- Start Content-->
-
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<style>
+div.dt-buttons {
+    float: right;
+}    
+</style>
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -36,16 +41,16 @@
                                         <label class="btn btn-primary" for="customFile">Upload CSV</label>
                                     </div>
                                 </div>
-                                <div class="col-auto">
+                                <!-- <div class="col-auto">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="customFile" accept=".csv">
                                         <label class="btn btn-primary" for="customFile">Export CSV</label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-auto">
                                     <button class="btn btn-secondary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
                                 </div>
-                                <div class="col-auto dropleft" style="min-width: 160px">
+                                <!-- <div class="col-auto dropleft" style="min-width: 160px">
                                     <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" data-target="#show-columns-dropdown" aria-haspopup="true" aria-expanded="false">
                                         Show Columns
                                     </button>
@@ -93,7 +98,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                             </div>
                         </div>
@@ -269,8 +274,31 @@
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
+
+<!-- dataTables scripts -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
 <script type="text/javascript">
     $('#products-datatable').DataTable({
+        dom: 'Bfrtip',  
+        buttons: [
+            {
+                extend: 'colvis',
+                columns: ':not(.noVis)',
+                text: 'Show Columns'            
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                text:'Export CSV'
+            }
+            ],        
         searching: false,
         filter: true,
         paging: true,
