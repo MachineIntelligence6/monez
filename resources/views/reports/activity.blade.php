@@ -7,6 +7,18 @@
 div.dt-buttons {
     float: right;
 }    
+div.dataTables_filter label input{
+    height: calc(1.5em + 0.56rem + 2px);
+    padding: 0.28rem 0.8rem;
+    font-size: 0.7875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    color: #6c757d;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    margin-right:5px;
+      }
 </style>
 <!-- Start Content-->
 <div class="container-fluid">
@@ -184,7 +196,17 @@ div.dt-buttons {
                         </div>
                     </div> -->
                     <div class="table-responsive">
-                        <table class="table table-centered table-nowrap table-striped" id="products-datatable">
+                        <!-- <table border="0" cellspacing="5" cellpadding="5">
+                            <tbody>
+                                <tr>
+                                    <td>Period From:</td>
+                                    <td><input type="text" id="min" name="min"></td>
+                                    <td>Period To:</td>
+                                    <td><input type="text" id="max" name="max"></td>
+                                </tr>
+                            </tbody>  
+                        </table> -->
+                        <table class="table table-centered table-nowrap table-striped" id="products-datatable">                          
                             <thead>
                                 <tr>
                                     <th>Date & Time Of Search</th>
@@ -300,7 +322,9 @@ div.dt-buttons {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
-<!-- <script src="https://datatables.net/download/build/nightly/jquery.dataTables.js"></script> -->
+<!-- <script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script> -->
+
 
 <script type="text/javascript">
     let table = $('#products-datatable').DataTable({
@@ -320,10 +344,12 @@ div.dt-buttons {
                 text:'Export CSV'
             }
             ],
+        // select:
+        // className: 'form-control form-control-sm',
             initComplete: function () {
-            this.api().columns([2,3,4,5]).every( function () {
+            this.api().columns([0,2,3,4,5]).every( function () {
                 var column = this;
-                var select = $('<select><option value=""></option></select>')
+                var select = $('<select class="form-control form-control-sm"><option value=""></option></select>')
                     .appendTo( $("#products-datatable thead tr:eq(1) th").eq(column.index()).empty() )
                     .on( 'change', function () {
                         var val = $.fn.dataTable.util.escapeRegex(
@@ -372,6 +398,43 @@ div.dt-buttons {
       }
     } );
   } );
+
+  // period from - to filter starts here
+        // let minDate, maxDate;
+        
+        // // Custom filtering function which will search data in column four between two values
+        // DataTable.ext.search.push(function (settings, data, dataIndex) {
+        //     let min = minDate.val();
+        //     let max = maxDate.val();
+        //     let date = new Date(data[4]);
+        
+        //     if (
+        //         (min === null && max === null) ||
+        //         (min === null && date <= max) ||
+        //         (min <= date && max === null) ||
+        //         (min <= date && date <= max)
+        //     ) {
+        //         return true;
+        //     }
+        //     return false;
+        // });
+        
+        // // Create date inputs
+        // minDate = new DateTime('#min', {
+        //     format: 'MMMM Do YYYY'
+        // });
+        // maxDate = new DateTime('#max', {
+        //     format: 'MMMM Do YYYY'
+        // });
+        
+        // // DataTables initialisation
+        // let table = new DataTable('#products-datatable');
+        
+        // // Refilter the table
+        // document.querySelectorAll('#min, #max').forEach((el) => {
+        //     el.addEventListener('change', () => table.draw());
+        // });  
+    // period from - to filter ends here   
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
