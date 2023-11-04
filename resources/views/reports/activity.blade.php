@@ -7,8 +7,9 @@
 div.dt-buttons {
     float: right;
 }    
+div.dataTables_filter{ float: left !important}
 div.dataTables_filter label input{
-    height: calc(1.5em + 0.56rem + 2px);
+    height: calc(1.8em + 0.56rem + 2px);
     padding: 0.28rem 0.8rem;
     font-size: 0.7875rem;
     line-height: 1.5;
@@ -18,7 +19,9 @@ div.dataTables_filter label input{
     background-clip: padding-box;
     border: 1px solid #ced4da;
     margin-right:5px;
+    visibility: hidden;
       }
+      
 </style>
 <!-- Start Content-->
 <div class="container-fluid">
