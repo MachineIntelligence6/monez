@@ -464,11 +464,23 @@ class ChannelsController extends Controller
             }
 
             if ($isQueriesValid) {
+                $device = Agent::device();
+                if($device == 'webkit')
+                {
+                    $device = 'Laptop/Desktop';
+                }
+                elseif($device == '')
+                {
+                    $device = 'Mobile Phone';
+                }
+                else{
+                $device = 'Unknown Device';
+                }
                 $channelSearch = ChannelSearch::create([
                     'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
                     'ip_address' => $ip,
                     'browser' => Agent::browser(),
-                    'device' => Agent::device(),
+                    'device' => $device,
                     'os' => Agent::platform(),
                     'user_agent' => $request->userAgent(),
                     'feed_id' => isset($feed) ? $feed->id : 1,
