@@ -7,6 +7,21 @@
 div.dt-buttons {
     float: right;
 }    
+div.dataTables_filter{ float: left !important}
+div.dataTables_filter label input{
+    height: calc(1.8em + 0.56rem + 2px);
+    padding: 0.28rem 0.8rem;
+    font-size: 0.7875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    color: #6c757d;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    margin-right:5px;
+    visibility: hidden;
+      }
+      
 </style>
 <div class="container-fluid">
 
@@ -116,7 +131,7 @@ div.dt-buttons {
                                 entries
                             </label>
                         </div> -->
-                        <div class="col-9">
+                        <!-- <div class="col-9">
                             <div class="row">
                                 <div class="col-auto" style="min-width: 170px;">
                                     <select class="form-control" name="partener-type" id="partner-type" data-toggle="select2">
@@ -189,15 +204,15 @@ div.dt-buttons {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-auto">
+                        </div> -->
+                        <!-- <div class="col-auto">
                             <button class="btn btn-primary">Go</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
-                                <tr>
+                            <tr>
                                     <th>Date</th>
                                     <th>Advertiser</th>
                                     <th>Feed</th>
@@ -220,7 +235,33 @@ div.dt-buttons {
                                     <th>RPM ($)</th>
                                     <th>Monetized RPM (%)</th>
                                     <th>EPC ($)</th>
-                                </tr>
+                                </tr>                                
+                            <tr>
+                                    <th>Date</th>
+                                    <th>Advertiser</th>
+                                    <th>Feed</th>
+                                    <th>Publisher</th>
+                                    <th>Channel</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <!-- <th></th> -->
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>                                  
+
+                              
                             </thead>
                             <tbody>
                                 <tr>
@@ -283,7 +324,8 @@ div.dt-buttons {
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 
 <script type="text/javascript">
-    $('#products-datatable').DataTable({
+    let table  = $('#products-datatable').DataTable({
+        orderCellsTop: true,
         dom: 'Bfrtip',  
         buttons: [
             {
@@ -299,16 +341,56 @@ div.dt-buttons {
                 text:'Export CSV'
             }
             ],        
-        searching: false,
+            initComplete: function () {
+            this.api().columns([0,1,2,3,4]).every( function () {
+                var column = this;
+                var select = $('<select class="form-control form-control-sm"><option value=""></option></select>')
+                    .appendTo( $("#products-datatable thead tr:eq(1) th").eq(column.index()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' );
+                } );
+            } );
+        },            
+        searching: true,
         filter: true,
         paging: true,
         info: true,
-        order: [],
+        order: [], 
+        language: {
+        searchPlaceholder: "Search records",
+        search: "",
         "lengthMenu": [
             [50, 100, 250, 500],
             [50, 100, 250, 500]
         ],
-    });
+    }
+});
+    table.on('draw', function () {
+    table.columns().indexes().each( function ( idx ) {
+//       var select = $(table.column( idx ).header()).find('select');
+      var select = $("#products-datatable thead tr:eq(1) th").eq(table.column( idx )).find('select');
+      
+      if ( select.val() === '' ) {
+        select
+          .empty()
+          .append('<option value=""/>');
+
+        table.column(idx, {search:'applied'}).data().unique().sort().each( function ( d, j ) {
+          select.append( '<option value="'+d+'">'+d+'</option>' );
+        } );
+      }
+    } );
+  } );
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()

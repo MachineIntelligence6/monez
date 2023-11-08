@@ -464,12 +464,35 @@ class ChannelsController extends Controller
             }
 
             if ($isQueriesValid) {
+                $device = Agent::device();
+                $platform = Agent::platform();
+                
+                if(strtolower($device) == 'webkit')
+                {
+                    $device = 'Laptop/Desktop';
+                }
+                elseif(strtolower($device) == 'macintosh')
+                {
+                    $device = 'Macbook';
+                }
+                else{
+                $device = 'Unknown Device';
+                }
+
+                if(strtolower($platform) == 'ios')
+                {
+                    $platform = 'Iphone';
+                }
+                // elseif($platform == 'Android ')
+                // {
+                //     $platform = 'Android';
+                // }
                 $channelSearch = ChannelSearch::create([
                     'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
                     'ip_address' => $ip,
                     'browser' => Agent::browser(),
-                    'device' => Agent::device(),
-                    'os' => Agent::platform(),
+                    'device' => $device,
+                    'os' => $platform,
                     'user_agent' => $request->userAgent(),
                     'feed_id' => isset($feed) ? $feed->id : 1,
                     'feed' => isset($feed) ? $feed->feedId : 'F1_fallback',
