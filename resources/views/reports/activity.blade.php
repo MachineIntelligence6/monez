@@ -3,10 +3,15 @@
 @section('content')
 
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <style>
-div.dt-buttons {
-    float: right;
+#buttons-div {
+    margin-bottom: -15px;
 }    
+.entries{
+    width:auto;
+    display: inline-block;
+}
 div.dataTables_filter{ float: left !important}
 div.dataTables_filter label input{
     height: calc(1.8em + 0.56rem + 2px);
@@ -19,9 +24,12 @@ div.dataTables_filter label input{
     background-clip: padding-box;
     border: 1px solid #ced4da;
     margin-right:5px;
-    visibility: hidden;
+    display: none !important;
       }
-      
+ .select2-container {
+    width: 15% !important;
+    margin-left: 15px;
+}      
 </style>
 <!-- Start Content-->
 <div class="container-fluid">
@@ -198,17 +206,11 @@ div.dataTables_filter label input{
                             <button class="btn btn-primary">Go</button>
                         </div>
                     </div> -->
+                    <div id="filters" class="row"></div>
+                    <div id="buttons-div" class="mt-2 row">
+                        <div class="col-sm-9" id="page-count"></div>
+                    </div>
                     <div class="table-responsive">
-                        <!-- <table border="0" cellspacing="5" cellpadding="5">
-                            <tbody>
-                                <tr>
-                                    <td>Period From:</td>
-                                    <td><input type="text" id="min" name="min"></td>
-                                    <td>Period To:</td>
-                                    <td><input type="text" id="max" name="max"></td>
-                                </tr>
-                            </tbody>  
-                        </table> -->
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">                          
                             <thead>
                                 <tr>
@@ -235,30 +237,6 @@ div.dataTables_filter label input{
                                     <th>Browser</th>
 
                                 </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th>Advertiser</th>
-                                    <th>Feed</th>
-                                    <th>Publisher</th>
-                                    <th>Channel</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <!-- Location = City + Country  -->
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-
-                                </tr>                                
                             </thead>
                             <tbody>
                                 @foreach ($channelSearchs as $channelSearch)
@@ -301,38 +279,32 @@ div.dataTables_filter label input{
 @section('script')
 <script src="{{asset('assets/libs/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/libs/datatables/datatables.min.js')}}"></script>
-
 <script src="{{asset('assets/js/pages/form-advanced.init.js')}}"></script>
-
-
 <script src="{{asset('assets/libs/flatpickr/flatpickr.min.js')}}"></script>
-
-
 <script src="{{asset('assets/js/custom/custom-multiselect-dropdown.js')}}"></script>
-
 
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
 
 <!-- dataTables scripts -->
-<!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script> -->
+
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-
-<!-- <script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script> -->
 
 
 <script type="text/javascript">
     let table = $('#products-datatable').DataTable({
         orderCellsTop: true,
-        dom: 'Bfrtip',  
+        // responsive: true,
+        dom: 'lfrtipB',  
+        paging: true,
+        pagingType: 'simple',
+        iDisplayLength: 10,
+        fixedHeader: true,
         buttons: [
             {
                 extend: 'colvis',
@@ -347,31 +319,54 @@ div.dataTables_filter label input{
                 text:'Export CSV'
             }
             ],
-        // select:
-        // className: 'form-control form-control-sm',
             initComplete: function () {
-            this.api().columns([0,2,3,4,5]).every( function () {
+         var api = this.api();
+            api.columns([0, 2, 3, 4, 5]).every(function () {
+                var Destino = '#filters';
                 var column = this;
-                var select = $('<select class="form-control form-control-sm"><option value=""></option></select>')
-                    .appendTo( $("#products-datatable thead tr:eq(1) th").eq(column.index()).empty() )
-                    .on( 'change', function () {
+                var title = column.header();
+                var select = $('<select class="Filtros select2 col-md-1" style="width:15%"><option value="">' + $(title).html() + '</option></select>')
+                    .appendTo(Destino)
+                    .on('change', function () {
                         var val = $.fn.dataTable.util.escapeRegex(
                             $(this).val()
                         );
- 
+
                         column
-                            .search( val ? '^'+val+'$' : '', true, false )
+                            .search(val ? '^' + val + '$' : '', true, false)
                             .draw();
-                    } );
- 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' );
-                } );
-            } );
-        },
+                    });
+
+                column.data().unique().sort().each(function (d, j) {
+                    select.append('<option value="' + d + '">' + d + '</option>');
+                });
+            });
+            api.on('draw', function () {
+                api.columns([0, 2, 3, 4, 5]).every(function (idx) {
+                  
+                    var Destino = $("#filters");
+                    var column = this;
+                  var idx = this.index();
+              
+                   var select = $(table.column(idx)).find('select');
+
+                    if (select.val() === '') {
+                        select
+                            .empty()
+                            .append('<option value=""/>');
+
+                        api.column(idx, {
+                            search: 'applied'
+                        }).data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                    }
+                });
+            });
+
+        },            
         searching: true,
         filter: true,
-        paging: true,
         info: true,
         order: [], 
         language: {
@@ -380,28 +375,17 @@ div.dataTables_filter label input{
       },       
            
         "lengthMenu": [
-            [50, 100, 250, 500],
-            [50, 100, 250, 500]
+            [10, 50, 100, 250, 500],
+            [10, 50, 100, 250, 500]
         ],
   } );
-  
-  table.on('draw', function () {
-    table.columns().indexes().each( function ( idx ) {
-//       var select = $(table.column( idx ).header()).find('select');
-      var select = $("#products-datatable thead tr:eq(1) th").eq(table.column( idx )).find('select');
-      
-      if ( select.val() === '' ) {
-        select
-          .empty()
-          .append('<option value=""/>');
 
-        table.column(idx, {search:'applied'}).data().unique().sort().each( function ( d, j ) {
-          select.append( '<option value="'+d+'">'+d+'</option>' );
-        } );
-      }
-    } );
-  } );
-
+  table.buttons().container().appendTo( '#buttons-div' );
+  $('#products-datatable_length').detach().prependTo('#page-count')
+  $(".dt-buttons").addClass("col-sm-3");
+  $(".Filtros").select2({dropddownAutoWidth: false});       
+  $(".dataTables_length select").addClass('form-control');
+  $(".dataTables_length select").addClass('entries');
   // period from - to filter starts here
         // let minDate, maxDate;
         
