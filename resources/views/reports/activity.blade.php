@@ -556,7 +556,33 @@
                         if (response.status === 'error') {
                             console.log('error')
                         } else {
-                            concole.log(response)
+                            concole.log(response.data);
+                            $('#search_data').empty();
+                            $.each(response.data,function(key,value){
+                                $('#search_data').
+                                    append($('<tr>'
+                                        +'<td>{{$channelSearch->created_at}}</td>'
+                                        +'<td>{{$channelSearch->query}}</td>'
+                                        +'<td>{{$channelSearch->advertiser ? $channelSearch->advertiser->company_name : '--'}}</td>'
+                                        +'<td>{{$channelSearch->feed}}</td>'
+                                        +'<td>{{$channelSearch->channel->publisher->company_name}}</td>'
+                                        +'<td>{{$channelSearch->channel->channelId}}</td>'
+                                        +'<td>{{$channelSearch->subid}}</td>'
+                                        +'<td>{{$channelSearch->channel->channelpath->channel_path}}</td>'
+                                        +'<td>{{$channelSearch->referer}}</td>'
+                                        +'<td>{{$channelSearch->no_of_redirects}}</td>'
+                                        +'<td>{{$channelSearch->alert}}</td>'
+                                        +'<td>{{$channelSearch->ip_address}}</td>'
+                                        +'<td>{{$channelSearch->location}}</td>'
+                                        +'<td>{{$channelSearch->geo}}</td>'
+                                        +'<td>{{$channelSearch->latency}}</td>'
+                                        +'<td>{{$channelSearch->user_agent}}</td>'
+                                        +'<td>{{$channelSearch->screen_resolution}}</td>'
+                                        +'<td>{{$channelSearch->device}}</td>'
+                                        +'<td>{{$channelSearch->os}}</td>'
+                                        +'<td>{{$channelSearch->browser}}</td>'
+                                    +'</tr>'));
+                            });
                         }
                     },
                     error: function(response) {
