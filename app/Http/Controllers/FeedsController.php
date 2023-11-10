@@ -367,5 +367,17 @@ class FeedsController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-
+    public function getAllFeeds(Request $request)
+    {
+        // print_r($request->input('advertiser_id'));
+        // if($request != '')
+        // {
+           
+        // }
+        // else
+        {
+            $feeds = Feed::all();
+            return response()->json(['data' => $feeds]);
+        }
+    }
 }

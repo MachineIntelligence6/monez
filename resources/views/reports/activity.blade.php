@@ -123,7 +123,7 @@ div.dataTables_filter label input{
                             </div>
                         </div>
                     </div> -->
-                    <!-- <div class="row mb-2 align-items-center justify-content-between">
+                    <div class="row mb-2 align-items-center justify-content-between">
                         <div class="col-9">
                             <div class="row">
                                 <div class="col-auto" style="min-width: 170px;">
@@ -167,17 +167,7 @@ div.dataTables_filter label input{
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="feed1">
-                                                <label class="custom-control-label w-100" for="feed1">Feed 1</label>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="feed2">
-                                                <label class="custom-control-label w-100" for="feed2">Feed 2</label>
-                                            </div>
+                                        <div id="checkboxes">
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +187,7 @@ div.dataTables_filter label input{
                         <div class="col-auto">
                             <button class="btn btn-primary">Go</button>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="table-responsive">
                         <!-- <table border="0" cellspacing="5" cellpadding="5">
                             <tbody>
@@ -349,26 +339,26 @@ div.dataTables_filter label input{
             ],
         // select:
         // className: 'form-control form-control-sm',
-            initComplete: function () {
-            this.api().columns([0,2,3,4,5]).every( function () {
-                var column = this;
-                var select = $('<select class="form-control form-control-sm"><option value=""></option></select>')
-                    .appendTo( $("#products-datatable thead tr:eq(1) th").eq(column.index()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
+        //     initComplete: function () {
+        //     this.api().columns([0,2,3,4,5]).every( function () {
+        //         var column = this;
+        //         var select = $('<select class="form-control form-control-sm"><option value=""></option></select>')
+        //             .appendTo( $("#products-datatable thead tr:eq(1) th").eq(column.index()).empty() )
+        //             .on( 'change', function () {
+        //                 var val = $.fn.dataTable.util.escapeRegex(
+        //                     $(this).val()
+        //                 );
  
-                        column
-                            .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
+        //                 column
+        //                     .search( val ? '^'+val+'$' : '', true, false )
+        //                     .draw();
+        //             } );
  
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' );
-                } );
-            } );
-        },
+        //         column.data().unique().sort().each( function ( d, j ) {
+        //             select.append( '<option value="'+d+'">'+d+'</option>' );
+        //         } );
+        //     } );
+        // },
         searching: true,
         filter: true,
         paging: true,
@@ -385,22 +375,22 @@ div.dataTables_filter label input{
         ],
   } );
   
-  table.on('draw', function () {
-    table.columns().indexes().each( function ( idx ) {
-//       var select = $(table.column( idx ).header()).find('select');
-      var select = $("#products-datatable thead tr:eq(1) th").eq(table.column( idx )).find('select');
+//   table.on('draw', function () {
+//     table.columns().indexes().each( function ( idx ) {
+// //       var select = $(table.column( idx ).header()).find('select');
+//       var select = $("#products-datatable thead tr:eq(1) th").eq(table.column( idx )).find('select');
       
-      if ( select.val() === '' ) {
-        select
-          .empty()
-          .append('<option value=""/>');
+//       if ( select.val() === '' ) {
+//         select
+//           .empty()
+//           .append('<option value=""/>');
 
-        table.column(idx, {search:'applied'}).data().unique().sort().each( function ( d, j ) {
-          select.append( '<option value="'+d+'">'+d+'</option>' );
-        } );
-      }
-    } );
-  } );
+//         table.column(idx, {search:'applied'}).data().unique().sort().each( function ( d, j ) {
+//           select.append( '<option value="'+d+'">'+d+'</option>' );
+//         } );
+//       }
+//     } );
+//   } );
 
   // period from - to filter starts here
         // let minDate, maxDate;
@@ -479,7 +469,55 @@ div.dataTables_filter label input{
         if ($(e.target).val() !== "") {
             $("#feeds-channels")
                 .removeProp("disabled")
-        }
+
+            curUrl = 'feeds.getAllFeeds';
+            var inputVal = $(e.target).val();
+            var partnerType = $('#partner-type').find(":selected").val();
+
+            if (partnerType == 'advertisers')
+            {
+               var curUrl = 'feeds.getAllFeeds';
+               var inputText = 'value.feedId';
+            }
+            else{
+               var curUrl = 'channel.getAllChannels';
+               var inputText = 'value.channelId';
+            }
+
+            if(inputVal == 'all')
+            {
+
+            }
+                $.ajax({
+                    url: "{{route('feeds.getAllFeeds')}}",
+                    type: 'post',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'error') {
+                            console.log('error')
+                        } else {
+                            var i = 0;
+                            $('#checkboxes').empty();
+                            $.each(response.data,function(key,value){  
+                                i++;
+                                    $('#checkboxes').
+                                    append($('<div class="dropdown-item">'
+                                                +'<div class="custom-control custom-checkbox">'
+                                                    +'<input type="checkbox" class="custom-control-input" id="feed'+i+'" value="'+value.id+'">'
+                                                    +'<label class="custom-control-label w-100" for="feed'+i+'">'+inputText+'</label>'
+                                                +'</div>'
+                                              +'</div>'));
+                                });  
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });
+            }                
     });
     $("#feeds-channels").change((e) => {
         if ($(e.target).val() !== "") {

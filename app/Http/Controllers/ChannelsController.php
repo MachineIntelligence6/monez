@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Channel;
 use App\ChannelIntegrationGuide;
 use App\ChannelPath;
@@ -586,4 +587,18 @@ class ChannelsController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+    public function getAllChannels(Request $request)
+    {
+        // print_r($request->input('advertiser_id'));
+        // if($request != '')
+        // {
+           
+        // }
+        // else
+        {
+            $channels = Channel::all();
+            return response()->json(['data' => $channels]);
+        }
+    }    
 }
