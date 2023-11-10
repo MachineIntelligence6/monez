@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Channel;
 use App\ChannelIntegrationGuide;
 use App\ChannelPath;
@@ -11,6 +12,7 @@ use App\Feed;
 use App\FeedIntegrationGuide;
 use App\Listeners\ChannelStateChanged;
 use App\Publisher;
+use App\Advertiser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -475,14 +477,13 @@ class ChannelsController extends Controller
                 {
                     $device = 'Macbook';
                 }
-                else{
-                $device = 'Unknown Device';
-                }
-
-                if(strtolower($platform) == 'ios')
+                elseif(strtolower($device) == 'ios')
                 {
                     $platform = 'Iphone';
                 }
+                else{
+                    $device = 'Unknown Device';
+                    }
                 // elseif($platform == 'Android ')
                 // {
                 //     $platform = 'Android';
@@ -492,7 +493,7 @@ class ChannelsController extends Controller
                     'ip_address' => $ip,
                     'browser' => Agent::browser(),
                     'device' => $device,
-                    'os' => $platform,
+                    'os' => Agent::platform(),
                     'user_agent' => $request->userAgent(),
                     'feed_id' => isset($feed) ? $feed->id : 1,
                     'feed' => isset($feed) ? $feed->feedId : 'F1_fallback',
@@ -528,6 +529,7 @@ class ChannelsController extends Controller
                         }
                     }
                 }
+                return response()->json(['data' => $data]);
 
                 foreach ($dPerameters as $key => $dPerameter) {
                     $value = $request->all()[$dPerameter];
@@ -535,6 +537,7 @@ class ChannelsController extends Controller
                 }
 
             }
+
             return view('save-screen-resolution', compact('channelSearchId', 'query', 'redirectToFeedURL', 'isQueriesValid'));
         } else {
             return redirect($redirectToFeedURL);
@@ -597,4 +600,21 @@ class ChannelsController extends Controller
 
         return response()->json(['status' => 'success']);
     }
+
+    public function getAllChannels(Request $request)
+    {
+        if($request != '' && $request['ids'] !== 'all')
+        {
+            $str = substr($request['ids'], 1);
+            $str = explode(",", $str);
+            
+            $channels = Channel::whereIn('publisher_id', $str)->get();
+            return response()->json(['data' => $channels]);
+        }
+        else
+        {
+            $channels = Channel::all();
+            return response()->json(['data' => $channels]);
+        }
+    }    
 }
