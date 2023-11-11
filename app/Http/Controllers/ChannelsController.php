@@ -466,7 +466,7 @@ class ChannelsController extends Controller
             if ($isQueriesValid) {
                 $device = Agent::device();
                 $platform = Agent::platform();
-                
+
                 if(strtolower($device) == 'webkit')
                 {
                     $device = 'Laptop/Desktop';
