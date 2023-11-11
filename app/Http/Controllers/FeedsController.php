@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Validator;
 
 class FeedsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -365,6 +369,25 @@ class FeedsController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function getAllFeeds(Request $request)
+    {
+        
+        if($request != '' && $request['ids'] !== 'all')
+        {
+            $str = substr($request['ids'], 1);
+            $str = explode(",", $str);
+            
+            $feeds = Feed::whereIn('advertiser_id', $str)->get();
+            return response()->json(['data' => $feeds]);
+        }
+        else
+        {
+            $feeds = Feed::all();
+            return response()->json(['data' => $feeds]);
+        }
+        
     }
 
 
