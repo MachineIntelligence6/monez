@@ -57,7 +57,7 @@ class ReportsController extends Controller
                     $date = Carbon::now()->format('Y-m-d');
                     $channelSearchs = ChannelSearch::whereDate('created_at','like', "%{$date}%")
                     ->orderBy('created_at', 'DESC')->get();                      
-            }
+                }
 
             elseif($date == 'yesterday')
                { 
@@ -65,7 +65,7 @@ class ReportsController extends Controller
                 $channelSearchs = ChannelSearch::whereDate('created_at','like', "%{$date}%")
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();   
-        }
+                }
             elseif($date == 'md')
                { 
                 $date = Carbon::now()->month;
@@ -101,7 +101,7 @@ class ReportsController extends Controller
                     $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)->
                     whereDate('created_at','like', "%{$date}%")
                     ->orderBy('created_at', 'DESC')->get();                      
-            }
+                }
 
             elseif($date == 'yesterday')
                { 
@@ -140,7 +140,8 @@ class ReportsController extends Controller
                     $date = Carbon::now()->format('Y-m-d');
                     $channelSearchs = ChannelSearch::whereIn($advertiser_id, $partners)->
                     whereDate('created_at','like', "%{$date}%")
-                    ->orderBy('created_at', 'DESC')->get();                      
+                    ->orderBy('created_at', 'DESC')->get();   
+                    // print_r($channelSearchs);                   
             }
 
             elseif($date == 'yesterday')
@@ -220,9 +221,9 @@ class ReportsController extends Controller
                                                     ->orderBy('created_at', 'DESC')
                                                     ->get();                    
                 }
-                
+            }
             return response()->json(['data' => $channelSearchs]);
-            }        
+            
         } 
         else{
 
