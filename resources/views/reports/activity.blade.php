@@ -177,10 +177,10 @@
                                 <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" id="select-period" disabled name="period" data-toggle="select2" required>
                                         <option>Select Period</option>
-                                        <option value="Yesterday">Yesterday</option>
-                                        <option value="Today">Today</option>
-                                        <option value="MtoD">Month to Date</option>
-                                        <option value="PreMonth">Previous Month</option>
+                                        <option value="yesterday">Yesterday</option>
+                                        <option value="today">Today</option>
+                                        <option value="md">Month to Date</option>
+                                        <option value="prevmonth">Previous Month</option>
                                         <option value="custom-range">Custom Range</option>
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
@@ -288,7 +288,7 @@
     let table = $('#products-datatable').DataTable({
         orderCellsTop: true,
         // responsive: true,
-        dom: 'lfrtipB',  
+        dom: 'lBfrtip',  
         paging: true,
         pagingType: 'simple',
         iDisplayLength: 10,
@@ -324,47 +324,10 @@
 
   table.buttons().container().appendTo( '#buttons-div' );
   $('#products-datatable_length').detach().prependTo('#page-count')
-  $(".dt-buttons").addClass("col-sm-3");
-  $(".Filtros").select2({dropddownAutoWidth: false});       
+  $(".dt-buttons").addClass("col-sm-3");     
   $(".dataTables_length select").addClass('form-control');
   $(".dataTables_length select").addClass('entries');
-  // period from - to filter starts here
-        // let minDate, maxDate;
-        
-        // // Custom filtering function which will search data in column four between two values
-        // DataTable.ext.search.push(function (settings, data, dataIndex) {
-        //     let min = minDate.val();
-        //     let max = maxDate.val();
-        //     let date = new Date(data[4]);
-        
-        //     if (
-        //         (min === null && max === null) ||
-        //         (min === null && date <= max) ||
-        //         (min <= date && max === null) ||
-        //         (min <= date && date <= max)
-        //     ) {
-        //         return true;
-        //     }
-        //     return false;
-        // });
-        
-        // // Create date inputs
-        // minDate = new DateTime('#min', {
-        //     format: 'MMMM Do YYYY'
-        // });
-        // maxDate = new DateTime('#max', {
-        //     format: 'MMMM Do YYYY'
-        // });
-        
-        // // DataTables initialisation
-        // let table = new DataTable('#products-datatable');
-        
-        // // Refilter the table
-        // document.querySelectorAll('#min, #max').forEach((el) => {
-        //     el.addEventListener('change', () => table.draw());
-        // });  
-    // period from - to filter ends here   
-
+  
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
         if (value === "custom-range") {
@@ -528,9 +491,6 @@
             partners = 'all';
         else{
             partners = ids;
-        // $("input:checkbox[name="+partnerType+"Id]:checked").each(function() { 
-        //         partners=partners+','+$(this).val();
-        //             });
                 }        
         feeds = '';
         if($('#feeds-channels').find(":selected").val() == 'all')
@@ -540,7 +500,34 @@
                         feeds=feeds+','+$(this).val();
                     });
                 }
+        date = $('#select-period').find(":selected").val();
+        range = '';
+        if (date == 'custom-range')
+        {   
+            date = 'range';
+            range = $('#range-datepicker').val();
+        }
+
         console.log('1 : '+partnerType + ' 2 : '+partners + ' 3 : '+feeds);
+
+            // $('#products-datatable').dataTable( {
+            // "ajax": {
+            //     "url": "{{route('activity')}}",
+            //     "data": {
+            //         "_token": "{{ csrf_token() }}",
+            //             "partnerType" : partnerType,
+            //             "partners" : partners,
+            //             "feeds" : feeds,
+            //             "date" : date,
+            //             "range" : range
+            //     },
+            //     "type": 'POST',
+            //     "dataType": 'json',
+            //     success: function(response) {
+
+            //     }
+            // }
+            // } );        
         $.ajax({
                     url: "{{route('activity')}}",
                     type: 'post',
@@ -549,49 +536,51 @@
                         "partnerType" : partnerType,
                         "partners" : partners,
                         "feeds" : feeds,
-                        "date" : 'date'
+                        "date" : date,
+                        "range" : range
                     },
                     dataType: 'json',
                     success: function(response) {
                         if (response.status === 'error') {
                             console.log('error')
                         } else {
-                            concole.log(response.data);
-                            $('#search_data').empty();
+                            
+                            table.clear();
                             $.each(response.data,function(key,value){
-                                $('#search_data').
-                                    append($('<tr>'
-                                        +'<td>{{$channelSearch->created_at}}</td>'
-                                        +'<td>{{$channelSearch->query}}</td>'
-                                        +'<td>{{$channelSearch->advertiser ? $channelSearch->advertiser->company_name : '--'}}</td>'
-                                        +'<td>{{$channelSearch->feed}}</td>'
-                                        +'<td>{{$channelSearch->channel->publisher->company_name}}</td>'
-                                        +'<td>{{$channelSearch->channel->channelId}}</td>'
-                                        +'<td>{{$channelSearch->subid}}</td>'
-                                        +'<td>{{$channelSearch->channel->channelpath->channel_path}}</td>'
-                                        +'<td>{{$channelSearch->referer}}</td>'
-                                        +'<td>{{$channelSearch->no_of_redirects}}</td>'
-                                        +'<td>{{$channelSearch->alert}}</td>'
-                                        +'<td>{{$channelSearch->ip_address}}</td>'
-                                        +'<td>{{$channelSearch->location}}</td>'
-                                        +'<td>{{$channelSearch->geo}}</td>'
-                                        +'<td>{{$channelSearch->latency}}</td>'
-                                        +'<td>{{$channelSearch->user_agent}}</td>'
-                                        +'<td>{{$channelSearch->screen_resolution}}</td>'
-                                        +'<td>{{$channelSearch->device}}</td>'
-                                        +'<td>{{$channelSearch->os}}</td>'
-                                        +'<td>{{$channelSearch->browser}}</td>'
-                                    +'</tr>'));
-                            });
+                            // $.each(result, function(i, item) {
+                                            var a =  table.row.add([
+                                                value.created_at
+                                                ,value.query 
+                                                ,value.advertiser_id
+                                                ,value.feed
+                                                ,value.publisher
+                                                ,value.channel_id
+                                                ,value.subid
+                                                ,value.channel
+                                                ,value.referer
+                                                ,value.no_of_redirects
+                                                ,value.alert
+                                                ,value.ip_address
+                                                ,value.location
+                                                ,value.geo
+                                                ,value.latency
+                                                ,value.user_agent
+                                                ,value.screen_resolution
+                                                ,value.device
+                                                ,value.os
+                                                ,value.browser
+                                                                    ]);
+                                                                });
+                                                table.draw();                     
                         }
                     },
                     error: function(response) {
                         console.log(response)
                     }
-                });         
+                        
 
-    })
-
+        })
+    });
     $("[data-toggle='dropdown']").click(function() {
         $($(this).attr("data-target")).toggleClass("d-block");
     })
