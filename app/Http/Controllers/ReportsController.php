@@ -10,8 +10,10 @@ class ReportsController extends Controller
 {
     public function activity()
     {
+        $advertisers= Advertiser::all();
+        $publishers = Publisher ::all();
         $channelSearchs = ChannelSearch::orderBy('created_at', 'DESC')->get();
-        return view("reports.activity", compact('channelSearchs'));
+        return view("reports.activity", compact('channelSearchs','advertisers','publishers'));
     }
 
 
