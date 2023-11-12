@@ -6,6 +6,7 @@ use App\ChannelSearch;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use App\Channel;
+use App\ChannelPath;
 use App\Feed;
 use App\Publisher;
 use App\Advertiser;
@@ -56,6 +57,8 @@ class ReportsController extends Controller
                 {
                     $date = Carbon::now()->format('Y-m-d');
                     $channelSearchs = ChannelSearch::whereDate('created_at','like', "%{$date}%")
+                    ->with('advertiser')
+                    ->with('channel')
                     ->orderBy('created_at', 'DESC')->get();                      
                 }
 
@@ -63,6 +66,8 @@ class ReportsController extends Controller
                { 
                 $date = Carbon::yesterday()->format('Y-m-d');
                 $channelSearchs = ChannelSearch::whereDate('created_at','like', "%{$date}%")
+                                                ->with('advertiser')
+                                                ->with('channel')
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();   
                 }
@@ -70,6 +75,8 @@ class ReportsController extends Controller
                { 
                 $date = Carbon::now()->month;
                 $channelSearchs = ChannelSearch::whereMonth('created_at', $date)
+                                                ->with('advertiser')
+                                                ->with('channel')
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();                  
             }
@@ -77,12 +84,16 @@ class ReportsController extends Controller
                 { 
                     $date = Carbon::now()->subMonth()->month;
                     $channelSearchs = ChannelSearch::whereMonth('created_at', $date)
+                    ->with('advertiser')
+                    ->with('channel')                    
                     ->orderBy('created_at', 'DESC')
                     ->get();
                 }
                 elseif($date == 'range')
                 {
                     $channelSearchs = ChannelSearch::whereBetween('created_at', [$date1,$date2])
+                    ->with('advertiser')
+                    ->with('channel')                    
                                                     ->orderBy('created_at', 'DESC')
                                                     ->get();                    
                 }
@@ -98,8 +109,10 @@ class ReportsController extends Controller
                 if($date == 'today')
                 {
                     $date = Carbon::now()->format('Y-m-d');
-                    $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)->
-                    whereDate('created_at','like', "%{$date}%")
+                    $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
+                    ->with('advertiser')
+                    ->with('channel')
+                    ->whereDate('created_at','like', "%{$date}%")
                     ->orderBy('created_at', 'DESC')->get();                      
                 }
 
@@ -107,6 +120,8 @@ class ReportsController extends Controller
                { 
                 $date = Carbon::yesterday()->format('Y-m-d');
                 $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)->whereDate('created_at','like', "%{$date}%")
+                                                ->with('advertiser')
+                                                ->with('channel')
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();   
         }
@@ -114,6 +129,8 @@ class ReportsController extends Controller
                { 
                 $date = Carbon::now()->month;
                 $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)->whereMonth('created_at', $date)
+                ->with('advertiser')
+                ->with('channel')                
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();                  
             }
@@ -121,12 +138,16 @@ class ReportsController extends Controller
                 { 
                     $date = Carbon::now()->subMonth()->month;
                     $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)->whereMonth('created_at', $date)
+                    ->with('advertiser')
+                    ->with('channel')                    
                     ->orderBy('created_at', 'DESC')
                     ->get();
                 }
                 elseif($date == 'range')
                 {
                     $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)->whereBetween('created_at', [$date1,$date2])
+                    ->with('advertiser')
+                    ->with('channel')                    
                                                     ->orderBy('created_at', 'DESC')
                                                     ->get();                    
                 }                
@@ -138,8 +159,10 @@ class ReportsController extends Controller
                 if($date == 'today')
                 {
                     $date = Carbon::now()->format('Y-m-d');
-                    $channelSearchs = ChannelSearch::whereIn($advertiser_id, $partners)->
-                    whereDate('created_at','like', "%{$date}%")
+                    $channelSearchs = ChannelSearch::whereIn($advertiser_id, $partners)
+                    ->with('advertiser')
+                    ->with('channel')
+                    ->whereDate('created_at','like', "%{$date}%")
                     ->orderBy('created_at', 'DESC')->get();   
                     // print_r($channelSearchs);                   
             }
@@ -148,6 +171,8 @@ class ReportsController extends Controller
                { 
                 $date = Carbon::yesterday()->format('Y-m-d');
                 $channelSearchs = ChannelSearch::whereIn($advertiser_id, $partners)->whereDate('created_at','like', "%{$date}%")
+                ->with('advertiser')
+                ->with('channel')
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();   
         }
@@ -155,6 +180,8 @@ class ReportsController extends Controller
                { 
                 $date = Carbon::now()->month;
                 $channelSearchs = ChannelSearch::whereIn($advertiser_id, $partners)->whereMonth('created_at', $date)
+                ->with('advertiser')
+                ->with('channel')                
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();                  
             }
@@ -162,12 +189,16 @@ class ReportsController extends Controller
                 { 
                     $date = Carbon::now()->subMonth()->month;
                     $channelSearchs = ChannelSearch::whereIn($advertiser_id, $partners)->whereMonth('created_at', $date)
+                    ->with('advertiser')
+                    ->with('channel')
                     ->orderBy('created_at', 'DESC')
                     ->get();
                 }
                 elseif($date == 'range')
                 {
                     $channelSearchs = ChannelSearch::whereIn($advertiser_id, $partners)->whereBetween('created_at', [$date1,$date2])
+                    ->with('advertiser')
+                    ->with('channel')
                                                     ->orderBy('created_at', 'DESC')
                                                     ->get();                    
                 }                 
@@ -187,6 +218,8 @@ class ReportsController extends Controller
                     $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
                     ->whereIn($advertiser_id, $partners)->
                     whereDate('created_at','like', "%{$date}%")
+                    ->with('advertiser')
+                    ->with('channel')
                     ->orderBy('created_at', 'DESC')->get();                      
             }
 
@@ -195,6 +228,8 @@ class ReportsController extends Controller
                 $date = Carbon::yesterday()->format('Y-m-d');
                 $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
                 ->whereIn($advertiser_id, $partners)->whereDate('created_at','like', "%{$date}%")
+                ->with('advertiser')
+                ->with('channel')
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();   
         }
@@ -203,6 +238,8 @@ class ReportsController extends Controller
                 $date = Carbon::now()->month;
                 $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
                 ->whereIn($advertiser_id, $partners)->whereMonth('created_at', $date)
+                ->with('advertiser')
+                ->with('channel')
                                                 ->orderBy('created_at', 'DESC')
                                                 ->get();                  
             }
@@ -211,6 +248,8 @@ class ReportsController extends Controller
                     $date = Carbon::now()->subMonth()->month;
                     $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
                     ->whereIn($advertiser_id, $partners)->whereMonth('created_at', $date)
+                    ->with('advertiser')
+                    ->with('channel')
                     ->orderBy('created_at', 'DESC')
                     ->get();
                 }
@@ -218,6 +257,8 @@ class ReportsController extends Controller
                 {
                     $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
                     ->whereIn($advertiser_id, $partners)->whereBetween('created_at', [$date1,$date2])
+                    ->with('advertiser')
+                    ->with('channel')
                                                     ->orderBy('created_at', 'DESC')
                                                     ->get();                    
                 }
