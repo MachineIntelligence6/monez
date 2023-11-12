@@ -376,6 +376,9 @@
         }
     });
 
+    $("#partners").click((e) => {
+        alert('clicked');
+    });
     $("#partners").change((e) => {
         if ($(e.target).val() !== "") {
             $("#feeds-channels")
@@ -490,6 +493,10 @@
         if($('#partners').find(":selected").val() == 'all' )
             partners = 'all';
         else{
+            ids = '';
+            $("input:checkbox[name="+partnerType+"Id]:checked").each(function() { 
+                ids=ids+','+$(this).val();
+                    });
             partners = ids;
                 }        
         feeds = '';
@@ -510,24 +517,6 @@
 
         console.log('1 : '+partnerType + ' 2 : '+partners + ' 3 : '+feeds);
 
-            // $('#products-datatable').dataTable( {
-            // "ajax": {
-            //     "url": "{{route('activity')}}",
-            //     "data": {
-            //         "_token": "{{ csrf_token() }}",
-            //             "partnerType" : partnerType,
-            //             "partners" : partners,
-            //             "feeds" : feeds,
-            //             "date" : date,
-            //             "range" : range
-            //     },
-            //     "type": 'POST',
-            //     "dataType": 'json',
-            //     success: function(response) {
-
-            //     }
-            // }
-            // } );        
         $.ajax({
                     url: "{{route('activity')}}",
                     type: 'post',
@@ -551,10 +540,10 @@
                                             var a =  table.row.add([
                                                 value.created_at
                                                 ,value.query 
-                                                ,value.advertiser_id
+                                                ,value.advertiser.company_name
                                                 ,value.feed
                                                 ,value.publisher
-                                                ,value.channel_id
+                                                ,value.channel.channelId
                                                 ,value.subid
                                                 ,value.channel
                                                 ,value.referer
