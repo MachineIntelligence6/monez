@@ -42,7 +42,6 @@ class AdvertiserController extends Controller
             'team_member_id' => 'required',
             'reg_id' => 'nullable',
             'vat_id' => 'nullable',
-
             'website_url' => 'required|url',
             'account_email' => 'required|unique:advertisers,account_email',
             'account_email' => 'required|unique:users,email',
