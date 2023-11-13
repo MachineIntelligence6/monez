@@ -5,9 +5,6 @@
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <style>
-#buttons-div {
-    margin-bottom: -15px;
-}    
 .entries{
     width:auto;
     display: inline-block;
@@ -305,28 +302,6 @@ div.dataTables_filter label input{
                 text:'Export CSV'
             }
             ],
-        // select:
-        // className: 'form-control form-control-sm',
-            initComplete: function () {
-            this.api().columns([0,2,3,4,5]).every( function () {
-                var column = this;
-                var select = $('<select class="form-control form-control-sm"><option value=""></option></select>')
-                    .appendTo( $("#products-datatable thead tr:eq(1) th").eq(column.index()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
- 
-                        column
-                            .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
- 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' );
-                } );
-            } );
-        },
         searching: true,
         filter: true,
         info: true,
@@ -437,7 +412,6 @@ div.dataTables_filter label input{
             $("#feeds-channels")
                 .removeProp("disabled")
 
-            curUrl = 'feeds.getAllFeeds';
             var inputVal = $(e.target).val();
             var partnerType = $('#partner-type').find(":selected").val();
 
