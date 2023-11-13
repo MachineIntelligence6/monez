@@ -117,10 +117,12 @@ Route::middleware('auth')->group(function (){
     Route::get('/channel/enable/{channel}', [ChannelsController::class, 'enable'])->name('channel.enable');
     Route::get('/channel/disable/{channel}', [ChannelsController::class, 'disable'])->name('channel.disable');
     Route::get('/channel/{channel}/view', [ChannelsController::class, 'view'])->name('channel.view');
+    Route::post('/channel/getAllChannels', [ChannelsController::class, 'getAllChannels'])->name('channel.getAllChannels');
     Route::post('/channelid', 'ChannelsController@ChannelId')->name('channelid');
     Route::post('/channel/getAllChannels', [ChannelsController::class, 'getAllChannels'])->name('channels.getAllChannels');
     Route::resource('channels', ChannelsController::class);
     Route::get('reports/activity', 'ReportsController@activity')->name('activity');
+    Route::post('reports/activity', 'ReportsController@activity')->name('activity');
     Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
     Route::resource('reports', ReportsController::class);
     Route::resource('finance', FinanceController::class);

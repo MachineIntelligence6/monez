@@ -5,28 +5,14 @@
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <style>
+#buttons-div {
+    margin-bottom: -15px;
+}    
 .entries{
     width:auto;
     display: inline-block;
 }
-div.dataTables_filter{ float: left !important}
-div.dataTables_filter label input{
-    height: calc(1.8em + 0.56rem + 2px);
-    padding: 0.28rem 0.8rem;
-    font-size: 0.7875rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-    color: #6c757d;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    margin-right:5px;
-    display: none !important;
-      }
- .select2-container {
-    width: 15% !important;
-    margin-left: 15px;
-}      
+ div.dataTables_filter{ display: none !important;}
 </style>
 <!-- Start Content-->
 <div class="container-fluid">
@@ -148,17 +134,29 @@ div.dataTables_filter label input{
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label w-100" for="customCheck1">Partner 1</label>
+                                        <div class="advertiser-dd">
+                                            @php($i=0)
+                                            @foreach ($advertisers as $advertiser)   
+                                            @php($i++)                                  
+                                            <div class="dropdown-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="advertisersId" id="customCheckAd{{$i}}" value="{{$advertiser->id}}">
+                                                    <label class="custom-control-label w-100" for="customCheckAd{{$i}}">{{$advertiser->company_name}}</label>
+                                                </div>
                                             </div>
+                                            @endforeach
                                         </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                <label class="custom-control-label w-100" for="customCheck2">Partner 2</label>
+                                        <div class="publishers-dd">
+                                            @php($i=0)
+                                            @foreach ($publishers as $publisher)   
+                                            @php($i++)                                      
+                                            <div class="dropdown-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="publishersId" id="customCheckPub{{$i}}" value="{{$publisher->id}}">
+                                                    <label class="custom-control-label w-100" for="customCheckPub{{$i}}">{{$publisher->company_name}}</label>
+                                                </div>
                                             </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -179,10 +177,10 @@ div.dataTables_filter label input{
                                 <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" id="select-period" disabled name="period" data-toggle="select2" required>
                                         <option>Select Period</option>
-                                        <option value="">Yesterday</option>
-                                        <option value="">Today</option>
-                                        <option value="">Month to Date</option>
-                                        <option value="">Previous Month</option>
+                                        <option value="yesterday">Yesterday</option>
+                                        <option value="today">Today</option>
+                                        <option value="md">Month to Date</option>
+                                        <option value="prevmonth">Previous Month</option>
                                         <option value="custom-range">Custom Range</option>
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
@@ -190,9 +188,13 @@ div.dataTables_filter label input{
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-primary">Go</button>
+                            <button class="btn btn-primary" id="go">Go</button>
                         </div>
                     </div> -->
+                    <div id="filters" class="row"></div>
+                    <div id="buttons-div" class="mt-2 row">
+                        <div class="col-sm-9" id="page-count"></div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">                          
                             <thead>
@@ -221,7 +223,7 @@ div.dataTables_filter label input{
 
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id='search_data'>
                                 @foreach ($channelSearchs as $channelSearch)
                                     <tr>
                                         <td>{{$channelSearch->created_at}}</td>
@@ -249,6 +251,9 @@ div.dataTables_filter label input{
                             </tbody>
                         </table>
                     </div>
+                    <div id="pagination" class="mt-2 row">
+                        <div class="col-sm-9" id=""></div>
+                    </div>                    
                 </div> <!-- end card-body-->
             </div> <!-- end card-->
         </div> <!-- end col -->
@@ -283,7 +288,7 @@ div.dataTables_filter label input{
     let table = $('#products-datatable').DataTable({
         orderCellsTop: true,
         // responsive: true,
-        dom: 'lfrtipB',  
+        dom: 'lBfrtip',  
         paging: true,
         pagingType: 'simple',
         iDisplayLength: 10,
@@ -302,6 +307,52 @@ div.dataTables_filter label input{
                 text:'Export CSV'
             }
             ],
+            initComplete: function () {
+         var api = this.api();
+            api.columns([0, 2, 3, 4, 5]).every(function () {
+                var Destino = '#filters';
+                var column = this;
+                var title = column.header();
+                var select = $('<select class="Filtros select2 col-md-1" style="width:15%"><option value="">' + $(title).html() + '</option></select>')
+                    .appendTo(Destino)
+                    .on('change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+
+                        column
+                            .search(val ? '^' + val + '$' : '', true, false)
+                            .draw();
+                    });
+
+                column.data().unique().sort().each(function (d, j) {
+                    select.append('<option value="' + d + '">' + d + '</option>');
+                });
+            });
+            api.on('draw', function () {
+                api.columns([0, 2, 3, 4, 5]).every(function (idx) {
+                  
+                    var Destino = $("#filters");
+                    var column = this;
+                  var idx = this.index();
+              
+                   var select = $(table.column(idx)).find('select');
+
+                    if (select.val() === '') {
+                        select
+                            .empty()
+                            .append('<option value=""/>');
+
+                        api.column(idx, {
+                            search: 'applied'
+                        }).data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                    }
+                });
+            });
+
+        },            
         searching: true,
         filter: true,
         info: true,
@@ -316,24 +367,13 @@ div.dataTables_filter label input{
             [10, 50, 100, 250, 500]
         ],
   } );
-  
-  table.on('draw', function () {
-    table.columns().indexes().each( function ( idx ) {
-//       var select = $(table.column( idx ).header()).find('select');
-      var select = $("#products-datatable thead tr:eq(1) th").eq(table.column( idx )).find('select');
-      
-      if ( select.val() === '' ) {
-        select
-          .empty()
-          .append('<option value=""/>');
 
-        table.column(idx, {search:'applied'}).data().unique().sort().each( function ( d, j ) {
-          select.append( '<option value="'+d+'">'+d+'</option>' );
-        } );
-      }
-    } );
-  } );
-
+  table.buttons().container().appendTo( '#buttons-div' );
+  $('#products-datatable_length').detach().prependTo('#page-count')
+  $(".dt-buttons").addClass("col-sm-3");
+  $(".Filtros").select2({dropddownAutoWidth: false});       
+  $(".dataTables_length select").addClass('form-control');
+  $(".dataTables_length select").addClass('entries');
   // period from - to filter starts here
         // let minDate, maxDate;
         
@@ -404,36 +444,100 @@ div.dataTables_filter label input{
                 .siblings(".select2-container")
                 .find(".select2-selection__rendered");
             fchRenderContainer.text("Select " + ($("#partner-type").val() === "advertisers" ? "Feeds" : "Channels"));
+            if($("#partner-type").val() == "advertisers")
+            {   
+                $(".publishers-dd").css('display','none');
+                $(".advertiser-dd").css('display','block');
+            }
+            else{
+                $(".publishers-dd").css('display','block');
+                $(".advertiser-dd").css('display','none');
+            }
+            $("#partners").val("");
+            $("#feeds-channels").val("");
+            $('input:checkbox').removeAttr('checked');            
         }
     });
 
+    $("#partners").click((e) => {
+        alert('clicked');
+    });
     $("#partners").change((e) => {
         if ($(e.target).val() !== "") {
             $("#feeds-channels")
                 .removeProp("disabled")
+        }
+    });
+    $("#feeds-channels").change((e) => {
+        if ($(e.target).val() !== "") {
+            $("#select-period")
+                .removeProp("disabled");
 
-            var inputVal = $(e.target).val();
-            var partnerType = $('#partner-type').find(":selected").val();
+                var partnerType = $('#partner-type').find(":selected").val();
+                var inputVal = $('#partners').find(":selected").val();
+            console.log(partnerType);
 
             if (partnerType == 'advertisers')
             {
-               var curUrl = 'feeds.getAllFeeds';
-               var inputText = 'value.feedId';
-            }
-            else{
-               var curUrl = 'channel.getAllChannels';
-               var inputText = 'value.channelId';
-            }
-
-            if(inputVal == 'all')
-            {
-
-            }
-                $.ajax({
+                if(inputVal == 'select-custom')
+                {   
+                    ids = ''; 
+                    $("input:checkbox[name=advertisersId]:checked").each(function() { 
+                        ids=ids+','+$(this).val();
+                    }); 
+                }   
+                else{
+                    ids = 'all';
+                }
+            $.ajax({
                     url: "{{route('feeds.getAllFeeds')}}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "ids" : ids
+                    },
+                    
+                    success: function(response) {
+                        if (response.status === 'error') {
+                            console.log('error')
+                        } else {
+                            var i = 0;
+                            $('#checkboxes').empty();
+                            $.each(response.data,function(key,value){  
+                                i++;
+                                    $('#checkboxes').
+                                    append($('<div class="dropdown-item">'
+                                                +'<div class="custom-control custom-checkbox">'
+                                                    +'<input type="checkbox" name="feeds-channels" class="custom-control-input" id="feed'+i+'" value="'+value.id+'">'
+                                                    +'<label class="custom-control-label w-100" for="feed'+i+'">'+value.feedId+'</label>'
+                                                +'</div>'
+                                            +'</div>'));
+                                });  
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });               
+            }
+            else if(partnerType == 'publishers'){
+                if(inputVal == 'select-custom')
+                {   
+                    ids = ''; 
+                    $("input:checkbox[name=publishersId]:checked").each(function() { 
+                        ids=ids+','+$(this).val();
+                    }); 
+                }   
+                else{
+                    ids = 'all';
+                }             
+            $.ajax({
+                    url: "{{route('channel.getAllChannels')}}",
                     type: 'post',
                     data: {
-                        "_token": "{{ csrf_token() }}"
+                        "_token": "{{ csrf_token() }}",
+                        "ids" : ids
                     },
                     dataType: 'json',
                     success: function(response) {
@@ -447,26 +551,105 @@ div.dataTables_filter label input{
                                     $('#checkboxes').
                                     append($('<div class="dropdown-item">'
                                                 +'<div class="custom-control custom-checkbox">'
-                                                    +'<input type="checkbox" class="custom-control-input" id="feed'+i+'" value="'+value.id+'">'
-                                                    +'<label class="custom-control-label w-100" for="feed'+i+'">'+inputText+'</label>'
+                                                    +'<input type="checkbox" name="feeds-channels" class="custom-control-input" id="feed'+i+'" value="'+value.id+'">'
+                                                    +'<label class="custom-control-label w-100" for="feed'+i+'">'+value.channelId+'</label>'
                                                 +'</div>'
-                                              +'</div>'));
+                                            +'</div>'));
                                 });  
                         }
                     },
                     error: function(response) {
                         console.log(response)
                     }
-                });
+                });               
             }                
-    });
-    $("#feeds-channels").change((e) => {
-        if ($(e.target).val() !== "") {
-            $("#select-period")
-                .removeProp("disabled");
         }
-    });
+    });    
 
+    $('#go').on('click', (e) => {
+        console.log(e.target);
+        var partnerType = $('#partner-type').find(":selected").val();
+        partners = '';
+        if($('#partners').find(":selected").val() == 'all' )
+            partners = 'all';
+        else{
+            ids = '';
+            $("input:checkbox[name="+partnerType+"Id]:checked").each(function() { 
+                ids=ids+','+$(this).val();
+                    });
+            partners = ids;
+                }        
+        feeds = '';
+        if($('#feeds-channels').find(":selected").val() == 'all')
+            feeds = 'all';
+        else{
+        $("input:checkbox[name=feeds-channels]:checked").each(function() { 
+                        feeds=feeds+','+$(this).val();
+                    });
+                }
+        date = $('#select-period').find(":selected").val();
+        range = '';
+        if (date == 'custom-range')
+        {   
+            date = 'range';
+            range = $('#range-datepicker').val();
+        }
+
+        console.log('1 : '+partnerType + ' 2 : '+partners + ' 3 : '+feeds);
+
+        $.ajax({
+                    url: "{{route('activity')}}",
+                    type: 'post',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "partnerType" : partnerType,
+                        "partners" : partners,
+                        "feeds" : feeds,
+                        "date" : date,
+                        "range" : range
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'error') {
+                            console.log('error')
+                        } else {
+                            
+                            table.clear();
+                            $.each(response.data,function(key,value){
+                            // $.each(result, function(i, item) {
+                                            var a =  table.row.add([
+                                                value.created_at
+                                                ,value.query 
+                                                ,value.advertiser.company_name
+                                                ,value.feed
+                                                ,value.publisher
+                                                ,value.channel.channelId
+                                                ,value.subid
+                                                ,value.channel
+                                                ,value.referer
+                                                ,value.no_of_redirects
+                                                ,value.alert
+                                                ,value.ip_address
+                                                ,value.location
+                                                ,value.geo
+                                                ,value.latency
+                                                ,value.user_agent
+                                                ,value.screen_resolution
+                                                ,value.device
+                                                ,value.os
+                                                ,value.browser
+                                                                    ]);
+                                                                });
+                                                table.draw();                     
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                        
+
+        })
+    });
     $("[data-toggle='dropdown']").click(function() {
         $($(this).attr("data-target")).toggleClass("d-block");
     })
