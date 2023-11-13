@@ -5,9 +5,9 @@
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <style>
-#buttons-div {
+/* #buttons-div {
     margin-bottom: -15px;
-}    
+}     */
 .entries{
     width:auto;
     display: inline-block;
@@ -190,8 +190,8 @@
                         <div class="col-auto">
                             <button class="btn btn-primary" id="go">Go</button>
                         </div>
-                    </div> -->
-                    <div id="filters" class="row"></div>
+                    </div>
+                    <!-- <div id="filters" class="row"></div> -->
                     <div id="buttons-div" class="mt-2 row">
                         <div class="col-sm-9" id="page-count"></div>
                     </div>
@@ -306,53 +306,7 @@
                 },
                 text:'Export CSV'
             }
-            ],
-            initComplete: function () {
-         var api = this.api();
-            api.columns([0, 2, 3, 4, 5]).every(function () {
-                var Destino = '#filters';
-                var column = this;
-                var title = column.header();
-                var select = $('<select class="Filtros select2 col-md-1" style="width:15%"><option value="">' + $(title).html() + '</option></select>')
-                    .appendTo(Destino)
-                    .on('change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
-
-                        column
-                            .search(val ? '^' + val + '$' : '', true, false)
-                            .draw();
-                    });
-
-                column.data().unique().sort().each(function (d, j) {
-                    select.append('<option value="' + d + '">' + d + '</option>');
-                });
-            });
-            api.on('draw', function () {
-                api.columns([0, 2, 3, 4, 5]).every(function (idx) {
-                  
-                    var Destino = $("#filters");
-                    var column = this;
-                  var idx = this.index();
-              
-                   var select = $(table.column(idx)).find('select');
-
-                    if (select.val() === '') {
-                        select
-                            .empty()
-                            .append('<option value=""/>');
-
-                        api.column(idx, {
-                            search: 'applied'
-                        }).data().unique().sort().each(function (d, j) {
-                            select.append('<option value="' + d + '">' + d + '</option>');
-                        });
-                    }
-                });
-            });
-
-        },            
+            ],            
         searching: true,
         filter: true,
         info: true,
@@ -370,47 +324,10 @@
 
   table.buttons().container().appendTo( '#buttons-div' );
   $('#products-datatable_length').detach().prependTo('#page-count')
-  $(".dt-buttons").addClass("col-sm-3");
-  $(".Filtros").select2({dropddownAutoWidth: false});       
+  $(".dt-buttons").addClass("col-sm-3");     
   $(".dataTables_length select").addClass('form-control');
   $(".dataTables_length select").addClass('entries');
-  // period from - to filter starts here
-        // let minDate, maxDate;
-        
-        // // Custom filtering function which will search data in column four between two values
-        // DataTable.ext.search.push(function (settings, data, dataIndex) {
-        //     let min = minDate.val();
-        //     let max = maxDate.val();
-        //     let date = new Date(data[4]);
-        
-        //     if (
-        //         (min === null && max === null) ||
-        //         (min === null && date <= max) ||
-        //         (min <= date && max === null) ||
-        //         (min <= date && date <= max)
-        //     ) {
-        //         return true;
-        //     }
-        //     return false;
-        // });
-        
-        // // Create date inputs
-        // minDate = new DateTime('#min', {
-        //     format: 'MMMM Do YYYY'
-        // });
-        // maxDate = new DateTime('#max', {
-        //     format: 'MMMM Do YYYY'
-        // });
-        
-        // // DataTables initialisation
-        // let table = new DataTable('#products-datatable');
-        
-        // // Refilter the table
-        // document.querySelectorAll('#min, #max').forEach((el) => {
-        //     el.addEventListener('change', () => table.draw());
-        // });  
-    // period from - to filter ends here   
-
+  
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
         if (value === "custom-range") {
@@ -466,7 +383,10 @@
         if ($(e.target).val() !== "") {
             $("#feeds-channels")
                 .removeProp("disabled")
-        }
+
+            var inputVal = $(e.target).val();
+
+            }                
     });
     $("#feeds-channels").change((e) => {
         if ($(e.target).val() !== "") {

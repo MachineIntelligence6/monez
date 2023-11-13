@@ -276,6 +276,8 @@ class ReportsController extends Controller
 
     public function revenue()
     {
-        return view("reports.revenue");
+        $advertisers= Advertiser::all();
+        $publishers = Publisher ::all();              
+        return view("reports.revenue", compact('advertisers','publishers'));
     }
 }
