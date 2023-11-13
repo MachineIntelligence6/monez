@@ -272,7 +272,7 @@ class ReportsController extends Controller
 
             if ($date == 'today') {
                 $date = Carbon::now()->format('Y-m-d');
-                $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
+                $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
                     ->where('advertiser_id', $advertiser_id)
                     ->whereDate('created_at', 'like', "%{$date}%")
                     ->with('advertiser')
@@ -281,7 +281,7 @@ class ReportsController extends Controller
                     ->get();
             } elseif ($date == 'yesterday') {
                 $date = Carbon::yesterday()->format('Y-m-d');
-                $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
+                $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
                     ->where('advertiser_id', $advertiser_id)
                     ->whereDate('created_at', 'like', "%{$date}%")
                     ->with('advertiser')
@@ -290,7 +290,7 @@ class ReportsController extends Controller
                     ->get();
             } elseif ($date == 'md') {
                 $date = Carbon::now()->month;
-                $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
+                $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
                     ->where('advertiser_id', $advertiser_id)
                     ->whereMonth('created_at', $date)
                     ->with('advertiser')
@@ -299,7 +299,7 @@ class ReportsController extends Controller
                     ->get();
             } elseif ($date == 'prevmonth') {
                 $date = Carbon::now()->subMonth()->month;
-                $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
+                $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
                     ->where('advertiser_id', $advertiser_id)
                     ->whereMonth('created_at', $date)
                     ->with('advertiser')
@@ -307,7 +307,7 @@ class ReportsController extends Controller
                     ->orderBy('created_at', 'DESC')
                     ->get();
             } elseif ($date == 'range') {
-                $channelSearchs = ChannelSearch::whereIn($feed_id, $feeds)
+                $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
                     ->where('advertiser_id', $advertiser_id)
                     ->whereBetween('created_at', [$date1, $date2])
                     ->with('advertiser')
