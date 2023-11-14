@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Advertiser;
 use App\ChannelSearch;
 use App\Http\Controllers\Controller;
+use App\Publisher;
 use Carbon\Carbon;
 use App\Channel;
 use App\ChannelPath;
