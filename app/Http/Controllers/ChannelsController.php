@@ -468,7 +468,7 @@ class ChannelsController extends Controller
             if ($isQueriesValid) {
                 $device = Agent::device();
                 $platform = Agent::platform();
-                
+
                 if(strtolower($device) == 'webkit')
                 {
                     $device = 'Laptop/Desktop';
@@ -488,6 +488,7 @@ class ChannelsController extends Controller
                 // {
                 //     $platform = 'Android';
                 // }
+
                 $channelSearch = ChannelSearch::create([
                     'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
                     'ip_address' => $ip,
@@ -497,7 +498,8 @@ class ChannelsController extends Controller
                     'user_agent' => $request->userAgent(),
                     'feed_id' => isset($feed) ? $feed->id : 1,
                     'feed' => isset($feed) ? $feed->feedId : 'F1_fallback',
-                    'publisher' => $cahnnel->publisher ? $cahnnel->publisher->name : '',
+                    'publisher_id' => $cahnnel->publisher_id,
+                    'publisher' => $cahnnel->publisher ? $cahnnel->publisher->company_name : '',
                     'location' => $location,
                     'subid' => $cahnnel->channelintegration->c_subids,
                     'referer' => $request->header('referer'),
@@ -606,7 +608,7 @@ class ChannelsController extends Controller
         {
             $str = substr($request['ids'], 1);
             $str = explode(",", $str);
-            
+
             $channels = Channel::whereIn('publisher_id', $str)->get();
             return response()->json(['data' => $channels]);
         }
@@ -616,5 +618,5 @@ class ChannelsController extends Controller
             $channels = Channel::all();
             return response()->json(['data' => $channels]);
         }
-    }    
+    }
 }
