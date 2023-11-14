@@ -531,7 +531,6 @@ class ChannelsController extends Controller
                         }
                     }
                 }
-//                return response()->json(['data' => $data]);
 
                 foreach ($dPerameters as $key => $dPerameter) {
                     $value = $request->all()[$dPerameter];
@@ -614,6 +613,7 @@ class ChannelsController extends Controller
             return response()->json(['data' => $channels]);
         }
         else
+
         {
             $channels = Channel::all();
             return response()->json(['data' => $channels]);

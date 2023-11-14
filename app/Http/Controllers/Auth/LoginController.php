@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class LoginController extends Controller
 {
@@ -37,4 +41,23 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+            /**
+            * Login api
+            *
+            * @return \Illuminate\Http\Response
+            */
+            public function login(Request $request)
+            {
+                $credentials = $request->only('email', 'password');
+        
+                if (Auth::attempt($credentials)) {
+                    $user = Auth::user();
+                    $token = $user->generateApiToken();
+        
+                    return response()->json(['remember_token' => $token]);
+                }
+        
+                return response()->json(['message' => 'Invalid credentials'], 401);
+            }  
 }

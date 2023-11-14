@@ -2,27 +2,7 @@
 
 @section('content')
 <!-- Start Content-->
-<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
-<style>
-div.dt-buttons {
-    float: right;
-}    
-div.dataTables_filter{ float: left !important}
-div.dataTables_filter label input{
-    height: calc(1.8em + 0.56rem + 2px);
-    padding: 0.28rem 0.8rem;
-    font-size: 0.7875rem;
-    line-height: 1.5;
-    border-radius: 0.2rem;
-    color: #6c757d;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    margin-right:5px;
-    visibility: hidden;
-      }
-      
-</style>
+
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -56,16 +36,16 @@ div.dataTables_filter label input{
                                         <label class="btn btn-primary" for="customFile">Upload CSV</label>
                                     </div>
                                 </div>
-                                <!-- <div class="col-auto">
+                                <div class="col-auto">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="customFile" accept=".csv">
                                         <label class="btn btn-primary" for="customFile">Export CSV</label>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="col-auto">
                                     <button class="btn btn-secondary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
                                 </div>
-                                <!-- <div class="col-auto dropleft" style="min-width: 160px">
+                                <div class="col-auto dropleft" style="min-width: 160px">
                                     <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" data-target="#show-columns-dropdown" aria-haspopup="true" aria-expanded="false">
                                         Show Columns
                                     </button>
@@ -113,7 +93,7 @@ div.dataTables_filter label input{
                                             </div>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
 
                             </div>
                         </div>
@@ -131,7 +111,7 @@ div.dataTables_filter label input{
                                 entries
                             </label>
                         </div> -->
-                        <!-- <div class="col-9">
+                        <div class="col-9">
                             <div class="row">
                                 <div class="col-auto" style="min-width: 170px;">
                                     <select class="form-control" name="partener-type" id="partner-type" data-toggle="select2">
@@ -150,17 +130,29 @@ div.dataTables_filter label input{
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label w-100" for="customCheck1">Partner 1</label>
+                                        <div class="advertiser-dd">
+                                            @php($i=0)
+                                            @foreach ($advertisers as $advertiser)   
+                                            @php($i++)                                  
+                                            <div class="dropdown-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="advertisersId" id="customCheckAd{{$i}}" value="{{$advertiser->id}}">
+                                                    <label class="custom-control-label w-100" for="customCheckAd{{$i}}">{{$advertiser->company_name}}</label>
+                                                </div>
                                             </div>
+                                            @endforeach
                                         </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                <label class="custom-control-label w-100" for="customCheck2">Partner 2</label>
+                                        <div class="publishers-dd">
+                                            @php($i=0)
+                                            @foreach ($publishers as $publisher)   
+                                            @php($i++)                                      
+                                            <div class="dropdown-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="publishersId" id="customCheckPub{{$i}}" value="{{$publisher->id}}">
+                                                    <label class="custom-control-label w-100" for="customCheckPub{{$i}}">{{$publisher->company_name}}</label>
+                                                </div>
                                             </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -174,17 +166,7 @@ div.dataTables_filter label input{
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="feed1">
-                                                <label class="custom-control-label w-100" for="feed1">Feed 1</label>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="feed2">
-                                                <label class="custom-control-label w-100" for="feed2">Feed 2</label>
-                                            </div>
+                                        <div id="checkboxes">
                                         </div>
                                     </div>
                                 </div>
@@ -204,15 +186,15 @@ div.dataTables_filter label input{
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
-                        <!-- <div class="col-auto">
+                        </div>
+                        <div class="col-auto">
                             <button class="btn btn-primary">Go</button>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
-                            <tr>
+                                <tr>
                                     <th>Date</th>
                                     <th>Advertiser</th>
                                     <th>Feed</th>
@@ -235,33 +217,7 @@ div.dataTables_filter label input{
                                     <th>RPM ($)</th>
                                     <th>Monetized RPM (%)</th>
                                     <th>EPC ($)</th>
-                                </tr>                                
-                            <tr>
-                                    <th>Date</th>
-                                    <th>Advertiser</th>
-                                    <th>Feed</th>
-                                    <th>Publisher</th>
-                                    <th>Channel</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <!-- <th></th> -->
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>                                  
-
-                              
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
@@ -315,82 +271,18 @@ div.dataTables_filter label input{
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
-
-<!-- dataTables scripts -->
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-
 <script type="text/javascript">
-    let table  = $('#products-datatable').DataTable({
-        orderCellsTop: true,
-        dom: 'Bfrtip',  
-        buttons: [
-            {
-                extend: 'colvis',
-                columns: ':not(.noVis)',
-                text: 'Show Columns'            
-            },
-            {
-                extend: 'csvHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                },
-                text:'Export CSV'
-            }
-            ],        
-            initComplete: function () {
-            this.api().columns([0,1,2,3,4]).every( function () {
-                var column = this;
-                var select = $('<select class="form-control form-control-sm"><option value=""></option></select>')
-                    .appendTo( $("#products-datatable thead tr:eq(1) th").eq(column.index()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
- 
-                        column
-                            .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
- 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' );
-                } );
-            } );
-        },            
-        searching: true,
+    $('#products-datatable').DataTable({
+        searching: false,
         filter: true,
         paging: true,
         info: true,
-        order: [], 
-        language: {
-        searchPlaceholder: "Search records",
-        search: "",
+        order: [],
         "lengthMenu": [
             [50, 100, 250, 500],
             [50, 100, 250, 500]
         ],
-    }
-});
-    table.on('draw', function () {
-    table.columns().indexes().each( function ( idx ) {
-//       var select = $(table.column( idx ).header()).find('select');
-      var select = $("#products-datatable thead tr:eq(1) th").eq(table.column( idx )).find('select');
-      
-      if ( select.val() === '' ) {
-        select
-          .empty()
-          .append('<option value=""/>');
-
-        table.column(idx, {search:'applied'}).data().unique().sort().each( function ( d, j ) {
-          select.append( '<option value="'+d+'">'+d+'</option>' );
-        } );
-      }
-    } );
-  } );
+    });
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
@@ -425,21 +317,127 @@ div.dataTables_filter label input{
                 .siblings(".select2-container")
                 .find(".select2-selection__rendered");
             fchRenderContainer.text("Select " + ($("#partner-type").val() === "advertisers" ? "Feeds" : "Channels"));
-        }
+            if($("#partner-type").val() == "advertisers")
+            {   
+                $(".publishers-dd").css('display','none');
+                $(".advertiser-dd").css('display','block');
+            }
+            else{
+                $(".publishers-dd").css('display','block');
+                $(".advertiser-dd").css('display','none');
+            }      
+            $("#partners").val("");
+            $("#feeds-channels").val("");
+            $('input:checkbox').removeAttr('checked');                     
+        }       
     });
 
     $("#partners").change((e) => {
         if ($(e.target).val() !== "") {
             $("#feeds-channels")
                 .removeProp("disabled")
-        }
-    })
+
+            var inputVal = $(e.target).val();
+
+            }                
+    });
     $("#feeds-channels").change((e) => {
         if ($(e.target).val() !== "") {
             $("#select-period")
                 .removeProp("disabled");
+
+                var partnerType = $('#partner-type').find(":selected").val();
+                var inputVal = $('#partners').find(":selected").val();
+            console.log(partnerType);
+
+            if (partnerType == 'advertisers')
+            {
+                if(inputVal == 'select-custom')
+                {   
+                    ids = ''; 
+                    $("input:checkbox[name=advertisersId]:checked").each(function() { 
+                        ids=ids+','+$(this).val();
+                    }); 
+                }   
+                else{
+                    ids = 'all';
+                }
+            $.ajax({
+                    url: "{{route('feeds.getAllFeeds')}}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "ids" : ids
+                    },
+                    
+                    success: function(response) {
+                        if (response.status === 'error') {
+                            console.log('error')
+                        } else {
+                            var i = 0;
+                            $('#checkboxes').empty();
+                            $.each(response.data,function(key,value){  
+                                i++;
+                                    $('#checkboxes').
+                                    append($('<div class="dropdown-item">'
+                                                +'<div class="custom-control custom-checkbox">'
+                                                    +'<input type="checkbox" name="feeds-channels" class="custom-control-input" id="feed'+i+'" value="'+value.id+'">'
+                                                    +'<label class="custom-control-label w-100" for="feed'+i+'">'+value.feedId+'</label>'
+                                                +'</div>'
+                                            +'</div>'));
+                                });  
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });               
+            }
+            else if(partnerType == 'publishers'){
+                if(inputVal == 'select-custom')
+                {   
+                    ids = ''; 
+                    $("input:checkbox[name=publishersId]:checked").each(function() { 
+                        ids=ids+','+$(this).val();
+                    }); 
+                }   
+                else{
+                    ids = 'all';
+                }             
+            $.ajax({
+                    url: "{{route('channel.getAllChannels')}}",
+                    type: 'post',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "ids" : ids
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'error') {
+                            console.log('error')
+                        } else {
+                            var i = 0;
+                            $('#checkboxes').empty();
+                            $.each(response.data,function(key,value){  
+                                i++;
+                                    $('#checkboxes').
+                                    append($('<div class="dropdown-item">'
+                                                +'<div class="custom-control custom-checkbox">'
+                                                    +'<input type="checkbox" name="feeds-channels" class="custom-control-input" id="feed'+i+'" value="'+value.id+'">'
+                                                    +'<label class="custom-control-label w-100" for="feed'+i+'">'+value.channelId+'</label>'
+                                                +'</div>'
+                                            +'</div>'));
+                                });  
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                });               
+            }                
         }
-    })
+    });    
 
 
 
