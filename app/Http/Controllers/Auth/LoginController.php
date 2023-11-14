@@ -42,22 +42,5 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-            /**
-            * Login api
-            *
-            * @return \Illuminate\Http\Response
-            */
-            public function login(Request $request)
-            {
-                $credentials = $request->only('email', 'password');
-        
-                if (Auth::attempt($credentials)) {
-                    $user = Auth::user();
-                    $token = $user->generateApiToken();
-        
-                    return response()->json(['remember_token' => $token]);
-                }
-        
-                return response()->json(['message' => 'Invalid credentials'], 401);
-            }  
+
 }
