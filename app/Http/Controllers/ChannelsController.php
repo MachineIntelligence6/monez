@@ -468,11 +468,7 @@ class ChannelsController extends Controller
             if ($isQueriesValid) {
                 $device = Agent::device();
                 $platform = Agent::platform();
-<<<<<<< HEAD
 
-=======
-                
->>>>>>> 56a380202d012bda26f653f42425a9bda32be7d1
                 if(strtolower($device) == 'webkit')
                 {
                     $device = 'Laptop/Desktop';
@@ -488,14 +484,7 @@ class ChannelsController extends Controller
                 else{
                     $device = 'Unknown Device';
                     }
-                // elseif($platform == 'Android ')
-                // {
-                //     $platform = 'Android';
-                // }
-<<<<<<< HEAD
 
-=======
->>>>>>> 56a380202d012bda26f653f42425a9bda32be7d1
                 $channelSearch = ChannelSearch::create([
                     'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
                     'ip_address' => $ip,
@@ -538,11 +527,6 @@ class ChannelsController extends Controller
                         }
                     }
                 }
-<<<<<<< HEAD
-//                return response()->json(['data' => $data]);
-=======
-                return response()->json(['data' => $data]);
->>>>>>> 56a380202d012bda26f653f42425a9bda32be7d1
 
                 foreach ($dPerameters as $key => $dPerameter) {
                     $value = $request->all()[$dPerameter];
@@ -620,27 +604,14 @@ class ChannelsController extends Controller
         {
             $str = substr($request['ids'], 1);
             $str = explode(",", $str);
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 56a380202d012bda26f653f42425a9bda32be7d1
             $channels = Channel::whereIn('publisher_id', $str)->get();
             return response()->json(['data' => $channels]);
         }
         else
-<<<<<<< HEAD
-=======
-
->>>>>>> 56a380202d012bda26f653f42425a9bda32be7d1
         {
             $channels = Channel::all();
             return response()->json(['data' => $channels]);
         }
-<<<<<<< HEAD
     }
 }
-=======
-    }    
-}
->>>>>>> 56a380202d012bda26f653f42425a9bda32be7d1

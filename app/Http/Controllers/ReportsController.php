@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Advertiser;
 use App\ChannelSearch;
 use App\Http\Controllers\Controller;
+use App\Publisher;
 use Carbon\Carbon;
 use App\Channel;
 use App\ChannelPath;
@@ -249,11 +251,18 @@ class ReportsController extends Controller
 
     public function getRevenueReportApi(Request $request)
     {
-        $feeds = $request['feeds'];
+        $user = $request->user();
+
+        $publisher_id = Publisher::where('user_id', $user->id)->get('id');
+
+        print_r($publisher_id);
+
+        $feeds = $request['channels'];
         $partners = $request['partners'];
-        $advertiser_id = $request['user_id'];
+
         $date = $request['date'];
         $range = '';
+
 
         if ($request['range'] != '') {
             $range = $request['range'];
@@ -267,13 +276,15 @@ class ReportsController extends Controller
         }
 
         if ($feeds != 'all') {
+            $first = substr($feeds, 0, 1);
+            if($first == ',')
             $feeds = substr($feeds, 1);
             $feeds = explode(",", $feeds);
 
             if ($date == 'today') {
                 $date = Carbon::now()->format('Y-m-d');
                 $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
-                    ->where('advertiser_id', $advertiser_id)
+                    ->where('advertiser_id', $publisher_id)
                     ->whereDate('created_at', 'like', "%{$date}%")
                     ->with('advertiser')
                     ->with('channel')
@@ -282,7 +293,7 @@ class ReportsController extends Controller
             } elseif ($date == 'yesterday') {
                 $date = Carbon::yesterday()->format('Y-m-d');
                 $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
-                    ->where('advertiser_id', $advertiser_id)
+                    ->where('advertiser_id', $publisher_id)
                     ->whereDate('created_at', 'like', "%{$date}%")
                     ->with('advertiser')
                     ->with('channel')
@@ -291,7 +302,7 @@ class ReportsController extends Controller
             } elseif ($date == 'md') {
                 $date = Carbon::now()->month;
                 $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
-                    ->where('advertiser_id', $advertiser_id)
+                    ->where('advertiser_id', $publisher_id)
                     ->whereMonth('created_at', $date)
                     ->with('advertiser')
                     ->with('channel')
@@ -300,7 +311,7 @@ class ReportsController extends Controller
             } elseif ($date == 'prevmonth') {
                 $date = Carbon::now()->subMonth()->month;
                 $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
-                    ->where('advertiser_id', $advertiser_id)
+                    ->where('advertiser_id', $publisher_id)
                     ->whereMonth('created_at', $date)
                     ->with('advertiser')
                     ->with('channel')
@@ -308,7 +319,7 @@ class ReportsController extends Controller
                     ->get();
             } elseif ($date == 'range') {
                 $channelSearchs = ChannelSearch::whereIn('feed_id', $feeds)
-                    ->where('advertiser_id', $advertiser_id)
+                    ->where('advertiser_id', $publisher_id)
                     ->whereBetween('created_at', [$date1, $date2])
                     ->with('advertiser')
                     ->with('channel')
@@ -316,5 +327,8 @@ class ReportsController extends Controller
                     ->get();
             }
         }
+        $channelSearchs = ChannelSearch::orderBy('created_at', 'DESC')->get();
+
+        return response()->json(['data' => $channelSearchs]);        
     }
 }
