@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Advertiser;
+use App\AdvertiserReportColumn;
 use App\ChannelSearch;
 use App\Http\Controllers\Controller;
 use App\Publisher;
@@ -10,8 +11,6 @@ use Carbon\Carbon;
 use App\Channel;
 use App\ChannelPath;
 use App\Feed;
-use App\Publisher;
-use App\Advertiser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -245,7 +244,8 @@ class ReportsController extends Controller
     {
         $advertisers = Advertiser::all();
         $publishers = Publisher::all();
-        return view("reports.revenue", compact('advertisers', 'publishers'));
+        $reports = AdvertiserReportColumn::orderBy('created_at', 'DESC')->get();
+        return view("reports.revenue", compact('reports','advertisers', 'publishers'));
     }
 
 
@@ -253,7 +253,7 @@ class ReportsController extends Controller
     {
         $user = $request->user();
 
-        $publisher_id = Publisher::where('user_id', $user->id)->get('id');
+        $publisher_id = Publisher::where('user_id', $user->id)->pluck('id');
 
         print_r($publisher_id);
 

@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportsController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,10 +15,10 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::post('login', 'LoginController@login');
+Route::post('/login', 'AuthController@login');
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::get('reports/revenueReport', 'ReportsController@getRevenueReportApi')->name('getRevenueReportApi');
+    Route::get('/reports/revenueReport', 'ReportsController@getRevenueReportApi')->name('getRevenueReportApi');
 });
