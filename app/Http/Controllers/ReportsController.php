@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Advertiser;
+use App\AdvertiserReportColumn;
 use App\ChannelSearch;
 use App\AdvertiserReportColumn;
 use App\Http\Controllers\Controller;
@@ -244,8 +245,7 @@ class ReportsController extends Controller
     {
         $advertisers = Advertiser::all();
         $publishers = Publisher::all();
-        $reports = AdvertiserReportColumn::all();
-        return view("reports.revenue", compact('reports','advertisers', 'publishers'));
+        return view("reports.revenue", compact('advertisers', 'publishers'));
     }
 
 

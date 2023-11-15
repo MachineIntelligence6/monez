@@ -20,5 +20,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::get('reports/revenueReport', 'ReportsController@getRevenueReportApi')->name('getRevenueReportApi');
+    Route::get('/reports/revenueReport', 'ReportsController@getRevenueReportApi')->name('getRevenueReportApi');
 });

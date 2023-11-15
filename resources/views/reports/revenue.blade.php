@@ -197,20 +197,8 @@
                         </div> 
                         <div class="col-auto">
                             <button class="btn btn-primary">Go</button>
-                        </div>
+                        </div> -->
                     </div>
-                    <div id="buttons-div" class="mt-2 row">
-                        <div class="col-sm-6" id="page-count"></div>                    
-                        <div class="col-auto">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile" accept=".csv">
-                                <label class="btn btn-primary" for="customFile">Upload CSV</label>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-secondary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
-                        </div>                    
-                    </div>                    
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
@@ -240,29 +228,28 @@
                                 </tr>                                
                             </thead>
                             <tbody>
-                            @foreach ($reports as $report)
                                 <tr>
-                                    <td>{{$report->id}}</td>
-                                    <td>{{$report->advertiser_id}}</td>
-                                    <td>{{$report->feed}}</td>
-                                    <td>{{$report->publisher_id}}</td>
-                                    <td>{{$report->subid}}</td>
-                                    <td>{{$report->channel_id}}</td>
-                                    <td>{{$report->report_status}}</td>
-                                    <td>{{$report->geo}}</td>
-                                    <td>{{$report->total_searches}}</td>
-                                    <td>{{$report->monitized_searches}}</td>
-                                    <td>{{$report->paid_clicks}}</td>
-                                    <td>{{$report->revenue}}</td>
-                                    <td>{{$report->monez_revenue}}</td>
-                                    <td>{{$report->pub_revenue}}</td>
-                                    <td>{{$report->latency}}</td>
-                                    <td>{{$report->follow_on_searches}}</td>
-                                    <td>{{$report->coverage}}</td>
-                                    <td>{{$report->CTR}}</td>
-                                    <td>{{$report->RPM}}</td>
-                                    <td>{{$report->monetized_RPM}}</td>
-                                    <td>{{$report->EPC}}</td>
+                                    <td>1</td>
+                                    <td>dummy Advertiser</td>
+                                    <td>dummy Feed </td>
+                                    <td>dummy publisher</td>
+                                    <td>dummy channel</td>
+                                    <td>dummy subid</td>
+                                    <td>dummy daily reports</td>
+                                    <td>dummy GEO</td>
+                                    <td>dummy searches</td>
+                                    <td>dummy Monetize </td>
+                                    <td>dummy paid clicks</td>
+                                    <td>dummy revenue</td>
+                                    <td>dummy mon revenue</td>
+                                    <td>dummy pub revenue</td>
+                                    <td>dummy latency</td>
+                                    <td>dummy follow on</td>
+                                    <td>dummy coverage</td>
+                                    <td>dummy CTR</td>
+                                    <td>dummy RPM</td>
+                                    <td>dummy Monetized RPM</td>
+                                    <td>dummy EPC</td>
                                 </tr>
                                 @endforeach
                             </tbody>
