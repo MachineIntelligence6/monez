@@ -1,6 +1,15 @@
 @extends('layouts.vertical', ['title' => 'Revenue Reports'])
 
 @section('content')
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<style>
+.entries{
+    width:auto;
+    display: inline-block;
+}
+ div.dataTables_filter{ display: none !important;}
+</style>
 <!-- Start Content-->
 <div class="container-fluid">
 
@@ -28,7 +37,7 @@
                 <div class="card-body">
                     <div class="row mb-3 justify-content-end">
                         <div class="col-auto">
-                            <div class="row align-items-center">
+                            <!--<div class="row align-items-center">
                                 <div class="col-auto">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="customFile" accept=".csv">
@@ -94,7 +103,7 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="row mb-2 align-items-center justify-content-between">
@@ -110,7 +119,7 @@
                                 entries
                             </label>
                         </div> -->
-                        <!-- <div class="col-9">
+                        <div class="col-9">
                             <div class="row">
                                 <div class="col-auto" style="min-width: 170px;">
                                     <select class="form-control" name="partener-type" id="partner-type" data-toggle="select2">
@@ -185,11 +194,23 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
-                        <!-- <div class="col-auto">
+                        </div> 
+                        <div class="col-auto">
                             <button class="btn btn-primary">Go</button>
-                        </div> -->
+                        </div>
                     </div>
+                    <div id="buttons-div" class="mt-2 row">
+                        <div class="col-sm-6" id="page-count"></div>                    
+                        <div class="col-auto">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                <label class="btn btn-primary" for="customFile">Upload CSV</label>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-secondary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
+                        </div>                    
+                    </div>                    
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
@@ -217,57 +238,33 @@
                                     <th>Monetized RPM (%)</th>
                                     <th>EPC ($)</th>
                                 </tr>                                
-                            <tr>
-                                    <th>Date</th>
-                                    <th>Advertiser</th>
-                                    <th>Feed</th>
-                                    <th>Publisher</th>
-                                    <th>Channel</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <!-- <th></th> -->
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>                                  
-
-                              
                             </thead>
                             <tbody>
+                            @foreach ($reports as $report)
                                 <tr>
-                                    <td>1</td>
-                                    <td>dummy Advertiser</td>
-                                    <td>dummy Feed </td>
-                                    <td>dummy publisher</td>
-                                    <td>dummy channel</td>
-                                    <td>dummy subid</td>
-                                    <td>dummy daily reports</td>
-                                    <td>dummy GEO</td>
-                                    <td>dummy searches</td>
-                                    <td>dummy Monetize </td>
-                                    <td>dummy paid clicks</td>
-                                    <td>dummy revenue</td>
-                                    <td>dummy mon revenue</td>
-                                    <td>dummy pub revenue</td>
-                                    <td>dummy latency</td>
-                                    <td>dummy follow on</td>
-                                    <td>dummy coverage</td>
-                                    <td>dummy CTR</td>
-                                    <td>dummy RPM</td>
-                                    <td>dummy Monetized RPM</td>
-                                    <td>dummy EPC</td>
+                                    <td>{{$report->id}}</td>
+                                    <td>{{$report->advertiser_id}}</td>
+                                    <td>{{$report->feed}}</td>
+                                    <td>{{$report->publisher_id}}</td>
+                                    <td>{{$report->subid}}</td>
+                                    <td>{{$report->channel_id}}</td>
+                                    <td>{{$report->report_status}}</td>
+                                    <td>{{$report->geo}}</td>
+                                    <td>{{$report->total_searches}}</td>
+                                    <td>{{$report->monitized_searches}}</td>
+                                    <td>{{$report->paid_clicks}}</td>
+                                    <td>{{$report->revenue}}</td>
+                                    <td>{{$report->monez_revenue}}</td>
+                                    <td>{{$report->pub_revenue}}</td>
+                                    <td>{{$report->latency}}</td>
+                                    <td>{{$report->follow_on_searches}}</td>
+                                    <td>{{$report->coverage}}</td>
+                                    <td>{{$report->CTR}}</td>
+                                    <td>{{$report->RPM}}</td>
+                                    <td>{{$report->monetized_RPM}}</td>
+                                    <td>{{$report->EPC}}</td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -296,38 +293,60 @@
 <!-- Page js-->
 <script src="{{asset('assets/js/pages/form-pickers.init.js')}}"></script>
 <script src="{{asset('assets/js/modal-init.js')}}"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
 <script type="text/javascript">
-    $('#products-datatable').DataTable({
-        searching: false,
-        filter: true,
+    let table = $('#products-datatable').DataTable({
+        orderCellsTop: true,
+        dom: 'lBfrtip',  
         paging: true,
+        pagingType: 'simple',
+        iDisplayLength: 10,
+        fixedHeader: true,
+        buttons: [
+            {
+                extend: 'colvis',
+                columns: ':not(.noVis)',
+                text: 'Show Columns',
+                className: 'btn btn-primary' ,
+                init: function(api, node, config) {
+                $(node).removeClass('dt-button')      }                 
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                text:'Export CSV',
+                className: 'btn btn-secondary',
+                init: function(api, node, config) {
+                $(node).removeClass('dt-button')      }                  
+            }
+            ],            
+        searching: true,
+        filter: true,
         info: true,
         order: [], 
         language: {
         searchPlaceholder: "Search records",
         search: "",
+      },       
+           
         "lengthMenu": [
-            [50, 100, 250, 500],
-            [50, 100, 250, 500]
+            [10, 50, 100, 250, 500],
+            [10, 50, 100, 250, 500]
         ],
-    }
-});
-    table.on('draw', function () {
-    table.columns().indexes().each( function ( idx ) {
-//       var select = $(table.column( idx ).header()).find('select');
-      var select = $("#products-datatable thead tr:eq(1) th").eq(table.column( idx )).find('select');
-      
-      if ( select.val() === '' ) {
-        select
-          .empty()
-          .append('<option value=""/>');
-
-        table.column(idx, {search:'applied'}).data().unique().sort().each( function ( d, j ) {
-          select.append( '<option value="'+d+'">'+d+'</option>' );
-        } );
-      }
-    } );
   } );
+   table.buttons().container().appendTo( '#buttons-div' );
+  $('#products-datatable_length').detach().prependTo('#page-count')    
+  $(".dataTables_length select").addClass('form-control');
+  $(".dataTables_length select").addClass('entries');
+
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
@@ -344,9 +363,6 @@
             });
         }
     })
-
-
-
 
     //Filters Flow
     $("#partner-type").on("change", (e) => {
