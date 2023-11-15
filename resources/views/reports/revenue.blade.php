@@ -11,7 +11,6 @@
  div.dataTables_filter{ display: none !important;}
 </style>
 <!-- Start Content-->
-
 <div class="container-fluid">
 
     <!-- start page title -->
@@ -120,7 +119,7 @@
                                 entries
                             </label>
                         </div> -->
-                        <div class="col-9">
+                        <!-- <div class="col-9">
                             <div class="row">
                                 <div class="col-auto" style="min-width: 170px;">
                                     <select class="form-control" name="partener-type" id="partner-type" data-toggle="select2">
@@ -195,10 +194,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-auto">
+                        </div> -->
+                        <!-- <div class="col-auto">
                             <button class="btn btn-primary">Go</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div id="buttons-div" class="mt-2 row">
                         <div class="col-sm-6" id="page-count"></div>                    
@@ -215,7 +214,7 @@
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
-                                <tr>
+                            <tr>
                                     <th>Date</th>
                                     <th>Advertiser</th>
                                     <th>Feed</th>
@@ -238,7 +237,33 @@
                                     <th>RPM ($)</th>
                                     <th>Monetized RPM (%)</th>
                                     <th>EPC ($)</th>
-                                </tr>
+                                </tr>                                
+                            <tr>
+                                    <th>Date</th>
+                                    <th>Advertiser</th>
+                                    <th>Feed</th>
+                                    <th>Publisher</th>
+                                    <th>Channel</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <!-- <th></th> -->
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>                                  
+
+                              
                             </thead>
                             <tbody>
                             @foreach ($reports as $report)
@@ -347,6 +372,7 @@
   $('#products-datatable_length').detach().prependTo('#page-count')    
   $(".dataTables_length select").addClass('form-control');
   $(".dataTables_length select").addClass('entries');
+
 
     $(".selectperiod").on("select2:close", function() {
         let value = $(this).val()
