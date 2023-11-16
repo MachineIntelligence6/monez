@@ -152,6 +152,7 @@
                                                 </div>
                                             @endforeach
                                             </div>
+                                        </div>
                                             <div class="publishers-dd">
                                                 @php($i = 0)
                                                 @foreach ($publishers as $publisher)
@@ -162,7 +163,7 @@
                                                         <label class="custom-control-label w-100" for="customCheckPub{{ $i }}">{{ $publisher->company_name }}</label>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            
                                             @endforeach
                                         </div>
                                     </div>
@@ -184,8 +185,8 @@
                                 <div class="col-auto" style="min-width: 200px;">
                                     <select class="form-control selectperiod" id="select-period" disabled name="period" data-toggle="select2" required>
                                         <option>Select Period</option>
-                                        <option value="">Month to Date</option>
-                                        <option value="">Previous Month</option>
+                                        <option value="md">Month to Date</option>
+                                        <option value="prevmonth">Previous Month</option>
                                         <option value="custom-range">Custom Range</option>
                                     </select>
                                     <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">

@@ -242,15 +242,222 @@ class ReportsController extends Controller
 
     public function revenue(Request $request)
     {
-        if ($request != '' && $request['partnerType'] != '') {
-            $reports = AdvertiserReportColumn::orderBy('created_at', 'DESC')->get();
-            return response()->json(['data' => $reports]);            
-        }
-        else
         $advertisers = Advertiser::all();
         $publishers = Publisher::all();
-        $reports = AdvertiserReportColumn::orderBy('created_at', 'DESC')->get();
-        return view("reports.revenue", compact('reports','advertisers', 'publishers'));
+
+        if ($request != '' && $request['partnerType'] != '') {
+            $feeds = $request['feeds'];
+            $partners = $request['partners'];
+            $partnerType = $request['partnerType'];
+            $date = $request['date'];
+            $range = '';
+            if ($request['range'] != '') {
+                $range = $request['range'];
+                $string = explode(' to ', $range);
+
+                $date1 = $string[0];
+                $date2 = $string[1];
+
+                $date1 = Carbon::parse($date1)->toDatetimeString();
+                $date2 = Carbon::parse($date2)->toDatetimeString();
+
+            }
+
+            if ($partnerType == 'publishers') {
+                $feed_id = 'channel_id';
+                $advertiser_id = 'publisher_id';
+            } else {
+                $feed_id = 'feed_id';
+                $advertiser_id = 'advertiser_id';
+            }
+
+            if ($partners == 'all' && $feeds == 'all') {
+                if ($date == 'today') {
+                    $date = Carbon::now()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereDate('date', 'like', "%{$date}%")
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')->get();
+                } elseif ($date == 'yesterday') {
+                    $date = Carbon::yesterday()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereDate('date', 'like', "%{$date}%")
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'md') {
+                    $date = Carbon::now()->month;
+                    $reports = AdvertiserReportColumn::whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'prevmonth') {
+                    $date = Carbon::now()->subMonth()->month;
+                    $reports = AdvertiserReportColumn::whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'range') {
+                    $reports = AdvertiserReportColumn::whereBetween('date', [$date1, $date2])
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                }
+
+                // print_r($reports);
+                return response()->json(['data' => $reports]);
+                // return view("reports.activity", compact('channelSearchs','advertisers','publishers'));
+            } elseif ($partners == 'all' && $feeds != 'all') {
+                $feeds = substr($feeds, 1);
+                $feeds = explode(",", $feeds);
+
+                if ($date == 'today') {
+                    $date = Carbon::now()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->whereDate('date', 'like', "%{$date}%")
+                        ->orderBy('date', 'DESC')->get();
+                } elseif ($date == 'yesterday') {
+                    $date = Carbon::yesterday()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereDate('date', 'like', "%{$date}%")
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'md') {
+                    $date = Carbon::now()->month;
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'prevmonth') {
+                    $date = Carbon::now()->subMonth()->month;
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'range') {
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereBetween('date', [$date1, $date2])
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                }
+            } elseif ($partners != 'all' && $feeds == 'all') {
+                $partners = substr($partners, 1);
+                $partners = explode(",", $partners);
+
+                if ($date == 'today') {
+                    $date = Carbon::now()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereIn($advertiser_id, $partners)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->whereDate('date', 'like', "%{$date}%")
+                        ->orderBy('date', 'DESC')->get();
+
+                } elseif ($date == 'yesterday') {
+                    $date = Carbon::yesterday()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereIn($advertiser_id, $partners)
+                        ->whereDate('date', 'like', "%{$date}%")
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'md') {
+                    $date = Carbon::now()->month;
+                    $reports = AdvertiserReportColumn::whereIn($advertiser_id, $partners)
+                        ->whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'prevmonth') {
+                    $date = Carbon::now()->subMonth()->month;
+                    $reports = AdvertiserReportColumn::whereIn($advertiser_id, $partners)
+                        ->whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'range') {
+                    $reports = AdvertiserReportColumn::whereIn($advertiser_id, $partners)
+                        ->whereBetween('date', [$date1, $date2])
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                }
+            } else {
+                $feeds = substr($feeds, 1);
+                $feeds = explode(",", $feeds);
+
+                $partners = substr($partners, 1);
+                $partners = explode(",", $partners);
+
+                // print_r($request['partnerType']);
+
+                if ($date == 'today') {
+                    $date = Carbon::now()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereIn($advertiser_id, $partners)
+                        ->whereDate('date', 'like', "%{$date}%")
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'yesterday') {
+                    $date = Carbon::yesterday()->format('Y-m-d');
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereIn($advertiser_id, $partners)
+                        ->whereDate('date', 'like', "%{$date}%")
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'md') {
+                    $date = Carbon::now()->month;
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereIn($advertiser_id, $partners)
+                        ->whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'prevmonth') {
+                    $date = Carbon::now()->subMonth()->month;
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereIn($advertiser_id, $partners)
+                        ->whereMonth('date', $date)
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                } elseif ($date == 'range') {
+                    $reports = AdvertiserReportColumn::whereIn($feed_id, $feeds)
+                        ->whereIn($advertiser_id, $partners)
+                        ->whereBetween('date', [$date1, $date2])
+                        ->with('advertiser')
+                        ->with('channel')
+                        ->orderBy('date', 'DESC')
+                        ->get();
+                }
+            }
+            return response()->json(['data' => $reports]);
+
+        } else {
+            $reports = AdvertiserReportColumn::orderBy('date', 'DESC')->get();
+            return view("reports.revenue", compact('reports', 'advertisers', 'publishers'));
+        }
     }
 
 
@@ -266,8 +473,8 @@ class ReportsController extends Controller
         $range = '';
         $columns = $request['columns'];
 
-        if($columns == 'all' || $columns == '')
-        $columns = '';
+        if ($columns == 'all' || $columns == '')
+            $columns = '';
 
         if ($request['range'] != '') {
             $range = $request['range'];
@@ -279,17 +486,16 @@ class ReportsController extends Controller
             $date1 = Carbon::parse($date1)->toDatetimeString();
             $date2 = Carbon::parse($date2)->toDatetimeString();
         }
-        if($columns == 'all' || $columns == '')
+        if ($columns == 'all' || $columns == '')
             $columns = '*';
         else
             $columns = explode(",", $columns);
 
         if ($channels != 'all') {
-            if(!is_array($channels))
-            {
+            if (!is_array($channels)) {
                 $first = substr($channels, 0, 1);
-                if($first == ',')
-                $channels = substr($channels, 1);
+                if ($first == ',')
+                    $channels = substr($channels, 1);
                 $channels = explode(",", $channels);
             }
 
@@ -331,9 +537,8 @@ class ReportsController extends Controller
                     ->orderBy('date', 'DESC')
                     ->get($columns);
             }
-            return response()->json(['data' => $channelSearchs]);  
-        }
-        else{
+            return response()->json(['data' => $channelSearchs]);
+        } else {
             if ($date == 'today') {
                 $date = Carbon::now()->format('Y-m-d');
                 $channelSearchs = AdvertiserReportColumn::where('publisher_id', $publisher_id)
@@ -359,13 +564,13 @@ class ReportsController extends Controller
                     ->orderBy('date', 'DESC')
                     ->get($columns);
             } elseif ($date == 'range') {
-                print_r('here');                
+                print_r('here');
                 $channelSearchs = AdvertiserReportColumn::where('publisher_id', $publisher_id)
                     ->whereBetween('date', [$date1, $date2])
                     ->orderBy('date', 'DESC')
                     ->get($columns);
             }
-            return response()->json(['data' => $channelSearchs]);                   
-        }  
+            return response()->json(['data' => $channelSearchs]);
+        }
     }
 }
