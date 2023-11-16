@@ -150,12 +150,12 @@
                                                     <input type="checkbox" class="custom-control-input" name="advertisersId" id="customCheckAd{{$i}}" value="{{$advertiser->id}}">
                                                     <label class="custom-control-label w-100" for="customCheckAd{{$i}}">{{$advertiser->company_name}}</label>
                                                 </div>
-    @endforeach
+                                            @endforeach
                                             </div>
                                             <div class="publishers-dd">
                                                 @php($i = 0)
                                                 @foreach ($publishers as $publisher)
-    @php($i++)
+                                            @php($i++)
                                                 <div class="dropdown-item">
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input" name="publishersId" id="customCheckPub{{ $i }}" value="{{ $publisher->id }}">
@@ -199,7 +199,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-primary">Go</button>
+                            <button class="btn btn-primary" id="go">Go</button>
                         </div> 
                     </div>
                     <div id="buttons-div" class="mt-2 row">
@@ -504,7 +504,91 @@
             }
         });
 
+$('#go').on('click', (e) => {
+        console.log(e.target);
+        var partnerType = $('#partner-type').find(":selected").val();
+        partners = '';
+        if($('#partners').find(":selected").val() == 'all' )
+            partners = 'all';
+        else{
+            ids = '';
+            $("input:checkbox[name="+partnerType+"Id]:checked").each(function() { 
+                ids=ids+','+$(this).val();
+                    });
+            partners = ids;
+                }        
+        feeds = '';
+        if($('#feeds-channels').find(":selected").val() == 'all')
+            feeds = 'all';
+        else{
+        $("input:checkbox[name=feeds-channels]:checked").each(function() { 
+                        feeds=feeds+','+$(this).val();
+                    });
+                }
+        date = $('#select-period').find(":selected").val();
+        range = '';
+        if (date == 'custom-range')
+        {   
+            date = 'range';
+            range = $('#range-datepicker').val();
+        }
 
+        console.log('1 : '+partnerType + ' 2 : '+partners + ' 3 : '+feeds);
+
+        $.ajax({
+                    url: "{{route('revenue')}}",
+                    type: 'get',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "partnerType" : partnerType,
+                        "partners" : partners,
+                        "feeds" : feeds,
+                        "date" : date,
+                        "range" : range
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'error') {
+                            console.log('error')
+                        } else {
+                            
+                            table.clear();
+                            $.each(response.data,function(key,value){
+                            // $.each(result, function(i, item) {
+                                            var a =  table.row.add([
+                                                value.date 
+                                                ,value.advertiser.company_name
+                                                ,value.feed
+                                                ,value.publisher.company_name
+                                                ,value.channel_id
+                                                ,value.subid
+                                                ,value.report_status
+                                                ,value.geo
+                                                ,value.total_searches
+                                                ,value.monitized_searches
+                                                ,value.paid_clicks
+                                                ,value.revenue
+                                                ,value.monez_revenue
+                                                ,value.pub_revenue
+                                                ,value.latency
+                                                ,value.follow_on_searches
+                                                ,value.coverage
+                                                ,value.CTR
+                                                ,value.RPM
+                                                ,value.monetized_RPM
+                                                ,value.EPC                                              
+                                                                    ]);
+                                                                });
+                                                table.draw();                     
+                        }
+                    },
+                    error: function(response) {
+                        console.log(response)
+                    }
+                        
+
+        })
+    });
 
         $("[data-toggle='dropdown']").click(function() {
             $($(this).attr("data-target")).toggleClass("d-block");

@@ -240,8 +240,13 @@ class ReportsController extends Controller
     }
 
 
-    public function revenue()
+    public function revenue(Request $request)
     {
+        if ($request != '' && $request['partnerType'] != '') {
+            $reports = AdvertiserReportColumn::orderBy('created_at', 'DESC')->get();
+            return response()->json(['data' => $reports]);            
+        }
+        else
         $advertisers = Advertiser::all();
         $publishers = Publisher::all();
         $reports = AdvertiserReportColumn::orderBy('created_at', 'DESC')->get();
