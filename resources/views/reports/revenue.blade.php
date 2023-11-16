@@ -106,50 +106,49 @@
                                         </div>
                                     </div>
 
-                                </div>-->
-                            </div>
+                            </div>-->
                         </div>
-                        <div class="row mb-2 align-items-center justify-content-between">
-                            <!-- <div class="col-auto">
-                                <label class="d-inline-flex align-items-center" style="gap: 5px;">
-                                    Show
-                                    <select name="products-datatable_length" aria-controls="products-datatable" class="custom-select custom-select-sm form-control form-control-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
+                    </div>
+                    <div class="row mb-2 align-items-center justify-content-between">
+                        <!-- <div class="col-auto">
+                            <label class="d-inline-flex align-items-center" style="gap: 5px;">
+                                Show
+                                <select name="products-datatable_length" aria-controls="products-datatable" class="custom-select custom-select-sm form-control form-control-sm">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries
+                            </label>
+                        </div> -->
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-auto" style="min-width: 170px;">
+                                    <select class="form-control" name="partener-type" id="partner-type" data-toggle="select2">
+                                        <option selected disabled>Select Type</option>
+                                        <option value="publishers">Publishers</option>
+                                        <option value="advertisers">Advertisers</option>
                                     </select>
-                                    entries
-                                </label>
-                            </div> -->
-                            <!-- <div class="col-9">
-                                <div class="row">
-                                    <div class="col-auto" style="min-width: 170px;">
-                                        <select class="form-control" name="partener-type" id="partner-type" data-toggle="select2">
-                                            <option selected disabled>Select Type</option>
-                                            <option value="publishers">Publishers</option>
-                                            <option value="advertisers">Advertisers</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-auto" style="min-width: 200px;">
-                                        <select class="form-control" name="parteners" disabled id="partners" data-target-dropdown="#partners-dropdown" data-toggle="select2">
-                                            <option value="" selected disabled></option>
-                                            <option value="all">All</option>
-                                            <option value="select-custom">Select Custom</option>
-                                        </select>
-                                        <div id="partners-dropdown" class="dropdown-menu w-100" data-searchable="true">
-                                            <div class="px-2">
-                                                <input type="text" class="form-control dropdown-search-input" placeholder="search">
-                                            </div>
-                                            <div class="advertiser-dd">
-                                                @php($i = 0)
-                                                @foreach ($advertisers as $advertiser)
-    @php($i++)
-                                                <div class="dropdown-item">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="advertisersId" id="customCheckAd{{ $i }}" value="{{ $advertiser->id }}">
-                                                        <label class="custom-control-label w-100" for="customCheckAd{{ $i }}">{{ $advertiser->company_name }}</label>
-                                                    </div>
+                                </div>
+                                <div class="col-auto" style="min-width: 200px;">
+                                    <select class="form-control" name="parteners" disabled id="partners" data-target-dropdown="#partners-dropdown" data-toggle="select2">
+                                        <option value="" selected disabled></option>
+                                        <option value="all">All</option>
+                                        <option value="select-custom">Select Custom</option>
+                                    </select>
+                                    <div id="partners-dropdown" class="dropdown-menu w-100" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div class="advertiser-dd">
+                                            @php($i=0)
+                                            @foreach ($advertisers as $advertiser)   
+                                            @php($i++)                                  
+                                            <div class="dropdown-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="advertisersId" id="customCheckAd{{$i}}" value="{{$advertiser->id}}">
+                                                    <label class="custom-control-label w-100" for="customCheckAd{{$i}}">{{$advertiser->company_name}}</label>
                                                 </div>
     @endforeach
                                             </div>
@@ -163,121 +162,121 @@
                                                         <label class="custom-control-label w-100" for="customCheckPub{{ $i }}">{{ $publisher->company_name }}</label>
                                                     </div>
                                                 </div>
-    @endforeach
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto" style="min-width: 200px;">
-                                        <select class="form-control" disabled id="feeds-channels" data-target-dropdown="#types-dropdown" data-toggle="select2">
-                                            <option value="" selected disabled></option>
-                                            <option value="all">All</option>
-                                            <option value="select-custom">Select Custom</option>
-                                        </select>
-                                        <div id="types-dropdown" class="dropdown-menu w-100" data-searchable="true">
-                                            <div class="px-2">
-                                                <input type="text" class="form-control dropdown-search-input" placeholder="search">
-                                            </div>
-                                            <div id="checkboxes">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto" style="min-width: 200px;">
-                                        <select class="form-control selectperiod" id="select-period" disabled name="period" data-toggle="select2" required>
-                                            <option>Select Period</option>
-                                            <option value="">Month to Date</option>
-                                            <option value="">Previous Month</option>
-                                            <option value="custom-range">Custom Range</option>
-                                        </select>
-                                        <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
-                                    </div>
-                                    <div class="col-auto my-auto">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="countryWise">
-                                            <label class="custom-control-label w-100" for="countryWise">GeoWise</label>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
-                            <!-- <div class="col-auto">
-                                <button class="btn btn-primary">Go</button>
-                            </div> -->
-                        </div>
-                        <div id="buttons-div" class="mt-2 row">
-                            <div class="col-sm-6" id="page-count"></div>
-                            <div class="col-auto">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" accept=".csv">
-                                    <label class="btn btn-primary" for="customFile">Upload CSV</label>
+                                <div class="col-auto" style="min-width: 200px;">
+                                    <select class="form-control" disabled id="feeds-channels" data-target-dropdown="#types-dropdown" data-toggle="select2">
+                                        <option value="" selected disabled></option>
+                                        <option value="all">All</option>
+                                        <option value="select-custom">Select Custom</option>
+                                    </select>
+                                    <div id="types-dropdown" class="dropdown-menu w-100" data-searchable="true">
+                                        <div class="px-2">
+                                            <input type="text" class="form-control dropdown-search-input" placeholder="search">
+                                        </div>
+                                        <div id="checkboxes">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto" style="min-width: 200px;">
+                                    <select class="form-control selectperiod" id="select-period" disabled name="period" data-toggle="select2" required>
+                                        <option>Select Period</option>
+                                        <option value="">Month to Date</option>
+                                        <option value="">Previous Month</option>
+                                        <option value="custom-range">Custom Range</option>
+                                    </select>
+                                    <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
+                                </div>
+                                <div class="col-auto my-auto">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="countryWise">
+                                        <label class="custom-control-label w-100" for="countryWise">GeoWise</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <button class="btn btn-secondary" data-trigger="modal" data-target="apiDetailModal">API
-                                    Details</button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">Go</button>
+                        </div> 
+                    </div>
+                    <div id="buttons-div" class="mt-2 row">
+                        <div class="col-sm-6" id="page-count"></div>                    
+                        <div class="col-auto">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                <label class="btn btn-primary" for="customFile">Upload CSV</label>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-centered table-nowrap table-striped" id="products-datatable">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Advertiser</th>
-                                        <th>Feed</th>
-                                        <th>Publisher</th>
-                                        <th>Channel</th>
-                                        <th>SubId</th>
-                                        <th>Daily Reports Status</th>
-                                        <th>GEO</th>
-                                        <th>Total Searches</th>
-                                        <!-- Location = City + Country  -->
-                                        <th>Monetized Searches</th>
-                                        <th>Paid Clicks</th>
-                                        <th>Advertiser Revenue ($)</th>
-                                        <th>Search Monez Revenue ($)</th>
-                                        <th>Publisher Revenue ($)</th>
-                                        <th>Latency (Seconds)</th>
-                                        <th>Follow On Searches (%)</th>
-                                        <th>Coverage (%)</th>
-                                        <th>CTR (%)</th>
-                                        <th>RPM ($)</th>
-                                        <th>Monetized RPM (%)</th>
-                                        <th>EPC ($)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($reports as $report)
-                                        <tr>
-                                            <td>{{ $report->id }}</td>
-                                            <td>{{ $report->advertiser_id }}</td>
-                                            <td>{{ $report->feed }}</td>
-                                            <td>{{ $report->advertiser_id }}</td>
-                                            <td>{{ $report->subid }}</td>
-                                            <td>{{ $report->subid }}</td>
-                                            <td>dummy daily reports</td>
-                                            <td>{{ $report->Country }}</td>
-                                            <td>{{ $report->total_searches }}</td>
-                                            <td>{{ $report->monitized_searches }}</td>
-                                            <td>{{ $report->paid_clicks }}</td>
-                                            <td>{{ $report->revenue }}</td>
-                                            <td>dummy mon revenue</td>
-                                            <td>dummy pub revenue</td>
-                                            <td>dummy latency</td>
-                                            <td>dummy follow on</td>
-                                            <td>dummy coverage</td>
-                                            <td>dummy CTR</td>
-                                            <td>dummy RPM</td>
-                                            <td>dummy Monetized RPM</td>
-                                            <td>dummy EPC</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
-            </div> <!-- end col -->
-        </div>
-        <!-- end row -->
-    </div> <!-- container -->
+                        <div class="col-auto">
+                            <button class="btn btn-secondary" data-trigger="modal" data-target="apiDetailModal">API Details</button>
+                        </div>                    
+                    </div>                    
+                    <div class="table-responsive">
+                        <table class="table table-centered table-nowrap table-striped" id="products-datatable">
+                            <thead>
+                            <tr>
+                                    <th>Date</th>
+                                    <th>Advertiser</th>
+                                    <th>Feed</th>
+                                    <th>Publisher</th>
+                                    <th>Channel</th>
+                                    <th>SubId</th>
+                                    <th>Daily Reports Status</th>
+                                    <th>GEO</th>
+                                    <th>Total Searches</th>
+                                    <!-- Location = City + Country  -->
+                                    <th>Monetized Searches</th>
+                                    <th>Paid Clicks</th>
+                                    <th>Advertiser Revenue ($)</th>
+                                    <th>Search Monez Revenue ($)</th>
+                                    <th>Publisher Revenue ($)</th>
+                                    <th>Latency (Seconds)</th>
+                                    <th>Follow On Searches (%)</th>
+                                    <th>Coverage (%)</th>
+                                    <th>CTR (%)</th>
+                                    <th>RPM ($)</th>
+                                    <th>Monetized RPM (%)</th>
+                                    <th>EPC ($)</th>
+                                </tr>   
+                            </thead>
+                            <tbody>
+                            @foreach ($reports as $report)
+                                <tr>
+                                    <td>{{$report->date}}</td>
+                                    <td>{{$report->advertiser->company_name}}</td>
+                                    <td>{{$report->feedId}}</td>
+                                    <td>{{$report->publisher->company_name}}</td>
+                                    <td>{{$report->subid}}</td>
+                                    <td>{{$report->channel_id}}</td>
+                                    <td>{{$report->report_status}}</td>
+                                    <td>{{$report->geo}}</td>
+                                    <td>{{$report->total_searches}}</td>
+                                    <td>{{$report->monitized_searches}}</td>
+                                    <td>{{$report->paid_clicks}}</td>
+                                    <td>{{$report->revenue}}</td>
+                                    <td>{{$report->monez_revenue}}</td>
+                                    <td>{{$report->pub_revenue}}</td>
+                                    <td>{{$report->latency}}</td>
+                                    <td>{{$report->follow_on_searches}}</td>
+                                    <td>{{$report->coverage}}</td>
+                                    <td>{{$report->CTR}}</td>
+                                    <td>{{$report->RPM}}</td>
+                                    <td>{{$report->monetized_RPM}}</td>
+                                    <td>{{$report->EPC}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+</div> <!-- container -->
 
     @include('reports.modals.apidetail-modal')
 @endsection
@@ -353,21 +352,21 @@
         $(".dataTables_length select").addClass('entries');
 
 
-        $(".selectperiod").on("select2:close", function() {
-            let value = $(this).val()
-            if (value === "custom-range") {
-                setTimeout(() => {
-                    $(".custom-range-date-picker").flatpickr({
-                        mode: "range"
-                    }).toggle()
-                }, 0);
-                $(".custom-range-date-picker").change((e) => {
-                    let renderedContainer = $(this).siblings(".select2-container")
-                        .find(".select2-selection__rendered");
-                    renderedContainer.text("Custom Range " + `( ${$(e.target).val()} )`);
-                });
-            }
-        })
+    $(".selectperiod").on("select2:close", function() {
+        let value = $(this).val()
+        if (value === "custom-range") {
+            setTimeout(() => {
+                $(".custom-range-date-picker").flatpickr({
+                    mode: "range"
+                }).toggle()
+            }, 0);
+            $(".custom-range-date-picker").change((e) => {
+                let renderedContainer = $(this).siblings(".select2-container")
+                    .find(".select2-selection__rendered");
+                renderedContainer.text("Custom Range " + `( ${$(e.target).val()} )`);
+            });
+        }
+    })
 
 
 
