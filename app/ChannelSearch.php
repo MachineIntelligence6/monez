@@ -47,4 +47,6 @@ class ChannelSearch extends Model
     {
         return $this->belongsTo(Advertiser::class, 'advertiser_id');
     }
+
+   
 }

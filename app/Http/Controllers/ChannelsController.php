@@ -484,10 +484,6 @@ class ChannelsController extends Controller
                 else{
                     $device = 'Unknown Device';
                     }
-                // elseif($platform == 'Android ')
-                // {
-                //     $platform = 'Android';
-                // }
 
                 $channelSearch = ChannelSearch::create([
                     'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
@@ -613,7 +609,6 @@ class ChannelsController extends Controller
             return response()->json(['data' => $channels]);
         }
         else
-
         {
             $channels = Channel::all();
             return response()->json(['data' => $channels]);

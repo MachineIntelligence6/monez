@@ -122,7 +122,7 @@ Route::middleware('auth')->group(function (){
     Route::post('/channel/getAllChannels', [ChannelsController::class, 'getAllChannels'])->name('channel.getAllChannels');
     Route::resource('channels', ChannelsController::class);
     Route::get('reports/activity', 'ReportsController@activity')->name('activity');
-    Route::post('reports/activity', 'ReportsController@activity')->name('activity');
+    // Route::post('reports/activity', 'ReportsController@activity')->name('activity');
     Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
     Route::resource('reports', ReportsController::class);
     Route::resource('finance', FinanceController::class);
