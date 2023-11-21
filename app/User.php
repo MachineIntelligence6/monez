@@ -6,9 +6,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+
+class User extends Authenticatable 
 {
-    use Notifiable;
+    use  Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'api_token',
     ];
 
     /**
@@ -52,4 +53,12 @@ class User extends Authenticatable
     public function publishers(){
         return $this->hasMany(Publisher::class, 'team_member_id');
     }
+
+    public function generateApiToken()
+    {
+        $this->api_token = str_random(60);
+        $this->save();
+
+        return $this->api_token;
+    }    
 }

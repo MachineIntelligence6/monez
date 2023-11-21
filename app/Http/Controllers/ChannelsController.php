@@ -484,10 +484,6 @@ class ChannelsController extends Controller
                 else{
                     $device = 'Unknown Device';
                     }
-                // elseif($platform == 'Android ')
-                // {
-                //     $platform = 'Android';
-                // }
 
                 $channelSearch = ChannelSearch::create([
                     'channel_id' => isset($cahnnel) ? $cahnnel->id : null,
@@ -531,7 +527,6 @@ class ChannelsController extends Controller
                         }
                     }
                 }
-//                return response()->json(['data' => $data]);
 
                 foreach ($dPerameters as $key => $dPerameter) {
                     $value = $request->all()[$dPerameter];

@@ -389,6 +389,4 @@ class FeedsController extends Controller
         }
         
     }
-
-
 }

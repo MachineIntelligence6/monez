@@ -5,14 +5,34 @@
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <style>
-/* #buttons-div {
-    margin-bottom: -15px;
-}     */
 .entries{
     width:auto;
     display: inline-block;
 }
  div.dataTables_filter{ display: none !important;}
+        div.dt-button-collection {
+            height: 250px;
+            overflow-y: scroll;
+            overflow-x: hidden;            
+        }
+        ::-webkit-scrollbar {
+        width: 5px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #888; 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+        }     
 </style>
 <!-- Start Content-->
 <div class="container-fluid">

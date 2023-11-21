@@ -12,6 +12,7 @@ class Publisher extends Model
 {
     use HasFactory, Notifiable;
 
+    protected  $primaryKey = 'id';
     protected $fillable = [
         'publisher_id',
         'company_name',
