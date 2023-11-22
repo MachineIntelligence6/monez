@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Advertiser::class)->nullable();
             $table->string('report_type')->nullable();
+            $table->string('csv_path')->nullable();
             $table->string('api_key')->nullable();
             $table->string('dashboard_path')->nullable();
             $table->string('email')->nullable();

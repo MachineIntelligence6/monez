@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('skype')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('role')->default('Team Member');
-            $table->rememberToken();
+            $table->string('api_token')->nullable();
             $table->timestamps();
         });
     }

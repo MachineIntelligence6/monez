@@ -115,6 +115,7 @@ class AdvertiserController extends Controller
 
         $validatedData = $request->validate([
             'report_type' => 'nullable',
+            'csv_path' =>'nullable',
             'api_key' => 'nullable',
             'dashboard_path' => 'nullable',
             'email' => 'nullable',

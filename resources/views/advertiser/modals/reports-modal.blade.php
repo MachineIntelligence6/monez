@@ -18,6 +18,7 @@
                                 <div class="input-group input-group-merge">
                                     <select class="form-control" id="reportType" data-toggle="select2" name="report_type" required value="{{(session()->has('advertiser')&& session()->get('advertiser.report_type'))? session()->get('advertiser.report_type'):$advertiser->report_type}}">
                                         <option value="" selected>Select Report Type</option>
+                                        <option {{(session()->get('advertiser.report_type') == 'file') ? 'selected' : ''}} value="file">Upload File</option>
                                         <option {{(session()->get('advertiser.report_type') == 'api') ? 'selected' : ''}} value="api">API</option>
                                         <option {{(session()->get('advertiser.report_type') == 'email') ? 'selected' : ''}} value="email">EMAIL</option>
                                         <option {{(session()->get('advertiser.report_type') == 'gdrive') ? 'selected' : ''}} value="gdrive">Google Drive</option>
@@ -30,6 +31,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 mb-3 d-none report-creds-input file-input-group">
+                            <label for="upload_csv" class="form-label">Upload CSV</label>
+                            <input type="file" class="form-control"  name="upload_csv">
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>                        
                         <div class="col-12 mb-3 d-none report-creds-input api-input-group">
                             <label for="apiKey" class="form-label">API Key</label>
                             <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="apiKey" value="{{(session()->has('advertiser') && session()->get('advertiser.api_key')) ? session()->get('advertiser.api_key'):$advertiser->api_key}}" name="api_key">
