@@ -78,22 +78,22 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
-                            <label for="secret" class="form-label">Client Secret</label>
-                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
+                            <label for="client_id" class="form-label">Client ID</label>
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="client_id" name="client_id">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>
 
-                            <label for="secret" class="form-label">Client Secret</label>
-                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
+                            <label for="c_secret" class="form-label">Client Secret</label>
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="c_secret" name="c_secret">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>  
 
-                            <label for="secret" class="form-label">Client Secret</label>
-                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
+                            <label for="c_folder" class="form-label">Client Folder</label>
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="c_folder" name="c_folder">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
