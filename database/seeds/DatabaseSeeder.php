@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
         $this->call(BankSeeder::class);
         $this->call(CountrySeeder::class);
 
-        // User::create([
-        //     'name' => 'Rajat Gupta',
-        //     'email' => 'admin@gmail.com',
-        //     'password' => Hash::make('Mi612345@'),
-        //     'role' => 'Admin'
-        // ]);
+        User::create([
+            'name' => 'Rajat Gupta',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('Mi612345@'),
+            'role' => 'Admin'
+        ]);
 
         if (config('app.env') == 'local') {
             $channelPath = new ChannelPath();

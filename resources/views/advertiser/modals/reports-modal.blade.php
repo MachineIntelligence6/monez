@@ -22,7 +22,6 @@
                                         <option {{(session()->get('advertiser.report_type') == 'api') ? 'selected' : ''}} value="api">API</option>
                                         <option {{(session()->get('advertiser.report_type') == 'email') ? 'selected' : ''}} value="email">EMAIL</option>
                                         <option {{(session()->get('advertiser.report_type') == 'gdrive') ? 'selected' : ''}} value="gdrive">Google Drive</option>
-                                        <option {{(session()->get('advertiser.report_type') == 'dashboard') ? 'selected' : ''}} value="dashboard">Dashboard</option>
                                     </select>
                                     <div class="valid-feedback">Valid.</div>
                                     <div class="invalid-feedback">
@@ -47,14 +46,14 @@
                                 You must enter valid input
                             </div>
                         </div>
-                        <div class="col-12 mb-3 d-none report-creds-input dashboard-input-group">
+                        <!--<div class="col-12 mb-3 d-none report-creds-input dashboard-input-group">
                             <label for="dashboardPath" class="form-label">Dashboard Path</label>
                             <input type="text" class="form-control" id="dashboardPath" value="{{(session()->has('advertiser')&& session()->get('advertiser.dashboard_path')) ? session()->get('advertiser.dashboard_path'):$advertiser->dashboard_path}}" name="dashboard_path">
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">
                                 You must enter valid input
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-12 mb-3 d-none report-creds-input email-input-group">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" @if($lastSegment!='view' ) @else disabled @endif id="reportEmail" value="{{(session()->has('advertiser') && session()->get('advertiser.email')) ? session()->get('advertiser.email'):$advertiser->email}}" name="email">
@@ -78,6 +77,35 @@
                                 You must enter valid input
                             </div>
                         </div>
+                        <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
+                            <label for="secret" class="form-label">Client Secret</label>
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+
+                            <label for="secret" class="form-label">Client Secret</label>
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>  
+
+                            <label for="secret" class="form-label">Client Secret</label>
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+
+                            <label for="secret" class="form-label">Client Secret</label>
+                            <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>                                                                                  
+                        </div>                        
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
                             <label for="gdriveEmail" class="form-label">GDrive Email</label>
                             <input type="email" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="gdriveEmail" name="gdrive_email">
