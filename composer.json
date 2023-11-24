@@ -16,6 +16,7 @@
         "jenssegers/agent": "^2.6",
         "laravel/framework": "^9.0",
         "laravel/helpers": "^1.6",
+        "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^4.2.0",
         "yaza/laravel-google-drive-storage": "^2.0"

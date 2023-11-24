@@ -2153,6 +2153,79 @@
                         "install-path": "../laravel/serializable-closure"
                 },
                 {
+                        "name": "laravel/socialite",
+                        "version": "v5.10.0",
+                        "version_normalized": "5.10.0.0",
+                        "source": {
+                                "type": "git",
+                                "url": "https://github.com/laravel/socialite.git",
+                                "reference": "f376b6eda9084899e37ac08bafd64a95edf9c6c0"
+                        },
+                        "dist": {
+                                "type": "zip",
+                                "url": "https://api.github.com/repos/laravel/socialite/zipball/f376b6eda9084899e37ac08bafd64a95edf9c6c0",
+                                "reference": "f376b6eda9084899e37ac08bafd64a95edf9c6c0",
+                                "shasum": ""
+                        },
+                        "require": {
+                                "ext-json": "*",
+                                "guzzlehttp/guzzle": "^6.0|^7.0",
+                                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                                "illuminate/http": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                                "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                                "league/oauth1-client": "^1.10.1",
+                                "php": "^7.2|^8.0"
+                        },
+                        "require-dev": {
+                                "mockery/mockery": "^1.0",
+                                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
+                                "phpstan/phpstan": "^1.10",
+                                "phpunit/phpunit": "^8.0|^9.3"
+                        },
+                        "time": "2023-10-30T22:09:58+00:00",
+                        "type": "library",
+                        "extra": {
+                                "branch-alias": {
+                                        "dev-master": "5.x-dev"
+                                },
+                                "laravel": {
+                                        "providers": [
+                                                "Laravel\\Socialite\\SocialiteServiceProvider"
+                                        ],
+                                        "aliases": {
+                                                "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+                                        }
+                                }
+                        },
+                        "installation-source": "dist",
+                        "autoload": {
+                                "psr-4": {
+                                        "Laravel\\Socialite\\": "src/"
+                                }
+                        },
+                        "notification-url": "https://packagist.org/downloads/",
+                        "license": [
+                                "MIT"
+                        ],
+                        "authors": [
+                                {
+                                        "name": "Taylor Otwell",
+                                        "email": "taylor@laravel.com"
+                                }
+                        ],
+                        "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
+                        "homepage": "https://laravel.com",
+                        "keywords": [
+                                "laravel",
+                                "oauth"
+                        ],
+                        "support": {
+                                "issues": "https://github.com/laravel/socialite/issues",
+                                "source": "https://github.com/laravel/socialite"
+                        },
+                        "install-path": "../laravel/socialite"
+                },
+                {
                         "name": "laravel/tinker",
                         "version": "v2.8.2",
                         "version_normalized": "2.8.2.0",
@@ -2485,17 +2558,17 @@
                 },
                 {
                         "name": "league/flysystem",
-                        "version": "3.19.0",
-                        "version_normalized": "3.19.0.0",
+                        "version": "3.21.0",
+                        "version_normalized": "3.21.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/thephpleague/flysystem.git",
-                                "reference": "1b2aa10f2326e0351399b8ce68e287d8e9209a83"
+                                "reference": "a326d8a2d007e4ca327a57470846e34363789258"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1b2aa10f2326e0351399b8ce68e287d8e9209a83",
-                                "reference": "1b2aa10f2326e0351399b8ce68e287d8e9209a83",
+                                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a326d8a2d007e4ca327a57470846e34363789258",
+                                "reference": "a326d8a2d007e4ca327a57470846e34363789258",
                                 "shasum": ""
                         },
                         "require": {
@@ -2528,7 +2601,7 @@
                                 "phpunit/phpunit": "^9.5.11|^10.0",
                                 "sabre/dav": "^4.3.1"
                         },
-                        "time": "2023-11-07T09:04:28+00:00",
+                        "time": "2023-11-18T13:59:15+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -2560,6 +2633,10 @@
                                 "sftp",
                                 "storage"
                         ],
+                        "support": {
+                                "issues": "https://github.com/thephpleague/flysystem/issues",
+                                "source": "https://github.com/thephpleague/flysystem/tree/3.21.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://ecologi.com/frankdejonge",
@@ -2574,17 +2651,17 @@
                 },
                 {
                         "name": "league/flysystem-local",
-                        "version": "3.19.0",
-                        "version_normalized": "3.19.0.0",
+                        "version": "3.21.0",
+                        "version_normalized": "3.21.0.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/thephpleague/flysystem-local.git",
-                                "reference": "8d868217f9eeb4e9a7320db5ccad825e9a7a4076"
+                                "reference": "470eb1c09eaabd49ebd908ae06f23983ba3ecfe7"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/8d868217f9eeb4e9a7320db5ccad825e9a7a4076",
-                                "reference": "8d868217f9eeb4e9a7320db5ccad825e9a7a4076",
+                                "url": "https://api.github.com/repos/thephpleague/flysystem-local/zipball/470eb1c09eaabd49ebd908ae06f23983ba3ecfe7",
+                                "reference": "470eb1c09eaabd49ebd908ae06f23983ba3ecfe7",
                                 "shasum": ""
                         },
                         "require": {
@@ -2593,7 +2670,7 @@
                                 "league/mime-type-detection": "^1.0.0",
                                 "php": "^8.0.2"
                         },
-                        "time": "2023-11-06T20:35:28+00:00",
+                        "time": "2023-11-18T13:41:42+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -2619,6 +2696,10 @@
                                 "filesystem",
                                 "local"
                         ],
+                        "support": {
+                                "issues": "https://github.com/thephpleague/flysystem-local/issues",
+                                "source": "https://github.com/thephpleague/flysystem-local/tree/3.21.0"
+                        },
                         "funding": [
                                 {
                                         "url": "https://ecologi.com/frankdejonge",
@@ -2685,6 +2766,85 @@
                                 }
                         ],
                         "install-path": "../league/mime-type-detection"
+                },
+                {
+                        "name": "league/oauth1-client",
+                        "version": "v1.10.1",
+                        "version_normalized": "1.10.1.0",
+                        "source": {
+                                "type": "git",
+                                "url": "https://github.com/thephpleague/oauth1-client.git",
+                                "reference": "d6365b901b5c287dd41f143033315e2f777e1167"
+                        },
+                        "dist": {
+                                "type": "zip",
+                                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/d6365b901b5c287dd41f143033315e2f777e1167",
+                                "reference": "d6365b901b5c287dd41f143033315e2f777e1167",
+                                "shasum": ""
+                        },
+                        "require": {
+                                "ext-json": "*",
+                                "ext-openssl": "*",
+                                "guzzlehttp/guzzle": "^6.0|^7.0",
+                                "guzzlehttp/psr7": "^1.7|^2.0",
+                                "php": ">=7.1||>=8.0"
+                        },
+                        "require-dev": {
+                                "ext-simplexml": "*",
+                                "friendsofphp/php-cs-fixer": "^2.17",
+                                "mockery/mockery": "^1.3.3",
+                                "phpstan/phpstan": "^0.12.42",
+                                "phpunit/phpunit": "^7.5||9.5"
+                        },
+                        "suggest": {
+                                "ext-simplexml": "For decoding XML-based responses."
+                        },
+                        "time": "2022-04-15T14:02:14+00:00",
+                        "type": "library",
+                        "extra": {
+                                "branch-alias": {
+                                        "dev-master": "1.0-dev",
+                                        "dev-develop": "2.0-dev"
+                                }
+                        },
+                        "installation-source": "dist",
+                        "autoload": {
+                                "psr-4": {
+                                        "League\\OAuth1\\Client\\": "src/"
+                                }
+                        },
+                        "notification-url": "https://packagist.org/downloads/",
+                        "license": [
+                                "MIT"
+                        ],
+                        "authors": [
+                                {
+                                        "name": "Ben Corlett",
+                                        "email": "bencorlett@me.com",
+                                        "homepage": "http://www.webcomm.com.au",
+                                        "role": "Developer"
+                                }
+                        ],
+                        "description": "OAuth 1.0 Client Library",
+                        "keywords": [
+                                "Authentication",
+                                "SSO",
+                                "authorization",
+                                "bitbucket",
+                                "identity",
+                                "idp",
+                                "oauth",
+                                "oauth1",
+                                "single sign on",
+                                "trello",
+                                "tumblr",
+                                "twitter"
+                        ],
+                        "support": {
+                                "issues": "https://github.com/thephpleague/oauth1-client/issues",
+                                "source": "https://github.com/thephpleague/oauth1-client/tree/v1.10.1"
+                        },
+                        "install-path": "../league/oauth1-client"
                 },
                 {
                         "name": "masbug/flysystem-google-drive-ext",
@@ -8619,17 +8779,17 @@
                 },
                 {
                         "name": "theseer/tokenizer",
-                        "version": "1.2.1",
-                        "version_normalized": "1.2.1.0",
+                        "version": "1.2.2",
+                        "version_normalized": "1.2.2.0",
                         "source": {
                                 "type": "git",
                                 "url": "https://github.com/theseer/tokenizer.git",
-                                "reference": "34a41e998c2183e22995f158c581e7b5e755ab9e"
+                                "reference": "b2ad5003ca10d4ee50a12da31de12a5774ba6b96"
                         },
                         "dist": {
                                 "type": "zip",
-                                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/34a41e998c2183e22995f158c581e7b5e755ab9e",
-                                "reference": "34a41e998c2183e22995f158c581e7b5e755ab9e",
+                                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/b2ad5003ca10d4ee50a12da31de12a5774ba6b96",
+                                "reference": "b2ad5003ca10d4ee50a12da31de12a5774ba6b96",
                                 "shasum": ""
                         },
                         "require": {
@@ -8638,7 +8798,7 @@
                                 "ext-xmlwriter": "*",
                                 "php": "^7.2 || ^8.0"
                         },
-                        "time": "2021-07-28T10:34:58+00:00",
+                        "time": "2023-11-20T00:12:19+00:00",
                         "type": "library",
                         "installation-source": "dist",
                         "autoload": {
@@ -8660,7 +8820,7 @@
                         "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
                         "support": {
                                 "issues": "https://github.com/theseer/tokenizer/issues",
-                                "source": "https://github.com/theseer/tokenizer/tree/1.2.1"
+                                "source": "https://github.com/theseer/tokenizer/tree/1.2.2"
                         },
                         "funding": [
                                 {

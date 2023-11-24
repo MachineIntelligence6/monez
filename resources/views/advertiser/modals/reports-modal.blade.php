@@ -78,6 +78,7 @@
                             </div>
                         </div>
                         <div class="col-12 mb-3 d-none report-creds-input gdrive-input-group">
+                        <a href="{{ route('auth.redirect', 'google') }}" class="btn btn-outline-secondary">Login with Google</a>
                             <label for="client_id" class="form-label">Client ID</label>
                             <input type="text" class="form-control" @if($lastSegment!='view' ) @else disabled @endif value="{{(session()->has('advertiser') && session()->get('advertiser.gdrive_email')) ? session()->get('advertiser.gdrive_email'):$advertiser->gdrive_email}}" id="client_id" name="client_id">
                             <div class="valid-feedback">Valid.</div>
