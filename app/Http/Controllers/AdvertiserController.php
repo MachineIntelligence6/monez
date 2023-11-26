@@ -44,7 +44,7 @@ class AdvertiserController extends Controller
             'vat_id' => 'nullable',
             'website_url' => 'required|url',
             'account_email' => 'required|unique:advertisers,account_email',
-            'account_email' => 'required|unique:users,email',
+            // 'account_email' => 'required|unique:users,email',
             'account_password' => 'required',
             'address1' => 'required',
             'address2' => 'nullable',

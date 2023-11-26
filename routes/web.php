@@ -11,6 +11,7 @@ use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TeamMemberController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Auth Routes
+Route::get('/auth/{driver}', [AuthController::class, 'authRedirect'])->name('auth.redirect');
+Route::get('/auth/{driver}/callback', [AuthController::class, 'authRedirect'])->name('auth.callback');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/home', function(){
+   return 'Hello'.auth()->user()->name;
+})->name('home')->middleware('auth');
+Route::get('/login', function(){
+    return view('login');
+})->name('login');
+// Auth Route
+Route::get('/auth/{driver}', [AuthController::class, 'authRedirect'])->name('auth.redirect');
+Route::get('/auth/{driver}/callback', [AuthController::class, 'authCallback'])->name('auth.callback');
 
 Route::get('/search_results', [App\Http\Controllers\ChannelsController::class, 'channelSearched']);
 Route::post('/api/save-screen-resolution',  [App\Http\Controllers\ChannelsController::class, 'saveScreenResolution']);
