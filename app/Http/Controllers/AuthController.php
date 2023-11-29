@@ -33,12 +33,17 @@ class AuthController extends Controller
             }   
             
 
-            public function authRedirect($driver) {
+            public function authRedirect() {
+                $driver = "google";
                 if (!$this->isProviderAllowed($driver)) {
                     return $this->failedResponse('Provider is not allowed.');
                 }
                 try {
-                    return Socialite::driver($driver)->redirect();
+                    // print_r('here');
+                    // return Socialite::driver($driver)->redirect();
+                    $parameters = ['access_type' => 'offline'];
+                    return Socialite::driver($driver)->scopes(["https://www.googleapis.com/auth/drive"])->with($parameters)->redirect();
+                
                 } catch (Exception $e) {
                     return $this->failedResponse($e->getMessage());
                 }
@@ -50,7 +55,8 @@ class AuthController extends Controller
              * @param $driver
              * @return redirect
              */
-            public function authCallback($driver) {
+            public function authCallback() {
+                $driver = "google";
                 try {
                     // Get user Information from provider
                     $providerUser = Socialite::driver($driver)->user();

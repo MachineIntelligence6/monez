@@ -12,6 +12,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DriveController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,9 +26,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/drive', 'DriveController@getDrive'); // retreive folders
+
 // Auth Routes
-Route::get('/auth/{driver}', [AuthController::class, 'authRedirect'])->name('auth.redirect');
-Route::get('/auth/{driver}/callback', [AuthController::class, 'authRedirect'])->name('auth.callback');
+// Route::get('/auth/google', [AuthController::class, 'authRedirect']);//->name('auth.redirect');
+Route::get('/oauth2callback', [AuthController::class, 'authRedirect']);//->name('auth.callback');
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,8 +43,8 @@ Route::get('/login', function(){
     return view('login');
 })->name('login');
 // Auth Route
-Route::get('/auth/{driver}', [AuthController::class, 'authRedirect'])->name('auth.redirect');
-Route::get('/auth/{driver}/callback', [AuthController::class, 'authCallback'])->name('auth.callback');
+// Route::get('/auth/{driver}', [AuthController::class, 'authRedirect'])->name('auth.redirect');
+// Route::get('/auth/{driver}/callback', [AuthController::class, 'authCallback'])->name('auth.callback');
 
 Route::get('/search_results', [App\Http\Controllers\ChannelsController::class, 'channelSearched']);
 Route::post('/api/save-screen-resolution',  [App\Http\Controllers\ChannelsController::class, 'saveScreenResolution']);
