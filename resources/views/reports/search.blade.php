@@ -31,15 +31,9 @@
                             <div class="row align-items-center">
                                 <div class="col-auto">
                                     <div class="custom-file">
-                                        <form id="uploadForm" action="{{ route('report.activity.upload') }}" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                        <input type="file" class="custom-file-input" id="activityReport" name="activityReport" accept=".csv">
-                                        <label class="btn btn-primary" for="activityReport">Upload CSV</label>
-                                    </form>
+                                        <input type="file" class="custom-file-input" id="customFile" accept=".csv">
+                                        <label class="btn btn-primary" for="customFile">Export CSV</label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <a class="btn btn-primary" href="{{ route('report.activity.export') }}">Export CSV</a>
                                 </div>
                                 <div class="col-auto dropleft" style="min-width: 160px">
                                     <button class="btn btn-secondary waves-effect waves-light dropdown-toggle" type="button" data-toggle="dropdown" data-target="#show-columns-dropdown" aria-haspopup="true" aria-expanded="false">
@@ -106,7 +100,6 @@
                             </div>
                         </div>
                     </div>
-                    <form id="uploadForm" action="{{ route('report.activity.search') }}" method="get" enctype="multipart/form-data">
                     <div class="row mb-2 align-items-center justify-content-between">
                         <div class="col-9">
                             <div class="row">
@@ -127,20 +120,18 @@
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
-                                        {{--
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label w-100" for="customCheck1">asdasd</label>
+                                                <label class="custom-control-label w-100" for="customCheck1">Partner 1</label>
                                             </div>
                                         </div>
                                         <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label w-100" for="customCheck1">3333</label>
+                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                <label class="custom-control-label w-100" for="customCheck2">Partner 2</label>
                                             </div>
-                                        </div> --}}
-
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-auto" style="min-width: 200px;">
@@ -153,7 +144,7 @@
                                         <div class="px-2">
                                             <input type="text" class="form-control dropdown-search-input" placeholder="search">
                                         </div>
-                                        {{-- <div class="dropdown-item">
+                                        <div class="dropdown-item">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="feed1">
                                                 <label class="custom-control-label w-100" for="feed1">Feed 1</label>
@@ -164,48 +155,77 @@
                                                 <input type="checkbox" class="custom-control-input" id="feed2">
                                                 <label class="custom-control-label w-100" for="feed2">Feed 2</label>
                                             </div>
-                                        </div> --}}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-auto" style="min-width: 200px;">
-                                    <select class="form-control selectperiod" id="select-period" name="period" data-toggle="select2" required>
+                                    <select class="form-control selectperiod" id="select-period" disabled name="period" data-toggle="select2" required>
                                         <option>Select Period</option>
-                                        <option value="Yesterday">Yesterday</option>
-                                        <option value="Today">Today</option>
-                                        <option value="Month to Date">Month to Date</option>
-                                        <option value="Previous Month">Previous Month</option>
+                                        <option value="">Yesterday</option>
+                                        <option value="">Today</option>
+                                        <option value="">Month to Date</option>
+                                        <option value="">Previous Month</option>
                                         <option value="custom-range">Custom Range</option>
                                     </select>
-                                    <input type="text" id="range-datepicker" name='custom-range' style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
+                                    <input type="text" id="range-datepicker" style="width: 0; height: 0; overflow: hidden;" class="form-control border-0 p-0 custom-range-date-picker" placeholder="Start Date to End Date">
                                 </div>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-primary" type="submit">Go</button>
+                            <button class="btn btn-primary">Go</button>
                         </div>
                     </div>
-                </form>
                     <div class="table-responsive">
                         <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Channel</th>
-                                    <th>Publisher</th>
-                                    <th>Revenue Share</th>
-                                    <th>Feed Assigned</th>
+                                    <th>Date & Time Of Search</th>
+                                    <th>Query</th>
                                     <th>Advertiser</th>
+                                    <th>Feed</th>
+                                    <th>Publisher</th>
+                                    <th>Channel</th>
+                                    <th>SubId</th>
+                                    <th>Channel Path</th>
+                                    <th>Referer</th>
+                                    <th>No. of redirects</th>
+                                    <th>Alert</th>
+                                    <th>IP Address</th>
+                                    <!-- Location = City + Country  -->
+                                    <th>Location</th>
+                                    <th>GEO</th>
+                                    <th>Latency (Seconds)</th>
+                                    <th>UserAgent</th>
+                                    <th>Screen Resolution</th>
+                                    <th>Device</th>
+                                    <th>OS</th>
+                                    <th>Browser</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($activityRecords as $record)
+                                @foreach ($channelSearchs as $channelSearch)
                                     <tr>
-                                        <td>{{$record->activity_date}}</td>
-                                        <td>{{$record->channel}}</td>
-                                        <td>{{$record->publisher}}</td>
-                                        <td>{{$record->revenue_share}}</td>
-                                        <td>{{$record->feed}}</td>
-                                        <td>{{$record->advertiser}}</td>
+                                        <td>{{$channelSearch->created_at}}</td>
+                                        <td>{{$channelSearch->query}}</td>
+                                        <td>{{$channelSearch->advertiser ? $channelSearch->advertiser->company_name : '--'}}</td>
+                                        <td>{{$channelSearch->feed}}</td>
+                                        <td>{{$channelSearch->channel->publisher->company_name}}</td>
+                                        <td>{{$channelSearch->channel->channelId}}</td>
+                                        <td>{{$channelSearch->subid}}</td>
+                                        <td>{{$channelSearch->channel->channelpath->channel_path}}</td>
+                                        <td>{{$channelSearch->referer}}</td>
+                                        <td>{{$channelSearch->no_of_redirects}}</td>
+                                        <td>{{$channelSearch->alert}}</td>
+                                        <td>{{$channelSearch->ip_address}}</td>
+                                        <td>{{$channelSearch->location}}</td>
+                                        <td>{{$channelSearch->geo}}</td>
+                                        <td>{{$channelSearch->latency}}</td>
+                                        <td>{{$channelSearch->user_agent}}</td>
+                                        <td>{{$channelSearch->screen_resolution}}</td>
+                                        <td>{{$channelSearch->device}}</td>
+                                        <td>{{$channelSearch->os}}</td>
+                                        <td>{{$channelSearch->browser}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -276,56 +296,6 @@
                 .find(".select2-selection__rendered");
             partnersRenderContainer.text("Select " + selectedText);
 
-            if(selectedText == 'Advertisers'){
-                const partnerDropDownData = @json($advertisers);
-                $('#pubItem').remove();
-                $('#channelItem').remove();
-                for (var i = 0; i < partnerDropDownData.length; i++) {
-                    partnerChildElement = `<div class="dropdown-item" id='advItem'>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name='advertisers[]' value='${partnerDropDownData[i].id}' id="customCheck${i}">
-                                                <label class="custom-control-label w-100" for="customCheck${i}">${partnerDropDownData[i].company_name}</label>
-                                            </div>
-                                        </div>`;
-                    $('#partners-dropdown').append(partnerChildElement);
-                }
-
-                const typeDropDownData = @json($feeds);
-                for (var i = 0; i < typeDropDownData.length; i++) {
-                    typeChildElement = `<div class="dropdown-item" id='feedItem'>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name='feeds[]' value='${typeDropDownData[i].id}' id="feed${i}">
-                                                <label class="custom-control-label w-100" for="feed${i}">${typeDropDownData[i].feedId}</label>
-                                            </div>
-                                        </div>`;
-                    $('#types-dropdown').append(typeChildElement);
-                }
-            } else {
-                const partnerDropDownData = @json($publishers);
-                $('#advItem').remove();
-                $('#feedItem').remove();
-                for (var i = 0; i < partnerDropDownData.length; i++) {
-                    partnerChildElement =  `<div class="dropdown-item" id='pubItem'>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name='publishers[]' value='${partnerDropDownData[i].id}' id="customCheck${i}">
-                                                <label class="custom-control-label w-100" for="customCheck${i}">${partnerDropDownData[i].company_name}</label>
-                                            </div>
-                                        </div>`;
-                    $('#partners-dropdown').append(partnerChildElement);
-                }
-
-                const typeDropDownData = @json($channels);
-                for (var i = 0; i < typeDropDownData.length; i++) {
-                    typeChildElement = `<div class="dropdown-item" id='channelItem'>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name='channels[]' value='${typeDropDownData[i].id}' id="channel${i}">
-                                                <label class="custom-control-label w-100" for="channel${i}">${typeDropDownData[i].channelId}</label>
-                                            </div>
-                                        </div>`;
-                    $('#types-dropdown').append(typeChildElement);
-                }
-            }
-
             let fchRenderContainer = $("#feeds-channels")
                 .siblings(".select2-container")
                 .find(".select2-selection__rendered");
@@ -345,10 +315,5 @@
                 .removeProp("disabled");
         }
     })
-
-    //Filters Flow
-    $("#activityReport").on("change", (e) => {
-        $('#uploadForm').submit();
-    });
 </script>
 @endsection

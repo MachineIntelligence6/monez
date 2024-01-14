@@ -76,6 +76,16 @@ Route::middleware('auth')->group(function (){
         Route::post('/search', [App\Http\Controllers\RedirectTestController::class, 'performTest'])->name('search');
     });
 
+    //reports
+    Route::prefix('report')->name('report.')->middleware('admin')->group(function () {
+        Route::prefix('activity')->name('activity.')->group(function () {
+            Route::get('/', [App\Http\Controllers\ReportsController::class, 'showActivity'])->name('show');
+            Route::post('/upload', [App\Http\Controllers\ReportsController::class, 'uploadFileActivity'])->name('upload');
+            Route::get('/export', [App\Http\Controllers\ReportsController::class, 'exportFileActivity'])->name('export');
+            Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnActivity'])->name('search');
+        });
+    });
+
     Route::get('/mark-message-read/{id}', [App\Http\Controllers\SettingController::class, 'markCustomMessageRead'])->name('mark-message-read');
 
 

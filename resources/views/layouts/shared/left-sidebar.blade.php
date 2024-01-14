@@ -129,7 +129,10 @@
                     <div class="collapse" id="sidebarReports">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{route('activity')}}">Activity Reports</a>
+                                <a href="{{route('activity')}}">Search Reports</a>
+                            </li>
+                            <li>
+                                <a href="{{route('report.activity.show')}}">Activity Reports</a>
                             </li>
                             <li>
                                 <a href="{{route('revenue')}}">Revenue Reports</a>
