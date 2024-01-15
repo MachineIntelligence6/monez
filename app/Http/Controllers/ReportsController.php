@@ -32,19 +32,33 @@ class ReportsController extends Controller
     public function showActivity()
     {
         // return Carbon::today()->endOfDay();
+        $coloumns = [
+            ['Date', 'activity_data'],
+            ['Channel', 'channel'],
+            ['Publisher', 'publisher'],
+            ['Revenue Share', 'revenue_share'],
+            ['Feed Assigned', 'feed'],
+            ['Advertiser', 'advertiser']
+        ];
         $activityRecords = Activity::all();
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
         $feeds = Feed::all();
-        return view("reports.activity", compact('activityRecords', 'publishers', 'advertisers', 'feeds', 'channels'));
+        return view("reports.activity", compact('activityRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
     }
 
     public function uploadFileActivity(Request $request)
     {
         if ($request->hasFile('activityReport')) {
-            Excel::import(new ImportActivity, $request->file('activityReport'));
-            return redirect()->back();
+            try {
+                Excel::import(new ImportActivity, $request->file('activityReport'));
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('error', "File coudn't uploaded, error :  " . $th->getMessage());
+            }
+            return redirect()->back()->with('success', "Data successfully have been uploaded!");
+        } else {
+            return redirect()->back()->with('error', "Error while importing data");
         }
     }
 

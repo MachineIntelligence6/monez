@@ -24,19 +24,31 @@ class ImportActivity implements ToModel, WithStartRow
         $feed = Feed::where('feedId', $row[1])->first();
         $advertiser = Advertiser::where('advertiser_id', $row[1])->first();
 
-        return new Activity([
-            'activity_date' => $row[0],
-            'channel' =>  $row[1],
-            'publisher' =>  $row[2],
-            'revenue_share' => $row[3],
-            'feed' => $row[4],
-            'advertiser' =>  $row[5],
+        $activity = Activity::where('activity_date', $row[0])
+            ->where('channel_id', $channel ? $channel->id : null)
+            ->where('advertiser_id', $advertiser ? $advertiser->id : null)
+            ->where('publisher_id', $publisher ? $publisher->id : null)
+            ->where('feed_id', $feed ? $feed->id : null)
+            ->first();
 
-            'channel_id' => $channel ? $channel->id : null,
-            'advertiser_id' => $advertiser ? $advertiser->id : null,
-            'publisher_id' => $publisher ? $publisher->id : null,
-            'feed_id' => $feed ? $feed->id : null,
-        ]);
+        if ($activity) {
+            $activity->revenue_share = $row[3];
+            $activity->save();
+        } else {
+            return new Activity([
+                'activity_date' => $row[0],
+                'channel' =>  $row[1],
+                'publisher' =>  $row[2],
+                'revenue_share' => $row[3],
+                'feed' => $row[4],
+                'advertiser' =>  $row[5],
+
+                'channel_id' => $channel ? $channel->id : null,
+                'advertiser_id' => $advertiser ? $advertiser->id : null,
+                'publisher_id' => $publisher ? $publisher->id : null,
+                'feed_id' => $feed ? $feed->id : null,
+            ]);
+        }
     }
 
     public function startRow(): int
