@@ -69,6 +69,14 @@ class ReportsController extends Controller
 
     public function searchOnActivity(Request $request)
     {
+        $coloumns = [
+            ['Date', 'activity_data'],
+            ['Channel', 'channel'],
+            ['Publisher', 'publisher'],
+            ['Revenue Share', 'revenue_share'],
+            ['Feed Assigned', 'feed'],
+            ['Advertiser', 'advertiser']
+        ];
         $query = Activity::query();
         if ($request['partener-type'] == 'advertisers') {
             $query->whereNotNull('advertiser_id');
@@ -119,7 +127,7 @@ class ReportsController extends Controller
         $advertisers = Advertiser::all();
         $channels = Channel::all();
         $feeds = Feed::all();
-        return view("reports.activity", compact('activityRecords', 'publishers', 'advertisers', 'feeds', 'channels'));
+        return view("reports.activity", compact('activityRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
     }
 
     public function showRevenue()
