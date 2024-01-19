@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('channel:pause-if-no-search')->dailyAt('23:59');
+        $schedule->command('report:update-channels-activity')->dailyAt('14:00');
         $schedule->call(function () {
             foreach (Feed::all() as $key => $feed) {
                 $feed->daily_search_cap_count = 0;

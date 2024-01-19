@@ -135,7 +135,7 @@
                                 <a href="{{route('report.activity.show')}}">Activity Reports</a>
                             </li>
                             <li>
-                                <a href="{{route('revenue')}}">Revenue Reports</a>
+                                <a href="{{route('report.revenue.show')}}">Revenue Reports</a>
                             </li>
                         </ul>
                     </div>

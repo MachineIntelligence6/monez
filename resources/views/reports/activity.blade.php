@@ -38,7 +38,7 @@
                         <div class="row mb-3 justify-content-end">
                             <div class="col-auto">
                                 <div class="row align-items-center">
-                                    <div class="col-auto">
+                                    {{-- <div class="col-auto">
                                         <div class="custom-file">
                                             <form id="uploadForm" action="{{ route('report.activity.upload') }}"
                                                 method="post" enctype="multipart/form-data">
@@ -48,7 +48,7 @@
                                                 <label class="btn btn-primary" for="activityReport">Upload CSV</label>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-auto">
                                         <button class="btn btn-primary" id="exportReporttoCSV">Export CSV</button>
                                     </div>

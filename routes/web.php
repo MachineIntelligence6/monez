@@ -80,9 +80,16 @@ Route::middleware('auth')->group(function (){
     Route::prefix('report')->name('report.')->middleware('admin')->group(function () {
         Route::prefix('activity')->name('activity.')->group(function () {
             Route::get('/', [App\Http\Controllers\ReportsController::class, 'showActivity'])->name('show');
-            Route::post('/upload', [App\Http\Controllers\ReportsController::class, 'uploadFileActivity'])->name('upload');
+            // Route::post('/upload', [App\Http\Controllers\ReportsController::class, 'uploadFileActivity'])->name('upload');
             Route::get('/export', [App\Http\Controllers\ReportsController::class, 'exportFileActivity'])->name('export');
             Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnActivity'])->name('search');
+        });
+
+        Route::prefix('revenue')->name('revenue.')->group(function () {
+            Route::get('/', [App\Http\Controllers\ReportsController::class, 'showRevenue'])->name('show');
+            Route::post('/upload', [App\Http\Controllers\ReportsController::class, 'uploadFileRevenue'])->name('upload');
+            // Route::get('/export', [App\Http\Controllers\ReportsController::class, 'exportFileRevenue'])->name('export');
+            Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnRevenue'])->name('search');
         });
     });
 
