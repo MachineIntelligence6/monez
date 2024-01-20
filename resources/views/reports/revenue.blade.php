@@ -52,10 +52,10 @@
                                     <div class="col-auto">
                                         <button class="btn btn-primary" id="exportReporttoCSV">Export CSV</button>
                                     </div>
-                                    <div class="col-auto">
+                                    {{-- <div class="col-auto">
                                         <button class="btn btn-secondary" data-trigger="modal"
                                             data-target="apiDetailModal">API Details</button>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-auto dropleft" style="min-width: 160px">
                                         <button class="btn btn-secondary waves-effect waves-light dropdown-toggle"
@@ -167,7 +167,8 @@
                                         <div class="col-auto my-auto">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="countryWise">
-                                                <label class="custom-control-label w-100" for="countryWise">GeoWise</label>
+                                                <label class="custom-control-label w-100"
+                                                    for="countryWise">GeoWise</label>
                                             </div>
                                         </div>
                                     </div>
@@ -183,39 +184,47 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Advertiser</th>
-                                        <th>Feed</th>
-                                        <th>Publisher</th>
-                                        <th>Channel</th>
+                                        <th>Report Id</th>
                                         <th>SubId</th>
-                                        <th>Daily Reports Status</th>
                                         <th>GEO</th>
                                         <th>Total Searches</th>
-                                        <!-- Location = City + Country  -->
                                         <th>Monetized Searches</th>
                                         <th>Paid Clicks</th>
-                                        <th>Advertiser Revenue ($)</th>
-                                        <th>Search Monez Revenue ($)</th>
-                                        <th>Publisher Revenue ($)</th>
-                                        <th>Latency (Seconds)</th>
-                                        <th>Follow On Searches (%)</th>
+                                        <th>Gross Revenue</th>
+                                        <th>Channel</th>
+                                        <th>Publisher</th>
+                                        <th>Net Revenue ($)</th>
                                         <th>Coverage (%)</th>
                                         <th>CTR (%)</th>
                                         <th>RPM ($)</th>
                                         <th>Monetized RPM (%)</th>
                                         <th>EPC ($)</th>
+                                        <th>Daily Reports Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($revenueRecords as $record)
+                                    @foreach ($revenueRecords as $record)
                                         <tr>
                                             <td>{{ $record->revenue_date }}</td>
+                                            <td>{{ $record->getAdvertiser->advertiser_id }}</td>
+                                            <td>{{ $record->feed->feedId }}</td>
+                                            <td>{{ $record->sub_id }}</td>
+                                            <td>{{ $record->geo }}</td>
+                                            <td>{{ $record->total_searches }}</td>
+                                            <td>{{ $record->monetized_searches }}</td>
+                                            <td>{{ $record->paid_clicks }}</td>
+                                            <td>{{ $record->gross_revenue }}</td>
                                             <td>{{ $record->channel }}</td>
-                                            <td>{{ $record->publisher }}</td>
-                                            <td>{{ $record->revenue_share }}</td>
-                                            <td>{{ $record->feed }}</td>
-                                            <td>{{ $record->advertiser }}</td>
+                                            <td>{{ $record->getPublisher->publisher_id }}</td>
+                                            <td>{{ $record->net_revenue }}</td>
+                                            <td>{{ $record->coverage }}</td>
+                                            <td>{{ $record->ctr }}</td>
+                                            <td>{{ $record->rpm }}</td>
+                                            <td>{{ $record->monetized_rpm }}</td>
+                                            <td>{{ $record->epc }}</td>
+                                            <td>{{ $record->daily_reports_status }}</td>
                                         </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

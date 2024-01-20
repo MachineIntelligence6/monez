@@ -12,7 +12,10 @@ use Illuminate\Http\Request;
 use App\Imports\ImportActivity;
 use App\Exports\ExportActivity;
 use App\Feed;
+use App\Imports\RevenueImport;
 use App\Publisher;
+use App\Revenue;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportsController extends Controller
@@ -54,6 +57,7 @@ class ReportsController extends Controller
             try {
                 Excel::import(new ImportActivity, $request->file('activityReport'));
             } catch (\Throwable $th) {
+                Log::error($th);
                 return redirect()->back()->with('error', "File coudn't uploaded, error :  " . $th->getMessage());
             }
             return redirect()->back()->with('success', "Data successfully have been uploaded!");
@@ -132,44 +136,44 @@ class ReportsController extends Controller
 
     public function showRevenue()
     {
+
         // return Carbon::today()->endOfDay();
         $coloumns = [
             ['Date', 'revenue_data'],
-            ['Feed', 'feed'],
-            ['Publisher', 'publisher'],
-            ['Channel', 'channel'],
+            ['Advertiser', 'advertiser'],
+            ['Report Id', 'report_id'],
             ['SubId', 'subId'],
-            ['Daily Reports Status', 'daily_reports_status'],
             ['GEO', 'geo'],
             ['Total Searches', 'total_searches'],
             ['Monetized Searches', 'monetized_searches'],
             ['Paid Clicks', 'paid_clicks'],
-            ['Advertiser Revenue ($)', 'advertiser_revenue'],
-            ['Search Monez Revenue ($)', 'search_monez_revenue'],
-            ['Publisher Revenue ($)', 'publisher_revenue'],
-            ['Latency (Seconds)', 'latency'],
-            ['Follow On Searches (%)', 'follow_on_searches'],
+            ['Gross Revenue', 'gross_revenue'],
+            ['Channel', 'channel'],
+            ['Publisher', 'publisher'],
+            ['Net Revenue ($)', 'net_revenue'],
             ['Coverage (%)', 'coverage'],
             ['CTR (%)', 'ctr'],
             ['RPM ($)', 'rpm'],
             ['Monetized RPM (%)', 'monetized_rpm'],
             ['EPC ($)', 'epc'],
+            ['Daily Report Status', 'daily_report_status'],
         ];
 
-        $activityRecords = Activity::all();
+        $revenueRecords = Revenue::all();
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
         $feeds = Feed::all();
-        return view("reports.revenue", compact('activityRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
+        return view("reports.revenue", compact('revenueRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
     }
 
     public function uploadFileRevenue(Request $request)
     {
-        if ($request->hasFile('activityReport')) {
+        if ($request->hasFile('revenueReport')) {
             try {
-                Excel::import(new ImportActivity, $request->file('activityReport'));
+                Excel::import(new RevenueImport, $request->file('revenueReport'));
             } catch (\Throwable $th) {
+                Log::error($th);
                 return redirect()->back()->with('error', "File coudn't uploaded, error :  " . $th->getMessage());
             }
             return redirect()->back()->with('success', "Data successfully have been uploaded!");
@@ -180,7 +184,28 @@ class ReportsController extends Controller
 
     public function searchOnRevenue(Request $request)
     {
-        $query = Activity::query();
+        $coloumns = [
+            ['Date', 'revenue_data'],
+            ['Advertiser', 'advertiser'],
+            ['Report Id', 'report_id'],
+            ['SubId', 'subId'],
+            ['GEO', 'geo'],
+            ['Total Searches', 'total_searches'],
+            ['Monetized Searches', 'monetized_searches'],
+            ['Paid Clicks', 'paid_clicks'],
+            ['Gross Revenue', 'gross_revenue'],
+            ['Channel', 'channel'],
+            ['Publisher', 'publisher'],
+            ['Net Revenue ($)', 'net_revenue'],
+            ['Coverage (%)', 'coverage'],
+            ['CTR (%)', 'ctr'],
+            ['RPM ($)', 'rpm'],
+            ['Monetized RPM (%)', 'monetized_rpm'],
+            ['EPC ($)', 'epc'],
+            ['Daily Report Status', 'daily_report_status'],
+        ];
+
+        $query = Revenue::query();
         if ($request['partener-type'] == 'advertisers') {
             $query->whereNotNull('advertiser_id');
             $query->when(request('advertisers'), function ($q) {
@@ -202,21 +227,21 @@ class ReportsController extends Controller
 
             switch (request('period')) {
                 case ('Yesterday'):
-                    return $q->whereBetween('activity_date', [Carbon::now()->subDay(1)->startOfDay(), Carbon::now()->subDay(1)->endOfDay()]);
+                    return $q->whereBetween('revenue_date', [Carbon::now()->subDay(1)->startOfDay(), Carbon::now()->subDay(1)->endOfDay()]);
                     break;
                 case ('Today'):
-                    return $q->whereBetween('activity_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
+                    return $q->whereBetween('revenue_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
                     break;
                 case ('Month to Date'):
-                    return $q->whereBetween('activity_date', [Carbon::today()->startOfMonth(), Carbon::today()]);
+                    return $q->whereBetween('revenue_date', [Carbon::today()->startOfMonth(), Carbon::today()]);
                     break;
                 case ('Previous Month'):
-                    return $q->whereBetween('activity_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
+                    return $q->whereBetween('revenue_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
                     break;
                 case ('custom-range'):
                     if (request('custom-range')) {
                         $dateRange = explode(" ", request('custom-range'));
-                        return $q->whereBetween('activity_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        return $q->whereBetween('revenue_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
                     }
                     break;
                 default:
@@ -224,12 +249,12 @@ class ReportsController extends Controller
             }
             return $q;
         });
-        $activityRecords = $query->get();
+        $revenueRecords = $query->get();
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
         $feeds = Feed::all();
-        return view("reports.activity", compact('activityRecords', 'publishers', 'advertisers', 'feeds', 'channels'));
+        return view("reports.activity", compact('revenueRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
     }
 }
