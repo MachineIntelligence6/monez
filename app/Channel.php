@@ -19,9 +19,8 @@ class Channel extends Model
     }
     public function feeds()
     {
-        // return $this->hasMany(Feed::class, 'id', 'feed_ids');
         $feedIds = explode(',', $this->feed_ids);
-        $feeds = DB::table('feeds')->whereIn('id', $feedIds)->get();
+        $feeds = DB::table('feeds')->whereIn('id', $feedIds)->orderBy('daily_ip_cap_count')->get();
         return $feeds;
     }
 
