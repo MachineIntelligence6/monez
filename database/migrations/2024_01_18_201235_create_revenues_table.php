@@ -29,7 +29,7 @@ return new class extends Migration
             // $table->string('advertiser')->nullable();
             // $table->string('publisher')->nullable();
             $table->string('sub_id')->nullable();
-            $table->string('daily_reports_status')->default('complete');
+            $table->string('daily_reports_status')->default('available');
             $table->string('geo')->nullable();
             $table->integer('total_searches')->nullable();
             $table->integer('monetized_searches')->nullable();

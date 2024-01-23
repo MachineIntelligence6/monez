@@ -501,6 +501,9 @@ class ChannelsController extends Controller
                             $feed->daily_search_cap_count = $feed->daily_search_cap_count + 1;
                             $redirectToFeedURL = $feed->feedPath . $feed->perameters;
                             $feed->save();
+                            $channelSearch->feed_id = $feed->id;
+                            $channelSearch->feed = $feed->feedId;
+                            $channelSearch->save();
                             break;
                         }
                     }

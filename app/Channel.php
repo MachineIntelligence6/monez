@@ -20,7 +20,7 @@ class Channel extends Model
     public function feeds()
     {
         $feedIds = explode(',', $this->feed_ids);
-        $feeds = DB::table('feeds')->whereIn('id', $feedIds)->orderBy('daily_ip_cap_count')->get();
+        $feeds = DB::table('feeds')->whereIn('id', $feedIds)->orderBy('daily_search_cap_count')->get();
         return $feeds;
     }
 
