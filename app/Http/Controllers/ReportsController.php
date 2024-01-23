@@ -171,6 +171,7 @@ class ReportsController extends Controller
     {
         if ($request->hasFile('revenueReport')) {
             try {
+                Revenue::update(['daily_reports_status'=>'complete']);
                 Excel::import(new RevenueImport, $request->file('revenueReport'));
             } catch (\Throwable $th) {
                 Log::error($th);
