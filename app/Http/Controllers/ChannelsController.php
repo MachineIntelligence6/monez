@@ -108,7 +108,7 @@ class ChannelsController extends Controller
         }
 
         for ($i = 0; $i < count($assign_feed); $i++) {
-            $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . $daily_cap[$i];
+            $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . ($daily_cap[$i] ?? 0);
             $ids[] = (string)$assign_feed[$i];
         }
         $feedIds = $ids; // Array of feed IDs
