@@ -78,6 +78,11 @@ Route::middleware('auth')->group(function (){
 
     //reports
     Route::prefix('report')->name('report.')->middleware('admin')->group(function () {
+        Route::prefix('search')->name('search.')->group(function () {
+            Route::get('/', [App\Http\Controllers\ReportsController::class, 'showChannelSearch'])->name('show');
+            Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnChannelSearch'])->name('search');
+        });
+
         Route::prefix('activity')->name('activity.')->group(function () {
             Route::get('/', [App\Http\Controllers\ReportsController::class, 'showActivity'])->name('show');
             // Route::post('/upload', [App\Http\Controllers\ReportsController::class, 'uploadFileActivity'])->name('upload');
