@@ -139,7 +139,10 @@ Route::middleware('auth')->group(function (){
     Route::get('/channel/disable/{channel}', [ChannelsController::class, 'disable'])->name('channel.disable');
     Route::get('/channel/{channel}/view', [ChannelsController::class, 'view'])->name('channel.view');
     Route::post('/channelid', 'ChannelsController@ChannelId')->name('channelid');
-    Route::resource('channels', ChannelsController::class);
+    Route::resource('channels', ChannelsController::class)->except([
+        'update',
+    ]);
+    Route::post('/channels/{channel}/update', [ChannelsController::class, 'update'])->name('channels.update');
     Route::get('reports/activity', 'ReportsController@activity')->name('activity');
     Route::get('reports/revenue', 'ReportsController@revenue')->name('revenue');
     Route::resource('reports', ReportsController::class);
