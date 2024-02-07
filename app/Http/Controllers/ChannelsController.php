@@ -364,23 +364,23 @@ class ChannelsController extends Controller
         }
 
         $channelId = $channel->id;
-
-        $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channelId)->firstOrFail();
-        $channelIntegration->channel_id = $channelId;
-        $channelIntegration->c_guideUrl = $request->c_guideUrl;
-        $channelIntegration->c_subids = $c_subids;
-        $channelIntegration->c_dailyCap = $highestDailyCapValue; //$request->c_dailyCap;
-        $channelIntegration->c_dailyIpCap = $c_dailyIpCap; //$request->c_dailyIpCap;
-        $channelIntegration->c_acceptedGeos = $c_acceptedGeos;
-        $channelIntegration->c_searchEngine = $c_searchEngine;
-        $channelIntegration->c_feedType = $c_feedType;
-        $channelIntegration->c_trafficType = $c_trafficType;
-        $channelIntegration->c_trafficSources = $c_trafficSources;
-        $channelIntegration->c_platform = $c_platform;
-        $channelIntegration->c_browsers = $c_browsers;
-        $channelIntegration->c_otherRequirements = $c_otherRequirements;
-
-        $channelIntegration->update();
+        $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channelId)->first();
+        if($channelIntegration){
+            $channelIntegration->channel_id = $channelId;
+            $channelIntegration->c_guideUrl = $request->c_guideUrl;
+            $channelIntegration->c_subids = $c_subids;
+            $channelIntegration->c_dailyCap = $highestDailyCapValue; //$request->c_dailyCap;
+            $channelIntegration->c_dailyIpCap = $c_dailyIpCap; //$request->c_dailyIpCap;
+            $channelIntegration->c_acceptedGeos = $c_acceptedGeos;
+            $channelIntegration->c_searchEngine = $c_searchEngine;
+            $channelIntegration->c_feedType = $c_feedType;
+            $channelIntegration->c_trafficType = $c_trafficType;
+            $channelIntegration->c_trafficSources = $c_trafficSources;
+            $channelIntegration->c_platform = $c_platform;
+            $channelIntegration->c_browsers = $c_browsers;
+            $channelIntegration->c_otherRequirements = $c_otherRequirements;
+            $channelIntegration->update();
+        }
         return redirect()->route('channels.index')->with('success', 'Channel Form Data Has Been Updated Successfuly:');
     }
 
