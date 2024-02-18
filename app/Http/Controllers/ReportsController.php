@@ -329,6 +329,6 @@ class ReportsController extends Controller
         $advertisers = Advertiser::all();
         $channels = Channel::all();
         $feeds = Feed::all();
-        return view("reports.activity", compact('revenueRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
+        return view("reports.revenue", compact('revenueRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
     }
 }
