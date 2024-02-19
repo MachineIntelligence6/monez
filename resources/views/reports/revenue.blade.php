@@ -31,6 +31,11 @@
                 {{ session()->get('error') }}
             </div>
         @endif
+        @if (session()->has('warning'))
+            <div class="alert alert-warning">
+                {{ session()->get('warning') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <div class="card">

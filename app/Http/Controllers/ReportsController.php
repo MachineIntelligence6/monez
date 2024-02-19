@@ -265,6 +265,8 @@ class ReportsController extends Controller
     {
         $rowErrors = null;
         if ($request->hasFile('revenueReport')) {
+            $now = now();
+            // $recordBefore = Revenue::where('updated_at', $now)->count();
             try {
                 Revenue::whereNot('daily_reports_status', 'complete')->update(['daily_reports_status' => 'complete']);
                 Excel::import(new RevenueImport, $request->file('revenueReport'));
@@ -277,8 +279,12 @@ class ReportsController extends Controller
                 Log::error($th);
                 return redirect()->back()->with('error', "File coudn't uploaded, error :  " . $th->getMessage());
             }
+            $recordAfter = Revenue::where('updated_at','>', $now)->count();
             $error = $rowErrors ? 'Skipped Rows for report ids, coudnt found feeds or channel not assigned: ' . $rowErrors : '';
-            return redirect()->back()->with('success', "Data successfully have been uploaded! " . $error);
+            if($recordAfter == 0){
+                return redirect()->back()->with('error', "No data uploaded")->with('warning', $error);
+            }
+            return redirect()->back()->with('success', "Data successfully have been uploaded!")->with('warning', $error);
         } else {
             return redirect()->back()->with('error', "Error while importing data");
         }
