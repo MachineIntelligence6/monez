@@ -9,12 +9,21 @@ use App\Feed;
 use App\Publisher;
 use App\Revenue;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-
-class RevenueImport implements ToModel, WithStartRow
+class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchInserts
 {
+    private $reportsIds;
+
+    public function __construct()
+    {
+        $this->reportsIds = Feed::select('reportId')->get()->pluck('reportId')->toArray();
+    }
     /**
      * @param array $row
      *
@@ -33,6 +42,7 @@ class RevenueImport implements ToModel, WithStartRow
                 }
             }
             if ($channel) {
+                // Log::info($row[2]);
                 $publisher = Publisher::find($channel->publisher_id)->first();
                 $advertiser = Advertiser::where('advertiser_id', $row[1])->first();
                 if ($advertiser) {
@@ -76,7 +86,7 @@ class RevenueImport implements ToModel, WithStartRow
                             'publisher_id' => $channel->publisher_id,
                             'feed_id' => $feed->id,
                             'channel' => $channel->channelId,
-                            // 'advertiser' => $row[0],˝
+                            // 'advertiser' => $row[0],
                             // 'publisher' => $row[0],
                             'report_id' => $row[2],
                             'feed' => $feed->feedId,
@@ -105,4 +115,27 @@ class RevenueImport implements ToModel, WithStartRow
     {
         return 2;
     }
+
+    public function rules(): array
+    {
+        return [
+            // '2' => Rule::in($this->reportsIds),
+            '2' => function($attribute, $value, $onFailure) {
+                if (!in_array($value, $this->reportsIds)) {
+                     $onFailure($value);
+                }
+            },
+        ];
+    }
+
+    public function stopOnFirstFailure(): bool
+    {
+        return false; // Ensure that import continues after first failure
+    }
+
+    public function batchSize(): int
+    {
+        return 2000; // Adjust batch size as needed
+    }
+
 }
