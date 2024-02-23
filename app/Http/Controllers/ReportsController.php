@@ -23,9 +23,11 @@ class ReportsController extends Controller
     private $searchColoums;
     private $activityColoums;
     private $revenueColoums;
+    private $rowErors;
 
     public function __construct()
     {
+        $this->rowErors = null;
         $this->searchColoums = [
             ['Date & Time Of Search', 'date_time_of_search'],
             ['Query', 'query'],
@@ -261,15 +263,28 @@ class ReportsController extends Controller
 
     public function uploadFileRevenue(Request $request)
     {
+        $rowErrors = null;
         if ($request->hasFile('revenueReport')) {
+            $now = now();
+            // $recordBefore = Revenue::where('updated_at', $now)->count();
             try {
-                Revenue::update(['daily_reports_status' => 'complete']);
+                Revenue::whereNot('daily_reports_status', 'complete')->update(['daily_reports_status' => 'complete']);
                 Excel::import(new RevenueImport, $request->file('revenueReport'));
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+                foreach ($failures as $failure) {
+                    $rowErrors = $rowErrors . strval($failure->row()) . ', ';
+                }
             } catch (\Throwable $th) {
                 Log::error($th);
                 return redirect()->back()->with('error', "File coudn't uploaded, error :  " . $th->getMessage());
             }
-            return redirect()->back()->with('success', "Data successfully have been uploaded!");
+            $recordAfter = Revenue::where('updated_at','>', $now)->count();
+            $error = $rowErrors ? 'Skipped Rows for report ids, coudnt found feeds or channel not assigned: ' . $rowErrors : '';
+            if($recordAfter == 0){
+                return redirect()->back()->with('error', "No data uploaded")->with('warning', $error);
+            }
+            return redirect()->back()->with('success', "Data successfully have been uploaded!")->with('warning', $error);
         } else {
             return redirect()->back()->with('error', "Error while importing data");
         }
@@ -329,6 +344,6 @@ class ReportsController extends Controller
         $advertisers = Advertiser::all();
         $channels = Channel::all();
         $feeds = Feed::all();
-        return view("reports.activity", compact('revenueRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
+        return view("reports.revenue", compact('revenueRecords', 'publishers', 'advertisers', 'feeds', 'channels', 'coloumns'));
     }
 }
