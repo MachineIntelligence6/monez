@@ -293,10 +293,16 @@ class FeedsController extends Controller
         //     $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
         // }
         $perameters = "/?";
-        for ($i = 0; $i < count($s_paramName); $i++) {
-            $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
-            $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
+       if(!is_null($s_paramName)){
+            for ($i = 0; $i < count($s_paramName); $i++) {
+                $mergedArrayStat[] = $s_paramName[$i] . ' , ' . $s_paramVal[$i];
+                $perameters = $perameters . $s_paramName[$i] . '=' . $s_paramVal[$i] . '&';
+            }
         }
+       if(is_null($d_paramName))
+       {
+           $d_paramName = [];
+       }
         // $count = min(count($d_paramName), count($d_paramVal));
         for ($i = 0; $i < count($d_paramName); $i++) {
             $mergedArrayDy[] = $d_paramName[$i] . ' , ' . $d_paramVal[$i];
@@ -341,7 +347,7 @@ class FeedsController extends Controller
                 if ((int)$channelFeedId == $feed->id) {
                     // return $feedIntegration->dailyCap;
                     $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channel->id)->firstOrFail();
-                    Log::info('channelIntegration = ' . $channelIntegration->c_dailyCap . ' - ' . $feedIntegration->dailyCap . ' + ' . $request->dailyCap);
+//                    Log::info('channelIntegration = ' . $channelIntegration->c_dailyCap . ' - ' . $feedIntegration->dailyCap . ' + ' . $request->dailyCap);
                     $channelIntegration->c_dailyCap = ($channelIntegration->c_dailyCap - $oldDailyCap) + $request->dailyCap; //$request->c_dailyCap;
                     $channelIntegration->c_dailyIpCap = ($channelIntegration->c_dailyIpCap - $oldDailyIpCap) + $request->dailyIpCap;
                     $channelIntegration->save();
