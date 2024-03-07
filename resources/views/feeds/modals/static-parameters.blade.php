@@ -19,8 +19,8 @@
                 $data =$feed->staticParameters;
                 $array = json_decode($data, true);
                 @endphp
-                @foreach ($array as $key => $value) 
-               
+                @foreach ($array as $key => $value)
+
                     @php
                     $parts = explode(' , ', $value);
                     @endphp
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="col-1">
-                            <button type="button" onclick="removeElementFromContainer(this, 'staticParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            <button type="button" {{($key == 0) ? 'hidden' : ''}} onclick="removeElementFromContainer(this, 'staticParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
                         </div>
                     </div>
                 @endforeach
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="col-1">
-                            <button type="button" onclick="removeElementFromContainer(this, 'staticParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            <button type="button" hidden onclick="removeElementFromContainer(this, 'staticParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
                         </div>
                     </div>
                     @endif

@@ -46,7 +46,7 @@ class UpdateChannelStatus extends Command
         $feeds = Feed::where('last_activity_at', '=<', $startOfDay)->get();
 
         foreach ($feeds as $key => $feed) {
-            $feed->status = 'pause';
+            $feed->status = 'paused';
             $feed->save();
         }
         return Command::SUCCESS;

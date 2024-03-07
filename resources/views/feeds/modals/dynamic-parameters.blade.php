@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="col-1">
-                            <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            <button type="button" {{($key == 0) ? 'hidden' : ''}} onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
                         </div>
                     </div>
                     @endforeach
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="col-1">
-                            <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            <button type="button" hidden onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
                         </div>
                     </div>
                     @endif

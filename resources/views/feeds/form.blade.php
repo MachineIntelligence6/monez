@@ -111,7 +111,7 @@
                 <option value="select status" disabled>select status</option>
                 <option value="available" @if($feed->status == 'available') selected @endif disabled>Available</option>
                 <option value="live" @if($feed->status == 'live') selected @endif disabled>Live</option>
-                <option value="pause" @if($feed->status == 'pause') selected @endif disabled>Pause</option>
+                <option value="paused" @if($feed->status == 'paused') selected @endif disabled>Pause</option>
                 <option value="disabled" @if($feed->status == 'disabled') disabled selected @endif>Disable</option>
                 @if($feed->status == 'disabled')
                 <option value="enabled">Enable</option>
@@ -271,6 +271,7 @@
         let sample = container.querySelector("#" + sampleId);
         let element = sample.cloneNode(true);
         element.id = ""
+        element.querySelector('button').removeAttribute('hidden');
         element.querySelectorAll("input").forEach((inp) => inp.value = "");
         container.appendChild(element);
     }
