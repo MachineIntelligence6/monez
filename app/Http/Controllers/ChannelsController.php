@@ -14,6 +14,7 @@ use App\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 use Throwable;
@@ -417,13 +418,30 @@ class ChannelsController extends Controller
         $advertiser = null;
         $feed = null;
         $startTime = microtime(true);
+        /** @var Channel $cahnnel */
         $cahnnel = Channel::where('channelId', $request->channel)->get()->first();
 
+        $selectedFeed = null;
         if ($cahnnel) {
-            $feeds = $cahnnel->feeds();
-            if (isset($feeds[0])) {
-                $advertiser = $feeds[0]->advertiser_id;
-                $feed = $feeds[0];
+
+            $feeds = $cahnnel->feeds()->sort(function($a, $b){
+                if($a->daily_search_cap_count === $b->daily_search_cap_count){
+                    return 0;
+                }
+
+                return ($a->daily_search_cap_count < $b->daily_search_cap_count) ? -1 : 1;
+            });
+
+            foreach($feeds as $feed){
+                if($feed->daily_search_cap_count !== 0){
+                    $selectedFeed = $feed;
+                    break;
+                }
+            }
+
+            if ($selectedFeed !== null) {
+                $advertiser = $selectedFeed->advertiser_id;
+                $feed = $selectedFeed;
             }
         }
 
@@ -494,6 +512,10 @@ class ChannelsController extends Controller
                 $channelSearchId = $channelSearch->id;
 
                 if ($cahnnel->status != 'disable') {
+                    $feedModal = Feed::find($feed->id);
+                    $feedModal->daily_search_cap_count -= 1;
+                    $feedModal->save();
+
                     foreach ($feeds as $key => $feedTemp) {
                         $feedIntegration = FeedIntegrationGuide::where('feed_id', $feedTemp->id)->get()->first();
                         if (($feedTemp->daily_search_cap_count < intval($feedIntegration->dailyCap)) || isset($feedIntegration->dailyCap)) {
