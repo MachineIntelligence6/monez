@@ -449,9 +449,9 @@ class ChannelsController extends Controller
                 return ($a['cap'] < $b['cap']) ? -1 : 1;
             });
 
-            foreach($normalizedFeeds as $feed){
-                if(intval($feed['cap']) !== 0){
-                    $selectedFeed = $feed;
+            foreach($normalizedFeeds as $normalizedFeed){
+                if(intval($normalizedFeed['cap']) > 0){
+                    $selectedFeed = $normalizedFeed;
                     break;
                 }
             }
@@ -466,14 +466,16 @@ class ChannelsController extends Controller
 
             // apply ip filter
             $channelIntegrationGuide = $cahnnel->channelintegration()->first();
-            $ipCap = $channelIntegrationGuide->c_dailyIpCap;
-            $ipSearchesToday = ChannelSearch::where('ip_address', $ip)
-                ->selectRaw('COUNT(id) as ipSearches')
-                ->whereRaw('Date(created_at) = ?', [Carbon::now()->toDateString()])
-                ->get()->first();
+            if($channelIntegrationGuide !== null) {
+                $ipCap = $channelIntegrationGuide->c_dailyIpCap;
+                $ipSearchesToday = ChannelSearch::where('ip_address', $ip)
+                    ->selectRaw('COUNT(id) as ipSearches')
+                    ->whereRaw('Date(created_at) = ?', [Carbon::now()->toDateString()])
+                    ->get()->first();
 
-            if($ipSearchesToday->ipSearches >= $ipCap){
-                $feed = null; // fallback
+                if ($ipSearchesToday->ipSearches >= $ipCap) {
+                    $feed = null; // fallback
+                }
             }
         }
 
@@ -545,14 +547,16 @@ class ChannelsController extends Controller
                         $a = [];
                         foreach ($normalizedFeeds as $normalizedFeed) {
                             if ($normalizedFeed['feedId'] == $feed->id) {
-                                $a[] = $normalizedFeed['feedId'] . ',' . ($normalizedFeed['cap'] - 1);
+                                $a[] = $normalizedFeed['feedId'] . ' , ' . ($normalizedFeed['cap'] - 1);
                             }else{
-                                $a[] = $normalizedFeed['feedId'] . ',' . $normalizedFeed['cap'];
+                                $a[] = $normalizedFeed['feedId'] . ' , ' . $normalizedFeed['cap'];
                             }
                         }
 
                         $cahnnel->c_assignedFeeds = json_encode($a);
                         $cahnnel->save();
+
+                        $redirectToFeedURL = $feed->feedPath . $feed->perameters;
                     }
 
 
@@ -566,7 +570,7 @@ class ChannelsController extends Controller
 //                            $channelSearch->feed_id = $feed->id;
 //                            $channelSearch->feed = $feed->feedId;
 //                            $channelSearch->save();
-                            break;
+//                            break;
                         }
                     }
                 }
