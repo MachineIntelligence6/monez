@@ -93,17 +93,27 @@
                                 </div>
                             </div>
                             <div class="col-md-5">
-                                @foreach ($feeds as $feed)
-                                    @if (isset($parts[0]) && $feed->feed_id == $parts[0])
-                                        <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
-                                            placeholder="Enter Daily Cap"
-                                            value="{{ $feed->dailyCap ? $feed->dailyCap : '' }}" readonly />
-                                        <div class="valid-feedback">Valid.</div>
-                                        <div class="invalid-feedback">
-                                            You must enter valid input
-                                        </div>
-                                    @endif
-                                @endforeach
+                                @if ($lastSegment != 'create')
+                                    @foreach ($feeds as $feed)
+                                        @if (isset($parts[0]) && $feed->feed_id == $parts[0])
+                                            <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
+                                                placeholder="Enter Daily Cap"
+                                                value="{{ $feed->dailyCap ? $feed->dailyCap : '' }}" readonly />
+                                            <div class="valid-feedback">Valid.</div>
+                                            <div class="invalid-feedback">
+                                                You must enter valid input
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
+                                           placeholder="Enter Daily Cap"
+                                           value="" readonly />
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                @endif
                             </div>
                             <div class="col-1">
                                 <button type="button" onclick="removeElementFromContainer(this, 'assignedFeedSample')"
