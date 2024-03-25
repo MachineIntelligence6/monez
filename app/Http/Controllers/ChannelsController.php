@@ -466,7 +466,7 @@ class ChannelsController extends Controller
 
             // apply ip filter
             $channelIntegrationGuide = $cahnnel->channelintegration()->first();
-            if($channelIntegrationGuide !== null) {
+            if($channelIntegrationGuide !== null && $channelIntegrationGuide->c_dailyIpCap !== null) {
                 $ipCap = $channelIntegrationGuide->c_dailyIpCap;
                 $ipSearchesToday = ChannelSearch::where('ip_address', $ip)
                     ->selectRaw('COUNT(id) as ipSearches')
@@ -479,7 +479,7 @@ class ChannelsController extends Controller
             }
         }
 
-        $redirectToFeedURL = 'https://www.google.com/search?q=' . $query;
+        $redirectToFeedURL = 'https://www.google.com/search?fallback=1&q=' . $query;
 
         try {
             $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
@@ -521,7 +521,7 @@ class ChannelsController extends Controller
                     'feed' => isset($feed) ? $feed->feedId : 'F1_fallback',
                     'publisher' => $cahnnel->publisher ? $cahnnel->publisher->name : '',
                     'location' => $location,
-                    'subid' => $cahnnel->channelintegration->c_subids,
+                    'subid' => $cahnnel->channelintegration?->c_subids,
                     'referer' => $request->header('referer'),
                     'no_of_redirects' => 0,
                     'alert' => '--',
