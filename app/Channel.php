@@ -27,7 +27,7 @@ class Channel extends Model
     public function makeFeedAvailable()
     {
         foreach ($this->feeds() as $feed) {
-            if (Channel::where('feed_ids',$feed->id)->where('is_active', true)->exists()) {
+            if (Channel::where('feed_ids', 'like', '%'.$feed->id.'%')->where('is_active', true)->exists()) {
                 DB::table('feeds')->where('id', $feed->id)->update(['status' => 'available']);
             }
         }
