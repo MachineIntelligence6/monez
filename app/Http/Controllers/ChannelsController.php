@@ -521,7 +521,7 @@ class ChannelsController extends Controller
                     'feed' => isset($feed) ? $feed->feedId : 'F1_fallback',
                     'publisher' => $cahnnel->publisher ? $cahnnel->publisher->name : '',
                     'location' => $location,
-                    'subid' => $cahnnel->channelintegration?->c_subids,
+                    'subid' => $request->query->get('subid'),
                     'referer' => $request->header('referer'),
                     'no_of_redirects' => 0,
                     'alert' => '--',

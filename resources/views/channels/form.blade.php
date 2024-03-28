@@ -243,11 +243,19 @@
             let value = $(param).find("input#paramValue").val()
             return name !== "" && value !== "" ? name + "=" + value : ""
         });
+
         let dynamicParams = $(".dynamicParameter").toArray().map((param) => {
             let name = $(param).find("input#paramName").val()
             return name !== "" ? (name + "=" + `<${name}>`) : ""
         });
-        var allParams = [("channel=" + channelId), ...staticParams, ...dynamicParams]
+
+        const subIdsParams = [];
+        const subIds = $('#c_subids').val();
+        if(subIds.trim() !== '') {
+             subIdsParams.push(`subid=${subIds}`);
+        }
+
+        var allParams = [("channel=" + channelId), ...subIdsParams, ...staticParams, ...dynamicParams]
             .filter(p => p !== "").join("&");
         // let randomStr = generateRandomStr();
         let url = `${basePath}search_results?${allParams}`;
