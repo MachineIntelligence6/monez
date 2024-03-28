@@ -92,6 +92,12 @@
         </div>
         @endif
         <div class="col-md-4 mb-3">
+            @if(!isset($selectedAdv))
+                @php
+                $selectedAdv = old('advertiser');
+                @endphp
+            @endif
+
             <label for="advertiser" class="form-label">Advertiser</label><label class="text-danger">*</label>
             <select name="advertiser" class="form-control" @if($condition==$lastSegment) disabled @endif id="advertiserZ-dropdown" data-toggle="select2" required>
                 <option value="" selected>Select Advertiser</option>
@@ -281,6 +287,35 @@
         // if (parameter.id === sampleId) return;
         parameter.remove();
     }
+
+    $('.feeds-form').on('submit', function(e){
+        const errorsMap = {
+            '[name="keywordParameter"]': '#dynamicParameters'
+        };
+
+        const requiredFields = $('[required]', $(this));
+        const errors = [];
+
+        $.each(requiredFields, function(){
+            const that = $(this);
+            if(that && that.val() !== null) {
+                const name = `[name="${that.attr('name')}"]`;
+                const errorContainer = errorsMap[name] || name;
+                if (that.val().trim() === '') {
+                    errors.push(`Please enter a valid value`);
+                    $(errorContainer).addClass('is-invalid');
+                } else {
+                    $(errorContainer).removeClass('is-invalid');
+                }
+            }
+        });
+
+        if(errors.length > 0){
+            this.reportValidity();
+            e.preventDefault();
+        }
+    });
+
 </script>
 
 @endsection

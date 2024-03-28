@@ -24,7 +24,7 @@
                             $lastMatchedFeed = null;
                         @endphp
 
-                        @if ($array != null)
+                        @if ($array != null and $data != '[","]')
 
                             @foreach ($array as $key => $value)
                                 @php
@@ -67,9 +67,11 @@
                                         @endforeach
                                     </div>
                                     <div class="col-1">
+                                        @if ($lastSegment !== 'view')
                                         <button type="button"
                                             onclick="removeElementFromContainer(this, 'assignedFeedSample')"
                                             class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
