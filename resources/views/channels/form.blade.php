@@ -247,9 +247,16 @@
         let dynamicParams = $(".dynamicParameter").toArray().map((param) => {
             let name = $(param).find("input#paramName").val()
             return name !== "" ? (name + "=" + `<${name}>`) : ""
+        }).sort(function(a, b){
+            if(a.includes('query')){
+                return 1;
+            }
+
+            return -1;
         });
 
         const subIdsParams = [];
+        // find from integration guide if available
         const subIds = $('#c_subids').val();
         if(subIds.trim() !== '') {
              subIdsParams.push(`subid=${subIds}`);
