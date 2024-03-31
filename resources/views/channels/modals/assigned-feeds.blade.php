@@ -16,6 +16,7 @@
                                 class="mdi mdi-plus"></i></button>
                     </div>
                 @endif
+                <div class="error-container"></div>
                 <div id="assignedFeedsContainer">
                     @if (isset($channel))
                         @php

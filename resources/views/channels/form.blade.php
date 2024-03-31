@@ -257,10 +257,10 @@
 
         const subIdsParams = [];
         // find from integration guide if available
-        const subIds = $('#c_subids').val();
-        if(subIds.trim() !== '') {
-             subIdsParams.push(`subid=${subIds}`);
-        }
+        // const subIds = $('#c_subids').val();
+        // if(subIds.trim() !== '') {
+        //      subIdsParams.push(`subid=${subIds}`);
+        // }
 
         var allParams = [("channel=" + channelId), ...subIdsParams, ...staticParams, ...dynamicParams]
             .filter(p => p !== "").join("&");
@@ -271,9 +271,36 @@
     }
 
     function updateDailyCap(selectElement) {
+        const selectedFeedsMap = new Map();
+        const errorContainer = $('.error-container');
+        // errorContainer.empty();
+
+        document.querySelectorAll('[name="feed[]"]').forEach(item => {
+            item.classList.remove('is-invalid');
+            if(selectElement !== item) {
+                selectedFeedsMap.set(item.value, item.value);
+            }
+        });
+
+        const selectedFeeds = Array.from(selectedFeedsMap.values());
+
+        const feedId = selectElement.value;
+        if(selectedFeeds.includes(feedId)){
+            selectElement.classList.add('is-invalid');
+            errorContainer.html(`
+                <div class="mt-2 alert alert-danger alert-dismissible fade show" role="alert">
+                    Duplicate feeds are not allowed
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `);
+
+            $(selectElement).closest('.assignedFeed').remove();
+        }
+
         // Get the selected feed value (feed ID)
         const dailyCapValue = selectElement.options[selectElement.selectedIndex].getAttribute('data-daily-cap');
-        console.log(dailyCapValue);
         // Find the corresponding dailyCap input element
         const dailyCapInput = selectElement.parentElement.nextElementSibling.querySelector('#dailyCap');
         // Set the value of the dailyCap input to the custom attribute value
