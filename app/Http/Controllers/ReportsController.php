@@ -15,6 +15,7 @@ use App\Feed;
 use App\Imports\RevenueImport;
 use App\Publisher;
 use App\Revenue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -277,13 +278,20 @@ class ReportsController extends Controller
                 }
             } catch (\Throwable $th) {
                 Log::error($th);
-                return redirect()->back()->with('error', "File coudn't uploaded, error :  " . $th->getMessage());
+                return redirect()->back()->with('error', "File couldn't uploaded, error :  " . $th->getMessage());
             }
-            $recordAfter = Revenue::where('updated_at','>', $now)->count();
-            $error = $rowErrors ? 'Skipped Rows for report ids, coudnt found feeds or channel not assigned: ' . $rowErrors : '';
+
+            $recordAfter = Revenue::where('updated_at','>=', $now)->count();
+            $error = $rowErrors ? 'Skipped Rows for report ids, couldn\'t found feeds or channel not assigned: ' . $rowErrors : '';
             if($recordAfter == 0){
-                return redirect()->back()->with('error', "No data uploaded")->with('warning', $error);
+                $response = redirect()->back()->with('error', "No data uploaded");
+                if($error){
+                    $response->with('warning', $error);
+                }
+
+                return $response;
             }
+
             return redirect()->back()->with('success', "Data successfully have been uploaded!")->with('warning', $error);
         } else {
             return redirect()->back()->with('error', "Error while importing data");
