@@ -261,9 +261,30 @@ class ChannelsController extends Controller
         $c_dailyCap = 0;
         $c_dailyIpCap = 0;
 
+        $channelPrevFeeds = explode(',', $channel->feed_ids);
+
+        // normalize feeds + caps
+        $channelPrevFeedsCaps = array_map(function ($item) {
+            $feedCap = explode(',', $item);
+
+            return [trim(rtrim($feedCap[0])), trim(rtrim($feedCap[1]))];
+        }, json_decode($channel->c_assignedFeeds));
+
+        $indexedPrevFeeds = [];
+        foreach($channelPrevFeedsCaps as $feedsCap){
+            $indexedPrevFeeds[$feedsCap[0]] = $feedsCap[1];
+        }
+
         $removedFeeds = [];
         if ($request->has('feed')) {
             for ($i = 0; $i < count($assign_feed); $i++) {
+                // if feed does not exist in channel then allow it to add in channel
+                if(in_array($assign_feed[$i], $channelPrevFeeds)){
+                    $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . ($indexedPrevFeeds[$assign_feed[$i]]);
+                    $ids[] = $assign_feed[$i];
+                    continue;
+                }
+
                 $mergeArrayFeed[] = $assign_feed[$i] . ' , ' . ($daily_cap[$i] ?? 0);
                 $ids[] = (string)$assign_feed[$i];
 
