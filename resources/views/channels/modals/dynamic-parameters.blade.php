@@ -34,6 +34,26 @@
                             <!-- <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button> -->
                         </div>
                     </div>
+
+                    <div class="d-flex w-100 dynamicParameter mb-3" id="" style="max-width: 100%; overflow-x: hidden;">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="paramName" readonly name="dy_paramName[]" value="subid" />
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" style="border: none;" id="paramValue" name="dy_paramValue[]" disabled placeholder="User entered value" />
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                You must enter valid input
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <!-- <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button> -->
+                        </div>
+                    </div>
                     @if(isset($channel))
                     @php
                     $data =$channel->c_dynamicParameters;
@@ -45,7 +65,7 @@
                     $parts = explode(' , ', $value);
                     @endphp
 
-                    @if ($value == 'query')
+                    @if ($value == 'query' || $value == 'subid')
                     @continue
                     @endif
                     <div class="d-flex w-100 dynamicParameter mb-3" id="dynamicParameterSample" style="max-width: 100%; overflow-x: hidden;">
@@ -64,12 +84,14 @@
                             </div>
                         </div>
                         <div class="col-1">
-                            <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            @if($lastSegment!='view')
+                                <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            @endif
                         </div>
                     </div>
                     @endforeach
                     @else
-                   
+
                     @endif
                 </div>
             </div>
