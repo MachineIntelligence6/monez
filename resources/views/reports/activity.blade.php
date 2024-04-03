@@ -174,6 +174,7 @@
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
                                     <tr>
+                                        <th>Report ID</th>
                                         <th>Date</th>
                                         <th>Channel</th>
                                         <th>Publisher</th>
@@ -185,6 +186,7 @@
                                 <tbody>
                                     @foreach ($activityRecords as $record)
                                         <tr>
+                                            <td>{{ $record->feed()?->reportId }}</td>
                                             <td>{{ $record->activity_date }}</td>
                                             <td>{{ $record->channel }}</td>
                                             <td>{{ $record->publisher }}</td>
