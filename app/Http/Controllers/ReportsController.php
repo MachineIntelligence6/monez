@@ -53,6 +53,7 @@ class ReportsController extends Controller
         ];
 
         $this->activityColoums = $coloumns = [
+            ['Report ID', 'report_id'],
             ['Date', 'activity_data'],
             ['Channel', 'channel'],
             ['Publisher', 'publisher'],
