@@ -22,7 +22,7 @@ class ChannelSearch extends Model
         'publisher_id',
         'feed_id',
         'feed',
-        'publisher',
+//        'publisher',
         'location',
         'subid',
         'referer',
@@ -46,5 +46,10 @@ class ChannelSearch extends Model
     public function advertiser()
     {
         return $this->belongsTo(Advertiser::class, 'advertiser_id');
+    }
+
+    public function pub()
+    {
+        return $this->belongsTo(Publisher::class, 'publisher_id');
     }
 }

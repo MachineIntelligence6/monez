@@ -111,7 +111,7 @@ class ReportsController extends Controller
     public function searchOnChannelSearch(Request $request)
     {
         $coloumns = $this->searchColoums;
-        $query = Activity::query();
+        $query = ChannelSearch::query();
         if ($request['partener-type'] == 'advertisers') {
             $query->whereNotNull('advertiser_id');
             $query->when(request('advertisers'), function ($q) {
@@ -147,7 +147,12 @@ class ReportsController extends Controller
                 case ('custom-range'):
                     if (request('custom-range')) {
                         $dateRange = explode(" ", request('custom-range'));
-                        return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        if(count($dateRange) === 1){
+                            // start and end dates are same
+                            return $q->whereRaw('Date(created_at) = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        }elseif(count($dateRange) === 2) {
+                            return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
                     }
                     break;
                 default:
@@ -155,6 +160,7 @@ class ReportsController extends Controller
             }
             return $q;
         });
+
         $searchRecords = $query->orderBy('created_at', 'DESC')->get();
 
         $publishers = Publisher::all();

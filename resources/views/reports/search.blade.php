@@ -202,12 +202,12 @@
                                         <tr>
                                             <td>{{ $record->created_at }}</td>
                                             <td>{{ $record->query }}</td>
-                                            <td>{{ $record->advertiser ? $record->advertiser->company_name : '--' }}</td>
+                                            <td>{{ $record?->advertiser?->company_name ?? '--' }}</td>
                                             <td>{{ $record->feed }}</td>
-                                            <td>{{ $record->channel->publisher->company_name }}</td>
-                                            <td>{{ $record->channel->channelId }}</td>
+                                            <td>{{ $record?->pub?->company_name ?? '--' }}</td>
+                                            <td>{{ $record?->channel?->channelId ?? '--' }}</td>
                                             <td>{{ $record->subid }}</td>
-                                            <td>{{ $record->channel->channelpath->channel_path }}</td>
+                                            <td>{{ $record?->channel?->channelpath?->channel_path ?? '--' }}</td>
                                             <td>{{ $record->referer }}</td>
                                             <td>{{ $record->no_of_redirects }}</td>
                                             <td>{{ $record->alert }}</td>
