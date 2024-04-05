@@ -487,11 +487,13 @@ class ChannelsController extends Controller
 
             // apply ip filter
             $channelIntegrationGuide = $cahnnel->channelintegration()->first();
-            if($channelIntegrationGuide !== null && $channelIntegrationGuide->c_dailyIpCap !== null) {
+            if($feed !== null && $channelIntegrationGuide !== null && $channelIntegrationGuide->c_dailyIpCap !== null) {
                 $ipCap = $channelIntegrationGuide->c_dailyIpCap;
                 $ipSearchesToday = ChannelSearch::where('ip_address', $ip)
                     ->selectRaw('COUNT(id) as ipSearches')
                     ->whereRaw('Date(created_at) = ?', [Carbon::now()->toDateString()])
+                    ->where('channel_id', $cahnnel->id)
+                    ->where('feed_id', $feed->id)
                     ->get()->first();
 
                 if ($ipSearchesToday->ipSearches >= $ipCap) {
