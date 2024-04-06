@@ -65,22 +65,24 @@ class ReportsController extends Controller
         $this->revenueColoums = [
             ['Date', 'revenue_data'],
             ['Advertiser', 'advertiser'],
+            ['Feed', 'feed_id'],
             ['Report Id', 'report_id'],
+            ['Publisher', 'publisher_id'],
+            ['Channel', 'channel'],
             ['SubId', 'subId'],
+            ['Daily Report Status', 'daily_report_status'],
             ['GEO', 'geo'],
             ['Total Searches', 'total_searches'],
             ['Monetized Searches', 'monetized_searches'],
             ['Paid Clicks', 'paid_clicks'],
             ['Gross Revenue', 'gross_revenue'],
-            ['Channel', 'channel'],
-            ['Publisher', 'publisher'],
-            ['Net Revenue ($)', 'net_revenue'],
             ['Coverage (%)', 'coverage'],
             ['CTR (%)', 'ctr'],
             ['RPM ($)', 'rpm'],
             ['Monetized RPM (%)', 'monetized_rpm'],
             ['EPC ($)', 'epc'],
-            ['Daily Report Status', 'daily_report_status'],
+            ['Publisher Rev Share (%)', 'publisher_rev_share'],
+            ['Net Revenue ($)', 'net_revenue'],
         ];
     }
 

@@ -1,4 +1,7 @@
 @extends('layouts.vertical', ['title' => 'revenue Reports'])
+@php
+$decimalPlaces = 2;
+@endphp
 
 @section('content')
     <!-- Start Content-->
@@ -187,24 +190,9 @@
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Advertiser</th>
-                                        <th>Report Id</th>
-                                        <th>SubId</th>
-                                        <th>GEO</th>
-                                        <th>Total Searches</th>
-                                        <th>Monetized Searches</th>
-                                        <th>Paid Clicks</th>
-                                        <th>Gross Revenue</th>
-                                        <th>Channel</th>
-                                        <th>Publisher</th>
-                                        <th>Net Revenue ($)</th>
-                                        <th>Coverage (%)</th>
-                                        <th>CTR (%)</th>
-                                        <th>RPM ($)</th>
-                                        <th>Monetized RPM (%)</th>
-                                        <th>EPC ($)</th>
-                                        <th>Daily Reports Status</th>
+                                        @foreach($coloumns as $coloumn)
+                                            <th>{{ $coloumn[0] }}</th>
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -213,21 +201,23 @@
                                             <td>{{ $record->revenue_date }}</td>
                                             <td>{{ $record->getAdvertiser->advertiser_id }}</td>
                                             <td>{{ $record->feed->feedId }}</td>
+                                            <td>{{ $record->feed->reportId }}</td>
+                                            <td>{{ $record->getPublisher->publisher_id }}</td>
+                                            <td>{{ $record->channel }}</td>
                                             <td>{{ $record->sub_id }}</td>
+                                            <td>{{ $record->daily_reports_status }}</td>
                                             <td>{{ $record->geo }}</td>
                                             <td>{{ $record->total_searches }}</td>
                                             <td>{{ $record->monetized_searches }}</td>
                                             <td>{{ $record->paid_clicks }}</td>
-                                            <td>{{ $record->gross_revenue }}</td>
-                                            <td>{{ $record->channel }}</td>
-                                            <td>{{ $record->getPublisher->publisher_id }}</td>
-                                            <td>{{ $record->net_revenue }}</td>
+                                            <td>{{ number_format($record->gross_revenue, $decimalPlaces) }}</td>
                                             <td>{{ $record->coverage }}</td>
                                             <td>{{ $record->ctr }}</td>
-                                            <td>{{ $record->rpm }}</td>
+                                            <td>{{ number_format($record->rpm, $decimalPlaces) }}</td>
                                             <td>{{ $record->monetized_rpm }}</td>
-                                            <td>{{ $record->epc }}</td>
-                                            <td>{{ $record->daily_reports_status }}</td>
+                                            <td>{{ number_format($record->epc, $decimalPlaces) }}</td>
+                                            <td>{{ number_format($record->getPublisher->revenue_share) }}</td>
+                                            <td>{{ number_format($record->net_revenue, $decimalPlaces) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
