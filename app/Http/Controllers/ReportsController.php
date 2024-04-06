@@ -53,13 +53,13 @@ class ReportsController extends Controller
         ];
 
         $this->activityColoums = $coloumns = [
-            ['Report ID', 'report_id'],
             ['Date', 'activity_data'],
             ['Channel', 'channel'],
             ['Publisher', 'publisher'],
             ['Revenue Share', 'revenue_share'],
             ['Feed Assigned', 'feed'],
-            ['Advertiser', 'advertiser']
+            ['Advertiser', 'advertiser'],
+            ['Report ID', 'report_id'],
         ];
 
         $this->revenueColoums = [
@@ -240,7 +240,12 @@ class ReportsController extends Controller
                 case ('custom-range'):
                     if (request('custom-range')) {
                         $dateRange = explode(" ", request('custom-range'));
-                        return $q->whereBetween('activity_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        if(count($dateRange) === 1){
+                            // start and end dates are same
+                            return $q->whereRaw('Date(created_at) = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        }elseif(count($dateRange) === 2) {
+                            return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
                     }
                     break;
                 default:
@@ -345,7 +350,12 @@ class ReportsController extends Controller
                 case ('custom-range'):
                     if (request('custom-range')) {
                         $dateRange = explode(" ", request('custom-range'));
-                        return $q->whereBetween('revenue_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        if(count($dateRange) === 1){
+                            // start and end dates are same
+                            return $q->whereRaw('revenue_date = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        }elseif(count($dateRange) === 2) {
+                            return $q->whereBetween('revenue_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
                     }
                     break;
                 default:

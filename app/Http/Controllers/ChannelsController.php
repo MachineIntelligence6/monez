@@ -422,6 +422,26 @@ class ChannelsController extends Controller
         $channel->feed_ids = Null;
         $channel->c_assignedFeeds = '[","]';
         $channel->save();
+
+        // update channel integration guide
+        $channelIntegration = ChannelIntegrationGuide::where('channel_id', $channel->id)->first();
+        if($channelIntegration){
+            $channelIntegration->channel_id = $channel->id;
+            $channelIntegration->c_guideUrl = null;
+            $channelIntegration->c_subids = null;
+            $channelIntegration->c_dailyCap = null; //$request->c_dailyCap;
+            $channelIntegration->c_dailyIpCap = null; //$request->c_dailyIpCap;
+            $channelIntegration->c_acceptedGeos = null;
+            $channelIntegration->c_searchEngine = null;
+            $channelIntegration->c_feedType = null;
+            $channelIntegration->c_trafficType = null;
+            $channelIntegration->c_trafficSources = null;
+            $channelIntegration->c_platform = null;
+            $channelIntegration->c_browsers = null;
+            $channelIntegration->c_otherRequirements = null;
+            $channelIntegration->update();
+        }
+
         return redirect()->back();
     }
 

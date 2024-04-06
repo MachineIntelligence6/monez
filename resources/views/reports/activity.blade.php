@@ -174,25 +174,25 @@
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
                                     <tr>
-                                        <th>Report ID</th>
                                         <th>Date</th>
                                         <th>Channel</th>
                                         <th>Publisher</th>
                                         <th>Revenue Share</th>
                                         <th>Feed Assigned</th>
                                         <th>Advertiser</th>
+                                        <th>Report ID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($activityRecords as $record)
                                         <tr>
-                                            <td>{{ $record->feed()?->reportId }}</td>
                                             <td>{{ $record->activity_date }}</td>
                                             <td>{{ $record->channel }}</td>
                                             <td>{{ $record->publisher }}</td>
                                             <td>{{ $record->revenue_share }}</td>
                                             <td>{{ $record->feed }}</td>
                                             <td>{{ $record->advertiser }}</td>
+                                            <td>{{ $record->feed()?->reportId }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

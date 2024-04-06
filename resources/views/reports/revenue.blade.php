@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="col-auto my-auto">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="countryWise">
+                                                <input type="checkbox" class="custom-control-input" id="countryWise" disabled>
                                                 <label class="custom-control-label w-100"
                                                     for="countryWise">GeoWise</label>
                                             </div>
