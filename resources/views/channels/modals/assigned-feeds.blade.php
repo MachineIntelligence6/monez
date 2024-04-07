@@ -42,7 +42,7 @@
                                                 <option value="{{ $feed->feed_id }}"
                                                     @if (isset($parts[0]) && $feed->feed_id == $parts[0]) selected @endif
                                                     data-daily-cap="{{ $feed->dailyCap }}">{{ $feed->feedId }}
-                                                    @if ($maxDailyCap == $feed->dailyCap)
+                                                    @if (in_array($feed->f_id, $channelFeeds) and $channelMaxDailyCap == $feed->dailyCap)
                                                         Primary
                                                     @endif
                                                 </option>

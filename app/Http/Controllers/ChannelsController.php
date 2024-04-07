@@ -200,14 +200,19 @@ class ChannelsController extends Controller
         $selectedchannelpath = $channel->channel_path_id;
 
         $feedids = $channel->feed_ids;
-        $feed_ids_array = array_map('intval', explode(',', $feedids));
+        $feed_ids_array = $channelFeeds = array_map('intval', explode(',', $feedids));
         $feeds = Feed::whereIn("feeds.id", $feed_ids_array)
             ->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
             ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get();
-
-        $channelpaths = ChannelPath::all();
         $maxDailyCap = $feeds->max('dailyCap');
-        return view('channels.create', compact('channel', 'selectedpublisher', 'selectedchannelpath', 'channelpaths', 'publishers', 'feeds', 'channelId', 'maxDailyCap'));
+
+        $channelMaxDailyCap = Feed::whereIn("feeds.id", $feed_ids_array)
+            ->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
+            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get()->max('dailyCap');
+
+        $channelpaths = ChannelPath::where('status', 1)->get();
+
+        return view('channels.create', compact('channel', 'selectedpublisher', 'selectedchannelpath', 'channelpaths', 'publishers', 'feeds', 'channelId', 'maxDailyCap', 'channelFeeds', 'channelMaxDailyCap'));
     }
 
     public function edit(Channel $channel)
@@ -218,13 +223,19 @@ class ChannelsController extends Controller
         $selectedpublisher = $channel->publisher_id;
         $selectedchannelpath = $channel->channel_path_id;
         $feedids = $channel->feed_ids;
-        $feed_ids_array = array_map('intval', explode(',', $feedids));
+        $feed_ids_array = $channelFeeds = array_map('intval', explode(',', $feedids));
         $feeds = Feed::whereIn("feeds.id", $feed_ids_array)->orWhere('status', 'available')
             ->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
-            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get();
-        $channelpaths = ChannelPath::where('status', 1)->get();
+            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->select('feeds.*', 'feeds_integration_guide.*', 'feeds.id as f_id')->get();
         $maxDailyCap = $feeds->max('dailyCap');
-        return view('channels.create', compact('channel', 'channelpaths', 'selectedchannelpath', 'selectedpublisher', 'publishers', 'feeds', 'channelId', 'maxDailyCap'));
+
+        $channelMaxDailyCap = Feed::whereIn("feeds.id", $feed_ids_array)
+            ->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
+            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get()->max('dailyCap');
+
+        $channelpaths = ChannelPath::where('status', 1)->get();
+
+        return view('channels.create', compact('channel', 'channelpaths', 'selectedchannelpath', 'selectedpublisher', 'publishers', 'feeds', 'channelId', 'maxDailyCap', 'channelFeeds', 'channelMaxDailyCap'));
     }
 
     public function update(Request $request, Channel $channel)
