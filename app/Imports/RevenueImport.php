@@ -52,13 +52,14 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchI
                     $monetizedSearches = $row[6];
                     $paidClicks = $row[7];
 
-                    $fmt = new NumberFormatter( 'en_us', NumberFormatter::CURRENCY );
-                    $grossRevenue = $fmt->parseCurrency($row[8], $currency);
+//                    $fmt = new NumberFormatter( 'en_us', NumberFormatter::CURRENCY );
+//                    $grossRevenue = $fmt->parseCurrency($row[8], $currency);
+                    $grossRevenue = $row[8];
 
                     $geo = $row[4];
                     $netRevenue = $grossRevenue == 0 ? 0 : (($publisher->revenue_share * 100) / $grossRevenue);
                     $coverage = ($monetizedSearches / $totalSearches) * 100;
-                    $ctr = ($paidClicks / $monetizedSearches) * 100;
+                    $ctr = $monetizedSearches == 0 ? 0 : ($paidClicks / $monetizedSearches) * 100;
                     $rpm = ($netRevenue / $totalSearches) * 100;
                     $monetized_rpm = ($monetizedSearches / $totalSearches) * 100;
                     $epc = ($netRevenue / $totalSearches) * 100;

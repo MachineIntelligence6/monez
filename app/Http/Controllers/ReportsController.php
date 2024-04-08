@@ -75,11 +75,11 @@ class ReportsController extends Controller
             ['Total Searches', 'total_searches'],
             ['Monetized Searches', 'monetized_searches'],
             ['Paid Clicks', 'paid_clicks'],
-            ['Gross Revenue', 'gross_revenue'],
+            ['Gross Revenue ($)', 'gross_revenue'],
             ['Coverage (%)', 'coverage'],
             ['CTR (%)', 'ctr'],
             ['RPM ($)', 'rpm'],
-            ['Monetized RPM (%)', 'monetized_rpm'],
+            ['Monetized RPM ($)', 'monetized_rpm'],
             ['EPC ($)', 'epc'],
             ['Publisher Rev Share (%)', 'publisher_rev_share'],
             ['Net Revenue ($)', 'net_revenue'],
@@ -141,7 +141,7 @@ class ReportsController extends Controller
                     return $q->whereBetween('created_at', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
                     break;
                 case ('Month to Date'):
-                    return $q->whereBetween('created_at', [Carbon::today()->startOfMonth(), Carbon::today()]);
+                    return $q->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::today()]);
                     break;
                 case ('Previous Month'):
                     return $q->whereBetween('created_at', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
@@ -234,7 +234,7 @@ class ReportsController extends Controller
                     return $q->whereBetween('activity_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
                     break;
                 case ('Month to Date'):
-                    return $q->whereBetween('activity_date', [Carbon::today()->startOfMonth(), Carbon::today()]);
+                    return $q->whereBetween('activity_date', [Carbon::now()->startOfMonth(), Carbon::today()]);
                     break;
                 case ('Previous Month'):
                     return $q->whereBetween('activity_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
@@ -344,7 +344,7 @@ class ReportsController extends Controller
                     return $q->whereBetween('revenue_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
                     break;
                 case ('Month to Date'):
-                    return $q->whereBetween('revenue_date', [Carbon::today()->startOfMonth(), Carbon::today()]);
+                    return $q->whereBetween('revenue_date', [Carbon::now()->startOfMonth(), Carbon::today()]);
                     break;
                 case ('Previous Month'):
                     return $q->whereBetween('revenue_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
