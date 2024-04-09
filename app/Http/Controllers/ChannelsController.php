@@ -11,6 +11,7 @@ use App\Feed;
 use App\FeedIntegrationGuide;
 use App\Listeners\ChannelStateChanged;
 use App\Publisher;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -24,9 +25,9 @@ class ChannelsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return Response|JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         $channels = Channel::orderBy('created_at', 'desc')->get();
 
@@ -42,7 +43,18 @@ class ChannelsController extends Controller
             }
         }
         $assignedfeeds = Feed::whereIn('id', $ids)->get();
-        $channels = Channel::all();
+        $channelsQb = Channel::query();
+        $channelsQb->when(\request('publishers'), function ($qb){
+            return $qb->whereIn('publisher_id', request('publishers'));
+        });
+
+        $channels = $channelsQb->get();
+
+        if($request->isXmlHttpRequest()){
+            return \response()->json([
+                'channels' => $channels,
+            ]);
+        }
 
         return view('channels.index', compact('channels', 'assignedfeeds'));
     }
