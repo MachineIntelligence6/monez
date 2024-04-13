@@ -57,12 +57,12 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchI
                     $grossRevenue = $row[8];
 
                     $geo = $row[4];
-                    $netRevenue = $grossRevenue == 0 ? 0 : (($publisher->revenue_share * 100) / $grossRevenue);
+                    $netRevenue = ($publisher->revenue_share / 100) * $grossRevenue;
                     $coverage = ($monetizedSearches / $totalSearches) * 100;
                     $ctr = $monetizedSearches == 0 ? 0 : ($paidClicks / $monetizedSearches) * 100;
-                    $rpm = ($netRevenue / $totalSearches) * 100;
-                    $monetized_rpm = ($monetizedSearches / $totalSearches) * 100;
-                    $epc = ($netRevenue / $totalSearches) * 100;
+                    $rpm = ($netRevenue / $totalSearches) * 1000;
+                    $monetized_rpm = ($netRevenue / $monetizedSearches) * 1000;
+                    $epc = ($netRevenue / $paidClicks);
 
                     $revenue = Revenue::where('revenue_date', $revenueDate)
                         ->where('advertiser_id', $advertiser ? $advertiser->id : null)
