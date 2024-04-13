@@ -215,7 +215,7 @@ class ChannelsController extends Controller
         $feed_ids_array = $channelFeeds = array_map('intval', explode(',', $feedids));
         $feeds = Feed::whereIn("feeds.id", $feed_ids_array)
             ->join('feeds_integration_guide', 'feeds.id', '=', 'feeds_integration_guide.feed_id')
-            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->get();
+            ->orderBy('feeds_integration_guide.dailyCap', 'asc')->select('feeds.*', 'feeds_integration_guide.*', 'feeds.id as f_id')->get();
         $maxDailyCap = $feeds->max('dailyCap');
 
         $channelMaxDailyCap = Feed::whereIn("feeds.id", $feed_ids_array)
