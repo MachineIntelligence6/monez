@@ -18,8 +18,6 @@ jobs:
       - name: 🔨 Build Project
         run: |
           npm install  
-      - name: Migrate
-        run: php artisan migrate:fresh --seed
       - name: Generate key
         run: php artisan key:generate
       - name: Generate storage link
