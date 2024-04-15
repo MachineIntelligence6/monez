@@ -15,6 +15,7 @@ use App\Feed;
 use App\Imports\RevenueImport;
 use App\Publisher;
 use App\Revenue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -57,28 +58,31 @@ class ReportsController extends Controller
             ['Publisher', 'publisher'],
             ['Revenue Share', 'revenue_share'],
             ['Feed Assigned', 'feed'],
-            ['Advertiser', 'advertiser']
+            ['Advertiser', 'advertiser'],
+            ['Report ID', 'report_id'],
         ];
 
         $this->revenueColoums = [
             ['Date', 'revenue_data'],
             ['Advertiser', 'advertiser'],
+            ['Feed', 'feed_id'],
             ['Report Id', 'report_id'],
+            ['Publisher', 'publisher_id'],
+            ['Channel', 'channel'],
             ['SubId', 'subId'],
+            ['Daily Report Status', 'daily_report_status'],
             ['GEO', 'geo'],
             ['Total Searches', 'total_searches'],
             ['Monetized Searches', 'monetized_searches'],
             ['Paid Clicks', 'paid_clicks'],
-            ['Gross Revenue', 'gross_revenue'],
-            ['Channel', 'channel'],
-            ['Publisher', 'publisher'],
-            ['Net Revenue ($)', 'net_revenue'],
+            ['Gross Revenue ($)', 'gross_revenue'],
             ['Coverage (%)', 'coverage'],
             ['CTR (%)', 'ctr'],
             ['RPM ($)', 'rpm'],
-            ['Monetized RPM (%)', 'monetized_rpm'],
+            ['Monetized RPM ($)', 'monetized_rpm'],
             ['EPC ($)', 'epc'],
-            ['Daily Report Status', 'daily_report_status'],
+            ['Publisher Rev Share (%)', 'publisher_rev_share'],
+            ['Net Revenue ($)', 'net_revenue'],
         ];
     }
 
@@ -109,7 +113,7 @@ class ReportsController extends Controller
     public function searchOnChannelSearch(Request $request)
     {
         $coloumns = $this->searchColoums;
-        $query = Activity::query();
+        $query = ChannelSearch::query();
         if ($request['partener-type'] == 'advertisers') {
             $query->whereNotNull('advertiser_id');
             $query->when(request('advertisers'), function ($q) {
@@ -137,7 +141,7 @@ class ReportsController extends Controller
                     return $q->whereBetween('created_at', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
                     break;
                 case ('Month to Date'):
-                    return $q->whereBetween('created_at', [Carbon::today()->startOfMonth(), Carbon::today()]);
+                    return $q->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::today()]);
                     break;
                 case ('Previous Month'):
                     return $q->whereBetween('created_at', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
@@ -145,7 +149,12 @@ class ReportsController extends Controller
                 case ('custom-range'):
                     if (request('custom-range')) {
                         $dateRange = explode(" ", request('custom-range'));
-                        return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        if(count($dateRange) === 1){
+                            // start and end dates are same
+                            return $q->whereRaw('Date(created_at) = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        }elseif(count($dateRange) === 2) {
+                            return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
                     }
                     break;
                 default:
@@ -153,6 +162,7 @@ class ReportsController extends Controller
             }
             return $q;
         });
+
         $searchRecords = $query->orderBy('created_at', 'DESC')->get();
 
         $publishers = Publisher::all();
@@ -224,7 +234,7 @@ class ReportsController extends Controller
                     return $q->whereBetween('activity_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
                     break;
                 case ('Month to Date'):
-                    return $q->whereBetween('activity_date', [Carbon::today()->startOfMonth(), Carbon::today()]);
+                    return $q->whereBetween('activity_date', [Carbon::now()->startOfMonth(), Carbon::today()]);
                     break;
                 case ('Previous Month'):
                     return $q->whereBetween('activity_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
@@ -232,7 +242,12 @@ class ReportsController extends Controller
                 case ('custom-range'):
                     if (request('custom-range')) {
                         $dateRange = explode(" ", request('custom-range'));
-                        return $q->whereBetween('activity_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        if(count($dateRange) === 1){
+                            // start and end dates are same
+                            return $q->whereRaw('Date(created_at) = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        }elseif(count($dateRange) === 2) {
+                            return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
                     }
                     break;
                 default:
@@ -277,13 +292,20 @@ class ReportsController extends Controller
                 }
             } catch (\Throwable $th) {
                 Log::error($th);
-                return redirect()->back()->with('error', "File coudn't uploaded, error :  " . $th->getMessage());
+                return redirect()->back()->with('error', "File couldn't uploaded, error :  " . $th->getMessage());
             }
-            $recordAfter = Revenue::where('updated_at','>', $now)->count();
-            $error = $rowErrors ? 'Skipped Rows for report ids, coudnt found feeds or channel not assigned: ' . $rowErrors : '';
+
+            $recordAfter = Revenue::where('updated_at','>=', $now)->count();
+            $error = $rowErrors ? 'Skipped Rows for report ids, couldn\'t found feeds or channel not assigned: ' . $rowErrors : '';
             if($recordAfter == 0){
-                return redirect()->back()->with('error', "No data uploaded")->with('warning', $error);
+                $response = redirect()->back()->with('error', "No data uploaded");
+                if($error){
+                    $response->with('warning', $error);
+                }
+
+                return $response;
             }
+
             return redirect()->back()->with('success', "Data successfully have been uploaded!")->with('warning', $error);
         } else {
             return redirect()->back()->with('error', "Error while importing data");
@@ -322,7 +344,7 @@ class ReportsController extends Controller
                     return $q->whereBetween('revenue_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
                     break;
                 case ('Month to Date'):
-                    return $q->whereBetween('revenue_date', [Carbon::today()->startOfMonth(), Carbon::today()]);
+                    return $q->whereBetween('revenue_date', [Carbon::now()->startOfMonth(), Carbon::today()]);
                     break;
                 case ('Previous Month'):
                     return $q->whereBetween('revenue_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
@@ -330,7 +352,12 @@ class ReportsController extends Controller
                 case ('custom-range'):
                     if (request('custom-range')) {
                         $dateRange = explode(" ", request('custom-range'));
-                        return $q->whereBetween('revenue_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        if(count($dateRange) === 1){
+                            // start and end dates are same
+                            return $q->whereRaw('revenue_date = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        }elseif(count($dateRange) === 2) {
+                            return $q->whereBetween('revenue_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
                     }
                     break;
                 default:

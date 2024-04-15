@@ -23,7 +23,10 @@
                 <div class="card-body">
                     <form
                         action="{{ url()->current() == route('feeds.create') ? route('feeds.store') : route('feeds.update', $feed->id) }}"
-                        method="POST">
+                        method="POST"
+                        class="feeds-form"
+                        novalidate
+                    >
 
                         <!-- <form class="needs-validation" method="post" action="{{ route('feeds.store') }}" enctype="multipart/form-data" novalidate> -->
                         @csrf

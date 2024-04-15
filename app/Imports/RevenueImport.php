@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use NumberFormatter;
 
 class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchInserts
 {
@@ -46,18 +47,22 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchI
                 $publisher = Publisher::find($channel->publisher_id)->first();
                 $advertiser = Advertiser::where('advertiser_id', $row[1])->first();
                 if ($advertiser) {
-                    $revenueDate = date('Y-m-d', strtotime($row[0]));
+                    $revenueDate = Carbon::parse($row[0])->toDateString();
                     $totalSearches = $row[5];
                     $monetizedSearches = $row[6];
                     $paidClicks = $row[7];
+
+//                    $fmt = new NumberFormatter( 'en_us', NumberFormatter::CURRENCY );
+//                    $grossRevenue = $fmt->parseCurrency($row[8], $currency);
                     $grossRevenue = $row[8];
+
                     $geo = $row[4];
-                    $netRevenue = ($publisher->revenue_share * 100) / $grossRevenue;
+                    $netRevenue = ($publisher->revenue_share / 100) * $grossRevenue;
                     $coverage = ($monetizedSearches / $totalSearches) * 100;
-                    $ctr = ($paidClicks / $monetizedSearches) * 100;
-                    $rpm = ($netRevenue / $totalSearches) * 100;
-                    $monetized_rpm = ($monetizedSearches / $totalSearches) * 100;
-                    $epc = ($netRevenue / $totalSearches) * 100;
+                    $ctr = $monetizedSearches == 0 ? 0 : ($paidClicks / $monetizedSearches) * 100;
+                    $rpm = ($grossRevenue / $totalSearches) * 1000;
+                    $monetized_rpm = ($grossRevenue / $monetizedSearches) * 1000;
+                    $epc = ($grossRevenue / $paidClicks);
 
                     $revenue = Revenue::where('revenue_date', $revenueDate)
                         ->where('advertiser_id', $advertiser ? $advertiser->id : null)

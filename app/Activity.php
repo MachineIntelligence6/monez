@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Activity extends Model
 {
@@ -21,4 +22,9 @@ class Activity extends Model
         'publisher',
         'feed',
     ];
+
+    public function feed()
+    {
+        return DB::table('feeds')->where('id', $this->feed_id)->first();
+    }
 }

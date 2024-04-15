@@ -202,12 +202,12 @@
                                         <tr>
                                             <td>{{ $record->created_at }}</td>
                                             <td>{{ $record->query }}</td>
-                                            <td>{{ $record->advertiser ? $record->advertiser->company_name : '--' }}</td>
+                                            <td>{{ $record?->advertiser?->company_name ?? '--' }}</td>
                                             <td>{{ $record->feed }}</td>
-                                            <td>{{ $record->channel->publisher->company_name }}</td>
-                                            <td>{{ $record->channel->channelId }}</td>
+                                            <td>{{ $record?->pub?->company_name ?? '--' }}</td>
+                                            <td>{{ $record?->channel?->channelId ?? '--' }}</td>
                                             <td>{{ $record->subid }}</td>
-                                            <td>{{ $record->channel->channelpath->channel_path }}</td>
+                                            <td>{{ $record?->channel?->channelpath?->channel_path ?? '--' }}</td>
                                             <td>{{ $record->referer }}</td>
                                             <td>{{ $record->no_of_redirects }}</td>
                                             <td>{{ $record->alert }}</td>
@@ -308,7 +308,10 @@
                     .find(".select2-selection__rendered");
                 partnersRenderContainer.text("Select " + selectedText);
 
-                if (selectedText == 'Advertisers') {
+                $('#partners-dropdown').empty();
+                $('#types-dropdown').empty();
+
+                if (selectedText === 'Advertisers') {
                     const partnerDropDownData = @json($advertisers);
                     $('#pubItem').remove();
                     $('#channelItem').remove();
@@ -366,7 +369,63 @@
             }
         });
 
+        $(document).on('change', '[name="advertisers[]"]', function(){
+            const advertisers = [];
+            $('[name="advertisers[]"]:checked').each(function(){
+                advertisers.push($(this).val());
+            });
+
+            $.ajax({
+                url: '{{ route('feeds.index') }}',
+                data: {advertisers},
+                success: function(r){
+                    const typeDropDownData = r.feeds;
+                    $('#types-dropdown').empty();
+                    for (var i = 0; i < typeDropDownData.length; i++) {
+                        typeChildElement = `<div class="dropdown-item" id='feedItem'>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name='feeds[]' value='${typeDropDownData[i].id}' id="feed${i}">
+                                                <label class="custom-control-label w-100" for="feed${i}">${typeDropDownData[i].feedId}</label>
+                                            </div>
+                                        </div>`;
+                        $('#types-dropdown').append(typeChildElement);
+                    }
+                }
+            });
+        });
+
+        $(document).on('change', '[name="publishers[]"]', function(){
+            const publishers = [];
+            $('[name="publishers[]"]:checked').each(function(){
+                publishers.push($(this).val());
+            });
+
+            $.ajax({
+                url: '{{ route('channels.index') }}',
+                data: {publishers},
+                success: function(r){
+                    $('#types-dropdown').empty();
+                    const typeDropDownData = r.channels;
+                    for (var i = 0; i < typeDropDownData.length; i++) {
+                        typeChildElement = `<div class="dropdown-item" id='channelItem'>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name='channels[]' value='${typeDropDownData[i].id}' id="channel${i}">
+                                                <label class="custom-control-label w-100" for="channel${i}">${typeDropDownData[i].channelId}</label>
+                                            </div>
+                                        </div>`;
+                        $('#types-dropdown').append(typeChildElement);
+                    }
+                }
+            });
+        });
+
         $("#partners").change((e) => {
+            const val = $(e.target).val();
+            if(val === 'all'){
+                // reset all checked
+                $('[name="publishers[]"]:checked').click();
+                $('[name="advertisers[]"]:checked').click();
+            }
             if ($(e.target).val() !== "") {
                 $("#feeds-channels")
                     .removeProp("disabled")

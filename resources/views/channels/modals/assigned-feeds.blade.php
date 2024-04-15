@@ -16,6 +16,7 @@
                                 class="mdi mdi-plus"></i></button>
                     </div>
                 @endif
+                <div class="error-container"></div>
                 <div id="assignedFeedsContainer">
                     @if (isset($channel))
                         @php
@@ -24,7 +25,7 @@
                             $lastMatchedFeed = null;
                         @endphp
 
-                        @if ($array != null)
+                        @if ($array != null and $data != '[","]')
 
                             @foreach ($array as $key => $value)
                                 @php
@@ -41,7 +42,7 @@
                                                 <option value="{{ $feed->feed_id }}"
                                                     @if (isset($parts[0]) && $feed->feed_id == $parts[0]) selected @endif
                                                     data-daily-cap="{{ $feed->dailyCap }}">{{ $feed->feedId }}
-                                                    @if ($maxDailyCap == $feed->dailyCap)
+                                                    @if (in_array($feed->f_id, $channelFeeds) and $channelMaxDailyCap == $feed->dailyCap)
                                                         Primary
                                                     @endif
                                                 </option>
@@ -67,9 +68,11 @@
                                         @endforeach
                                     </div>
                                     <div class="col-1">
+                                        @if ($lastSegment !== 'view')
                                         <button type="button"
                                             onclick="removeElementFromContainer(this, 'assignedFeedSample')"
                                             class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
@@ -93,17 +96,27 @@
                                 </div>
                             </div>
                             <div class="col-md-5">
-                                @foreach ($feeds as $feed)
-                                    @if (isset($parts[0]) && $feed->feed_id == $parts[0])
-                                        <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
-                                            placeholder="Enter Daily Cap"
-                                            value="{{ $feed->dailyCap ? $feed->dailyCap : '' }}" readonly />
-                                        <div class="valid-feedback">Valid.</div>
-                                        <div class="invalid-feedback">
-                                            You must enter valid input
-                                        </div>
-                                    @endif
-                                @endforeach
+                                @if ($lastSegment != 'create')
+                                    @foreach ($feeds as $feed)
+                                        @if (isset($parts[0]) && $feed->feed_id == $parts[0])
+                                            <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
+                                                placeholder="Enter Daily Cap"
+                                                value="{{ $feed->dailyCap ? $feed->dailyCap : '' }}" readonly />
+                                            <div class="valid-feedback">Valid.</div>
+                                            <div class="invalid-feedback">
+                                                You must enter valid input
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <input type="number" class="form-control" id="dailyCap" name="dailyCap[]"
+                                           placeholder="Enter Daily Cap"
+                                           value="" readonly />
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">
+                                        You must enter valid input
+                                    </div>
+                                @endif
                             </div>
                             <div class="col-1">
                                 <button type="button" onclick="removeElementFromContainer(this, 'assignedFeedSample')"

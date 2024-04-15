@@ -64,12 +64,14 @@
                             </div>
                         </div>
                         <div class="col-1">
-                            <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            @if($lastSegment!='view')
+                                <button type="button" onclick="removeElementFromContainer(this, 'dynamicParameterSample')" class="btn btn-danger"><i class="mdi mdi-trash-can"></i></button>
+                            @endif
                         </div>
                     </div>
                     @endforeach
                     @else
-                   
+
                     @endif
                 </div>
             </div>

@@ -1,4 +1,7 @@
 @extends('layouts.vertical', ['title' => 'revenue Reports'])
+@php
+$decimalPlaces = 2;
+@endphp
 
 @section('content')
     <!-- Start Content-->
@@ -171,7 +174,7 @@
                                         </div>
                                         <div class="col-auto my-auto">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="countryWise">
+                                                <input type="checkbox" class="custom-control-input" id="countryWise" disabled>
                                                 <label class="custom-control-label w-100"
                                                     for="countryWise">GeoWise</label>
                                             </div>
@@ -187,24 +190,9 @@
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Advertiser</th>
-                                        <th>Report Id</th>
-                                        <th>SubId</th>
-                                        <th>GEO</th>
-                                        <th>Total Searches</th>
-                                        <th>Monetized Searches</th>
-                                        <th>Paid Clicks</th>
-                                        <th>Gross Revenue</th>
-                                        <th>Channel</th>
-                                        <th>Publisher</th>
-                                        <th>Net Revenue ($)</th>
-                                        <th>Coverage (%)</th>
-                                        <th>CTR (%)</th>
-                                        <th>RPM ($)</th>
-                                        <th>Monetized RPM (%)</th>
-                                        <th>EPC ($)</th>
-                                        <th>Daily Reports Status</th>
+                                        @foreach($coloumns as $coloumn)
+                                            <th>{{ $coloumn[0] }}</th>
+                                        @endforeach
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -213,21 +201,23 @@
                                             <td>{{ $record->revenue_date }}</td>
                                             <td>{{ $record->getAdvertiser->advertiser_id }}</td>
                                             <td>{{ $record->feed->feedId }}</td>
+                                            <td>{{ $record->feed->reportId }}</td>
+                                            <td>{{ $record->getPublisher->publisher_id }}</td>
+                                            <td>{{ $record->channel }}</td>
                                             <td>{{ $record->sub_id }}</td>
+                                            <td>{{ $record->daily_reports_status }}</td>
                                             <td>{{ $record->geo }}</td>
                                             <td>{{ $record->total_searches }}</td>
                                             <td>{{ $record->monetized_searches }}</td>
                                             <td>{{ $record->paid_clicks }}</td>
-                                            <td>{{ $record->gross_revenue }}</td>
-                                            <td>{{ $record->channel }}</td>
-                                            <td>{{ $record->getPublisher->publisher_id }}</td>
-                                            <td>{{ $record->net_revenue }}</td>
+                                            <td>{{ number_format($record->gross_revenue, $decimalPlaces) }}</td>
                                             <td>{{ $record->coverage }}</td>
                                             <td>{{ $record->ctr }}</td>
-                                            <td>{{ $record->rpm }}</td>
+                                            <td>{{ number_format($record->rpm, $decimalPlaces) }}</td>
                                             <td>{{ $record->monetized_rpm }}</td>
-                                            <td>{{ $record->epc }}</td>
-                                            <td>{{ $record->daily_reports_status }}</td>
+                                            <td>{{ number_format($record->epc, $decimalPlaces) }}</td>
+                                            <td>{{ number_format($record->getPublisher->revenue_share) }}</td>
+                                            <td>{{ number_format($record->net_revenue, $decimalPlaces) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -316,6 +306,9 @@
                     .find(".select2-selection__rendered");
                 partnersRenderContainer.text("Select " + selectedText);
 
+                $('#partners-dropdown').empty();
+                $('#types-dropdown').empty();
+
                 if (selectedText == 'Advertisers') {
                     const partnerDropDownData = @json($advertisers);
                     $('#pubItem').remove();
@@ -374,7 +367,63 @@
             }
         });
 
+        $(document).on('change', '[name="advertisers[]"]', function(){
+            const advertisers = [];
+           $('[name="advertisers[]"]:checked').each(function(){
+               advertisers.push($(this).val());
+           });
+
+           $.ajax({
+               url: '{{ route('feeds.index') }}',
+               data: {advertisers},
+               success: function(r){
+                   const typeDropDownData = r.feeds;
+                   $('#types-dropdown').empty();
+                   for (var i = 0; i < typeDropDownData.length; i++) {
+                       typeChildElement = `<div class="dropdown-item" id='feedItem'>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name='feeds[]' value='${typeDropDownData[i].id}' id="feed${i}">
+                                                <label class="custom-control-label w-100" for="feed${i}">${typeDropDownData[i].feedId}</label>
+                                            </div>
+                                        </div>`;
+                       $('#types-dropdown').append(typeChildElement);
+                   }
+               }
+           });
+        });
+
+        $(document).on('change', '[name="publishers[]"]', function(){
+            const publishers = [];
+            $('[name="publishers[]"]:checked').each(function(){
+                publishers.push($(this).val());
+            });
+
+            $.ajax({
+                url: '{{ route('channels.index') }}',
+                data: {publishers},
+                success: function(r){
+                    $('#types-dropdown').empty();
+                    const typeDropDownData = r.channels;
+                    for (var i = 0; i < typeDropDownData.length; i++) {
+                        typeChildElement = `<div class="dropdown-item" id='channelItem'>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name='channels[]' value='${typeDropDownData[i].id}' id="channel${i}">
+                                                <label class="custom-control-label w-100" for="channel${i}">${typeDropDownData[i].channelId}</label>
+                                            </div>
+                                        </div>`;
+                        $('#types-dropdown').append(typeChildElement);
+                    }
+                }
+            });
+        });
+
         $("#partners").change((e) => {
+            const val = $(e.target).val();
+            if(val === 'all'){
+                // reset all checked
+                $('[name="publishers[]"]:checked').click();
+                $('[name="advertisers[]"]:checked').click();
+            }
             if ($(e.target).val() !== "") {
                 $("#feeds-channels")
                     .removeProp("disabled")

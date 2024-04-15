@@ -23,9 +23,22 @@ class FeedsController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $feeds = Feed::orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC")->get();
+        $qb = Feed::orderByRaw("CASE WHEN is_default = 1 THEN 0 ELSE 1 END, created_at DESC");
+
+        $qb->when(\request('advertisers'), function($qb){
+            return $qb->whereIn('advertiser_id', \request('advertisers'));
+        });
+
+        $feeds = $qb->get();
+
+        if($request->isXmlHttpRequest()){
+            return \response()->json([
+                'feeds' => $feeds
+            ]);
+        }
+
         return view('feeds.index', compact('feeds'));
     }
 
