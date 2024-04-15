@@ -30,4 +30,4 @@ jobs:
           server: ftp.mi6.global
           username: u936501208.deploy
           password: ${{ secrets.ftp_password }}
-          server-dir: /public_html/monezdev
+          server-dir: /public_html/monezdev/
