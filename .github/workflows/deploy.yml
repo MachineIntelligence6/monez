@@ -31,3 +31,4 @@ jobs:
           username: u936501208.deploy
           password: ${{ secrets.ftp_password }}
           server-dir: /public_html/monezdev/
+          log-level: verbose
