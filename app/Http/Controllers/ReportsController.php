@@ -152,7 +152,7 @@ class ReportsController extends Controller
                         if(count($dateRange) === 1){
                             // start and end dates are same
                             return $q->whereRaw('Date(created_at) = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
-                        }elseif(count($dateRange) === 2) {
+                        }elseif(count($dateRange) === 3) {
                             return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
                         }
                     }
@@ -245,7 +245,7 @@ class ReportsController extends Controller
                         if(count($dateRange) === 1){
                             // start and end dates are same
                             return $q->whereRaw('Date(created_at) = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
-                        }elseif(count($dateRange) === 2) {
+                        }elseif(count($dateRange) === 3) {
                             return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
                         }
                     }
@@ -278,7 +278,7 @@ class ReportsController extends Controller
 
     public function uploadFileRevenue(Request $request)
     {
-        $rowErrors = null;
+        $rowErrors = '';
         if ($request->hasFile('revenueReport')) {
             $now = now();
             // $recordBefore = Revenue::where('updated_at', $now)->count();
@@ -288,7 +288,7 @@ class ReportsController extends Controller
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 $failures = $e->failures();
                 foreach ($failures as $failure) {
-                    $rowErrors = $rowErrors . strval($failure->row()) . ', ';
+                    $rowErrors = $rowErrors . sprintf('%s on line %s', implode(',', $failure->errors()), $failure->row()) . "\n";
                 }
             } catch (\Throwable $th) {
                 Log::error($th);
@@ -355,7 +355,7 @@ class ReportsController extends Controller
                         if(count($dateRange) === 1){
                             // start and end dates are same
                             return $q->whereRaw('revenue_date = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
-                        }elseif(count($dateRange) === 2) {
+                        }elseif(count($dateRange) === 3) {
                             return $q->whereBetween('revenue_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
                         }
                     }
