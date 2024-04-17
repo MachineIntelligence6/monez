@@ -18,6 +18,9 @@ jobs:
 
       - name: Build
         run: npm run production # The build command of your project
+        
+      - name: Optimize Laravel
+        run: php artisan optimize
 
       - name: Push
         uses: s0/git-publish-subdir-action@develop
