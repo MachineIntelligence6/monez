@@ -283,7 +283,7 @@ class ReportsController extends Controller
             $now = now();
             // $recordBefore = Revenue::where('updated_at', $now)->count();
             try {
-                Revenue::whereNot('daily_reports_status', 'complete')->update(['daily_reports_status' => 'complete']);
+//                Revenue::whereNot('daily_reports_status', 'complete')->update(['daily_reports_status' => 'complete']);
                 Excel::import(new RevenueImport, $request->file('revenueReport'));
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                 $failures = $e->failures();
@@ -296,7 +296,7 @@ class ReportsController extends Controller
             }
 
             $recordAfter = Revenue::where('updated_at','>=', $now)->count();
-            $error = $rowErrors ? 'Skipped Rows for report ids, couldn\'t found feeds or channel not assigned: ' . $rowErrors : '';
+            $error = $rowErrors ? "Some rows are skipped or not uploaded: \n" . $rowErrors : '';
             if($recordAfter == 0){
                 $response = redirect()->back()->with('error', "No data uploaded");
                 if($error){
@@ -306,7 +306,7 @@ class ReportsController extends Controller
                 return $response;
             }
 
-            return redirect()->back()->with('success', "Data successfully have been uploaded!")->with('warning', $error);
+            return redirect()->back()->with('success', "Data successfully have been uploaded!");
         } else {
             return redirect()->back()->with('error', "Error while importing data");
         }

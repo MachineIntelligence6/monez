@@ -8,15 +8,19 @@ use App\Feed;
 use App\Publisher;
 use App\Revenue;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchInserts
+class RevenueImport implements ToModel, WithStartRow, WithValidation, SkipsEmptyRows, SkipsOnError, SkipsOnFailure
 {
-    use SkipsErrors;
+    use SkipsErrors, SkipsFailures;
 
     private $reportsIds;
 
@@ -86,21 +90,21 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchI
 
         $geo = $row[4];
         $netRevenue = ($publisher->revenue_share / 100) * $grossRevenue;
-        $coverage = $totalSearches === 0 ? 0 : ($monetizedSearches / $totalSearches) * 100;
+        $coverage = $totalSearches == 0 ? 0 : ($monetizedSearches / $totalSearches) * 100;
         $ctr = $monetizedSearches == 0 ? 0 : ($paidClicks / $monetizedSearches) * 100;
-        $rpm = $totalSearches === 0 ? 0 : ($grossRevenue / $totalSearches) * 1000;
-        $monetized_rpm = $monetizedSearches === 0 ? 0 : ($grossRevenue / $monetizedSearches) * 1000;
-        $epc = $paidClicks === 0 ? 0 : ($grossRevenue / $paidClicks);
+        $rpm = $totalSearches == 0 ? 0 : ($grossRevenue / $totalSearches) * 1000;
+        $monetized_rpm = $monetizedSearches == 0 ? 0 : ($grossRevenue / $monetizedSearches) * 1000;
+        $epc = $paidClicks == 0 ? 0 : ($grossRevenue / $paidClicks);
 
         $revenue = Revenue::where('revenue_date', $revenueDate)
             ->where('advertiser_id', $advertiser ? $advertiser->id : null)
             ->where('report_id', $row[2])
             ->first();
 
-        if ($revenue) {
+        if ($revenue and $revenue->daily_reports_status !== 'complete') {
             $revenue->geo = $geo;
             $revenue->total_searches = $totalSearches;
-            $revenue->monetized_searches = $monetizedSearches;
+            $revenue->monetized_searches = $row[6];
             $revenue->paid_clicks = $paidClicks;
             $revenue->gross_revenue = $grossRevenue;
             $revenue->net_revenue = $netRevenue;
@@ -110,6 +114,7 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchI
             $revenue->monetized_rpm = $monetized_rpm;
             $revenue->epc = $epc;
             $revenue->daily_reports_status = $status;
+            $revenue->sub_id = $row[3];
             $revenue->save();
         } else {
             return new Revenue([
@@ -137,6 +142,7 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchI
                 'rpm' => $rpm,
                 'monetized_rpm' => $monetized_rpm,
                 'epc' => $epc,
+                'daily_reports_status' => $status
             ]);
         }
     }
@@ -155,6 +161,16 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, WithBatchI
                     $onFailure($value);
                 }
             },
+            '0' => 'required',
+            '1' => 'required',
+        ];
+    }
+
+    public function customValidationMessages(){
+        return [
+            '2' => 'Invalid report ID provided',
+            '0' => 'Invalid date provided',
+            '1' => 'Invalid advertiser provided'
         ];
     }
 

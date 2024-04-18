@@ -31,12 +31,12 @@ $decimalPlaces = 2;
         @endif
         @if (session()->has('error'))
             <div class="alert alert-danger">
-                {{ session()->get('error') }}
+                {{ nl2br(session()->get('error')) }}
             </div>
         @endif
         @if (session()->has('warning'))
             <div class="alert alert-warning">
-                {{ session()->get('warning') }}
+                {!! nl2br(session()->get('warning')) !!}
             </div>
         @endif
         <div class="row">
