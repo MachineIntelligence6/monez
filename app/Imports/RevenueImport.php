@@ -74,12 +74,12 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, SkipsEmpty
         $monetizedSearches = trim($row[6]);
         if ($monetizedSearches === '') {
             $monetizedSearches = 0;
-            $status = 'not available';
+//            $status = 'not available';
         }
         $paidClicks = trim($row[7]);
         if ($paidClicks === '') {
             $paidClicks = 0;
-            $status = 'not available';
+//            $status = 'not available';
         }
 
         $grossRevenue = trim($row[8]);
