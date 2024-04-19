@@ -69,7 +69,7 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, SkipsEmpty
         $totalSearches = trim($row[5]);
         if ($totalSearches === '') {
             $totalSearches = 0;
-            $status = 'not available';
+//            $status = 'not available';
         }
         $monetizedSearches = trim($row[6]);
         if ($monetizedSearches === '') {
@@ -103,10 +103,10 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, SkipsEmpty
 
         if ($revenue and $revenue->daily_reports_status !== 'complete') {
             $revenue->geo = $geo;
-            $revenue->total_searches = $totalSearches;
+            $revenue->total_searches = $row[5];
             $revenue->monetized_searches = $row[6];
-            $revenue->paid_clicks = $paidClicks;
-            $revenue->gross_revenue = $grossRevenue;
+            $revenue->paid_clicks = $row[7];
+            $revenue->gross_revenue = $row[8];
             $revenue->net_revenue = $netRevenue;
             $revenue->coverage = $coverage;
             $revenue->ctr = $ctr;
@@ -130,10 +130,10 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, SkipsEmpty
                 'feed' => $feed->feedId,
                 'sub_id' => $row[3],
                 'geo' => $row[4],
-                'total_searches' => $totalSearches,
+                'total_searches' => $row[5],
                 'monetized_searches' => $row[6],
-                'paid_clicks' => $paidClicks,
-                'gross_revenue' => $grossRevenue,
+                'paid_clicks' => $row[7],
+                'gross_revenue' => $row[8],
                 // 'advertiser_revenue' => $row[0],
                 // 'search_monez_revenue' => $row[0],
                 'net_revenue' => $netRevenue,
