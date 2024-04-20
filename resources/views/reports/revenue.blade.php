@@ -210,7 +210,7 @@ $decimalPlaces = 2;
                                             <td>{{ $record->total_searches }}</td>
                                             <td>{{ $record->monetized_searches }}</td>
                                             <td>{{ $record->paid_clicks }}</td>
-                                            <td>{{ number_format($record->gross_revenue, $decimalPlaces) }}</td>
+                                            <td>{{ $record->gross_revenue ? number_format($record->gross_revenue, $decimalPlaces) : '' }}</td>
                                             <td>{{ $record->coverage }}</td>
                                             <td>{{ $record->ctr }}</td>
                                             <td>{{ number_format($record->rpm, $decimalPlaces) }}</td>
