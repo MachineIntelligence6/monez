@@ -43,7 +43,7 @@ class UpdateChannelStatus extends Command
             }
         }
 
-        $feeds = Feed::where('last_activity_at', '=<', $startOfDay)->get();
+        $feeds = Feed::where('last_activity_at', '<=', $startOfDay)->get();
 
         foreach ($feeds as $key => $feed) {
             $feed->status = 'paused';
