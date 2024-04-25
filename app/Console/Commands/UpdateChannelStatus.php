@@ -37,18 +37,22 @@ class UpdateChannelStatus extends Command
         foreach (Channel::all() as $key => $channel) {
             $channelSearches = ChannelSearch::where('channel_id', $channel->id)
             ->whereBetween('created_at', [Carbon::now()->subDay(), Carbon::now()])->get();
-            if($channelSearches){
+            if($channelSearches) {
                 $channel->status = 'pause';
                 $channel->save();
+
+                $feeds = explode(',', $channel->feed_ids);
+                foreach ($feeds as $feedId) {
+                    $feed = Feed::where('last_activity_at', '<=', $startOfDay)->where('id', trim($feedId))->get()->first();
+
+                    if ($feed) {
+                        $feed->status = 'paused';
+                        $feed->save();
+                    }
+                }
             }
         }
 
-        $feeds = Feed::where('last_activity_at', '<=', $startOfDay)->get();
-
-        foreach ($feeds as $key => $feed) {
-            $feed->status = 'paused';
-            $feed->save();
-        }
         return Command::SUCCESS;
     }
 }
