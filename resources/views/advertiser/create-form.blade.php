@@ -309,7 +309,7 @@
                                     <option value="">Select Country Code</option>
                                     @foreach ($countries as $key => $country)
                                         <option
-                                            value="{{ $country->countryCode }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
+                                            value="{{ $country->id }}" {{ $country->countryCode == '1' ? 'selected' : '' }}>
                                             {{ $country->title }} ({{ $country->countryCode }})
                                         </option>
                                         <!-- <option value="{{ $country->countryCode }}">{{ $country->title }} ({{ $country->countryCode }})</option> -->
@@ -319,7 +319,8 @@
                             <input type="number" class="form-control ml-2" id="amPhone" name="acc_mng_phone"
                                    placeholder="Enter phone number"
                                    value="{{ session()->get('advertiser.acc_mng_phone') }}"
-                                   onkeydown="return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+{{--                                   onkeydown="return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"--}}
+                            >
                         </div>
                     </div>
                 </div>

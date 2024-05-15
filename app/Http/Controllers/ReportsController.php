@@ -163,7 +163,7 @@ class ReportsController extends Controller
             return $q;
         });
 
-        $searchRecords = $query->orderBy('created_at', 'DESC')->get();
+        $searchRecords = $query->orderBy('created_at', 'DESC')->paginate(50);
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();

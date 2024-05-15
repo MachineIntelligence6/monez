@@ -62,19 +62,19 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" id="profile-dropdown">
                     <!-- item-->
-                    <a href="{{route('account.index')}}" class="dropdown-item notify-item">
-                        <i class="fe-user mr-1"></i>
-                        <span>Company Profile</span>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+{{--                    <a href="{{route('account.index')}}" class="dropdown-item notify-item">--}}
+{{--                        <i class="fe-user mr-1"></i>--}}
+{{--                        <span>Company Profile</span>--}}
+{{--                    </a>--}}
+                    <a href="{{ route('team-members.view', auth()->user()->id) }}" class="dropdown-item notify-item">
                         <i class="fe-user mr-1"></i>
                         <span>My Profile</span>
                     </a>
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="fe-lock mr-1"></i>
-                        <span>Change Password</span>
-                    </a>
+{{--                    <a href="javascript:void(0);" class="dropdown-item notify-item">--}}
+{{--                        <i class="fe-lock mr-1"></i>--}}
+{{--                        <span>Change Password</span>--}}
+{{--                    </a>--}}
 
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item notify-item" href="{{ route('logout') }}" onclick="event.preventDefault();

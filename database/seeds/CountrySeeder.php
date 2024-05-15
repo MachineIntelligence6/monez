@@ -249,7 +249,7 @@ class CountrySeeder extends Seeder
             array('iso' => 'AE', 'name' => 'United Arab Emirates', 'iso3' => 'ARE', 'numcode' => '784', 'phonecode' => '+971'),
             array('iso' => 'GB', 'name' => 'United Kingdom', 'iso3' => 'GBR', 'numcode' => '826', 'phonecode' => '+44'),
             array('iso' => 'US', 'name' => 'United States', 'iso3' => 'USA', 'numcode' => '840', 'phonecode' => '+1'),
-            array('iso' => 'UM', 'name' => 'United States Minor Outlying Islands', 'iso3' => NULL, 'numcode' => NULL, 'phonecode' => '+1'),
+            array('iso' => 'UM', 'name' => 'United States Minor Outlying Islands', 'iso3' => NULL, 'numcode' => NULL, 'phonecode' => '+1291'),
             array('iso' => 'UY', 'name' => 'Uruguay', 'iso3' => 'URY', 'numcode' => '858', 'phonecode' => '+598'),
             array('iso' => 'UZ', 'name' => 'Uzbekistan', 'iso3' => 'UZB', 'numcode' => '860', 'phonecode' => '+998'),
             array('iso' => 'VU', 'name' => 'Vanuatu', 'iso3' => 'VUT', 'numcode' => '548', 'phonecode' => '+678'),
@@ -274,7 +274,7 @@ class CountrySeeder extends Seeder
             array('iso' => 'XK', 'name' => 'Kosovo', 'iso3' => '---', 'numcode' => '0', 'phonecode' => '+381'),
             array('iso' => 'BL', 'name' => 'Saint Barthelemy', 'iso3' => 'BLM', 'numcode' => '652', 'phonecode' => '+590'),
             array('iso' => 'MF', 'name' => 'Saint Martin', 'iso3' => 'MAF', 'numcode' => '663', 'phonecode' => '+590'),
-            array('iso' => 'SX', 'name' => 'Sint Maarten', 'iso3' => 'SXM', 'numcode' => '534', 'phonecode' => '+1'),
+            array('iso' => 'SX', 'name' => 'Sint Maarten', 'iso3' => 'SXM', 'numcode' => '534', 'phonecode' => '+1721'),
             array('iso' => 'SS', 'name' => 'South Sudan', 'iso3' => 'SSD', 'numcode' => '728', 'phonecode' => '+211')
         );
 

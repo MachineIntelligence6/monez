@@ -49,7 +49,7 @@ class TeamMemberController extends Controller
      */
     public function store(Request $request)
     {
-        // dd('test');
+
         $validatedData = $request->validate([
             'name'  => 'required',
             'email' => 'required|unique:users,email',

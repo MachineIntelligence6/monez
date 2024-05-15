@@ -307,7 +307,7 @@
                                     data-toggle="select2">
 
                                     @foreach ($countries as $key => $country)
-                                        <option value="{{ $country->countryCode }}"
+                                        <option value="{{ $country->id }}"
                                             {{ $country->countryCode == '1' ? 'selected' : '' }}>
                                             {{ $country->title }} ({{ $country->countryCode }})
                                         </option>
@@ -318,7 +318,8 @@
                             <input type="number" class="form-control ml-2" id="amPhone" name="acc_mng_phone"
                                 placeholder="Enter phone number"
                                 value="{{ session()->get('publisher.acc_mng_phone') }}"
-                                onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+{{--                                onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"--}}
+                            >
                         </div>
                     </div>
                 </div>

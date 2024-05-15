@@ -13,16 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('revenues', function (Blueprint $table) {
-            $table->date('revenue_date')->nullable()->change();
-            $table->decimal("coverage")->nullable()->change();
-            $table->decimal("ctr")->nullable()->change();
-            $table->decimal("rpm")->nullable()->change();
-            $table->decimal("monetized_rpm")->nullable()->change();
-            $table->decimal("epc")->nullable()->change();
-            $table->decimal("gross_revenue")->nullable()->change();
-            $table->decimal("net_revenue")->nullable()->change();
-        });
+
     }
 
     /**

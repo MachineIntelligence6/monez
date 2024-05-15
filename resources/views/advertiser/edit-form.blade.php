@@ -281,13 +281,15 @@
                             <select class="form-control " @if ($lastSegment !='contactinfo' ) disabled @endif id="phone-code-dropdown" name="country_code" data-toggle="select2">
                                 <option value="">Select Country Code</option>
                                 @foreach ($countries as $key => $country)
-                                <option value="{{ $country->countryCode }}" @if (isset($advertiser->country_code) && $country->countryCode == $advertiser->country_code) selected @endif>
+                                <option value="{{ $country->id }}" @if (isset($advertiser->country_code) && $country->id == $advertiser->country_code) selected @endif>
                                     {{ $country->title }} ({{ $country->countryCode }})
                                 </option>
                                 @endforeach
                             </select>
                         </div>
-                        <input type="number" @if ($lastSegment !='contactinfo' ) disabled @endif class="form-control ml-2" id="amPhone" name="acc_mng_phone" value="{{ $advertiser->acc_mng_phone ?? old('acc_mng_phone') }}" placeholder="Enter phone number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+                        <input type="number" @if ($lastSegment !='contactinfo' ) disabled @endif class="form-control ml-2" id="amPhone" name="acc_mng_phone" value="{{ $advertiser->acc_mng_phone ?? old('acc_mng_phone') }}" placeholder="Enter phone number"
+{{--                               onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"--}}
+                        >
                     </div>
                 </div>
             </div>

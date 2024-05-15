@@ -98,7 +98,8 @@
                                              class="form-control ml-2" value="{{old('phone', $teamMember->phone ?? '')}}"
                                              id="amPhone" @if($condition==$lastSegment || $condition==$Segmenttwo) disabled @endif
                                               name="phone" placeholder="Enter phone number" required
-                                              onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+{{--                                              onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">--}}
+                                            >
                                         </div>
                                     </div>
                                 </div>

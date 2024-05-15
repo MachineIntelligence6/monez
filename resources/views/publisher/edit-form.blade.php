@@ -336,8 +336,8 @@
                                     @endif id="phone-code-dropdown" name="country_code" data-toggle="select2">
 
                                 @foreach ($countries as $key => $country)
-                                    <option value="{{ $country->countryCode }}"
-                                            @if (isset($publisher->country_code) && $country->countryCode == $publisher->country_code) selected @endif>
+                                    <option value="{{ $country->id }}"
+                                            @if (isset($publisher->country_code) && $country->id == $publisher->country_code) selected @endif>
                                         {{ $country->title }} ({{ $country->countryCode }})
                                     </option>
                                 @endforeach
@@ -347,7 +347,8 @@
                                id="amPhone" name="acc_mng_phone"
                                value="{{ $publisher->acc_mng_phone ??  old('acc_mng_phone') }}"
                                placeholder="Enter phone number"
-                               onkeydown="return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+{{--                               onkeydown="return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"--}}
+                        >
                     </div>
                 </div>
             </div>

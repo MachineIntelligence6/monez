@@ -399,8 +399,8 @@ class PublisherController extends Controller
                 $publisher->revenue_share = $request->revenue_share;
                 $publisher->payment_terms = $request->payment_terms;
                 $publisher->reporting_email = $request->reporting_email;
+                $documentFilePaths = array();
                 if ($request->hasFile('document_files')) {
-                    $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $key => $file) {
                         $path = $file->store('user/files');

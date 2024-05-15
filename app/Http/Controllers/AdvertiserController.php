@@ -36,6 +36,7 @@ class AdvertiserController extends Controller
 
     public function storeAccountInSession(Request $request)
     {
+//        dd($request);
         $validatedData = $request->validate([
             'advertiser_id' => 'required',
             'company_name' => 'required',
