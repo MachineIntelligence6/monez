@@ -399,8 +399,9 @@ class PublisherController extends Controller
                 $publisher->revenue_share = $request->revenue_share;
                 $publisher->payment_terms = $request->payment_terms;
                 $publisher->reporting_email = $request->reporting_email;
-                $documentFilePaths = array();
+
                 if ($request->hasFile('document_files')) {
+                    $documentFilePaths = array();
                     $documentFiles = $request->file('document_files');
                     foreach ($documentFiles as $key => $file) {
                         $path = $file->store('user/files');
@@ -413,7 +414,7 @@ class PublisherController extends Controller
                     $ioFiles = $request->file('io_files');
                     foreach ($ioFiles as $key => $file) {
                         $path = $file->store('user/files');
-                        array_push($ioFilePaths, array('name' => 'io' . (count($documentFilePaths) + 1) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
+                        array_push($ioFilePaths, array('name' => 'io' . (count($ioFilePaths) + 1) . '.' . $file->getClientOriginalExtension(), 'path' => $path, 'time' => Carbon::now()));
                     }
                     $publisher->io_path = json_encode($ioFilePaths);
                 }

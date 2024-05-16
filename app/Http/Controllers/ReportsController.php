@@ -102,7 +102,7 @@ class ReportsController extends Controller
     public function showChannelSearch()
     {
         $coloumns = $this->searchColoums;
-        $searchRecords = ChannelSearch::orderBy('created_at', 'DESC')->get();
+        $searchRecords = ChannelSearch::orderBy('created_at', 'DESC')->paginate(50);
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();

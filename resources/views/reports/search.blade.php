@@ -171,6 +171,7 @@
                                 </div>
                             </div>
                         </form>
+
                         <div class="table-responsive">
                             <table class="table table-centered table-nowrap table-striped" id="products-datatable">
                                 <thead>
@@ -224,6 +225,14 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="row ml-0">
+                                <div class="col">
+                                    Displaying: {{ $searchRecords->count() }} of {{ $searchRecords->total() }}
+                                </div>
+                                <div class="col">
+                                    {{ $searchRecords->links() }}
+                                </div>
+                            </div>
                         </div>
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
@@ -250,24 +259,24 @@
     <script src="{{ asset('assets/js/pages/form-pickers.init.js') }}"></script>
 
     <script type="text/javascript">
-        let table = $('#products-datatable').DataTable({
-            searching: false,
-            filter: true,
-            paging: true,
-            info: true,
-            order: [],
-            "lengthMenu": [
-                [50, 100, 250, 500],
-                [50, 100, 250, 500]
-            ],
-            buttons: [{
-                extend: 'csv',
-                filename: 'Search-Report', // Set your custom file name here
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }]
-        });
+        // let table = $('#products-datatable').DataTable({
+        //     searching: false,
+        //     filter: true,
+        //     // paging: true,
+        //     info: true,
+        //     order: [],
+        //     "lengthMenu": [
+        //         [50, 100, 250, 500],
+        //         [50, 100, 250, 500]
+        //     ],
+        //     buttons: [{
+        //         extend: 'csv',
+        //         filename: 'Search-Report', // Set your custom file name here
+        //         exportOptions: {
+        //             columns: ':visible'
+        //         }
+        //     }]
+        // });
         $("#exportReporttoCSV").on("click", function() {
             table.button('.buttons-csv').trigger();
         });
