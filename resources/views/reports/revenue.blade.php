@@ -222,6 +222,14 @@ $decimalPlaces = 2;
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="row ml-0">
+                                <div class="col">
+                                    Displaying: {{ $revenueRecords->count() }} of {{ $revenueRecords->total() }}
+                                </div>
+                                <div class="col">
+                                    {{ $revenueRecords->links() }}
+                                </div>
+                            </div>
                         </div>
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
@@ -251,8 +259,8 @@ $decimalPlaces = 2;
         let table = $('#products-datatable').DataTable({
             searching: false,
             filter: true,
-            paging: true,
-            info: true,
+            paging: false,
+            info: false,
             order: [],
             "lengthMenu": [
                 [50, 100, 250, 500],

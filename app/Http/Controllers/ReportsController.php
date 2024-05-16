@@ -103,6 +103,7 @@ class ReportsController extends Controller
     {
         $coloumns = $this->searchColoums;
         $searchRecords = ChannelSearch::orderBy('created_at', 'DESC')->paginate(50);
+
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
@@ -112,6 +113,7 @@ class ReportsController extends Controller
 
     public function searchOnChannelSearch(Request $request)
     {
+
         $coloumns = $this->searchColoums;
         $query = ChannelSearch::query();
         if ($request['partener-type'] == 'advertisers') {
@@ -175,7 +177,7 @@ class ReportsController extends Controller
     public function showActivity()
     {
         $coloumns = $this->activityColoums;
-        $activityRecords = Activity::all();
+        $activityRecords = Activity::paginate(50);
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
@@ -255,7 +257,7 @@ class ReportsController extends Controller
             }
             return $q;
         });
-        $activityRecords = $query->get();
+        $activityRecords = $query->paginate(50);
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
@@ -268,7 +270,7 @@ class ReportsController extends Controller
     {
         $coloumns = $this->revenueColoums;
 
-        $revenueRecords = Revenue::all();
+        $revenueRecords = Revenue::paginate(50);
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
@@ -365,7 +367,7 @@ class ReportsController extends Controller
             }
             return $q;
         });
-        $revenueRecords = $query->get();
+        $revenueRecords = $query->paginate(50);
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();

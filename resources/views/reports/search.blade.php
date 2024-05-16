@@ -259,24 +259,24 @@
     <script src="{{ asset('assets/js/pages/form-pickers.init.js') }}"></script>
 
     <script type="text/javascript">
-        // let table = $('#products-datatable').DataTable({
-        //     searching: false,
-        //     filter: true,
-        //     // paging: true,
-        //     info: true,
-        //     order: [],
-        //     "lengthMenu": [
-        //         [50, 100, 250, 500],
-        //         [50, 100, 250, 500]
-        //     ],
-        //     buttons: [{
-        //         extend: 'csv',
-        //         filename: 'Search-Report', // Set your custom file name here
-        //         exportOptions: {
-        //             columns: ':visible'
-        //         }
-        //     }]
-        // });
+        let table = $('#products-datatable').DataTable({
+            searching: false,
+            filter: true,
+            paging: false,
+            info: false,
+            order: [],
+            "lengthMenu": [
+                [50, 100, 250, 500],
+                [50, 100, 250, 500]
+            ],
+            buttons: [{
+                extend: 'csv',
+                filename: 'Search-Report', // Set your custom file name here
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }]
+        });
         $("#exportReporttoCSV").on("click", function() {
             table.button('.buttons-csv').trigger();
         });

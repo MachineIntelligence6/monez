@@ -197,6 +197,14 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="row ml-0">
+                                <div class="col">
+                                    Displaying: {{ $activityRecords->count() }} of {{ $activityRecords->total() }}
+                                </div>
+                                <div class="col">
+                                    {{ $activityRecords->links() }}
+                                </div>
+                            </div>
                         </div>
                     </div> <!-- end card-body-->
                 </div> <!-- end card-->
@@ -226,8 +234,8 @@
         let table = $('#products-datatable').DataTable({
             searching: false,
             filter: true,
-            paging: true,
-            info: true,
+            paging: false,
+            info: false,
             order: [],
             "lengthMenu": [
                 [50, 100, 250, 500],
