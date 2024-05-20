@@ -227,10 +227,10 @@
                             </table>
                             <div class="row ml-0">
                                 <div class="col">
-                                    Displaying: {{ $searchRecords->count() }} of {{ $searchRecords->total() }}
+                                    Displaying: {{ ($searchRecords->currentpage()-1)*$searchRecords->perpage()+1 }} to {{$searchRecords->currentpage()*$searchRecords->perpage()}} of {{ $searchRecords->total() }}
                                 </div>
                                 <div class="col">
-                                    {{ $searchRecords->links() }}
+                                    {{ $searchRecords->appends(request()->query())->links() }}
                                 </div>
                             </div>
                         </div>

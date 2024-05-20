@@ -113,7 +113,6 @@ class ReportsController extends Controller
 
     public function searchOnChannelSearch(Request $request)
     {
-
         $coloumns = $this->searchColoums;
         $query = ChannelSearch::query();
         if ($request['partener-type'] == 'advertisers') {
@@ -165,7 +164,7 @@ class ReportsController extends Controller
             return $q;
         });
 
-        $searchRecords = $query->orderBy('created_at', 'DESC')->paginate(50);
+        $searchRecords = $query->orderBy('created_at', 'DESC')->paginate(50)->appends(request()->query());
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
@@ -177,7 +176,7 @@ class ReportsController extends Controller
     public function showActivity()
     {
         $coloumns = $this->activityColoums;
-        $activityRecords = Activity::paginate(50);
+        $activityRecords = Activity::orderBy('created_at','DESC')->paginate(50)->appends(request()->query());
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
@@ -257,7 +256,7 @@ class ReportsController extends Controller
             }
             return $q;
         });
-        $activityRecords = $query->paginate(50);
+        $activityRecords = $query->orderBy('created_at','DESC')->paginate(50)->appends(request()->query());
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
@@ -270,7 +269,7 @@ class ReportsController extends Controller
     {
         $coloumns = $this->revenueColoums;
 
-        $revenueRecords = Revenue::paginate(50);
+        $revenueRecords = Revenue::orderBy('created_at','DESC')->paginate(50)->appends(request()->query());
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
@@ -367,7 +366,7 @@ class ReportsController extends Controller
             }
             return $q;
         });
-        $revenueRecords = $query->paginate(50);
+        $revenueRecords = $query->orderBy('created_at','DESC')->paginate(50)->appends(request()->query());
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();

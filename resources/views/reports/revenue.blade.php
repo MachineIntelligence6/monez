@@ -224,10 +224,10 @@ $decimalPlaces = 2;
                             </table>
                             <div class="row ml-0">
                                 <div class="col">
-                                    Displaying: {{ $revenueRecords->count() }} of {{ $revenueRecords->total() }}
+                                    {{ ($revenueRecords->currentpage()-1)*$revenueRecords->perpage()+1 }} to {{$revenueRecords->currentpage()*$revenueRecords->perpage()}} of {{ $revenueRecords->total() }}
                                 </div>
                                 <div class="col">
-                                    {{ $revenueRecords->links() }}
+                                    {{ $revenueRecords->appends(request()->query())->links() }}
                                 </div>
                             </div>
                         </div>

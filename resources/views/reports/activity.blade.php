@@ -199,10 +199,10 @@
                             </table>
                             <div class="row ml-0">
                                 <div class="col">
-                                    Displaying: {{ $activityRecords->count() }} of {{ $activityRecords->total() }}
+                                    Displaying: {{ ($activityRecords->currentpage()-1)*$activityRecords->perpage()+1 }} to {{$activityRecords->currentpage()*$activityRecords->perpage()}} of {{ $activityRecords->total() }}
                                 </div>
                                 <div class="col">
-                                    {{ $activityRecords->links() }}
+                                    {{ $activityRecords->appends(request()->query())->links() }}
                                 </div>
                             </div>
                         </div>

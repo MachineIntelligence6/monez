@@ -11,6 +11,7 @@ use App\Feed;
 use App\FeedIntegrationGuide;
 use App\Listeners\ChannelStateChanged;
 use App\Publisher;
+use GeoIp2\Database\Reader;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -471,7 +472,7 @@ class ChannelsController extends Controller
     public function channelSearched(Request $request)
     {
         if (config('app.env') == 'local') {
-            $ip = '39.62.29.27';
+            $ip = '2601:644:800:4e70:60fc:a81a:697e:bb19';
         } else {
             $ip = $request->ip();
         }
@@ -548,9 +549,11 @@ class ChannelsController extends Controller
         $redirectToFeedURL = 'https://www.google.com/search?fallback=1&q=' . $query;
 
         try {
-            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
-            $location = $details->city . ' ' . $details->region . ' ' . $details->country;
-            $geo = $details->country;
+//            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
+            $details = new Reader(public_path('GeoLite2-City_20240517/GeoLite2-City.mmdb'));
+            $details = $details->city($ip);
+            $location = $details->city->name . ' ' . $details->subdivisions[0]->name . ' ' . $details->country->isoCode;
+            $geo = $details->country->isoCode;
         } catch (Throwable $th) {
             $location = null;
             $geo = '--';
