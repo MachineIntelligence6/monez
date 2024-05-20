@@ -30,7 +30,7 @@ class AdvertiserController extends Controller
         // return $advertiser->report_coloumns;
         // session()->forget('advertiser');
         // session()->forget('advActiveTab');
-        $advertisers = Advertiser::orderBy('created_at', 'asc')->get();
+        $advertisers = Advertiser::orderBy('created_at', 'DESC')->get();
         return view('advertiser.index', compact('advertisers'));
     }
 

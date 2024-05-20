@@ -28,7 +28,7 @@ class PublisherController extends Controller
     {
         // session()->forget('publisher');
         // session()->forget('pubActiveTab');
-        $publishers = Publisher::orderBy('created_at', 'asc')->get();
+        $publishers = Publisher::orderBy('created_at', 'DESC')->get();
         return view('publisher.index', compact('publishers'));
     }
 

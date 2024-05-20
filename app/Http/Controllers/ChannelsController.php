@@ -49,7 +49,7 @@ class ChannelsController extends Controller
             return $qb->whereIn('publisher_id', request('publishers'));
         });
 
-        $channels = $channelsQb->get();
+        $channels = $channelsQb->orderBy('created_at','DESC')->get();
 
         if($request->isXmlHttpRequest()){
             return \response()->json([
