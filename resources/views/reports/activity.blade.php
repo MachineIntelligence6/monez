@@ -38,24 +38,77 @@
                         <div class="row mb-3 justify-content-end">
                             <div class="col-auto">
                                 <div class="row align-items-center">
-                                    {{-- <div class="col-auto">
-                                        <div class="custom-file">
-                                            <form id="uploadForm" action="{{ route('report.activity.upload') }}"
-                                                method="post" enctype="multipart/form-data">
-                                                @csrf
-                                                <input type="file" class="custom-file-input" id="activityReport"
-                                                    name="activityReport" accept=".csv">
-                                                <label class="btn btn-primary" for="activityReport">Upload CSV</label>
-                                            </form>
-                                        </div>
-                                    </div> --}}
                                     <div class="col-auto">
-                                        <button class="btn btn-primary" id="exportReporttoCSV">Export CSV</button>
+                                        <form id="download-csv"
+                                              action="{{ route('report.activity.download-activity-csv') }}" method="get"
+                                              target="_blank" enctype="multipart/form-data">
+                                            <div class="col-auto dropleft" style="min-width: 160px">
+                                                <button
+                                                    class="btn btn-secondary waves-effect waves-light dropdown-toggle"
+                                                    type="button" data-toggle="dropdown"
+                                                    data-target="#show-columns-dropdown"
+                                                    aria-haspopup="true" aria-expanded="false" hidden="hidden">
+                                                    Show Columns
+                                                </button>
+                                                @if(!(request()->query->count() <= 0))
+                                                    <input type="text" name="partener-type"
+                                                           value="{{request()->query('partener-type')}}"
+                                                           hidden="hidden">
+                                                    <input type="text" name="parteners"
+                                                           value="{{request()->query('parteners')}}" hidden="hidden">
+                                                    @if(request()->query('advertisers') )
+                                                        <select name="advertisers[]" hidden="hidden">
+                                                            @foreach(request()->query('advertisers') as $ad)
+                                                                <option value="{{$ad}}" selected>{{$ad}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @if(request()->query('feeds') )
+                                                        <select name="feeds[]" hidden="hidden">
+                                                            @foreach(request()->query('feeds') as $fd)
+                                                                <option value="{{$fd}}" selected>{{$fd}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @if(request()->query('publishers') )
+                                                        <select name="publishers[]" hidden="hidden">
+                                                            @foreach(request()->query('publishers') as $pub)
+                                                                <option value="{{$pub}}" selected>{{$pub}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @if(request()->query('channels') )
+                                                        <select name="channels[]" hidden="hidden">
+                                                            @foreach(request()->query('channels') as $ch)
+                                                                <option value="{{$ch}}" selected>{{$ch}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    <input type="text" name="period"
+                                                           value="{{request()->query()['period']}}" hidden="hidden">
+                                                    <input type="text" name="custom-range"
+                                                           @if(isset(request()->query()['custom-range'])) value="{{request()->query()['custom-range']}}" @endif
+                                                           hidden="hidden">
+                                                @endif
+                                                <div id="show-columns-dropdown" class="dropdown-menu" hidden="hidden">
+                                                    @foreach ($coloumns as $key => $coloumn)
+                                                        <div class="dropdown-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                       name="coloumns[]"
+                                                                       onchange="coloumnVisbility({{ $key }})" checked
+                                                                       id="coloumn-{{ $coloumn[1] }}"
+                                                                       value="{{ $coloumn[1] }}">
+                                                                <label class="custom-control-label w-100"
+                                                                       for="coloumn-{{ $coloumn[1] }}">{{ $coloumn[0] }}</label>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary">Export CSV</button>
+                                        </form>
                                     </div>
-                                    {{-- <div class="col-auto">
-                                    <a class="btn btn-primary" href="{{ route('report.activity.export') }}">Export CSV</a>
-                                </div> --}}
-
                                     <div class="col-auto dropleft" style="min-width: 160px">
                                         <button class="btn btn-secondary waves-effect waves-light dropdown-toggle"
                                             type="button" data-toggle="dropdown" data-target="#show-columns-dropdown"
@@ -106,20 +159,6 @@
                                                     <input type="text" class="form-control dropdown-search-input"
                                                         placeholder="search">
                                                 </div>
-                                                {{--
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label w-100" for="customCheck1">asdasd</label>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label w-100" for="customCheck1">3333</label>
-                                            </div>
-                                        </div> --}}
-
                                             </div>
                                         </div>
                                         <div class="col-auto" style="min-width: 200px;">
@@ -134,18 +173,6 @@
                                                     <input type="text" class="form-control dropdown-search-input"
                                                         placeholder="search">
                                                 </div>
-                                                {{-- <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="feed1">
-                                                <label class="custom-control-label w-100" for="feed1">Feed 1</label>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="feed2">
-                                                <label class="custom-control-label w-100" for="feed2">Feed 2</label>
-                                            </div>
-                                        </div> --}}
                                             </div>
                                         </div>
                                         <div class="col-auto" style="min-width: 200px;">

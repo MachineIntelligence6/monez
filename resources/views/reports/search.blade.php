@@ -39,7 +39,6 @@
                             <div class="col-auto">
                                 <div class="row align-items-center">
                                     <div class="col-auto">
-                                        {{--                                        <button class="btn btn-primary" id="exportReporttoCSV">Export CSV</button>--}}
                                         <form id="download-csv"
                                               action="{{ route('report.search.download-search-csv') }}" method="get"
                                               target="_blank" enctype="multipart/form-data">
@@ -51,7 +50,6 @@
                                                     aria-haspopup="true" aria-expanded="false" hidden="hidden">
                                                     Show Columns
                                                 </button>
-{{--                                                                                            {{dd(request()->query())}}--}}
                                                 @if(!(request()->query->count() <= 0))
                                                     <input type="text" name="partener-type"
                                                            value="{{request()->query('partener-type')}}"

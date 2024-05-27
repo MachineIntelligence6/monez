@@ -388,7 +388,7 @@ class ReportsController extends Controller
         $headers = [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0'
             , 'Content-type' => 'text/csv'
-            , 'Content-Disposition' => 'attachment; filename=galleries.csv'
+            , 'Content-Disposition' => 'attachment; filename=search-report.csv'
             , 'Expires' => '0'
             , 'Pragma' => 'public'
         ];
@@ -531,5 +531,119 @@ class ReportsController extends Controller
         });
 
         return $query->orderBy('created_at', 'DESC')->get();
+    }
+
+    public function downloadActivityCsv(Request $request)
+    {
+
+        $headers = [
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0'
+            , 'Content-type' => 'text/csv'
+            , 'Content-Disposition' => 'attachment; filename=activity-report.csv'
+            , 'Expires' => '0'
+            , 'Pragma' => 'public'
+        ];
+
+        $activityRecords = $this->searchOnActivityAll($request);
+
+        $columns = $request->query('coloumns');
+        $columns = array_fill_keys($columns, null);
+
+        set_time_limit(240);
+        $mappedActivityRecords = $activityRecords->map(function ($record) use ($columns) {
+            $newRecord = []; // Initialize a new array for each record
+            if (array_key_exists('activity_data', $columns)) {
+                $newRecord['activity_data'] = $record->activity_date;
+            }
+            if (array_key_exists('channel', $columns)) {
+                $newRecord['channel'] = $record->channel;
+            }
+            if (array_key_exists('publisher', $columns)) {
+                $newRecord['publisher'] = $record->publisher;
+            }
+            if (array_key_exists('revenue_share', $columns)) {
+                $newRecord['revenue_share'] = $record->revenue_share;
+            }
+            if (array_key_exists('feed', $columns)) {
+                $newRecord['feed'] = $record->feed;
+            }
+            if (array_key_exists('advertiser', $columns)) {
+                $newRecord['advertiser'] = $record->advertiser;
+            }
+            if (array_key_exists('report_id', $columns)) {
+                $newRecord['report_id'] = $record->feed()->reportId;
+            }
+            return $newRecord; // Return the new record array
+        });
+
+        $list = $mappedActivityRecords->toArray();
+
+        # add headers for each column in the CSV download
+        array_unshift($list, array_keys($list[0]));
+
+        $callback = function () use ($list) {
+            $FH = fopen('php://output', 'w');
+            foreach ($list as $row) {
+                fputcsv($FH, $row);
+            }
+            fclose($FH);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function searchOnActivityAll(Request $request)
+    {
+        $query = Activity::query();
+        if ($request['partener-type'] == 'advertisers') {
+            $query->whereNotNull('advertiser_id');
+            $query->when(request('advertisers'), function ($q) {
+                return $q->whereIn('advertiser_id', request('advertisers'));
+            });
+            $query->when(request('feeds'), function ($q) {
+                return $q->whereIn('feed_id', request('feeds'));
+            });
+        } else if ($request['partener-type'] == 'publishers') {
+            $query->whereNotNull('publisher_id');
+            $query->when(request('publishers'), function ($q) {
+                return $q->whereIn('publisher_id', request('publishers'));
+            });
+            $query->when(request('channels'), function ($q) {
+                return $q->whereIn('channel_id', request('channels'));
+            });
+        }
+        $query->when(request('period'), function ($q) {
+
+            switch (request('period')) {
+                case ('Yesterday'):
+                    return $q->whereBetween('activity_date', [Carbon::now()->subDay(1)->startOfDay(), Carbon::now()->subDay(1)->endOfDay()]);
+                    break;
+                case ('Today'):
+                    return $q->whereBetween('activity_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
+                    break;
+                case ('Month to Date'):
+                    return $q->whereBetween('activity_date', [Carbon::now()->startOfMonth(), Carbon::today()]);
+                    break;
+                case ('Previous Month'):
+                    return $q->whereBetween('activity_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
+                    break;
+                case ('custom-range'):
+                    if (request('custom-range')) {
+                        $dateRange = explode(" ", request('custom-range'));
+                        if (count($dateRange) === 1) {
+                            // start and end dates are same
+                            return $q->whereRaw('Date(created_at) = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        } elseif (count($dateRange) === 3) {
+                            return $q->whereBetween('created_at', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
+                    }
+                    break;
+                default:
+                    $msg = 'Something went wrong.';
+            }
+            return $q;
+        });
+        return $query->orderBy('activity_date', 'DESC')->get();
+
     }
 }

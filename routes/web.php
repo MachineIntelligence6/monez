@@ -81,7 +81,7 @@ Route::middleware('auth')->group(function (){
         Route::prefix('search')->name('search.')->group(function () {
             Route::get('/', [App\Http\Controllers\ReportsController::class, 'showChannelSearch'])->name('show');
             Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnChannelSearch'])->name('search');
-            Route::get('/download-csv',[ReportsController::class,'downloadCsv'])->name('download-search-csv');
+            Route::get('/download-search-csv',[ReportsController::class,'downloadCsv'])->name('download-search-csv');
         });
 
         Route::prefix('activity')->name('activity.')->group(function () {
@@ -89,6 +89,7 @@ Route::middleware('auth')->group(function (){
             // Route::post('/upload', [App\Http\Controllers\ReportsController::class, 'uploadFileActivity'])->name('upload');
             Route::get('/export', [App\Http\Controllers\ReportsController::class, 'exportFileActivity'])->name('export');
             Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnActivity'])->name('search');
+            Route::get('/download-activity-csv',[ReportsController::class,'downloadActivityCsv'])->name('download-activity-csv');
         });
 
         Route::prefix('revenue')->name('revenue.')->group(function () {
