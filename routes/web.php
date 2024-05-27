@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function (){
         Route::prefix('search')->name('search.')->group(function () {
             Route::get('/', [App\Http\Controllers\ReportsController::class, 'showChannelSearch'])->name('show');
             Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnChannelSearch'])->name('search');
+            Route::get('/download-csv',[ReportsController::class,'downloadCsv'])->name('download-search-csv');
         });
 
         Route::prefix('activity')->name('activity.')->group(function () {
