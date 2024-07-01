@@ -58,13 +58,78 @@ $decimalPlaces = 2;
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <button class="btn btn-primary" id="exportReporttoCSV">Export CSV</button>
+                                        <form id="download-csv"
+                                              action="{{ route('report.revenue.download-revenue-csv') }}" method="get"
+                                              target="_blank" enctype="multipart/form-data">
+                                            <div class="col-auto dropleft" style="min-width: 160px">
+                                                <button
+                                                    class="btn btn-secondary waves-effect waves-light dropdown-toggle"
+                                                    type="button" data-toggle="dropdown"
+                                                    data-target="#show-columns-dropdown"
+                                                    aria-haspopup="true" aria-expanded="false" hidden="hidden">
+                                                    Show Columns
+                                                </button>
+                                                @if(!(request()->query->count() <= 0))
+                                                    <input type="text" name="partener-type"
+                                                           value="{{request()->query('partener-type')}}"
+                                                           hidden="hidden">
+                                                    <input type="text" name="parteners"
+                                                           value="{{request()->query('parteners')}}" hidden="hidden">
+                                                    @if(request()->query('advertisers') )
+                                                        <select name="advertisers[]" hidden="hidden">
+                                                            @foreach(request()->query('advertisers') as $ad)
+                                                                <option value="{{$ad}}" selected>{{$ad}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @if(request()->query('feeds') )
+                                                        <select name="feeds[]" hidden="hidden">
+                                                            @foreach(request()->query('feeds') as $fd)
+                                                                <option value="{{$fd}}" selected>{{$fd}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @if(request()->query('publishers') )
+                                                        <select name="publishers[]" hidden="hidden">
+                                                            @foreach(request()->query('publishers') as $pub)
+                                                                <option value="{{$pub}}" selected>{{$pub}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @if(request()->query('channels') )
+                                                        <select name="channels[]" hidden="hidden">
+                                                            @foreach(request()->query('channels') as $ch)
+                                                                <option value="{{$ch}}" selected>{{$ch}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @if(request()->query('period') )
+                                                        <input type="text" name="period"
+                                                               value="{{request()->query()['period']}}" hidden="hidden">
+                                                    @endif
+                                                    <input type="text" name="custom-range"
+                                                           @if(isset(request()->query()['custom-range'])) value="{{request()->query()['custom-range']}}" @endif
+                                                           hidden="hidden">
+                                                @endif
+                                                <div id="show-columns-dropdown" class="dropdown-menu" hidden="hidden">
+                                                    @foreach ($coloumns as $key => $coloumn)
+                                                        <div class="dropdown-item">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                       name="coloumns[]"
+                                                                       onchange="coloumnVisbility({{ $key }})" checked
+                                                                       id="coloumn-{{ $coloumn[1] }}"
+                                                                       value="{{ $coloumn[1] }}">
+                                                                <label class="custom-control-label w-100"
+                                                                       for="coloumn-{{ $coloumn[1] }}">{{ $coloumn[0] }}</label>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary">Export CSV</button>
+                                        </form>
                                     </div>
-                                    {{-- <div class="col-auto">
-                                        <button class="btn btn-secondary" data-trigger="modal"
-                                            data-target="apiDetailModal">API Details</button>
-                                    </div> --}}
-
                                     <div class="col-auto dropleft" style="min-width: 160px">
                                         <button class="btn btn-secondary waves-effect waves-light dropdown-toggle"
                                             type="button" data-toggle="dropdown" data-target="#show-columns-dropdown"

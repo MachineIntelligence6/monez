@@ -99,6 +99,7 @@ class RevenueImport implements ToModel, WithStartRow, WithValidation, SkipsEmpty
         $revenue = Revenue::where('revenue_date', $revenueDate)
             ->where('advertiser_id', $advertiser ? $advertiser->id : null)
             ->where('report_id', $row[2])
+            ->where('geo',$row[4])
             ->first();
 
         if ($revenue and $revenue->daily_reports_status !== 'complete') {

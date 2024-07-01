@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function (){
             Route::post('/upload', [App\Http\Controllers\ReportsController::class, 'uploadFileRevenue'])->name('upload');
             // Route::get('/export', [App\Http\Controllers\ReportsController::class, 'exportFileRevenue'])->name('export');
             Route::get('/search', [App\Http\Controllers\ReportsController::class, 'searchOnRevenue'])->name('search');
+            Route::get('/download-revenue-csv',[ReportsController::class,'downloadRevenueCsv'])->name('download-revenue-csv');
         });
     });
 

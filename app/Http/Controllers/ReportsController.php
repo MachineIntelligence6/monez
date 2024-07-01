@@ -119,7 +119,6 @@ class ReportsController extends Controller
         $coloumns = $this->searchColoums;
 
         $searchRecords = $this->channelSearch($request);
-
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
         $channels = Channel::all();
@@ -264,7 +263,7 @@ class ReportsController extends Controller
             }
             return $q;
         });
-        $activityRecords = $this->channelSearch($request);
+        $activityRecords = $query->orderBy('activity_date', 'DESC')->paginate(50)->appends(request()->query());
 
         $publishers = Publisher::all();
         $advertisers = Advertiser::all();
@@ -293,7 +292,9 @@ class ReportsController extends Controller
             // $recordBefore = Revenue::where('updated_at', $now)->count();
             try {
 //                Revenue::whereNot('daily_reports_status', 'complete')->update(['daily_reports_status' => 'complete']);
+                Log::info('Starting Excel import');
                 Excel::import(new RevenueImport, $request->file('revenueReport'));
+                Log::info('Excel import completed');
             } catch (ValidationException $e) {
                 $failures = $e->failures();
                 foreach ($failures as $failure) {
@@ -645,5 +646,161 @@ class ReportsController extends Controller
         });
         return $query->orderBy('activity_date', 'DESC')->get();
 
+    }
+
+    public function downloadRevenueCsv(Request $request)
+    {
+
+        $headers = [
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0'
+            , 'Content-type' => 'text/csv'
+            , 'Content-Disposition' => 'attachment; filename=revenue-report.csv'
+            , 'Expires' => '0'
+            , 'Pragma' => 'public'
+        ];
+
+        $revenueRecords = $this->searchOnRevenueAll($request);
+
+        $columns = $request->query('coloumns');
+
+        $columns = array_fill_keys($columns, null);
+
+        set_time_limit(240);
+
+        $mappedRevenueRecords = $revenueRecords->map(function ($record) use ($columns) {
+            $newRecord = []; // Initialize a new array for each record
+
+            if (array_key_exists('revenue_data', $columns)) {
+                $newRecord['activity_date'] = $record->revenue_date;
+            }
+            if (array_key_exists('advertiser', $columns)) {
+                $newRecord['advertiser'] = $record->getAdvertiser->advertiser_id;
+            }
+            if (array_key_exists('feed_id', $columns)) {
+                $newRecord['feed'] = $record->feed->feedId;
+            }
+            if (array_key_exists('report_id', $columns)) {
+                $newRecord['report_id'] = $record->feed->reportId;
+            }
+            if (array_key_exists('publisher_id', $columns)) {
+                $newRecord['publisher'] = $record->getPublisher->publisher_id;
+            }
+            if (array_key_exists('channel', $columns)) {
+                $newRecord['channel'] = $record->channel;
+            }
+            if (array_key_exists('subId', $columns)) {
+                $newRecord['subId'] = $record->sub_id;
+            }
+            if (array_key_exists('daily_report_status', $columns)) {
+                $newRecord['daily_reports_status'] = $record->daily_reports_status;
+            }
+            if (array_key_exists('geo', $columns)) {
+                $newRecord['geo'] = $record->geo;
+            }
+            if (array_key_exists('total_searches', $columns)) {
+                $newRecord['total_searches'] = $record->total_searches;
+            }
+            if (array_key_exists('monetized_searches', $columns)) {
+                $newRecord['monetized_searches'] = $record->monetized_searches;
+            }
+            if (array_key_exists('paid_clicks', $columns)) {
+                $newRecord['paid_clicks'] = $record->paid_clicks;
+            }
+            if (array_key_exists('gross_revenue', $columns)) {
+                $newRecord['gross_revenue'] = number_format($record->gross_revenue, 2);
+            }
+            if (array_key_exists('coverage', $columns)) {
+                $newRecord['coverage'] = $record->coverage;
+            }
+            if (array_key_exists('ctr', $columns)) {
+                $newRecord['ctr'] = $record->ctr;
+            }
+            if (array_key_exists('rpm', $columns)) {
+                $newRecord['rpm'] = number_format($record->rpm, 2);
+            }
+            if (array_key_exists('monetized_rpm', $columns)) {
+                $newRecord['monetized_rpm'] = $record->monetized_rpm;
+            }
+            if (array_key_exists('epc', $columns)) {
+                $newRecord['epc'] = number_format($record->epc, 2);
+            }
+            if (array_key_exists('publisher_rev_share', $columns)) {
+                $newRecord['publisher_rev_share'] = number_format($record->getPublisher->revenue_share, 2);
+            }
+            if (array_key_exists('net_revenue', $columns)) {
+                $newRecord['net_revenue'] = number_format($record->net_revenue, 2);
+            }
+            return $newRecord; // Return the new record array
+        });
+
+        $list = $mappedRevenueRecords->toArray();
+
+        # add headers for each column in the CSV download
+        array_unshift($list, array_keys($list[0]));
+
+        $callback = function () use ($list) {
+            $FH = fopen('php://output', 'w');
+            foreach ($list as $row) {
+                fputcsv($FH, $row);
+            }
+            fclose($FH);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function searchOnRevenueAll(Request $request)
+    {
+
+        $query = Revenue::query();
+        if ($request['partener-type'] == 'advertisers') {
+            $query->whereNotNull('advertiser_id');
+            $query->when(request('advertisers'), function ($q) {
+                return $q->whereIn('advertiser_id', request('advertisers'));
+            });
+            $query->when(request('feeds'), function ($q) {
+                return $q->whereIn('feed_id', request('feeds'));
+            });
+        } else if ($request['partener-type'] == 'publishers') {
+            $query->whereNotNull('publisher_id');
+            $query->when(request('publishers'), function ($q) {
+                return $q->whereIn('publisher_id', request('publishers'));
+            });
+            $query->when(request('channels'), function ($q) {
+                return $q->whereIn('channel_id', request('channels'));
+            });
+        }
+        $query->when(request('period'), function ($q) {
+
+            switch (request('period')) {
+                case ('Yesterday'):
+                    return $q->whereBetween('revenue_date', [Carbon::now()->subDay(1)->startOfDay(), Carbon::now()->subDay(1)->endOfDay()]);
+                    break;
+                case ('Today'):
+                    return $q->whereBetween('revenue_date', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()]);
+                    break;
+                case ('Month to Date'):
+                    return $q->whereBetween('revenue_date', [Carbon::now()->startOfMonth(), Carbon::today()]);
+                    break;
+                case ('Previous Month'):
+                    return $q->whereBetween('revenue_date', [Carbon::now()->subMonth(1)->startOfMonth()->startOfDay(), Carbon::now()->subMonth(1)->endOfMonth()->endOfDay()]);
+                    break;
+                case ('custom-range'):
+                    if (request('custom-range')) {
+                        $dateRange = explode(" ", request('custom-range'));
+                        if (count($dateRange) === 1) {
+                            // start and end dates are same
+                            return $q->whereRaw('revenue_date = ?', Carbon::createFromFormat('Y-m-d', $dateRange[0])->toDateString());
+                        } elseif (count($dateRange) === 3) {
+                            return $q->whereBetween('revenue_date', [Carbon::createFromFormat('Y-m-d', $dateRange[0])->startOfDay(), Carbon::createFromFormat('Y-m-d', $dateRange[2])->endOfDay()]);
+                        }
+                    }
+                    break;
+                default:
+                    $msg = 'Something went wrong.';
+            }
+            return $q;
+        });
+        return $query->orderBy('revenue_date', 'DESC')->get();
     }
 }

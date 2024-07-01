@@ -84,8 +84,10 @@
                                                             @endforeach
                                                         </select>
                                                     @endif
+                                                    @if(request()->query('period') )
                                                     <input type="text" name="period"
                                                            value="{{request()->query()['period']}}" hidden="hidden">
+                                                    @endif
                                                     <input type="text" name="custom-range"
                                                            @if(isset(request()->query()['custom-range'])) value="{{request()->query()['custom-range']}}" @endif
                                                            hidden="hidden">
@@ -219,7 +221,7 @@
                                             <td>{{ $record->revenue_share }}</td>
                                             <td>{{ $record->feed }}</td>
                                             <td>{{ $record->advertiser }}</td>
-                                            <td>{{ $record->feed()?->reportId }}</td>
+                                            <td>{{ $record->feed()?->reportId ?? '--'}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
